@@ -16,9 +16,7 @@ void main() {
   store = Store<AppState>(
     initialState: AppState.initial(),
   );
-  runApp(
-    StoreProvider<AppState>(store: store, child: MyApp())
-  );
+  runApp(StoreProvider<AppState>(store: store, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +29,8 @@ class MyApp extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) => MaterialApp(
-        themeMode: store.state.uiState.themeMode,
+        // todo : light theme
+        themeMode: ThemeMode.light,
         theme: AppTheme.getTheme,
         darkTheme: AppTheme.getDarkTheme,
         debugShowCheckedModeBanner: false,

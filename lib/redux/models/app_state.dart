@@ -41,7 +41,7 @@ class UiState {
   });
 
   factory UiState.initial() {
-    return UiState(themeMode: ThemeMode.dark);
+    return UiState(themeMode: ThemeMode.light);
   }
 
   UiState copyWith({

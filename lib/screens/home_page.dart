@@ -1,6 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:music_player/utils/swatch_generator.dart';
 
 import '../redux/action/ui_action.dart';
 import '../redux/models/app_state.dart';
@@ -19,49 +21,91 @@ class HomePage extends StatelessWidget {
               : Colors.black,
           body: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: Alignment.topCenter,
               children: [
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        snapshot.toggleTheme();
-                      },
-                      child: snapshot.uiState.themeMode == ThemeMode.dark
-                          ? const Icon(CupertinoIcons.moon_stars)
-                          : const Icon(CupertinoIcons.sun_max),
-                    )
+                    Text(
+                      'Library',
+                      style: Theme.of(context).textTheme.button?.copyWith(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(CupertinoIcons.search),
+                        fillColor:
+                            Theme.of(context).primaryColor.withOpacity(0.07),
+                        filled: true,
+                        hintText: 'Search songs, artist & genres...',
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                Text(
-                  'Library',
-                  style: Theme.of(context).textTheme.button?.copyWith(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(CupertinoIcons.search),
-                    fillColor: Theme.of(context).primaryColor.withOpacity(0.07),
-                    filled: true,
-                    hintText: 'Search songs, artist & genres...',
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                      ),
+                Positioned(
+                  bottom: 50,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: Theme.of(context).primaryColor.withOpacity(0.1)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Iconsax.home_1,
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(CupertinoIcons.heart),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(Iconsax.music_dashboard),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(CupertinoIcons.person),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

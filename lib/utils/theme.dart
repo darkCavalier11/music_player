@@ -12,9 +12,9 @@ class AppTheme {
 
   static ThemeData get getDarkTheme {
     return ThemeData(
-      colorScheme: ColorScheme.dark().copyWith(
-        primary: const Color.fromRGBO(38, 65, 60, 1),
-        secondary: const Color.fromARGB(255, 70, 102, 242),
+      colorScheme: const ColorScheme.dark(
+        primary: Color.fromRGBO(254, 227, 214, 1),
+        // surface: Color.fromRGBO(254, 227, 214, 1),
       ),
     );
   }

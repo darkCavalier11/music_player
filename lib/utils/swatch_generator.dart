@@ -10,16 +10,16 @@ class SwatchGenerator {
     return MaterialColor(
       color.value,
       {
-        50: _tintColor(color, 0.9),
-        100: _tintColor(color, 0.8),
-        200: _tintColor(color, 0.6),
-        300: _tintColor(color, 0.4),
-        400: _tintColor(color, 0.2),
+        50: tintColor(color, 0.9),
+        100: tintColor(color, 0.8),
+        200: tintColor(color, 0.6),
+        300: tintColor(color, 0.4),
+        400: tintColor(color, 0.2),
         500: color,
-        600: _shadeColor(color, 0.1),
-        700: _shadeColor(color, 0.2),
-        800: _shadeColor(color, 0.3),
-        900: _shadeColor(color, 0.4),
+        600: shadeColor(color, 0.1),
+        700: shadeColor(color, 0.2),
+        800: shadeColor(color, 0.3),
+        900: shadeColor(color, 0.4),
       },
     );
   }
@@ -29,7 +29,7 @@ class SwatchGenerator {
 
   /// create lighter shade of the color depending upon the factor.
   /// A factor of 1 means white and 0 means current color.
-  static Color _tintColor(Color color, double factor) => Color.fromRGBO(
+  static Color tintColor(Color color, double factor) => Color.fromRGBO(
       _tintValue(color.red, factor),
       _tintValue(color.green, factor),
       _tintValue(color.blue, factor),
@@ -40,7 +40,7 @@ class SwatchGenerator {
 
   /// create darker shade of the color depending upon the factor.
   /// A factor of 1 means black and 0 means current color.
-  static Color _shadeColor(Color color, double factor) => Color.fromRGBO(
+  static Color shadeColor(Color color, double factor) => Color.fromRGBO(
       _shadeValue(color.red, factor),
       _shadeValue(color.green, factor),
       _shadeValue(color.blue, factor),
