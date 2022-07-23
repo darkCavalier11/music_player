@@ -27,29 +27,41 @@ class HomePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Library',
-                      style: Theme.of(context).textTheme.button?.copyWith(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Row(
+                      children: [
+                        Icon(
+                          Iconsax.music,
+                          size: 35,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Library',
+                          style: Theme.of(context).textTheme.button?.copyWith(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     TextField(
                       decoration: InputDecoration(
+                        isDense: true,
                         prefixIcon: const Icon(CupertinoIcons.search),
                         fillColor:
                             Theme.of(context).primaryColor.withOpacity(0.07),
                         filled: true,
                         hintText: 'Search songs, artist & genres...',
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(30),
                           borderSide: const BorderSide(
                             color: Colors.transparent,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(30),
                           borderSide: const BorderSide(
                             color: Colors.transparent,
                           ),
@@ -59,7 +71,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  bottom: 50,
+                  bottom: 20,
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.all(8),
