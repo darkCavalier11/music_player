@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                           'Library',
                           style: Theme.of(context).textTheme.button?.copyWith(
                                 fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w900,
                                 color: Theme.of(context).primaryColor,
                               ),
                         ),
