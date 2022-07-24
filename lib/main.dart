@@ -7,7 +7,7 @@ import 'package:flutter/scheduler.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/screens/home_page.dart';
+import 'package:music_player/screens/home_page/home_page.dart';
 import 'package:music_player/utils/swatch_generator.dart';
 import 'package:music_player/utils/theme.dart';
 

@@ -2,10 +2,11 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/utils/swatch_generator.dart';
 
-import '../redux/action/ui_action.dart';
-import '../redux/models/app_state.dart';
+import '../../redux/action/ui_action.dart';
+import '../../redux/models/app_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -70,54 +71,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Positioned(
-                  bottom: 20,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        color: Theme.of(context).primaryColor.withOpacity(0.1)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Iconsax.home_1,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Icon(CupertinoIcons.heart),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Icon(Iconsax.music_dashboard),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Icon(CupertinoIcons.person),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                BottomNavigationCluster()
               ],
             ),
           ),
