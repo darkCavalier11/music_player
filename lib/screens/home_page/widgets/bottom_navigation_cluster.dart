@@ -66,8 +66,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10.0),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Icon(
-                      _navBarIndex == 0 ? Iconsax.home1 : Iconsax.home_2,
+                      _navBarIndex == 0 ? Iconsax.home_11 : Iconsax.home_1,
                       color: _navBarIndex == 0 ? Colors.white : null,
                     ),
                   ),
