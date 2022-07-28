@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:just_audio/just_audio.dart';
+
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/utils/swatch_generator.dart';
 
@@ -76,6 +80,16 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              log("message");
+              await snapshot.audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(
+                  "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3")));
+              await Future.delayed(Duration(seconds: 20));
+              await snapshot.audioPlayer.stop();
+            },
+            child: Icon(Icons.play_arrow_rounded),
+          ),
         );
       },
     );
@@ -84,11 +98,13 @@ class HomePage extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final UiState uiState;
+  final AudioPlayer audioPlayer;
   final Function() toggleTheme;
   _ViewModel({
+    required this.audioPlayer,
     required this.uiState,
     required this.toggleTheme,
-  }) : super(equals: [uiState]);
+  }) : super(equals: [uiState, audioPlayer]);
 
   @override
   bool operator ==(Object other) {
@@ -96,11 +112,13 @@ class _ViewModel extends Vm {
 
     return other is _ViewModel &&
         other.uiState == uiState &&
+        other.audioPlayer == audioPlayer &&
         other.toggleTheme == toggleTheme;
   }
 
   @override
-  int get hashCode => uiState.hashCode ^ toggleTheme.hashCode;
+  int get hashCode =>
+      uiState.hashCode ^ audioPlayer.hashCode ^ toggleTheme.hashCode;
 }
 
 class _Factory extends VmFactory<AppState, HomePage> {
@@ -109,6 +127,7 @@ class _Factory extends VmFactory<AppState, HomePage> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      audioPlayer: state.uiState.audioPlayer,
       uiState: state.uiState,
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {

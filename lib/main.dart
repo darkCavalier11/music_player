@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -14,15 +15,20 @@ import 'package:music_player/utils/swatch_generator.dart';
 import 'package:music_player/utils/theme.dart';
 
 late Store<AppState> store;
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   store = Store<AppState>(
     initialState: AppState.initial(),
   );
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.black,
   ));
-  WidgetsFlutterBinding.ensureInitialized();
-  final _player = AudioPlayer();
   runApp(StoreProvider<AppState>(store: store, child: MyApp()));
 }
 
@@ -35,14 +41,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
-      builder: (context, snapshot) => MaterialApp(
-        // todo : light theme
-        themeMode: ThemeMode.light,
-        theme: AppTheme.getTheme,
-        darkTheme: AppTheme.getDarkTheme,
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
-      ),
+      builder: (context, snapshot) {
+        return MaterialApp(
+          // todo : light theme
+          themeMode: ThemeMode.light,
+          theme: AppTheme.getTheme,
+          darkTheme: AppTheme.getDarkTheme,
+          debugShowCheckedModeBanner: false,
+          home: HomePage(),
+        );
+      },
     );
   }
 }

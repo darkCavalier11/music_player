@@ -37,6 +37,7 @@ dependencies:
   async_redux: ^15.0.0
   iconsax: ^0.0.8
   just_audio: ^0.9.28
+  just_audio_background: ^0.0.1-beta.7
 
 dev_dependencies:
   flutter_test:
