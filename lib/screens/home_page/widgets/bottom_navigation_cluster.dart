@@ -28,6 +28,11 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 20,
@@ -35,7 +40,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
         alignment: Alignment.center,
         children: [
           AnimatedPositioned(
-            duration: Duration(milliseconds: 100),
+            duration: const Duration(milliseconds: 100),
             curve: Curves.fastOutSlowIn,
             left: getIconPosition(
                 MediaQuery.of(context).size.width * 0.8, _navBarIndex),

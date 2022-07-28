@@ -4,6 +4,8 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -16,6 +18,11 @@ void main() {
   store = Store<AppState>(
     initialState: AppState.initial(),
   );
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.black,
+  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  final _player = AudioPlayer();
   runApp(StoreProvider<AppState>(store: store, child: MyApp()));
 }
 

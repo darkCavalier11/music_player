@@ -28,25 +28,6 @@ class HomePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Iconsax.music,
-                          size: 35,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Library',
-                          style: Theme.of(context).textTheme.button?.copyWith(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w900,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
                     TextField(
                       decoration: InputDecoration(
                         isDense: true,
@@ -69,6 +50,26 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(
+                          Iconsax.music,
+                          size: 35,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Recently played',
+                          style: Theme.of(context).textTheme.button?.copyWith(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w900,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
                   ],
                 ),
                 BottomNavigationCluster()
