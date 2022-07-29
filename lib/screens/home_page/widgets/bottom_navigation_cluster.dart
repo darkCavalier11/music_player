@@ -86,12 +86,13 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   void initState() {
     super.initState();
+    _selectNavByIndex(0);
   }
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 0,
+      bottom: -10,
       child: Stack(
         alignment: Alignment.center,
         children: [
