@@ -25,15 +25,16 @@ class HomePage extends StatelessWidget {
           backgroundColor: snapshot.uiState.themeMode == ThemeMode.light
               ? Colors.white
               : Colors.black,
-          body: Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextField(
+          body: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 24, right: 24, top: 64),
+                    child: TextField(
                       decoration: InputDecoration(
                         isDense: true,
                         prefixIcon: const Icon(CupertinoIcons.search),
@@ -55,8 +56,11 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
                       children: [
                         Icon(
                           Iconsax.music,
@@ -74,34 +78,34 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Divider(),
-                  ],
-                ),
-                BottomNavigationCluster()
-              ],
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              log("message");
-              await snapshot.audioPlayer.setAudioSource(
-                AudioSource.uri(
-                  Uri.parse(
-                      "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3"),
-                  tag: MediaItem(
-                    id: '7',
-                    title: 'Random Title',
                   ),
-                ),
-              );
-              log("Ready to play");
-              snapshot.audioPlayer
-                  .play(); // log(snapshot.audioPlayer.processingState.toString());
-              await Future.delayed(Duration(seconds: 15));
-              await snapshot.audioPlayer.stop();
-            },
-            child: Icon(Icons.play_arrow_rounded),
+                  const Divider(),
+                ],
+              ),
+              BottomNavigationCluster()
+            ],
           ),
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: () async {
+          //     log("message");
+          //     await snapshot.audioPlayer.setAudioSource(
+          //       AudioSource.uri(
+          //         Uri.parse(
+          //             "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3"),
+          //         tag: MediaItem(
+          //           id: '7',
+          //           title: 'Random Title',
+          //         ),
+          //       ),
+          //     );
+          //     log("Ready to play");
+          //     snapshot.audioPlayer
+          //         .play(); // log(snapshot.audioPlayer.processingState.toString());
+          //     await Future.delayed(Duration(seconds: 15));
+          //     await snapshot.audioPlayer.stop();
+          //   },
+          //   child: Icon(Icons.play_arrow_rounded),
+          // ),
         );
       },
     );

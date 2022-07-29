@@ -17,13 +17,13 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
       case 0:
-        return 10;
+        return 21;
       case 1:
-        return navBarWidth / 3 - 10;
+        return navBarWidth / 3 - 9;
       case 2:
-        return 2 * navBarWidth / 3 - 30;
+        return 2 * navBarWidth / 3 - 40;
       default:
-        return navBarWidth - 50;
+        return navBarWidth - 71;
     }
   }
 
@@ -35,30 +35,30 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 20,
+      bottom: 0,
       child: Stack(
         alignment: Alignment.center,
         children: [
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 100),
             curve: Curves.fastOutSlowIn,
             left: getIconPosition(
-                MediaQuery.of(context).size.width * 0.8, _navBarIndex),
+                MediaQuery.of(context).size.width, _navBarIndex),
             child: Container(
-              width: 40,
-              height: 40,
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
+                color: Theme.of(context).primaryColor,
               ),
             ),
+            duration: const Duration(milliseconds: 200),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            padding: const EdgeInsets.all(8),
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(60),
-                color: Theme.of(context).primaryColor.withOpacity(0.1)),
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -74,8 +74,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Icon(
-                      _navBarIndex == 0 ? Iconsax.home_11 : Iconsax.home_1,
-                      color: _navBarIndex == 0 ? Colors.white : null,
+                      Iconsax.home_1,
+                      color: _navBarIndex == 0
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -91,10 +93,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Icon(
-                      _navBarIndex == 1
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: _navBarIndex == 1 ? Colors.white : null,
+                      CupertinoIcons.heart,
+                      color: _navBarIndex == 1
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -110,10 +112,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Icon(
-                      _navBarIndex == 2
-                          ? Iconsax.music_playlist5
-                          : Iconsax.music_playlist,
-                      color: _navBarIndex == 2 ? Colors.white : null,
+                      Iconsax.music_playlist,
+                      color: _navBarIndex == 2
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -129,10 +131,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: Icon(
-                      _navBarIndex == 3
-                          ? CupertinoIcons.person_fill
-                          : CupertinoIcons.person,
-                      color: _navBarIndex == 3 ? Colors.white : null,
+                      CupertinoIcons.person,
+                      color: _navBarIndex == 3
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
