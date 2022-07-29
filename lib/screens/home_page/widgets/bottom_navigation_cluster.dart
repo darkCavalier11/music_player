@@ -13,6 +13,62 @@ class BottomNavigationCluster extends StatefulWidget {
 }
 
 class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
+  Widget _homeIcon = const Icon(Iconsax.home1);
+  Widget _favIcon = const Icon(CupertinoIcons.heart);
+  Widget _playlistIcon = const Icon(Iconsax.music_playlist);
+  Widget _accountIcon = const Icon(CupertinoIcons.person);
+
+  void _selectNavByIndex(int index) {
+    _navBarIndex = index;
+    _homeIcon = const Icon(
+      Iconsax.home_1,
+      key: ValueKey<int>(0),
+    );
+    _favIcon = const Icon(
+      CupertinoIcons.heart,
+      key: ValueKey<int>(1),
+    );
+    _playlistIcon = const Icon(
+      Iconsax.music_playlist,
+      key: ValueKey<int>(2),
+    );
+    _accountIcon = const Icon(
+      CupertinoIcons.person,
+      key: ValueKey<int>(3),
+    );
+    switch (index) {
+      case 0:
+        _homeIcon = const Icon(
+          Iconsax.home1,
+          color: Colors.white,
+          key: ValueKey<int>(10),
+        );
+        break;
+      case 1:
+        _favIcon = const Icon(
+          CupertinoIcons.heart_fill,
+          color: Colors.white,
+          key: ValueKey<int>(11),
+        );
+        break;
+      case 2:
+        _playlistIcon = const Icon(
+          Iconsax.music_playlist5,
+          color: Colors.white,
+          key: ValueKey<int>(12),
+        );
+        break;
+      case 3:
+        _accountIcon = const Icon(
+          CupertinoIcons.person_fill,
+          color: Colors.white,
+          key: ValueKey<int>(14),
+        );
+        break;
+    }
+    setState(() {});
+  }
+
   int _navBarIndex = 0;
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
@@ -64,77 +120,89 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _navBarIndex = 0;
-                    });
+                    _selectNavByIndex(0);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10.0),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Iconsax.home_1,
-                      color: _navBarIndex == 0
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
+                    child: AnimatedSwitcher(
+                      reverseDuration: const Duration(seconds: 0),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      duration: const Duration(milliseconds: 200),
+                      child: _homeIcon,
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _navBarIndex = 1;
-                    });
+                    _selectNavByIndex(1);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10.0),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      CupertinoIcons.heart,
-                      color: _navBarIndex == 1
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
+                    child: AnimatedSwitcher(
+                      reverseDuration: const Duration(seconds: 0),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      child: _favIcon,
+                      duration: const Duration(milliseconds: 200),
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _navBarIndex = 2;
-                    });
+                    _selectNavByIndex(2);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10.0),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Iconsax.music_playlist,
-                      color: _navBarIndex == 2
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
+                    child: AnimatedSwitcher(
+                      reverseDuration: const Duration(seconds: 0),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      child: _playlistIcon,
+                      duration: const Duration(milliseconds: 200),
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _navBarIndex = 3;
-                    });
+                    _selectNavByIndex(3);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10.0),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      CupertinoIcons.person,
-                      color: _navBarIndex == 3
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
+                    child: AnimatedSwitcher(
+                      reverseDuration: const Duration(seconds: 0),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      child: _accountIcon,
+                      duration: const Duration(milliseconds: 200),
                     ),
                   ),
                 ),
