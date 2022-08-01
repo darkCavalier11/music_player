@@ -73,13 +73,13 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
       case 0:
-        return 21;
+        return 17;
       case 1:
-        return navBarWidth / 3 - 9;
+        return navBarWidth / 3 - 10.5;
       case 2:
-        return 2 * navBarWidth / 3 - 40;
+        return 2 * navBarWidth / 3 - 39;
       default:
-        return navBarWidth - 71;
+        return navBarWidth - 67;
     }
   }
 
@@ -112,7 +112,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor.withOpacity(0.1),
             ),
