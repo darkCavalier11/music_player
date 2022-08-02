@@ -147,7 +147,7 @@ class _Factory extends VmFactory<AppState, HomePage> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      audioPlayer: state.uiState.audioPlayer,
+      audioPlayer: state.uiState.audioPlayerState.audioPlayer,
       uiState: state.uiState,
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_player/redux/models/audio_player_state.dart';
 
 class AppState {
   final UiState uiState;
@@ -37,29 +38,32 @@ class AppState {
 
 class UiState {
   final ThemeMode themeMode;
-  final AudioPlayer audioPlayer;
+  final AudioPlayerState audioPlayerState;
   UiState({
-    required this.audioPlayer,
+    required this.audioPlayerState,
     required this.themeMode,
   });
 
   factory UiState.initial() {
-    return UiState(themeMode: ThemeMode.light, audioPlayer: AudioPlayer());
+    return UiState(
+      themeMode: ThemeMode.light,
+      audioPlayerState: AudioPlayerState.initial(),
+    );
   }
 
   UiState copyWith({
     ThemeMode? themeMode,
-    AudioPlayer? audioPlayer,
+    AudioPlayerState? audioPlayerState,
   }) {
     return UiState(
       themeMode: themeMode ?? this.themeMode,
-      audioPlayer: audioPlayer ?? this.audioPlayer,
+      audioPlayerState: audioPlayerState ?? this.audioPlayerState,
     );
   }
 
   @override
   String toString() =>
-      'UiState(themeMode: $themeMode, audioPlayer: $audioPlayer)';
+      'UiState(themeMode: $themeMode, audioPlayer: $audioPlayerState)';
 
   @override
   bool operator ==(Object other) {
@@ -67,9 +71,9 @@ class UiState {
 
     return other is UiState &&
         other.themeMode == themeMode &&
-        other.audioPlayer == audioPlayer;
+        other.audioPlayerState == audioPlayerState;
   }
 
   @override
-  int get hashCode => themeMode.hashCode ^ audioPlayer.hashCode;
+  int get hashCode => themeMode.hashCode ^ audioPlayerState.hashCode;
 }
