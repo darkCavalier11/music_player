@@ -9,6 +9,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
+import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
 import 'package:music_player/utils/swatch_generator.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -82,7 +83,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  LoadingIndicator(),
+                  MusicListTile(),
                 ],
               ),
               BottomNavigationCluster()

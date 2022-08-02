@@ -92,7 +92,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: -10,
+      bottom: 0,
       child: Stack(
         alignment: Alignment.center,
         children: [

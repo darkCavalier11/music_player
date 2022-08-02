@@ -50,7 +50,7 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 color: Theme.of(context).primaryColor,
               ),
               height: 16 * sin(3 + _sizeAnimation.value + 40) + 20,
-              width: 16,
+              width: 9,
             ),
             Container(
               margin: const EdgeInsets.all(1),
@@ -59,7 +59,7 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 color: Theme.of(context).primaryColor,
               ),
               height: 16 * cos(3 + _sizeAnimation.value + 10) + 30,
-              width: 16,
+              width: 9,
             ),
             Container(
               margin: const EdgeInsets.all(1),
@@ -68,7 +68,7 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 color: Theme.of(context).primaryColor,
               ),
               height: 3 + 4 * _sizeAnimation.value,
-              width: 16,
+              width: 9,
             ),
           ],
         );
