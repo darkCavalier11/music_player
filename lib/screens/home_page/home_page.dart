@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/redux/models/music_model.dart';
 
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
@@ -83,7 +84,15 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  MusicListTile(),
+                  MusicListTile(
+                    selectedMusic: MediaItem(
+                      id: 'MUSIC_ID',
+                      title: 'Sample Music',
+                      artist: 'Unknown',
+                      artUri: Uri.parse(
+                          'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
+                    ),
+                  ),
                 ],
               ),
               BottomNavigationCluster()

@@ -5,13 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_player/main.dart';
+
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/utils/music_playing_wave_widget.dart';
+import 'package:music_player/redux/models/music_model.dart';
 
 class MusicListTile extends StatelessWidget {
+  final MediaItem selectedMusic;
   const MusicListTile({
     Key? key,
+    required this.selectedMusic,
   }) : super(key: key);
 
   @override
@@ -22,20 +24,10 @@ class MusicListTile extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             final audioUri = AudioSource.uri(
-              Uri.parse('https://example.com/song1.mp3'),
-              tag: MediaItem(
-                // Specify a unique ID for each media item:
-                id: '1',
-                // Metadata to display in the notification:
-                album: "Album name",
-                title: "Song name",
-                artUri: Uri.parse('https://example.com/albumart.jpg'),
-              ),
+              selectedMusic.artUri ?? Uri(),
+              tag: selectedMusic,
             );
             await snapshot.audioPlayer.setAudioSource(audioUri);
-            snapshot.audioPlayer.playerStateStream.listen((event) {
-              log(event.toString());
-            });
           },
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
@@ -54,13 +46,13 @@ class MusicListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dil to baccha hai ji',
+                        selectedMusic.title,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             // fontWeight: FontWeight.bold,
                             ),
                       ),
                       Text(
-                        'Rahat Fateh Ali Khan',
+                        selectedMusic.artist ?? 'Unknown',
                         style: Theme.of(context).textTheme.overline?.copyWith(
                               color: Theme.of(context).hintColor,
                             ),
@@ -80,7 +72,8 @@ class MusicListTile extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final AudioPlayer audioPlayer;
-  _ViewModel({required this.audioPlayer});
+  final MediaItem? currentMusic;
+  _ViewModel({required this.audioPlayer, required this.currentMusic});
 }
 
 class _Factory extends VmFactory<AppState, MusicListTile> {
@@ -90,6 +83,7 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   _ViewModel fromStore() {
     return _ViewModel(
       audioPlayer: state.uiState.audioPlayerState.audioPlayer,
+      currentMusic: state.uiState.audioPlayerState.selectedMusic,
     );
   }
 }
@@ -141,7 +135,6 @@ class _PlayButtonWidgetState extends State<_PlayButtonWidget>
               CupertinoIcons.play_arrow,
               size: 18,
             ),
-            MusicPlayingWaveWidget(),
             AnimatedBuilder(
               builder: (context, child) {
                 return SizedBox(width: _animation.value * 10);

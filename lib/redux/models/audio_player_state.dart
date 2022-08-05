@@ -1,11 +1,13 @@
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/redux/models/music_model.dart';
 
 class AudioPlayerState {
   final AudioPlayer audioPlayer;
-  final String? selectedMusicUrl;
+  final MediaItem? selectedMusic;
   AudioPlayerState({
     required this.audioPlayer,
-    this.selectedMusicUrl,
+    this.selectedMusic,
   });
 
   factory AudioPlayerState.initial() {
@@ -14,11 +16,11 @@ class AudioPlayerState {
 
   AudioPlayerState copyWith({
     AudioPlayer? audioPlayer,
-    String? selectedMusicUrl,
+    MediaItem? selectedMusic,
   }) {
     return AudioPlayerState(
       audioPlayer: audioPlayer ?? this.audioPlayer,
-      selectedMusicUrl: selectedMusicUrl ?? this.selectedMusicUrl,
+      selectedMusic: selectedMusic ?? this.selectedMusic,
     );
   }
 
@@ -28,12 +30,12 @@ class AudioPlayerState {
   
     return other is AudioPlayerState &&
       other.audioPlayer == audioPlayer &&
-      other.selectedMusicUrl == selectedMusicUrl;
+      other.selectedMusic == selectedMusic;
   }
 
   @override
-  int get hashCode => audioPlayer.hashCode ^ selectedMusicUrl.hashCode;
+  int get hashCode => audioPlayer.hashCode ^ selectedMusic.hashCode;
 
   @override
-  String toString() => 'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusicUrl: $selectedMusicUrl)';
+  String toString() => 'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusic: $selectedMusic)';
 }
