@@ -14,7 +14,7 @@ import 'package:music_player/utils/swatch_generator.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
-import '../../utils/loading_indidcator.dart';
+import '../../utils/music_playing_wave_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

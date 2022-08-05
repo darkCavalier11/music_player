@@ -2,16 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class LoadingIndicator extends StatefulWidget {
-  const LoadingIndicator({
+class MusicPlayingWaveWidget extends StatefulWidget {
+  const MusicPlayingWaveWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LoadingIndicator> createState() => _AnimatedMusicWaveState();
+  State<MusicPlayingWaveWidget> createState() => _AnimatedMusicWaveState();
 }
 
-class _AnimatedMusicWaveState extends State<LoadingIndicator>
+class _AnimatedMusicWaveState extends State<MusicPlayingWaveWidget>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _sizeAnimation;
@@ -49,8 +49,8 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 borderRadius: BorderRadius.circular(3),
                 color: Theme.of(context).primaryColor,
               ),
-              height: 16 * sin(3 + _sizeAnimation.value + 40) + 20,
-              width: 9,
+              height: 3 * sin(3 + _sizeAnimation.value + 40) + 10,
+              width: 4,
             ),
             Container(
               margin: const EdgeInsets.all(1),
@@ -58,8 +58,8 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 borderRadius: BorderRadius.circular(3),
                 color: Theme.of(context).primaryColor,
               ),
-              height: 16 * cos(3 + _sizeAnimation.value + 10) + 30,
-              width: 9,
+              height: 3 * cos(3 + _sizeAnimation.value + 10) + 20,
+              width: 4,
             ),
             Container(
               margin: const EdgeInsets.all(1),
@@ -67,8 +67,8 @@ class _AnimatedMusicWaveState extends State<LoadingIndicator>
                 borderRadius: BorderRadius.circular(3),
                 color: Theme.of(context).primaryColor,
               ),
-              height: 3 + 4 * _sizeAnimation.value,
-              width: 9,
+              height: 3 + 2 * _sizeAnimation.value,
+              width: 4,
             ),
           ],
         );

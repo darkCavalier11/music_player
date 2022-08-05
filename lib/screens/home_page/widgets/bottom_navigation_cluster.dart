@@ -93,122 +93,147 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 0,
-      child: Stack(
-        alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AnimatedPositioned(
-            curve: Curves.fastOutSlowIn,
-            left: getIconPosition(
-                MediaQuery.of(context).size.width, _navBarIndex),
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            duration: const Duration(milliseconds: 200),
-          ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(20),
+            height: 60,
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _selectNavByIndex(0);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: AnimatedSwitcher(
-                      reverseDuration: const Duration(seconds: 0),
-                      transitionBuilder: (child, animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      duration: const Duration(milliseconds: 200),
-                      child: _homeIcon,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _selectNavByIndex(1);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: AnimatedSwitcher(
-                      reverseDuration: const Duration(seconds: 0),
-                      transitionBuilder: (child, animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: _favIcon,
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _selectNavByIndex(2);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: AnimatedSwitcher(
-                      reverseDuration: const Duration(seconds: 0),
-                      transitionBuilder: (child, animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: _playlistIcon,
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _selectNavByIndex(3);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: AnimatedSwitcher(
-                      reverseDuration: const Duration(seconds: 0),
-                      transitionBuilder: (child, animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: _accountIcon,
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                  ),
-                ),
-              ],
+          ),
+          Container(
+            width: 20,
+            height: 3,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(25),
+                bottomRight: Radius.circular(25),
+              ),
             ),
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              AnimatedPositioned(
+                curve: Curves.fastOutSlowIn,
+                left: getIconPosition(
+                    MediaQuery.of(context).size.width, _navBarIndex),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 200),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _selectNavByIndex(0);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: AnimatedSwitcher(
+                          reverseDuration: const Duration(seconds: 0),
+                          transitionBuilder: (child, animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          duration: const Duration(milliseconds: 200),
+                          child: _homeIcon,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _selectNavByIndex(1);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: AnimatedSwitcher(
+                          reverseDuration: const Duration(seconds: 0),
+                          transitionBuilder: (child, animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          child: _favIcon,
+                          duration: const Duration(milliseconds: 200),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _selectNavByIndex(2);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: AnimatedSwitcher(
+                          reverseDuration: const Duration(seconds: 0),
+                          transitionBuilder: (child, animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          child: _playlistIcon,
+                          duration: const Duration(milliseconds: 200),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _selectNavByIndex(3);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: AnimatedSwitcher(
+                          reverseDuration: const Duration(seconds: 0),
+                          transitionBuilder: (child, animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          child: _accountIcon,
+                          duration: const Duration(milliseconds: 200),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),

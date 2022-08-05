@@ -7,6 +7,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/main.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/utils/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget {
   const MusicListTile({
@@ -140,6 +141,7 @@ class _PlayButtonWidgetState extends State<_PlayButtonWidget>
               CupertinoIcons.play_arrow,
               size: 18,
             ),
+            MusicPlayingWaveWidget(),
             AnimatedBuilder(
               builder: (context, child) {
                 return SizedBox(width: _animation.value * 10);
@@ -149,7 +151,7 @@ class _PlayButtonWidgetState extends State<_PlayButtonWidget>
             Text(
               '3:37',
               style: Theme.of(context).textTheme.bodyMedium,
-            )
+            ),
           ],
         ),
       ),
