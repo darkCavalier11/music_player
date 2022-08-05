@@ -8,6 +8,8 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_model.dart';
+import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/utils/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget {
   final MediaItem selectedMusic;
@@ -60,7 +62,6 @@ class MusicListTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                _PlayButtonWidget(),
               ],
             ),
           ),
