@@ -13,4 +13,16 @@ class LoadingIndicator extends StatelessWidget {
       strokeWidth: 2,
     );
   }
+
+  static Widget small(BuildContext context) {
+    return SizedBox(
+      height: 20,
+      width: 20,
+      child: CircularProgressIndicator(
+        backgroundColor: Theme.of(context).dividerColor,
+        color: Theme.of(context).primaryColor,
+        strokeWidth: 2,
+      ),
+    );
+  }
 }

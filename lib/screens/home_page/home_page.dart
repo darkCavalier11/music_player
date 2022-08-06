@@ -93,9 +93,18 @@ class HomePage extends StatelessWidget {
                           'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
                     ),
                   ),
+                  MusicListTile(
+                    selectedMusic: MediaItem(
+                      id: 'MUSIC_ID_1',
+                      title: 'Sample Music',
+                      artist: 'Unknown',
+                      artUri: Uri.parse(
+                          'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
+                    ),
+                  ),
                 ],
               ),
-              BottomNavigationCluster()
+              BottomNavigationCluster(),
             ],
           ),
           // floatingActionButton: FloatingActionButton(
@@ -156,7 +165,7 @@ class _Factory extends VmFactory<AppState, HomePage> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      audioPlayer: state.uiState.audioPlayerState.audioPlayer,
+      audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {
