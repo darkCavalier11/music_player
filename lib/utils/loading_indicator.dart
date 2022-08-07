@@ -15,9 +15,8 @@ class LoadingIndicator extends StatelessWidget {
   }
 
   static Widget small(BuildContext context) {
-    return SizedBox(
-      height: 20,
-      width: 20,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 20, maxWidth: 20),
       child: CircularProgressIndicator(
         backgroundColor: Theme.of(context).dividerColor,
         color: Theme.of(context).primaryColor,

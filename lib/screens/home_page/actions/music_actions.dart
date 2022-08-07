@@ -53,9 +53,9 @@ class PlayAudioAction extends ReduxAction<AppState> {
         tag: mediaItem,
       );
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
-      await state.audioPlayerState.audioPlayer.play();
       dispatch(_SetAudioPlayerStatusAction(
           audioPlayerStatus: AudioPlayerStatus.playing));
+      await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       // todo : log error
       Fluttertoast.showToast(msg: "Error loading music, try again!");
@@ -63,5 +63,14 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetAudioPlayerStatusAction(
           audioPlayerStatus: AudioPlayerStatus.playing));
     }
+  }
+}
+
+class StopAudioAction extends ReduxAction<AppState> {
+  @override
+  AppState? reduce() {
+    state.audioPlayerState.audioPlayer.stop();
+    dispatch(
+        _SetAudioPlayerStatusAction(audioPlayerStatus: AudioPlayerStatus.idle));
   }
 }

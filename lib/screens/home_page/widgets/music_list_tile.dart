@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -28,6 +24,9 @@ class MusicListTile extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             await snapshot.playMusic(selectedMusic);
+          },
+          onDoubleTap: () async {
+            await snapshot.stopMusic();
           },
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
@@ -58,11 +57,14 @@ class MusicListTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 60,
-                  child: _MusicTileTrailingWidget(
-                      audioPlayerStatus: snapshot.audioPlayerStatus),
-                )
+                snapshot.currentMusic?.id == selectedMusic.id
+                    ? SizedBox(
+                        child: _MusicTileTrailingWidget(
+                          audioPlayerStatus: snapshot.audioPlayerStatus,
+                        ),
+                      )
+                    : _PlayButtonWidget(),
+                const SizedBox(width: 20),
               ],
             ),
           ),
@@ -95,11 +97,13 @@ class _ViewModel extends Vm {
   final MediaItem? currentMusic;
   final Future<void> Function(MediaItem) playMusic;
   final AudioPlayerStatus audioPlayerStatus;
+  final Future<void> Function() stopMusic;
   _ViewModel({
     this.currentMusic,
     required this.playMusic,
     required this.audioPlayerStatus,
-  });
+    required this.stopMusic,
+  }) : super(equals: [currentMusic, audioPlayerStatus]);
 
   @override
   bool operator ==(Object other) {
@@ -108,28 +112,36 @@ class _ViewModel extends Vm {
     return other is _ViewModel &&
         other.currentMusic == currentMusic &&
         other.playMusic == playMusic &&
-        other.audioPlayerStatus == audioPlayerStatus;
+        other.audioPlayerStatus == audioPlayerStatus &&
+        other.stopMusic == stopMusic;
   }
 
   @override
-  int get hashCode =>
-      currentMusic.hashCode ^ playMusic.hashCode ^ audioPlayerStatus.hashCode;
+  int get hashCode {
+    return currentMusic.hashCode ^
+        playMusic.hashCode ^
+        audioPlayerStatus.hashCode ^
+        stopMusic.hashCode;
+  }
 
   _ViewModel copyWith({
     MediaItem? currentMusic,
     Future<void> Function(MediaItem)? playMusic,
     AudioPlayerStatus? audioPlayerStatus,
+    Future<void> Function()? stopMusic,
   }) {
     return _ViewModel(
       currentMusic: currentMusic ?? this.currentMusic,
       playMusic: playMusic ?? this.playMusic,
       audioPlayerStatus: audioPlayerStatus ?? this.audioPlayerStatus,
+      stopMusic: stopMusic ?? this.stopMusic,
     );
   }
 
   @override
-  String toString() =>
-      '_ViewModel(currentMusic: $currentMusic, playMusic: $playMusic, audioPlayerStatus: $audioPlayerStatus)';
+  String toString() {
+    return '_ViewModel(currentMusic: $currentMusic, playMusic: $playMusic, audioPlayerStatus: $audioPlayerStatus, stopMusic: $stopMusic)';
+  }
 }
 
 class _Factory extends VmFactory<AppState, MusicListTile> {
@@ -138,6 +150,9 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      stopMusic: () async {
+        await dispatch(StopAudioAction());
+      },
       audioPlayerStatus: state.audioPlayerState.audioPlayerStatus,
       playMusic: (mediaItem) async {
         await dispatch(
@@ -156,19 +171,21 @@ class _PlayButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Row(
-        children: [
-          const Icon(
-            CupertinoIcons.play_arrow,
-            size: 18,
-          ),
-          Text(
-            '3:37',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ],
+    return Center(
+      child: GestureDetector(
+        onTap: () {},
+        child: Row(
+          children: [
+            const Icon(
+              CupertinoIcons.play_arrow,
+              size: 18,
+            ),
+            Text(
+              '3:37',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
       ),
     );
   }
