@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/screens/home_page/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 
-class MusicListTile extends StatefulWidget {
+class MusicListTile extends StatelessWidget {
   final MediaItem selectedMusic;
   const MusicListTile({
     Key? key,
@@ -19,31 +21,13 @@ class MusicListTile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MusicListTile> createState() => _MusicListTileState();
-}
-
-class _MusicListTileState extends State<MusicListTile> {
-  Widget trailingWidget = PlayButtonWidget();
-  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return GestureDetector(
           onTap: () async {
-            if (snapshot.currentMusic?.id == widget.selectedMusic.id) {
-              return;
-            }
-            final audioUri = AudioSource.uri(
-              widget.selectedMusic.artUri ?? Uri(),
-              tag: widget.selectedMusic,
-            );
-            await snapshot.audioPlayer.dispose();
-            await snapshot.audioPlayer.setAudioSource(audioUri);
-            await snapshot.setMediaItemState(widget.selectedMusic);
-            await snapshot.audioPlayer.play();
-            // await Future.delayed(const Duration(seconds: 5));
-            await snapshot.audioPlayer.stop();
+            await snapshot.playMusic(selectedMusic);
           },
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
@@ -62,11 +46,11 @@ class _MusicListTileState extends State<MusicListTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.selectedMusic.title,
+                        selectedMusic.title,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Text(
-                        widget.selectedMusic.artist ?? 'Unknown',
+                        selectedMusic.artist ?? 'Unknown',
                         style: Theme.of(context).textTheme.overline?.copyWith(
                               color: Theme.of(context).hintColor,
                             ),
@@ -76,29 +60,8 @@ class _MusicListTileState extends State<MusicListTile> {
                 ),
                 SizedBox(
                   width: 60,
-                  child: StreamBuilder<PlaybackEvent>(
-                      stream: snapshot.audioPlayer.playbackEventStream,
-                      builder: (context, playSnapshot) {
-                        if (playSnapshot.hasError || !playSnapshot.hasData) {
-                          // todo : add error handle, internet connection etc
-                          trailingWidget = PlayButtonWidget();
-                        } else if (playSnapshot.data!.processingState ==
-                                ProcessingState.buffering &&
-                            snapshot.currentMusic?.id ==
-                                widget.selectedMusic.id) {
-                          trailingWidget = LoadingIndicator.small(context);
-                        } else if (playSnapshot.data!.processingState ==
-                                ProcessingState.ready &&
-                            snapshot.currentMusic?.id ==
-                                widget.selectedMusic.id) {
-                          trailingWidget = const MusicPlayingWaveWidget();
-                        } else {
-                          trailingWidget = PlayButtonWidget();
-                        }
-                        return Center(
-                          child: trailingWidget,
-                        );
-                      }),
+                  child: _MusicTileTrailingWidget(
+                      audioPlayerStatus: snapshot.audioPlayerStatus),
                 )
               ],
             ),
@@ -109,14 +72,33 @@ class _MusicListTileState extends State<MusicListTile> {
   }
 }
 
+class _MusicTileTrailingWidget extends StatelessWidget {
+  const _MusicTileTrailingWidget({
+    Key? key,
+    required this.audioPlayerStatus,
+  }) : super(key: key);
+  final AudioPlayerStatus audioPlayerStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    if (audioPlayerStatus == AudioPlayerStatus.playing) {
+      return MusicPlayingWaveWidget();
+    } else if (audioPlayerStatus == AudioPlayerStatus.loading) {
+      return LoadingIndicator.small(context);
+    } else {
+      return _PlayButtonWidget();
+    }
+  }
+}
+
 class _ViewModel extends Vm {
-  final AudioPlayer audioPlayer;
   final MediaItem? currentMusic;
-  final Future<void> Function(MediaItem) setMediaItemState;
+  final Future<void> Function(MediaItem) playMusic;
+  final AudioPlayerStatus audioPlayerStatus;
   _ViewModel({
-    required this.audioPlayer,
     this.currentMusic,
-    required this.setMediaItemState,
+    required this.playMusic,
+    required this.audioPlayerStatus,
   });
 
   @override
@@ -124,35 +106,51 @@ class _ViewModel extends Vm {
     if (identical(this, other)) return true;
 
     return other is _ViewModel &&
-        other.audioPlayer == audioPlayer &&
         other.currentMusic == currentMusic &&
-        other.setMediaItemState == setMediaItemState;
+        other.playMusic == playMusic &&
+        other.audioPlayerStatus == audioPlayerStatus;
   }
 
   @override
   int get hashCode =>
-      audioPlayer.hashCode ^ currentMusic.hashCode ^ setMediaItemState.hashCode;
+      currentMusic.hashCode ^ playMusic.hashCode ^ audioPlayerStatus.hashCode;
+
+  _ViewModel copyWith({
+    MediaItem? currentMusic,
+    Future<void> Function(MediaItem)? playMusic,
+    AudioPlayerStatus? audioPlayerStatus,
+  }) {
+    return _ViewModel(
+      currentMusic: currentMusic ?? this.currentMusic,
+      playMusic: playMusic ?? this.playMusic,
+      audioPlayerStatus: audioPlayerStatus ?? this.audioPlayerStatus,
+    );
+  }
+
+  @override
+  String toString() =>
+      '_ViewModel(currentMusic: $currentMusic, playMusic: $playMusic, audioPlayerStatus: $audioPlayerStatus)';
 }
 
-class _Factory extends VmFactory<AppState, _MusicListTileState> {
+class _Factory extends VmFactory<AppState, MusicListTile> {
   _Factory(widget) : super(widget);
 
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      setMediaItemState: (mediaItem) async {
-        dispatch(
-          SetMediaItemStateAction(selectedMusic: mediaItem),
+      audioPlayerStatus: state.audioPlayerState.audioPlayerStatus,
+      playMusic: (mediaItem) async {
+        await dispatch(
+          PlayAudioAction(mediaItem: mediaItem),
         );
       },
-      audioPlayer: state.audioPlayerState.audioPlayer,
       currentMusic: state.audioPlayerState.selectedMusic,
     );
   }
 }
 
-class PlayButtonWidget extends StatelessWidget {
-  const PlayButtonWidget({
+class _PlayButtonWidget extends StatelessWidget {
+  const _PlayButtonWidget({
     Key? key,
   }) : super(key: key);
 
