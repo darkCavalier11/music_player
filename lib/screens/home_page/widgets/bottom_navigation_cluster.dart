@@ -98,21 +98,53 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1)),
-            ),
-          ),
-          Container(
-            width: 20,
-            height: 3,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                bottomRight: Radius.circular(25),
+            height: 100,
+            padding: const EdgeInsets.all(8),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Row(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        maxRadius: 30,
+                        backgroundImage: NetworkImage(
+                          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sample Music',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                          ),
+                          Text(
+                            'Unknown',
+                            style:
+                                Theme.of(context).textTheme.overline?.copyWith(
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
