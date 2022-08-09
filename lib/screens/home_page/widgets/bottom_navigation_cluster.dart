@@ -102,46 +102,100 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
         children: [
           ClipRRect(
             child: SizedBox(
-              height: 180,
+              height: 220,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                   children: [
-                    const Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sample Music',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            maxRadius: 30,
+                            backgroundImage: NetworkImage(
+                              'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+                            ),
                           ),
-                          Text(
-                            'Unknown',
-                            style:
-                                Theme.of(context).textTheme.overline?.copyWith(
+                        ),
+                        const SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Sample Music',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                    ),
+                              ),
+                              Text(
+                                'Unknown',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .overline
+                                    ?.copyWith(
                                       color: Theme.of(context).backgroundColor,
                                     ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 20,
+                        right: 20,
+                        bottom: 10,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).disabledColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '1:34',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                    ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                '3:37',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                    ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
