@@ -94,9 +94,9 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 0,
+      bottom: 20,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
@@ -168,11 +168,11 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                 duration: const Duration(milliseconds: 200),
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
-                ),
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(50)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
