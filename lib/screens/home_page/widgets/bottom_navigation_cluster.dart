@@ -75,13 +75,13 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
       case 0:
-        return 17;
+        return 9;
       case 1:
-        return navBarWidth / 3 - 10.5;
+        return navBarWidth / 3 - 42;
       case 2:
-        return 2 * navBarWidth / 3 - 39;
+        return 2 * navBarWidth / 3 - 94;
       default:
-        return navBarWidth - 67;
+        return navBarWidth - 145;
     }
   }
 
