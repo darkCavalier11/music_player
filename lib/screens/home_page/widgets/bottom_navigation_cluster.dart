@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -174,93 +176,29 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
+                    _BottomNavigationBottom(
+                      homeIcon: _homeIcon,
                       onTap: () {
                         _selectNavByIndex(0);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: AnimatedSwitcher(
-                          reverseDuration: const Duration(seconds: 0),
-                          transitionBuilder: (child, animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          duration: const Duration(milliseconds: 200),
-                          child: _homeIcon,
-                        ),
-                      ),
                     ),
-                    GestureDetector(
+                    _BottomNavigationBottom(
+                      homeIcon: _favIcon,
                       onTap: () {
                         _selectNavByIndex(1);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: AnimatedSwitcher(
-                          reverseDuration: const Duration(seconds: 0),
-                          transitionBuilder: (child, animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          child: _favIcon,
-                          duration: const Duration(milliseconds: 200),
-                        ),
-                      ),
                     ),
-                    GestureDetector(
+                    _BottomNavigationBottom(
+                      homeIcon: _playlistIcon,
                       onTap: () {
                         _selectNavByIndex(2);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: AnimatedSwitcher(
-                          reverseDuration: const Duration(seconds: 0),
-                          transitionBuilder: (child, animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          child: _playlistIcon,
-                          duration: const Duration(milliseconds: 200),
-                        ),
-                      ),
                     ),
-                    GestureDetector(
+                    _BottomNavigationBottom(
+                      homeIcon: _accountIcon,
                       onTap: () {
                         _selectNavByIndex(3);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: AnimatedSwitcher(
-                          reverseDuration: const Duration(seconds: 0),
-                          transitionBuilder: (child, animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          child: _accountIcon,
-                          duration: const Duration(milliseconds: 200),
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -268,6 +206,42 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BottomNavigationBottom extends StatelessWidget {
+  final void Function() onTap;
+  const _BottomNavigationBottom({
+    required this.onTap,
+    Key? key,
+    required Widget homeIcon,
+  })  : _homeIcon = homeIcon,
+        super(key: key);
+
+  final Widget _homeIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        child: AnimatedSwitcher(
+          reverseDuration: const Duration(seconds: 0),
+          transitionBuilder: (child, animation) {
+            return ScaleTransition(
+              scale: animation,
+              child: child,
+            );
+          },
+          duration: const Duration(milliseconds: 200),
+          child: _homeIcon,
+        ),
       ),
     );
   }
