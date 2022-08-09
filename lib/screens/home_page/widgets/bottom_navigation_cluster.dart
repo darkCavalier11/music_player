@@ -102,7 +102,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
         children: [
           ClipRRect(
             child: SizedBox(
-              height: 220,
+              height: 240,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: CircleAvatar(
                             maxRadius: 30,
                             backgroundImage: NetworkImage(
@@ -124,7 +124,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                         ),
                         const SizedBox(width: 10),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -154,23 +154,60 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                        top: 10,
-                        left: 20,
-                        right: 20,
+                        top: 8,
+                        left: 25,
+                        right: 25,
                         bottom: 10,
                       ),
                       child: Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 4,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).disabledColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
+                            child:
+                                LayoutBuilder(builder: (context, constraints) {
+                              return Stack(
+                                children: [
+                                  Container(
+                                    width: constraints.maxWidth,
+                                    height: 4,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).disabledColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Container(
+                                        width: constraints.maxWidth / 2,
+                                        height: 4,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: constraints.maxWidth / 2 - 8,
+                                        top: -3,
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).canvasColor,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }),
                           ),
                           Row(
                             children: [
