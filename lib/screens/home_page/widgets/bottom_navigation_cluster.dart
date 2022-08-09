@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/utils/constants.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
   const BottomNavigationCluster({
@@ -94,21 +96,20 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 20,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      bottom: 0,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            padding: const EdgeInsets.all(8),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+          ClipRRect(
+            child: SizedBox(
+              height: 180,
               child: Container(
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -150,59 +151,68 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
               ),
             ),
           ),
-          Stack(
-            alignment: Alignment.center,
+          Column(
             children: [
-              AnimatedPositioned(
-                curve: Curves.fastOutSlowIn,
-                left: getIconPosition(
-                    MediaQuery.of(context).size.width, _navBarIndex),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                duration: const Duration(milliseconds: 200),
-              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
-                padding: const EdgeInsets.all(12),
+                height: 70,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(50)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  color: AppConstants.primaryColorLight,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Stack(
                   children: [
-                    _BottomNavigationBottom(
-                      homeIcon: _homeIcon,
-                      onTap: () {
-                        _selectNavByIndex(0);
-                      },
+                    AnimatedPositioned(
+                      curve: Curves.fastOutSlowIn,
+                      top: 10,
+                      left: getIconPosition(
+                          MediaQuery.of(context).size.width, _navBarIndex),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      duration: const Duration(milliseconds: 200),
                     ),
-                    _BottomNavigationBottom(
-                      homeIcon: _favIcon,
-                      onTap: () {
-                        _selectNavByIndex(1);
-                      },
-                    ),
-                    _BottomNavigationBottom(
-                      homeIcon: _playlistIcon,
-                      onTap: () {
-                        _selectNavByIndex(2);
-                      },
-                    ),
-                    _BottomNavigationBottom(
-                      homeIcon: _accountIcon,
-                      onTap: () {
-                        _selectNavByIndex(3);
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _BottomNavigationBottom(
+                            homeIcon: _homeIcon,
+                            onTap: () {
+                              _selectNavByIndex(0);
+                            },
+                          ),
+                          _BottomNavigationBottom(
+                            homeIcon: _favIcon,
+                            onTap: () {
+                              _selectNavByIndex(1);
+                            },
+                          ),
+                          _BottomNavigationBottom(
+                            homeIcon: _playlistIcon,
+                            onTap: () {
+                              _selectNavByIndex(2);
+                            },
+                          ),
+                          _BottomNavigationBottom(
+                            homeIcon: _accountIcon,
+                            onTap: () {
+                              _selectNavByIndex(3);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
+              const SizedBox(height: 15),
             ],
           ),
         ],

@@ -9,6 +9,9 @@ class AppTheme {
       primarySwatch: SwatchGenerator.generateMaterialColor(
         const Color.fromRGBO(38, 65, 60, 1),
       ),
+      colorScheme: const ColorScheme.light(
+        secondary: Colors.amber,
+      ),
     );
   }
 

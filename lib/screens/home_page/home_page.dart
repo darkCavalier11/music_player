@@ -7,15 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_player/redux/models/music_model.dart';
 
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
-import 'package:music_player/utils/swatch_generator.dart';
+import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
-import '../../utils/music_playing_wave_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,8 +40,7 @@ class HomePage extends StatelessWidget {
                       decoration: InputDecoration(
                         isDense: true,
                         prefixIcon: const Icon(CupertinoIcons.search),
-                        fillColor:
-                            Theme.of(context).primaryColor.withOpacity(0.07),
+                        fillColor: AppConstants.primaryColorLight,
                         filled: true,
                         hintText: 'Search songs, artist & genres...',
                         focusedBorder: OutlineInputBorder(
