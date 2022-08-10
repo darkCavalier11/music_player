@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+
 import 'package:music_player/utils/constants.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
@@ -150,6 +153,9 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                             ],
                           ),
                         ),
+                        const Spacer(),
+                        _PlayPauseButtonSet(),
+                        _MarkFavWidget()
                       ],
                     ),
                     Padding(
@@ -307,6 +313,90 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _MarkFavWidget extends StatefulWidget {
+  final bool isFav;
+  const _MarkFavWidget({
+    Key? key,
+    required this.isFav,
+  }) : super(key: key);
+
+  @override
+  State<_MarkFavWidget> createState() => _MarkFavWidgetState();
+}
+
+class _MarkFavWidgetState extends State<_MarkFavWidget> {
+  late bool _isFav;
+  @override
+  void initState() {
+    super.initState();
+    _isFav = widget.isFav;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: IconButton(
+        onPressed: () {
+          setState(() {
+            _isFav = !_isFav;
+            if (_isFav) {
+              _favWidget = Icon(
+                CupertinoIcons.heart_fill,
+                key: ValueKey<int>(0),
+                size: 30,
+                color: Theme.of(context).colorScheme.secondary,
+              );
+            } else {
+              _favWidget = Icon(
+                CupertinoIcons.heart,
+                key: ValueKey<int>(1),
+                size: 30,
+                color: Theme.of(context).colorScheme.secondary,
+              );
+            }
+          });
+        },
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 1000),
+          child: _favWidget,
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayPauseButtonSet extends StatefulWidget {
+  const _PlayPauseButtonSet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_PlayPauseButtonSet> createState() => _PlayPauseButtonSetState();
+}
+
+class _PlayPauseButtonSetState extends State<_PlayPauseButtonSet> {
+  bool _isPlaying = false;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: IconButton(
+        onPressed: () {
+          setState(() {
+            _isPlaying = !_isPlaying;
+          });
+        },
+        icon: Icon(
+          _isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
+          size: 30,
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
       ),
     );
   }
