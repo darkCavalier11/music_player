@@ -160,91 +160,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                         )
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        left: 25,
-                        right: 25,
-                        bottom: 10,
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
-                              return Stack(
-                                children: [
-                                  Container(
-                                    width: constraints.maxWidth,
-                                    height: 4,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).disabledColor,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      Container(
-                                        width: constraints.maxWidth / 2,
-                                        height: 4,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: constraints.maxWidth / 2 - 8,
-                                        top: -3,
-                                        child: Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Theme.of(context).canvasColor,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '1:34',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                    ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                '3:37',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    _PlayTimerWidget(),
                   ],
                 ),
               ),
@@ -312,6 +228,87 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                 ),
               ),
               const SizedBox(height: 15),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlayTimerWidget extends StatelessWidget {
+  const _PlayTimerWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8,
+        left: 25,
+        right: 25,
+        bottom: 10,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: LayoutBuilder(builder: (context, constraints) {
+              return Stack(
+                children: [
+                  Container(
+                    width: constraints.maxWidth,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).disabledColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth / 3,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      Positioned(
+                        left: constraints.maxWidth / 3 - 8,
+                        top: -3,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).canvasColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              );
+            }),
+          ),
+          Row(
+            children: [
+              Text(
+                '1:34',
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+              ),
+              const Spacer(),
+              Text(
+                '3:37',
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+              ),
             ],
           ),
         ],
