@@ -99,34 +99,76 @@ class HomePage extends StatelessWidget {
                           'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
                     ),
                   ),
+                  _Player()
                 ],
               ),
               BottomNavigationCluster(),
             ],
           ),
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: () async {
-          //     log("message");
-          //     await snapshot.audioPlayer.setAudioSource(
-          //       AudioSource.uri(
-          //         Uri.parse(
-          //             "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3"),
-          //         tag: MediaItem(
-          //           id: '7',
-          //           title: 'Random Title',
-          //         ),
-          //       ),
-          //     );
-          //     log("Ready to play");
-          //     snapshot.audioPlayer
-          //         .play(); // log(snapshot.audioPlayer.processingState.toString());
-          //     await Future.delayed(Duration(seconds: 15));
-          //     await snapshot.audioPlayer.stop();
-          //   },
-          //   child: Icon(Icons.play_arrow_rounded),
-          // ),
         );
       },
+    );
+  }
+}
+
+class _Player extends StatefulWidget {
+  const _Player({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_Player> createState() => _PlayerState();
+}
+
+class _PlayerState extends State<_Player> {
+  double posX = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.green,
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 100),
+            left: posX,
+            key: const ValueKey("item 1"),
+            child: Container(
+              height: 20.0,
+              width: 20.0,
+              color: Colors.white,
+              alignment: Alignment.center,
+              child: Transform.rotate(
+                angle: 0,
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 12,
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onPanEnd: (details) {
+//                   setState(() {
+//                     posX = 0;
+//                   });
+            },
+            onPanStart: (details) {
+              setState(() {
+                posX = details.localPosition.dx;
+              });
+            },
+            onPanUpdate: (details) {
+              setState(() {
+                posX = details.localPosition.dx;
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 }
