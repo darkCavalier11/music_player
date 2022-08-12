@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -60,7 +63,7 @@ class MusicListTile extends StatelessWidget {
                 snapshot.currentMusic?.id == selectedMusic.id
                     ? SizedBox(
                         child: _MusicTileTrailingWidget(
-                          audioPlayerStatus: snapshot.audioPlayerStatus,
+                          processingStateStream: snapshot.processingStateStream,
                         ),
                       )
                     : _PlayButtonWidget(),
@@ -77,33 +80,41 @@ class MusicListTile extends StatelessWidget {
 class _MusicTileTrailingWidget extends StatelessWidget {
   const _MusicTileTrailingWidget({
     Key? key,
-    required this.audioPlayerStatus,
+    required this.processingStateStream,
   }) : super(key: key);
-  final AudioPlayerStatus audioPlayerStatus;
+  final Stream<ProcessingState> processingStateStream;
 
   @override
   Widget build(BuildContext context) {
-    if (audioPlayerStatus == AudioPlayerStatus.playing) {
-      return MusicPlayingWaveWidget();
-    } else if (audioPlayerStatus == AudioPlayerStatus.loading) {
-      return LoadingIndicator.small(context);
-    } else {
-      return _PlayButtonWidget();
-    }
+    return StreamBuilder<ProcessingState>(
+      stream: processingStateStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.hasError) {
+          return const SizedBox.shrink();
+        } else if (snapshot.data == ProcessingState.ready) {
+          return const MusicPlayingWaveWidget();
+        } else if (snapshot.data == ProcessingState.loading ||
+            snapshot.data == ProcessingState.buffering) {
+          return LoadingIndicator.small(context);
+        } else {
+          return _PlayButtonWidget();
+        }
+      },
+    );
   }
 }
 
 class _ViewModel extends Vm {
   final MediaItem? currentMusic;
   final Future<void> Function(MediaItem) playMusic;
-  final AudioPlayerStatus audioPlayerStatus;
+  final Stream<ProcessingState> processingStateStream;
   final Future<void> Function() stopMusic;
   _ViewModel({
     this.currentMusic,
     required this.playMusic,
-    required this.audioPlayerStatus,
+    required this.processingStateStream,
     required this.stopMusic,
-  }) : super(equals: [currentMusic, audioPlayerStatus]);
+  }) : super(equals: [currentMusic, processingStateStream]);
 
   @override
   bool operator ==(Object other) {
@@ -112,7 +123,7 @@ class _ViewModel extends Vm {
     return other is _ViewModel &&
         other.currentMusic == currentMusic &&
         other.playMusic == playMusic &&
-        other.audioPlayerStatus == audioPlayerStatus &&
+        other.processingStateStream == processingStateStream &&
         other.stopMusic == stopMusic;
   }
 
@@ -120,27 +131,8 @@ class _ViewModel extends Vm {
   int get hashCode {
     return currentMusic.hashCode ^
         playMusic.hashCode ^
-        audioPlayerStatus.hashCode ^
+        processingStateStream.hashCode ^
         stopMusic.hashCode;
-  }
-
-  _ViewModel copyWith({
-    MediaItem? currentMusic,
-    Future<void> Function(MediaItem)? playMusic,
-    AudioPlayerStatus? audioPlayerStatus,
-    Future<void> Function()? stopMusic,
-  }) {
-    return _ViewModel(
-      currentMusic: currentMusic ?? this.currentMusic,
-      playMusic: playMusic ?? this.playMusic,
-      audioPlayerStatus: audioPlayerStatus ?? this.audioPlayerStatus,
-      stopMusic: stopMusic ?? this.stopMusic,
-    );
-  }
-
-  @override
-  String toString() {
-    return '_ViewModel(currentMusic: $currentMusic, playMusic: $playMusic, audioPlayerStatus: $audioPlayerStatus, stopMusic: $stopMusic)';
   }
 }
 
@@ -153,7 +145,8 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
       stopMusic: () async {
         await dispatch(StopAudioAction());
       },
-      audioPlayerStatus: state.audioPlayerState.audioPlayerStatus,
+      processingStateStream:
+          state.audioPlayerState.audioPlayer.processingStateStream,
       playMusic: (mediaItem) async {
         await dispatch(
           PlayAudioAction(mediaItem: mediaItem),

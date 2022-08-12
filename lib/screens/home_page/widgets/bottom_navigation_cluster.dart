@@ -155,7 +155,9 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                         ),
                         const Spacer(),
                         _PlayPauseButtonSet(),
-                        _MarkFavWidget()
+                        _MarkFavWidget(
+                          isFav: true,
+                        )
                       ],
                     ),
                     Padding(
@@ -345,27 +347,29 @@ class _MarkFavWidgetState extends State<_MarkFavWidget> {
         onPressed: () {
           setState(() {
             _isFav = !_isFav;
-            if (_isFav) {
-              _favWidget = Icon(
-                CupertinoIcons.heart_fill,
-                key: ValueKey<int>(0),
-                size: 30,
-                color: Theme.of(context).colorScheme.secondary,
-              );
-            } else {
-              _favWidget = Icon(
-                CupertinoIcons.heart,
-                key: ValueKey<int>(1),
-                size: 30,
-                color: Theme.of(context).colorScheme.secondary,
-              );
-            }
           });
         },
         icon: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 1000),
-          child: _favWidget,
-        ),
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: ((child, animation) {
+              return ScaleTransition(
+                scale: animation,
+                child: child,
+              );
+            }),
+            child: _isFav
+                ? Icon(
+                    CupertinoIcons.heart_fill,
+                    key: ValueKey<int>(0),
+                    size: 30,
+                    color: Theme.of(context).colorScheme.secondary,
+                  )
+                : Icon(
+                    CupertinoIcons.heart,
+                    key: ValueKey<int>(1),
+                    size: 30,
+                    color: Theme.of(context).colorScheme.secondary,
+                  )),
       ),
     );
   }
@@ -392,10 +396,20 @@ class _PlayPauseButtonSetState extends State<_PlayPauseButtonSet> {
             _isPlaying = !_isPlaying;
           });
         },
-        icon: Icon(
-          _isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
-          size: 30,
-          color: Theme.of(context).scaffoldBackgroundColor,
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, animation) {
+            return ScaleTransition(
+              scale: animation,
+              child: child,
+            );
+          },
+          child: Icon(
+            _isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
+            size: 30,
+            color: Theme.of(context).scaffoldBackgroundColor,
+            key: ValueKey<bool>(_isPlaying),
+          ),
         ),
       ),
     );
