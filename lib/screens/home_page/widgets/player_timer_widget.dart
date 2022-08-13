@@ -1,13 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/utils/extensions.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 class PlayTimerWidget extends StatefulWidget {
   const PlayTimerWidget({
@@ -19,7 +18,9 @@ class PlayTimerWidget extends StatefulWidget {
 }
 
 class _PlayTimerWidgetState extends State<PlayTimerWidget> {
-  double posX = 50;
+  double posX = 0;
+  bool _isPanning = false;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -41,42 +42,71 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        return Stack(
-                          alignment: Alignment.centerLeft,
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              width: constraints.maxWidth,
-                              height: 3,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).disabledColor,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            Container(
-                              width: posX,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondary,
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(8),
-                                  topLeft: Radius.circular(8),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: posX - 2,
-                              child: Container(
-                                width: 15,
-                                height: 15,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).canvasColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
+                        return StreamBuilder<Duration?>(
+                            stream: snapshot.audioPlayer.durationStream,
+                            builder: (context, durationSnapshot) {
+                              return StreamBuilder<Duration>(
+                                  stream: snapshot.audioPlayer.positionStream,
+                                  builder: (context, positionSnapshot) {
+                                    if (durationSnapshot.hasError ||
+                                        !durationSnapshot.hasData) {
+                                      return const SizedBox.shrink();
+                                    } else if (positionSnapshot.hasError ||
+                                        !positionSnapshot.hasData) {
+                                      return const SizedBox.shrink();
+                                    }
+                                    if (!_isPanning) {
+                                      posX = positionSnapshot
+                                              .data!.inMilliseconds /
+                                          durationSnapshot
+                                              .data!.inMilliseconds *
+                                          constraints.maxWidth;
+                                    }
+                                    return Stack(
+                                      alignment: Alignment.centerLeft,
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Container(
+                                          width: constraints.maxWidth,
+                                          height: 3,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).disabledColor,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: posX,
+                                          height: 6,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomLeft: Radius.circular(8),
+                                              topLeft: Radius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: posX - 2,
+                                          child: Container(
+                                            width: 15,
+                                            height: 15,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Theme.of(context).canvasColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            });
                       },
                     ),
                   ),
@@ -146,6 +176,9 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
             ),
             GestureDetector(
               onPanUpdate: ((details) {
+                setState(() {
+                  _isPanning = true;
+                });
                 // * width of player is screen_width - 50 (25 padding each).
                 if (details.globalPosition.dx < 25) {
                   setState(() {
@@ -163,6 +196,9 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                 }
               }),
               onPanStart: (details) {
+                setState(() {
+                  _isPanning = true;
+                });
                 if (details.globalPosition.dx < 25) {
                   setState(() {
                     posX = 0;
@@ -178,8 +214,19 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                   });
                 }
               },
-              onPanEnd: ((details) {
+              onPanEnd: ((details) async {
+                setState(() {
+                  _isPanning = false;
+                });
                 final _playerWidth = MediaQuery.of(context).size.width - 50;
+                final _duration = await snapshot.audioPlayer.durationFuture;
+                if (_duration != null) {
+                  double _fractionCovered = posX / _playerWidth;
+                  snapshot.audioPlayer.seek(Duration(
+                      milliseconds:
+                          (_duration.inMilliseconds * _fractionCovered)
+                              .floor()));
+                }
               }),
               child: Container(
                 color: Colors.transparent,

@@ -41,8 +41,6 @@ dependencies:
   connectivity_plus: ^2.3.6
   shared_preferences: ^2.0.15
   fluttertoast: ^8.0.9
-  intl: ^0.17.0
-  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:
