@@ -1,4 +1,3 @@
-
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,6 @@ class MusicListTile extends StatelessWidget {
             await snapshot.playMusic(selectedMusic);
           },
           child: Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
             padding: const EdgeInsets.all(8),
             child: Row(
               children: [

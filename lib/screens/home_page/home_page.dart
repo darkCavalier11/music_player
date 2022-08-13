@@ -91,6 +91,11 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(
+                    endIndent: 20,
+                    indent: 20,
+                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  ),
                   MusicListTile(
                     selectedMusic: MediaItem(
                       id: 'MUSIC_ID_1',
