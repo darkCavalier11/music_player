@@ -23,20 +23,6 @@ class _SetMediaItemStateAction extends ReduxAction<AppState> {
   }
 }
 
-class _SetAudioPlayerStatusAction extends ReduxAction<AppState> {
-  final AudioPlayerStatus audioPlayerStatus;
-  _SetAudioPlayerStatusAction({
-    required this.audioPlayerStatus,
-  });
-  @override
-  AppState reduce() {
-    return state.copyWith(
-        audioPlayerState: state.audioPlayerState.copyWith(
-      audioPlayerStatus: audioPlayerStatus,
-    ));
-  }
-}
-
 class PlayAudioAction extends ReduxAction<AppState> {
   final MediaItem mediaItem;
   PlayAudioAction({
@@ -45,23 +31,17 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     dispatch(_SetMediaItemStateAction(selectedMusic: mediaItem));
-    dispatch(_SetAudioPlayerStatusAction(
-        audioPlayerStatus: AudioPlayerStatus.loading));
     try {
       final audioUri = AudioSource.uri(
         mediaItem.artUri ?? Uri(),
         tag: mediaItem,
       );
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
-      dispatch(_SetAudioPlayerStatusAction(
-          audioPlayerStatus: AudioPlayerStatus.playing));
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       // todo : log error
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       log(err.toString());
-      dispatch(_SetAudioPlayerStatusAction(
-          audioPlayerStatus: AudioPlayerStatus.playing));
     }
   }
 }
@@ -70,7 +50,5 @@ class StopAudioAction extends ReduxAction<AppState> {
   @override
   AppState? reduce() {
     state.audioPlayerState.audioPlayer.stop();
-    dispatch(
-        _SetAudioPlayerStatusAction(audioPlayerStatus: AudioPlayerStatus.idle));
   }
 }

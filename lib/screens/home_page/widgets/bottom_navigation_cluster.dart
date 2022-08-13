@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/screens/home_page/widgets/player_timer_widget.dart';
 
 import 'package:music_player/utils/constants.dart';
 
@@ -154,13 +155,13 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                           ),
                         ),
                         const Spacer(),
-                        _PlayPauseButtonSet(),
-                        _MarkFavWidget(
+                        PlayPauseButtonSet(),
+                        MarkFavWidget(
                           isFav: true,
                         )
                       ],
                     ),
-                    _PlayTimerWidget(),
+                    PlayTimerWidget(),
                   ],
                 ),
               ),
@@ -197,25 +198,25 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _BottomNavigationBottom(
+                          BottomNavigationBottom(
                             homeIcon: _homeIcon,
                             onTap: () {
                               _selectNavByIndex(0);
                             },
                           ),
-                          _BottomNavigationBottom(
+                          BottomNavigationBottom(
                             homeIcon: _favIcon,
                             onTap: () {
                               _selectNavByIndex(1);
                             },
                           ),
-                          _BottomNavigationBottom(
+                          BottomNavigationBottom(
                             homeIcon: _playlistIcon,
                             onTap: () {
                               _selectNavByIndex(2);
                             },
                           ),
-                          _BottomNavigationBottom(
+                          BottomNavigationBottom(
                             homeIcon: _accountIcon,
                             onTap: () {
                               _selectNavByIndex(3);
@@ -236,239 +237,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   }
 }
 
-class _PlayTimerWidget extends StatefulWidget {
-  const _PlayTimerWidget({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  State<_PlayTimerWidget> createState() => _PlayTimerWidgetState();
-}
-
-class _PlayTimerWidgetState extends State<_PlayTimerWidget> {
-  double posX = 50;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment(0, -0.6),
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 8,
-            left: 25,
-            right: 25,
-            bottom: 10,
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Stack(
-                    alignment: Alignment.centerLeft,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        width: constraints.maxWidth,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).disabledColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      Container(
-                        width: posX,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            topLeft: Radius.circular(8),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: posX - 2,
-                        child: Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).canvasColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-              ),
-              Row(
-                children: [
-                  Text(
-                    '1:34',
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '3:37',
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        GestureDetector(
-          onPanUpdate: ((details) {
-            // * width of player is screen_width - 50 (25 padding each).
-            if (details.globalPosition.dx < 25) {
-              setState(() {
-                posX = 0;
-              });
-            } else if (details.globalPosition.dx >
-                MediaQuery.of(context).size.width - 25) {
-              setState(() {
-                posX = MediaQuery.of(context).size.width - 50;
-              });
-            } else {
-              setState(() {
-                posX = details.globalPosition.dx - 25;
-              });
-            }
-          }),
-          onPanStart: (details) {
-            if (details.globalPosition.dx < 25) {
-              setState(() {
-                posX = 0;
-              });
-            } else if (details.globalPosition.dx >
-                MediaQuery.of(context).size.width - 25) {
-              setState(() {
-                posX = MediaQuery.of(context).size.width - 50;
-              });
-            } else {
-              setState(() {
-                posX = details.globalPosition.dx - 25;
-              });
-            }
-          },
-          onPanEnd: ((details) {
-            final _playerWidth = MediaQuery.of(context).size.width - 50;
-            log((posX / _playerWidth).toString());
-          }),
-          child: Container(
-            color: Colors.transparent,
-            height: 20,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _MarkFavWidget extends StatefulWidget {
-  final bool isFav;
-  const _MarkFavWidget({
-    Key? key,
-    required this.isFav,
-  }) : super(key: key);
-
-  @override
-  State<_MarkFavWidget> createState() => _MarkFavWidgetState();
-}
-
-class _MarkFavWidgetState extends State<_MarkFavWidget> {
-  late bool _isFav;
-  @override
-  void initState() {
-    super.initState();
-    _isFav = widget.isFav;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: IconButton(
-        onPressed: () {
-          setState(() {
-            _isFav = !_isFav;
-          });
-        },
-        icon: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: ((child, animation) {
-              return ScaleTransition(
-                scale: animation,
-                child: child,
-              );
-            }),
-            child: _isFav
-                ? Icon(
-                    CupertinoIcons.heart_fill,
-                    key: ValueKey<int>(0),
-                    size: 30,
-                    color: Theme.of(context).colorScheme.secondary,
-                  )
-                : Icon(
-                    CupertinoIcons.heart,
-                    key: ValueKey<int>(1),
-                    size: 30,
-                    color: Theme.of(context).colorScheme.secondary,
-                  )),
-      ),
-    );
-  }
-}
-
-class _PlayPauseButtonSet extends StatefulWidget {
-  const _PlayPauseButtonSet({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<_PlayPauseButtonSet> createState() => _PlayPauseButtonSetState();
-}
-
-class _PlayPauseButtonSetState extends State<_PlayPauseButtonSet> {
-  bool _isPlaying = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: IconButton(
-        onPressed: () {
-          setState(() {
-            _isPlaying = !_isPlaying;
-          });
-        },
-        icon: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          transitionBuilder: (child, animation) {
-            return ScaleTransition(
-              scale: animation,
-              child: child,
-            );
-          },
-          child: Icon(
-            _isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
-            size: 30,
-            color: Theme.of(context).scaffoldBackgroundColor,
-            key: ValueKey<bool>(_isPlaying),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNavigationBottom extends StatelessWidget {
+class BottomNavigationBottom extends StatelessWidget {
   final void Function() onTap;
-  const _BottomNavigationBottom({
+  const BottomNavigationBottom({
     required this.onTap,
     Key? key,
     required Widget homeIcon,
