@@ -1,10 +1,14 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class MusicPlayingWaveWidget extends StatefulWidget {
+  final Stream<bool> playingStream;
   const MusicPlayingWaveWidget({
     Key? key,
+    required this.playingStream,
   }) : super(key: key);
 
   @override
@@ -23,10 +27,20 @@ class _AnimatedMusicWaveState extends State<MusicPlayingWaveWidget>
       vsync: this,
       reverseDuration: const Duration(seconds: 1),
       duration: const Duration(seconds: 1),
-    )..repeat(reverse: true);
+    );
 
     _sizeAnimation =
         Tween<double>(begin: 0, end: 10).animate(_animationController);
+    widget.playingStream.listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (!event) {
+        _animationController.stop();
+      } else {
+        _animationController.repeat(reverse: true);
+      }
+    });
   }
 
   @override

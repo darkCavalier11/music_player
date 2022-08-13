@@ -84,10 +84,11 @@ class HomePage extends StatelessWidget {
                   MusicListTile(
                     selectedMusic: MediaItem(
                       id: 'MUSIC_ID',
-                      title: 'Sample Music',
-                      artist: 'Unknown',
+                      title: 'Ek Ladki Ko Dekha Toh Aisa Laga [Slowed+Reverb]',
+                      artist: 'Darshan Raval',
                       artUri: Uri.parse(
-                          'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
+                        'https://res.cloudinary.com/dftm6eyhx/video/upload/v1660413153/Ek_Ladki_Ko_Dekha_Toh_Aisa_Laga_Slowed_Reverb_-_Darshan_Raval___MUSIC_MANIA_LO-FI_q_MahaxjIEo_uxm3en.mp3',
+                      ),
                     ),
                   ),
                   MusicListTile(

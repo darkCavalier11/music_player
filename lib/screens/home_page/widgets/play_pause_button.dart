@@ -24,7 +24,6 @@ class PlayPauseButtonSet extends StatelessWidget {
                 if (!stateSnapshot.hasData || stateSnapshot.hasError) {
                   return const SizedBox.shrink();
                 }
-                log(stateSnapshot.data.toString());
                 return IconButton(
                   onPressed: () {
                     if (stateSnapshot.data == true) {

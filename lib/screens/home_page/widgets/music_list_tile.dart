@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +6,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/screens/home_page/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
@@ -28,9 +26,6 @@ class MusicListTile extends StatelessWidget {
           onTap: () async {
             await snapshot.playMusic(selectedMusic);
           },
-          onDoubleTap: () async {
-            await snapshot.stopMusic();
-          },
           child: Container(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
             padding: const EdgeInsets.all(8),
@@ -50,12 +45,14 @@ class MusicListTile extends StatelessWidget {
                       Text(
                         selectedMusic.title,
                         style: Theme.of(context).textTheme.bodyLarge,
+                        maxLines: 1,
                       ),
                       Text(
                         selectedMusic.artist ?? 'Unknown',
                         style: Theme.of(context).textTheme.overline?.copyWith(
                               color: Theme.of(context).hintColor,
                             ),
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -64,6 +61,7 @@ class MusicListTile extends StatelessWidget {
                     ? SizedBox(
                         child: _MusicTileTrailingWidget(
                           processingStateStream: snapshot.processingStateStream,
+                          playingStream: snapshot.playingStream,
                         ),
                       )
                     : _PlayButtonWidget(),
@@ -81,8 +79,10 @@ class _MusicTileTrailingWidget extends StatelessWidget {
   const _MusicTileTrailingWidget({
     Key? key,
     required this.processingStateStream,
+    required this.playingStream,
   }) : super(key: key);
   final Stream<ProcessingState> processingStateStream;
+  final Stream<bool> playingStream;
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,9 @@ class _MusicTileTrailingWidget extends StatelessWidget {
         if (!snapshot.hasData || snapshot.hasError) {
           return const SizedBox.shrink();
         } else if (snapshot.data == ProcessingState.ready) {
-          return const MusicPlayingWaveWidget();
+          return MusicPlayingWaveWidget(
+            playingStream: playingStream,
+          );
         } else if (snapshot.data == ProcessingState.loading ||
             snapshot.data == ProcessingState.buffering) {
           return LoadingIndicator.small(context);
@@ -108,12 +110,13 @@ class _ViewModel extends Vm {
   final MediaItem? currentMusic;
   final Future<void> Function(MediaItem) playMusic;
   final Stream<ProcessingState> processingStateStream;
-  final Future<void> Function() stopMusic;
+  final Stream<bool> playingStream;
+
   _ViewModel({
     this.currentMusic,
     required this.playMusic,
     required this.processingStateStream,
-    required this.stopMusic,
+    required this.playingStream,
   }) : super(equals: [currentMusic, processingStateStream]);
 
   @override
@@ -124,7 +127,7 @@ class _ViewModel extends Vm {
         other.currentMusic == currentMusic &&
         other.playMusic == playMusic &&
         other.processingStateStream == processingStateStream &&
-        other.stopMusic == stopMusic;
+        other.playingStream == playingStream;
   }
 
   @override
@@ -132,7 +135,7 @@ class _ViewModel extends Vm {
     return currentMusic.hashCode ^
         playMusic.hashCode ^
         processingStateStream.hashCode ^
-        stopMusic.hashCode;
+        playingStream.hashCode;
   }
 }
 
@@ -142,9 +145,7 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      stopMusic: () async {
-        await dispatch(StopAudioAction());
-      },
+      playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
       playMusic: (mediaItem) async {
