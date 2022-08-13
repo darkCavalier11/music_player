@@ -93,7 +93,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                           ),
                                         ),
                                         Positioned(
-                                          left: posX - 2,
+                                          left: posX - 4,
                                           child: Container(
                                             width: 15,
                                             height: 15,
