@@ -99,7 +99,6 @@ class HomePage extends StatelessWidget {
                           'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
                     ),
                   ),
-                  _Player()
                 ],
               ),
               BottomNavigationCluster(),
@@ -107,68 +106,6 @@ class HomePage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _Player extends StatefulWidget {
-  const _Player({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<_Player> createState() => _PlayerState();
-}
-
-class _PlayerState extends State<_Player> {
-  double posX = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 100),
-            left: posX,
-            key: const ValueKey("item 1"),
-            child: Container(
-              height: 20.0,
-              width: 20.0,
-              color: Colors.white,
-              alignment: Alignment.center,
-              child: Transform.rotate(
-                angle: 0,
-                child: const Icon(
-                  Icons.arrow_forward,
-                  size: 12,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onPanEnd: (details) {
-//                   setState(() {
-//                     posX = 0;
-//                   });
-            },
-            onPanStart: (details) {
-              setState(() {
-                posX = details.localPosition.dx;
-              });
-            },
-            onPanUpdate: (details) {
-              setState(() {
-                posX = details.localPosition.dx;
-              });
-            },
-          )
-        ],
-      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:math';
+import 'dart:math' hide log;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -236,49 +236,59 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   }
 }
 
-class _PlayTimerWidget extends StatelessWidget {
+class _PlayTimerWidget extends StatefulWidget {
   const _PlayTimerWidget({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<_PlayTimerWidget> createState() => _PlayTimerWidgetState();
+}
+
+class _PlayTimerWidgetState extends State<_PlayTimerWidget> {
+  double posX = 50;
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 8,
-        left: 25,
-        right: 25,
-        bottom: 10,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: LayoutBuilder(builder: (context, constraints) {
-              return Stack(
-                children: [
-                  Container(
-                    width: constraints.maxWidth,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).disabledColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  Stack(
+    return Stack(
+      alignment: Alignment(0, -0.6),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 8,
+            left: 25,
+            right: 25,
+            bottom: 10,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return Stack(
+                    alignment: Alignment.centerLeft,
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        width: constraints.maxWidth / 3,
-                        height: 4,
+                        width: constraints.maxWidth,
+                        height: 3,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).disabledColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
+                      Container(
+                        width: posX,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            topLeft: Radius.circular(8),
+                          ),
+                        ),
+                      ),
                       Positioned(
-                        left: constraints.maxWidth / 3 - 8,
-                        top: -3,
+                        left: posX - 2,
                         child: Container(
                           width: 10,
                           height: 10,
@@ -287,32 +297,75 @@ class _PlayTimerWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                      )
+                      ),
                     ],
+                  );
+                }),
+              ),
+              Row(
+                children: [
+                  Text(
+                    '1:34',
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '3:37',
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
                   ),
                 ],
-              );
-            }),
-          ),
-          Row(
-            children: [
-              Text(
-                '1:34',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-              ),
-              const Spacer(),
-              Text(
-                '3:37',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
               ),
             ],
           ),
-        ],
-      ),
+        ),
+        GestureDetector(
+          onPanUpdate: ((details) {
+            // * width of player is screen_width - 50 (25 padding each).
+            if (details.globalPosition.dx < 25) {
+              setState(() {
+                posX = 0;
+              });
+            } else if (details.globalPosition.dx >
+                MediaQuery.of(context).size.width - 25) {
+              setState(() {
+                posX = MediaQuery.of(context).size.width - 50;
+              });
+            } else {
+              setState(() {
+                posX = details.globalPosition.dx - 25;
+              });
+            }
+          }),
+          onPanStart: (details) {
+            if (details.globalPosition.dx < 25) {
+              setState(() {
+                posX = 0;
+              });
+            } else if (details.globalPosition.dx >
+                MediaQuery.of(context).size.width - 25) {
+              setState(() {
+                posX = MediaQuery.of(context).size.width - 50;
+              });
+            } else {
+              setState(() {
+                posX = details.globalPosition.dx - 25;
+              });
+            }
+          },
+          onPanEnd: ((details) {
+            final _playerWidth = MediaQuery.of(context).size.width - 50;
+            log((posX / _playerWidth).toString());
+          }),
+          child: Container(
+            color: Colors.transparent,
+            height: 20,
+          ),
+        ),
+      ],
     );
   }
 }
