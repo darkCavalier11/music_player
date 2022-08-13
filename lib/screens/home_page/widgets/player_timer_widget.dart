@@ -5,7 +5,9 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/utils/extensions.dart';
 
 class PlayTimerWidget extends StatefulWidget {
@@ -298,7 +300,7 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
                 ? Icon(
                     CupertinoIcons.heart_fill,
                     key: ValueKey<int>(0),
-                    size: 30,
+                    size: 25,
                     color: Theme.of(context).colorScheme.secondary,
                   )
                 : Icon(
@@ -307,47 +309,6 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
                     size: 30,
                     color: Theme.of(context).colorScheme.secondary,
                   )),
-      ),
-    );
-  }
-}
-
-class PlayPauseButtonSet extends StatefulWidget {
-  const PlayPauseButtonSet({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<PlayPauseButtonSet> createState() => _PlayPauseButtonSetState();
-}
-
-class _PlayPauseButtonSetState extends State<PlayPauseButtonSet> {
-  bool _isPlaying = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: IconButton(
-        onPressed: () {
-          setState(() {
-            _isPlaying = !_isPlaying;
-          });
-        },
-        icon: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          transitionBuilder: (child, animation) {
-            return ScaleTransition(
-              scale: animation,
-              child: child,
-            );
-          },
-          child: Icon(
-            _isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
-            size: 30,
-            color: Theme.of(context).scaffoldBackgroundColor,
-            key: ValueKey<bool>(_isPlaying),
-          ),
-        ),
       ),
     );
   }

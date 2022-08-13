@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/screens/home_page/widgets/play_pause_button.dart';
 import 'package:music_player/screens/home_page/widgets/player_timer_widget.dart';
 
 import 'package:music_player/utils/constants.dart';
@@ -236,7 +237,6 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
     );
   }
 }
-
 
 class BottomNavigationBottom extends StatelessWidget {
   final void Function() onTap;
