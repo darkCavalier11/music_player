@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_player/redux/models/app_state.dart';
 
@@ -19,41 +20,60 @@ class PlayPauseButtonSet extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<bool>(
-              stream: snapshot.audioPlayer.playingStream,
-              builder: (context, stateSnapshot) {
-                if (!stateSnapshot.hasData || stateSnapshot.hasError) {
-                  return const SizedBox.shrink();
-                }
-                return IconButton(
-                  onPressed: () {
-                    if (stateSnapshot.data == true) {
-                      snapshot.audioPlayer.pause();
-                    } else {
-                      snapshot.audioPlayer.play();
-                    }
-                  },
-                  icon: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    transitionBuilder: (child, animation) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
-                    },
-                    child: stateSnapshot.data == true
-                        ? Icon(
-                            CupertinoIcons.pause,
-                            size: 25,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          )
-                        : Icon(
-                            CupertinoIcons.play,
-                            size: 25,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                  ),
-                );
-              }),
+            stream: snapshot.audioPlayer.playingStream,
+            builder: (context, stateSnapshot) {
+              if (!stateSnapshot.hasData || stateSnapshot.hasError) {
+                return const SizedBox.shrink();
+              }
+              return StreamBuilder<ProcessingState>(
+                  stream: snapshot.audioPlayer.processingStateStream,
+                  builder: (context, processingSnapshot) {
+                    return IconButton(
+                      onPressed: () {
+                        if (processingSnapshot.data ==
+                            ProcessingState.completed) {
+                          snapshot.audioPlayer.seek(const Duration(seconds: 0));
+                          snapshot.audioPlayer.play();
+                        } else if (stateSnapshot.data == true) {
+                          snapshot.audioPlayer.pause();
+                        } else {
+                          snapshot.audioPlayer.play();
+                        }
+                      },
+                      icon: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
+                        child: stateSnapshot.data == true
+                            ? processingSnapshot.data ==
+                                    ProcessingState.completed
+                                ? Icon(
+                                    Iconsax.repeat,
+                                    size: 25,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  )
+                                : Icon(
+                                    CupertinoIcons.pause,
+                                    size: 25,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  )
+                            : Icon(
+                                CupertinoIcons.play,
+                                size: 25,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                      ),
+                    );
+                  });
+            },
+          ),
         );
       },
     );
