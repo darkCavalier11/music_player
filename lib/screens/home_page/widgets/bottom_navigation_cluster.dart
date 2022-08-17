@@ -84,11 +84,11 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
       case 0:
         return 9;
       case 1:
-        return navBarWidth / 3 - 42;
+        return navBarWidth / 3 - 14;
       case 2:
-        return 2 * navBarWidth / 3 - 94;
+        return 2 * navBarWidth / 3 - 36;
       default:
-        return navBarWidth - 145;
+        return navBarWidth - 60;
     }
   }
 
@@ -183,7 +183,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       curve: Curves.fastOutSlowIn,
                       top: 10,
                       left: getIconPosition(
-                          MediaQuery.of(context).size.width, _navBarIndex),
+                          MediaQuery.of(context).size.width * 0.8,
+                          _navBarIndex),
                       child: Container(
                         width: 50,
                         height: 50,
