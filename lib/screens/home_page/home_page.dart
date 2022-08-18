@@ -10,6 +10,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
+import 'package:music_player/screens/home_page/widgets/search_text_field.dart';
 import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -36,27 +37,7 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 24, right: 24, top: 64),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        prefixIcon: const Icon(CupertinoIcons.search),
-                        fillColor: AppConstants.primaryColorLight,
-                        filled: true,
-                        hintText: 'Search songs, artist & genres...',
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: SearchTextField(),
                   ),
                   const SizedBox(height: 16),
                   Padding(
@@ -115,6 +96,8 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
 
 class _ViewModel extends Vm {
   final UiState uiState;

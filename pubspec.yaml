@@ -41,6 +41,7 @@ dependencies:
   connectivity_plus: ^2.3.6
   shared_preferences: ^2.0.15
   fluttertoast: ^8.0.9
+  fluro: ^2.0.3
 
 dev_dependencies:
   flutter_test:
