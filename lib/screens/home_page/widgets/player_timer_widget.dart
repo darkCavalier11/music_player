@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -45,70 +46,93 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         return StreamBuilder<Duration?>(
-                            stream: snapshot.audioPlayer.durationStream,
-                            builder: (context, durationSnapshot) {
-                              return StreamBuilder<Duration>(
-                                  stream: snapshot.audioPlayer.positionStream,
-                                  builder: (context, positionSnapshot) {
-                                    if (durationSnapshot.hasError ||
-                                        !durationSnapshot.hasData) {
-                                      return const SizedBox.shrink();
-                                    } else if (positionSnapshot.hasError ||
-                                        !positionSnapshot.hasData) {
-                                      return const SizedBox.shrink();
-                                    }
-                                    if (!_isPanning) {
-                                      posX = positionSnapshot
-                                              .data!.inMilliseconds /
-                                          durationSnapshot
-                                              .data!.inMilliseconds *
-                                          constraints.maxWidth;
-                                    }
-                                    return Stack(
-                                      alignment: Alignment.centerLeft,
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        Container(
-                                          width: constraints.maxWidth,
-                                          height: 3,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Theme.of(context).disabledColor,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: posX,
-                                          height: 6,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(8),
-                                              topLeft: Radius.circular(8),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          left: posX - 4,
-                                          child: Container(
-                                            width: 15,
-                                            height: 15,
+                          stream: snapshot.audioPlayer.durationStream,
+                          builder: (context, durationSnapshot) {
+                            return StreamBuilder<Duration>(
+                              stream: snapshot.audioPlayer.positionStream,
+                              builder: (context, positionSnapshot) {
+                                if (durationSnapshot.hasError ||
+                                    !durationSnapshot.hasData) {
+                                  return const SizedBox.shrink();
+                                } else if (positionSnapshot.hasError ||
+                                    !positionSnapshot.hasData) {
+                                  return const SizedBox.shrink();
+                                }
+                                if (!_isPanning) {
+                                  posX = positionSnapshot.data!.inMilliseconds /
+                                      durationSnapshot.data!.inMilliseconds *
+                                      constraints.maxWidth;
+                                }
+                                return Stack(
+                                  alignment: Alignment.centerLeft,
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      width: constraints.maxWidth,
+                                      height: 3,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).disabledColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    StreamBuilder<Duration>(
+                                        stream: snapshot
+                                            .audioPlayer.bufferedPositionStream,
+                                        builder: (context, bufferSnapshot) {
+                                          if (!bufferSnapshot.hasData ||
+                                              bufferSnapshot.hasError) {
+                                            return const SizedBox.shrink();
+                                          }
+                                          final fractionCovered =
+                                              ((bufferSnapshot.data
+                                                          ?.inMicroseconds ??
+                                                      0) /
+                                                  (snapshot.audioPlayer.duration
+                                                          ?.inMicroseconds ??
+                                                      1));
+                                          return Container(
+                                            width: constraints.maxWidth *
+                                                fractionCovered,
+                                            height: 3,
                                             decoration: BoxDecoration(
-                                              color:
-                                                  Theme.of(context).canvasColor,
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
-                                          ),
+                                          );
+                                        }),
+                                    Container(
+                                      width: posX,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(8),
+                                          topLeft: Radius.circular(8),
                                         ),
-                                      ],
-                                    );
-                                  });
-                            });
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: posX - 4,
+                                      child: Container(
+                                        width: 15,
+                                        height: 15,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).canvasColor,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
                       },
                     ),
                   ),

@@ -83,10 +83,10 @@ class HomePage extends StatelessWidget {
                   MusicListTile(
                     selectedMusic: MediaItem(
                       id: 'MUSIC_ID_1',
-                      title: 'Sample Music',
-                      artist: 'Unknown',
+                      title: 'E Samaya',
+                      artist: 'Kuldeep Pattanik',
                       artUri: Uri.parse(
-                          'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3'),
+                          'https://rr1---sn-cvh7kn6z.googlevideo.com/videoplayback?expire=1661014933&ei=Nb8AY6XhE5mJs8IP4_6F0AM&ip=202.137.213.111&id=o-ANtRJfG119ViZS5VeFC6JLFpvrALU46DQaGiKKJAhNPl&itag=251&source=youtube&requiressl=yes&mh=I7&mm=31%2C29&mn=sn-cvh7kn6z%2Csn-cvh76nlz&ms=au%2Crdu&mv=m&mvi=1&pl=24&pcm2=no&initcwndbps=1035000&vprv=1&mime=audio%2Fwebm&ns=fY3I57Cke81JP8LIf-1RAUMH&gir=yes&clen=5046302&dur=307.581&lmt=1610830804512911&mt=1660993031&fvip=2&keepalive=yes&fexp=24001373%2C24007246&c=WEB&rbqsm=fr&txp=5532434&n=hP-P__8ORRiwCdX8iH&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cpcm2%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgME6lADatidKINvoj3c85rgwVuXYfqtooxfYA65gUyC4CIAxmUdvG0vZqAR3clpl7-x2hH0TFdrpwfwhL0x3BXbJO&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgf6Afsh_gZ-ncd3GLfVUHASNcDJs-fyran_0WOyPc6e0CIC0soivQl9lSjdbndkXjWI0CB4TIf4ChrZVhVrv8o4Hb'),
                     ),
                   ),
                 ],

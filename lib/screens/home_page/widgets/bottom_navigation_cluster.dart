@@ -117,7 +117,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       height: processingSnapshot.data != ProcessingState.idle
-                          ? 0
+                          ? 240
                           : 0,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -33,6 +34,9 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.of(context).pop();
+      }),
       body: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
         child: Material(

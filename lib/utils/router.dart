@@ -10,7 +10,10 @@ class AppRouter {
   });
 
   static void setupRoutes() {
-    router.define(MusicSearchScreen.routeScreen,
-        handler: _musicSearchPageHandler);
+    router.define(
+      MusicSearchScreen.routeScreen,
+      handler: _musicSearchPageHandler,
+      transitionType: TransitionType.fadeIn,
+    );
   }
 }

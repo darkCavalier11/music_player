@@ -166,17 +166,9 @@ class _PlayButtonWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {},
-        child: Row(
-          children: [
-            const Icon(
-              CupertinoIcons.play_arrow,
-              size: 18,
-            ),
-            Text(
-              '3:37',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
+        child: const Icon(
+          CupertinoIcons.play_arrow,
+          size: 18,
         ),
       ),
     );
