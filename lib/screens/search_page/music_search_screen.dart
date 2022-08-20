@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:music_player/screens/home_page/widgets/search_text_field.dart';
+import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
 
 class MusicSearchScreen extends StatefulWidget {
   const MusicSearchScreen({Key? key}) : super(key: key);

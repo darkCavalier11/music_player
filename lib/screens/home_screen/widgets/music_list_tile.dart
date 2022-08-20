@@ -5,7 +5,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/screens/home_page/actions/music_actions.dart';
+import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 

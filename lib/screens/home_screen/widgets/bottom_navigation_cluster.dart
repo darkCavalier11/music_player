@@ -10,8 +10,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/models/app_state.dart';
 
-import 'package:music_player/screens/home_page/widgets/play_pause_button.dart';
-import 'package:music_player/screens/home_page/widgets/player_timer_widget.dart';
+import 'package:music_player/screens/home_screen/widgets/play_pause_button.dart';
+import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/utils/constants.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
@@ -114,67 +114,71 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
               child: StreamBuilder<ProcessingState>(
                   stream: snapshot.processingStateStream,
                   builder: (context, processingSnapshot) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      height: processingSnapshot.data != ProcessingState.idle
-                          ? 240
-                          : 0,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: CircleAvatar(
-                                  maxRadius: 30,
-                                  backgroundImage: NetworkImage(
-                                    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+                    if (!processingSnapshot.hasData ||
+                        processingSnapshot.hasError) {
+                      return const SizedBox.shrink();
+                    }
+                    return Visibility(
+                      visible: processingSnapshot.data != ProcessingState.idle,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: CircleAvatar(
+                                    maxRadius: 30,
+                                    backgroundImage: NetworkImage(
+                                      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Sample Music',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                            color: Theme.of(context)
-                                                .scaffoldBackgroundColor,
-                                          ),
-                                    ),
-                                    Text(
-                                      'Unknown',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .overline
-                                          ?.copyWith(
-                                            color: Theme.of(context)
-                                                .backgroundColor,
-                                          ),
-                                    ),
-                                  ],
+                                const SizedBox(width: 10),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Sample Music',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                            ),
+                                      ),
+                                      Text(
+                                        'Unknown',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .overline
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const Spacer(),
-                              PlayPauseButtonSet(),
-                              MarkFavWidget(
-                                isFav: true,
-                              )
-                            ],
-                          ),
-                          PlayTimerWidget(),
-                        ],
+                                const Spacer(),
+                                PlayPauseButtonSet(),
+                                MarkFavWidget(
+                                  isFav: true,
+                                )
+                              ],
+                            ),
+                            PlayTimerWidget(),
+                          ],
+                        ),
                       ),
                     );
                   }),

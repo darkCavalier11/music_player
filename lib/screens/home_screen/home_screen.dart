@@ -7,18 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 
-import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
-import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
-import 'package:music_player/screens/home_page/widgets/search_text_field.dart';
 import 'package:music_player/screens/search_page/music_search_screen.dart';
 import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
+import '../home_screen/widgets/music_list_tile.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +178,7 @@ class _ViewModel extends Vm {
       uiState.hashCode ^ audioPlayer.hashCode ^ toggleTheme.hashCode;
 }
 
-class _Factory extends VmFactory<AppState, HomePage> {
+class _Factory extends VmFactory<AppState, HomeScreen> {
   _Factory(widget) : super(widget);
 
   @override
