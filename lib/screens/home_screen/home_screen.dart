@@ -28,69 +28,63 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: snapshot.uiState.themeMode == ThemeMode.light
               ? Colors.white
               : Colors.black,
-          body: Stack(
-            alignment: Alignment.topCenter,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24, top: 64),
-                    child: DummySearchTextField(
-                      tag: 'search',
-                      navigatingRouteName: MusicSearchScreen.routeScreen,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Iconsax.music,
-                          size: 35,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Recently played',
-                          style: Theme.of(context).textTheme.button?.copyWith(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  MusicListTile(
-                    selectedMusic: MediaItem(
-                      id: 'MUSIC_ID',
-                      title: 'Ek Ladki Ko Dekha Toh Aisa Laga [Slowed+Reverb]',
-                      artist: 'Darshan Raval',
-                      artUri: Uri.parse(
-                        'https://res.cloudinary.com/dftm6eyhx/video/upload/v1660413153/Ek_Ladki_Ko_Dekha_Toh_Aisa_Laga_Slowed_Reverb_-_Darshan_Raval___MUSIC_MANIA_LO-FI_q_MahaxjIEo_uxm3en.mp3',
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    endIndent: 20,
-                    indent: 20,
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  ),
-                  MusicListTile(
-                    selectedMusic: MediaItem(
-                      id: 'MUSIC_ID_1',
-                      title: 'E Samaya',
-                      artist: 'Kuldeep Pattanik',
-                      artUri: Uri.parse(
-                          'https://rr1---sn-cvh7kn6z.googlevideo.com/videoplayback?expire=1661014933&ei=Nb8AY6XhE5mJs8IP4_6F0AM&ip=202.137.213.111&id=o-ANtRJfG119ViZS5VeFC6JLFpvrALU46DQaGiKKJAhNPl&itag=251&source=youtube&requiressl=yes&mh=I7&mm=31%2C29&mn=sn-cvh7kn6z%2Csn-cvh76nlz&ms=au%2Crdu&mv=m&mvi=1&pl=24&pcm2=no&initcwndbps=1035000&vprv=1&mime=audio%2Fwebm&ns=fY3I57Cke81JP8LIf-1RAUMH&gir=yes&clen=5046302&dur=307.581&lmt=1610830804512911&mt=1660993031&fvip=2&keepalive=yes&fexp=24001373%2C24007246&c=WEB&rbqsm=fr&txp=5532434&n=hP-P__8ORRiwCdX8iH&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cpcm2%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgME6lADatidKINvoj3c85rgwVuXYfqtooxfYA65gUyC4CIAxmUdvG0vZqAR3clpl7-x2hH0TFdrpwfwhL0x3BXbJO&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgf6Afsh_gZ-ncd3GLfVUHASNcDJs-fyran_0WOyPc6e0CIC0soivQl9lSjdbndkXjWI0CB4TIf4ChrZVhVrv8o4Hb'),
-                    ),
-                  ),
-                ],
+              const Padding(
+                padding: EdgeInsets.only(left: 24, right: 24, top: 64),
+                child: DummySearchTextField(
+                  tag: 'search',
+                  navigatingRouteName: MusicSearchScreen.routeScreen,
+                ),
               ),
-              BottomNavigationCluster(),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Icon(
+                      Iconsax.music,
+                      size: 35,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Recently played',
+                      style: Theme.of(context).textTheme.button?.copyWith(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              MusicListTile(
+                selectedMusic: MediaItem(
+                  id: 'MUSIC_ID',
+                  title: 'Ek Ladki Ko Dekha Toh Aisa Laga [Slowed+Reverb]',
+                  artist: 'Darshan Raval',
+                  artUri: Uri.parse(
+                    'https://res.cloudinary.com/dftm6eyhx/video/upload/v1660413153/Ek_Ladki_Ko_Dekha_Toh_Aisa_Laga_Slowed_Reverb_-_Darshan_Raval___MUSIC_MANIA_LO-FI_q_MahaxjIEo_uxm3en.mp3',
+                  ),
+                ),
+              ),
+              Divider(
+                endIndent: 20,
+                indent: 20,
+                color: Theme.of(context).primaryColor.withOpacity(0.2),
+              ),
+              MusicListTile(
+                selectedMusic: MediaItem(
+                  id: 'MUSIC_ID_1',
+                  title: 'E Samaya',
+                  artist: 'Kuldeep Pattanik',
+                  artUri: Uri.parse(
+                      'https://rr1---sn-cvh7kn6z.googlevideo.com/videoplayback?expire=1661014933&ei=Nb8AY6XhE5mJs8IP4_6F0AM&ip=202.137.213.111&id=o-ANtRJfG119ViZS5VeFC6JLFpvrALU46DQaGiKKJAhNPl&itag=251&source=youtube&requiressl=yes&mh=I7&mm=31%2C29&mn=sn-cvh7kn6z%2Csn-cvh76nlz&ms=au%2Crdu&mv=m&mvi=1&pl=24&pcm2=no&initcwndbps=1035000&vprv=1&mime=audio%2Fwebm&ns=fY3I57Cke81JP8LIf-1RAUMH&gir=yes&clen=5046302&dur=307.581&lmt=1610830804512911&mt=1660993031&fvip=2&keepalive=yes&fexp=24001373%2C24007246&c=WEB&rbqsm=fr&txp=5532434&n=hP-P__8ORRiwCdX8iH&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cpcm2%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRAIgME6lADatidKINvoj3c85rgwVuXYfqtooxfYA65gUyC4CIAxmUdvG0vZqAR3clpl7-x2hH0TFdrpwfwhL0x3BXbJO&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgf6Afsh_gZ-ncd3GLfVUHASNcDJs-fyran_0WOyPc6e0CIC0soivQl9lSjdbndkXjWI0CB4TIf4ChrZVhVrv8o4Hb'),
+                ),
+              ),
             ],
           ),
         );

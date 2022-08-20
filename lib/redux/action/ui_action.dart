@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:developer';
 
@@ -16,6 +17,21 @@ class ChangeThemeAction extends ReduxAction<AppState> {
     return state.copyWith(
       uiState: state.uiState.copyWith(
         themeMode: themeMode,
+      ),
+    );
+  }
+}
+
+class ChangeBottomNavIndex extends ReduxAction<AppState> {
+  final int index;
+  ChangeBottomNavIndex({
+    required this.index,
+  });
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      uiState: state.uiState.copyWith(
+        currentBottomNavIndex: index,
       ),
     );
   }

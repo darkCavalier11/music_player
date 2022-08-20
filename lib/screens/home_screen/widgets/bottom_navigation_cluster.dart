@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:math' hide log;
 
@@ -8,15 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_player/redux/models/app_state.dart';
 
+import 'package:music_player/redux/action/ui_action.dart';
+import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/widgets/play_pause_button.dart';
 import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/utils/constants.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
+  final Function(int) onPageChanged;
   const BottomNavigationCluster({
     Key? key,
+    required this.onPageChanged,
   }) : super(key: key);
 
   @override
@@ -31,7 +35,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   Widget _accountIcon = const Icon(CupertinoIcons.person);
 
   void _selectNavByIndex(int index) {
-    _navBarIndex = index;
+    widget.onPageChanged(index);
     _homeIcon = const Icon(
       Iconsax.home_1,
       key: ValueKey<int>(0),
@@ -78,10 +82,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
         );
         break;
     }
-    setState(() {});
   }
 
-  int _navBarIndex = 0;
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
       case 0:
@@ -91,7 +93,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
       case 2:
         return 2 * navBarWidth / 3 - 36;
       default:
-        return navBarWidth - 60;
+        return navBarWidth - 59;
     }
   }
 
@@ -199,7 +201,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                         top: 10,
                         left: getIconPosition(
                             MediaQuery.of(context).size.width * 0.8,
-                            _navBarIndex),
+                            snapshot.currentBottomNavIndex),
                         child: Container(
                           width: 50,
                           height: 50,
@@ -218,24 +220,28 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                             BottomNavigationBottom(
                               homeIcon: _homeIcon,
                               onTap: () {
+                                snapshot.changeBottomNavIndex(0);
                                 _selectNavByIndex(0);
                               },
                             ),
                             BottomNavigationBottom(
                               homeIcon: _favIcon,
                               onTap: () {
+                                snapshot.changeBottomNavIndex(1);
                                 _selectNavByIndex(1);
                               },
                             ),
                             BottomNavigationBottom(
                               homeIcon: _playlistIcon,
                               onTap: () {
+                                snapshot.changeBottomNavIndex(2);
                                 _selectNavByIndex(2);
                               },
                             ),
                             BottomNavigationBottom(
                               homeIcon: _accountIcon,
                               onTap: () {
+                                snapshot.changeBottomNavIndex(3);
                                 _selectNavByIndex(3);
                               },
                             ),
@@ -257,9 +263,28 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
 
 class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
+  final int currentBottomNavIndex;
+  final Function(int) changeBottomNavIndex;
   _ViewModel({
     required this.processingStateStream,
+    required this.currentBottomNavIndex,
+    required this.changeBottomNavIndex,
   });
+
+  @override
+  bool operator ==(covariant _ViewModel other) {
+    if (identical(this, other)) return true;
+
+    return other.processingStateStream == processingStateStream &&
+        other.currentBottomNavIndex == currentBottomNavIndex &&
+        other.changeBottomNavIndex == changeBottomNavIndex;
+  }
+
+  @override
+  int get hashCode =>
+      processingStateStream.hashCode ^
+      currentBottomNavIndex.hashCode ^
+      changeBottomNavIndex.hashCode;
 }
 
 class _Factory extends VmFactory<AppState, _BottomNavigationClusterState> {
@@ -269,7 +294,11 @@ class _Factory extends VmFactory<AppState, _BottomNavigationClusterState> {
   _ViewModel fromStore() {
     return _ViewModel(
         processingStateStream:
-            state.audioPlayerState.audioPlayer.processingStateStream);
+            state.audioPlayerState.audioPlayer.processingStateStream,
+        currentBottomNavIndex: state.uiState.currentBottomNavIndex,
+        changeBottomNavIndex: (index) {
+          dispatch(ChangeBottomNavIndex(index: index));
+        });
   }
 }
 
