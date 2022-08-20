@@ -1,4 +1,3 @@
-
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,11 +6,13 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_page/home_page.dart';
+import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 
 late Store<AppState> store;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppRouter.setupRoutes();
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.getDarkTheme,
           debugShowCheckedModeBanner: false,
           home: HomePage(),
+          onGenerateRoute: AppRouter.router.generator,
         );
       },
     );

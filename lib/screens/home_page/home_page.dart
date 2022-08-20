@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:math';
+import 'dart:math' hide log;
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +11,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/screens/home_page/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/home_page/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_page/widgets/search_text_field.dart';
+import 'package:music_player/screens/search_page/music_search_screen.dart';
 import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -34,10 +35,12 @@ class HomePage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 24, right: 24, top: 64),
-                    child: SearchTextField(),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24, top: 64),
+                    child: DummySearchTextField(
+                      tag: 'search',
+                      navigatingRouteName: MusicSearchScreen.routeScreen,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Padding(
@@ -97,7 +100,59 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// responsible for holding a dummy text field that will navigate on tap to a different route.
+class DummySearchTextField extends StatelessWidget {
+  final String tag;
+  final String navigatingRouteName;
+  const DummySearchTextField({
+    required this.navigatingRouteName,
+    required this.tag,
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: tag,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(navigatingRouteName);
+        },
+        child: Material(
+          color: Colors.transparent,
+          child: TextField(
+            enabled: false,
+            decoration: InputDecoration(
+              isDense: true,
+              prefixIcon: const Icon(CupertinoIcons.search),
+              fillColor: AppConstants.primaryColorLight,
+              filled: true,
+              hintText: 'Search songs, artist & genres...',
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                ),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class _ViewModel extends Vm {
   final UiState uiState;
