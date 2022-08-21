@@ -1,11 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-import 'dart:html';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_model.dart';
+import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/utils/api_request.dart';
+import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/url.dart';
 
 class _ChangeSearchQuery extends ReduxAction<AppState> {
@@ -29,10 +33,26 @@ class _FetchSearchQueryResults extends ReduxAction<AppState> {
     required this.query,
   });
   @override
-  Future<AppState> reduce() async {
-    final res = await ApiRequest.get(AppUrl.suggestionUrl(query));
-    print(res);
-    return state;
+  Future<AppState?> reduce() async {
+    try {
+      dispatch(
+          _SetSearchCurrentStateAction(loadingState: LoadingState.loading));
+      final res = await ApiRequest.get(AppUrl.suggestionUrl(query));
+      if (res.statusCode == 200) {
+        dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.idle));
+        final searchResult = MusicSearchResults.fromCustomJson(
+            jsonDecode(res.body.replaceAll(')]}\'', '')) as List);
+        return state.copyWith(
+          searchState: state.searchState.copyWith(
+            musicSearchResults: searchResult,
+          ),
+        );
+      }
+      dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.failed));
+    } catch (err) {
+      log(err.toString());
+      dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.failed));
+    }
   }
 }
 
@@ -45,5 +65,20 @@ class OnChangeSearchQueryAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     dispatch(_ChangeSearchQuery(query: query));
     dispatch(_FetchSearchQueryResults(query: query));
+  }
+}
+
+class _SetSearchCurrentStateAction extends ReduxAction<AppState> {
+  final LoadingState loadingState;
+  _SetSearchCurrentStateAction({
+    required this.loadingState,
+  });
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      searchState: state.searchState.copyWith(
+        currentSeacrhState: loadingState,
+      ),
+    );
   }
 }

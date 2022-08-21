@@ -1,11 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
@@ -39,6 +43,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
+        log(snapshot.currentSeacrhState.toString());
         return Scaffold(
           floatingActionButton: FloatingActionButton(onPressed: () {
             Navigator.of(context).pop();
@@ -67,21 +72,51 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                   ),
                   const Divider(),
-                  LoadingIndicator.small(context),
-                  Expanded(
+                  if (snapshot.currentSeacrhState == LoadingState.loading)
+                    LoadingIndicator.small(context),
+                  Flexible(
+                    flex: 1,
                     child: ListView.builder(
+                      padding: const EdgeInsets.all(0),
                       itemBuilder: (context, index) {
+                        final searchWords = snapshot.query.split(' ');
+                        final currentSearchResult =
+                            snapshot.searchResults[index].split(' ');
+                        List<TextSpan> displayText = [];
+                        for (var w1 in currentSearchResult) {
+                          if (searchWords.contains(w1)) {
+                            displayText.add(
+                              TextSpan(
+                                text: w1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            );
+                          } else {
+                            displayText.add(TextSpan(
+                                text: w1,
+                                style: Theme.of(context).textTheme.bodyText1));
+                          }
+                          displayText.add(const TextSpan(text: ' '));
+                        }
+
                         return ListTile(
                           title: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Text('Title $index'),
+                            child: RichText(
+                              text: TextSpan(children: displayText),
+                            ),
                           ),
                           onTap: () {
                             print('object');
                           },
                         );
                       },
-                      itemCount: 10,
+                      itemCount: snapshot.searchResults.length,
                     ),
                   ),
                 ],
@@ -97,10 +132,32 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
 class _ViewModel extends Vm {
   final String query;
   final void Function(String) changeSearchQuery;
+  final LoadingState currentSeacrhState;
+  final List<String> searchResults;
   _ViewModel({
     required this.query,
     required this.changeSearchQuery,
-  });
+    required this.currentSeacrhState,
+    required this.searchResults,
+  }) : super(equals: [query, currentSeacrhState, searchResults]);
+
+  @override
+  bool operator ==(covariant _ViewModel other) {
+    if (identical(this, other)) return true;
+
+    return other.query == query &&
+        other.changeSearchQuery == changeSearchQuery &&
+        other.currentSeacrhState == currentSeacrhState &&
+        listEquals(other.searchResults, searchResults);
+  }
+
+  @override
+  int get hashCode {
+    return query.hashCode ^
+        changeSearchQuery.hashCode ^
+        currentSeacrhState.hashCode ^
+        searchResults.hashCode;
+  }
 }
 
 class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
@@ -109,10 +166,12 @@ class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      searchResults: state.searchState.musicSearchResults.searchResults,
       query: state.searchState.query,
       changeSearchQuery: (query) {
         dispatch(OnChangeSearchQueryAction(query: query));
       },
+      currentSeacrhState: state.searchState.currentSeacrhState,
     );
   }
 }

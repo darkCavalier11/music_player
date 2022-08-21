@@ -5,12 +5,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/screens/account_screen/account_screen.dart';
-import 'package:music_player/screens/favorite_page/favorite_screen.dart';
-import 'package:music_player/screens/home_screen/home_screen.dart';
-import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/page_view_navigation.dart';
-import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
 import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 
