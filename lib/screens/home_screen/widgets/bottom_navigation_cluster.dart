@@ -29,61 +29,6 @@ class BottomNavigationCluster extends StatefulWidget {
 }
 
 class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
-  Widget _homeIcon = const Icon(Iconsax.home1);
-  Widget _favIcon = const Icon(CupertinoIcons.heart);
-  Widget _playlistIcon = const Icon(Iconsax.music_playlist);
-  Widget _accountIcon = const Icon(CupertinoIcons.person);
-
-  void _selectNavByIndex(int index) {
-    widget.onPageChanged(index);
-    _homeIcon = const Icon(
-      Iconsax.home_1,
-      key: ValueKey<int>(0),
-    );
-    _favIcon = const Icon(
-      CupertinoIcons.heart,
-      key: ValueKey<int>(1),
-    );
-    _playlistIcon = const Icon(
-      Iconsax.music_playlist,
-      key: ValueKey<int>(2),
-    );
-    _accountIcon = const Icon(
-      CupertinoIcons.person,
-      key: ValueKey<int>(3),
-    );
-    switch (index) {
-      case 0:
-        _homeIcon = const Icon(
-          Iconsax.home1,
-          color: Colors.white,
-          key: ValueKey<int>(10),
-        );
-        break;
-      case 1:
-        _favIcon = const Icon(
-          CupertinoIcons.heart_fill,
-          color: Colors.white,
-          key: ValueKey<int>(11),
-        );
-        break;
-      case 2:
-        _playlistIcon = const Icon(
-          Iconsax.music_playlist5,
-          color: Colors.white,
-          key: ValueKey<int>(12),
-        );
-        break;
-      case 3:
-        _accountIcon = const Icon(
-          CupertinoIcons.person_fill,
-          color: Colors.white,
-          key: ValueKey<int>(14),
-        );
-        break;
-    }
-  }
-
   static double getIconPosition(double navBarWidth, int index) {
     switch (index) {
       case 0:
@@ -100,7 +45,6 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
   @override
   void initState() {
     super.initState();
-    _selectNavByIndex(0);
   }
 
   @override
@@ -218,31 +162,63 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             BottomNavigationBottom(
-                              homeIcon: _homeIcon,
+                              homeIcon: snapshot.currentBottomNavIndex == 0
+                                  ? const Icon(
+                                      Iconsax.home1,
+                                      color: Colors.white,
+                                      key: ValueKey<int>(10),
+                                    )
+                                  : const Icon(
+                                      Iconsax.home_1,
+                                      key: ValueKey<int>(0),
+                                    ),
                               onTap: () {
                                 snapshot.changeBottomNavIndex(0);
-                                _selectNavByIndex(0);
                               },
                             ),
                             BottomNavigationBottom(
-                              homeIcon: _favIcon,
+                              homeIcon: snapshot.currentBottomNavIndex == 1
+                                  ? const Icon(
+                                      CupertinoIcons.heart_fill,
+                                      color: Colors.white,
+                                      key: ValueKey<int>(11),
+                                    )
+                                  : const Icon(
+                                      CupertinoIcons.heart,
+                                      key: ValueKey<int>(1),
+                                    ),
                               onTap: () {
                                 snapshot.changeBottomNavIndex(1);
-                                _selectNavByIndex(1);
                               },
                             ),
                             BottomNavigationBottom(
-                              homeIcon: _playlistIcon,
+                              homeIcon: snapshot.currentBottomNavIndex == 2
+                                  ? const Icon(
+                                      Iconsax.music_playlist5,
+                                      color: Colors.white,
+                                      key: ValueKey<int>(12),
+                                    )
+                                  : const Icon(
+                                      Iconsax.music_playlist,
+                                      key: ValueKey<int>(2),
+                                    ),
                               onTap: () {
                                 snapshot.changeBottomNavIndex(2);
-                                _selectNavByIndex(2);
                               },
                             ),
                             BottomNavigationBottom(
-                              homeIcon: _accountIcon,
+                              homeIcon: snapshot.currentBottomNavIndex == 3
+                                  ? const Icon(
+                                      CupertinoIcons.person_fill,
+                                      color: Colors.white,
+                                      key: ValueKey<int>(10),
+                                    )
+                                  : const Icon(
+                                      CupertinoIcons.person,
+                                      key: ValueKey<int>(1),
+                                    ),
                               onTap: () {
                                 snapshot.changeBottomNavIndex(3);
-                                _selectNavByIndex(3);
                               },
                             ),
                           ],
