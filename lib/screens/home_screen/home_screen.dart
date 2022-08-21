@@ -9,12 +9,12 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 
-import 'package:music_player/screens/search_page/music_search_screen.dart';
 import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
 import '../home_screen/widgets/music_list_tile.dart';
+import '../music_search_screen/music_search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

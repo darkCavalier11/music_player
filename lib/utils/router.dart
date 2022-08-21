@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
-import 'package:music_player/screens/search_page/music_search_screen.dart';
+
+import '../screens/music_search_screen/music_search_screen.dart';
 
 class AppRouter {
   static FluroRouter router = FluroRouter();

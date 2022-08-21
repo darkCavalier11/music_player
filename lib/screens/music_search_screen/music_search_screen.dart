@@ -14,19 +14,16 @@ class MusicSearchScreen extends StatefulWidget {
 }
 
 class _MusicSearchScreenState extends State<MusicSearchScreen> {
-  late FocusNode _focusNode;
   late TextEditingController _textEditingController;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
     _textEditingController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
     _textEditingController.dispose();
     super.dispose();
   }

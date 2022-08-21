@@ -57,13 +57,15 @@ class _PageViewNavigationState extends State<PageViewNavigation> {
                 AccountScreen(),
               ],
             ),
-            BottomNavigationCluster(onPageChanged: (page) {
-              _pageController.animateToPage(
-                page,
-                curve: Curves.fastOutSlowIn,
-                duration: const Duration(milliseconds: 200),
-              );
-            }),
+            BottomNavigationCluster(
+              onPageChanged: (page) {
+                _pageController.animateToPage(
+                  page,
+                  curve: Curves.fastOutSlowIn,
+                  duration: const Duration(milliseconds: 200),
+                );
+              },
+            ),
           ],
         );
       },

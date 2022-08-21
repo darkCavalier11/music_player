@@ -173,6 +173,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       key: ValueKey<int>(0),
                                     ),
                               onTap: () {
+                                widget.onPageChanged(0);
                                 snapshot.changeBottomNavIndex(0);
                               },
                             ),
@@ -188,6 +189,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       key: ValueKey<int>(1),
                                     ),
                               onTap: () {
+                                widget.onPageChanged(1);
                                 snapshot.changeBottomNavIndex(1);
                               },
                             ),
@@ -203,6 +205,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       key: ValueKey<int>(2),
                                     ),
                               onTap: () {
+                                widget.onPageChanged(2);
                                 snapshot.changeBottomNavIndex(2);
                               },
                             ),
@@ -218,6 +221,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       key: ValueKey<int>(1),
                                     ),
                               onTap: () {
+                                widget.onPageChanged(3);
                                 snapshot.changeBottomNavIndex(3);
                               },
                             ),
