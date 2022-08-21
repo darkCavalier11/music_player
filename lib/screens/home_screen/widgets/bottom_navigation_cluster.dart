@@ -116,7 +116,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                   ),
                                 ),
                                 const Spacer(),
-                                PlayPauseButtonSet(),
+                                const PlayPauseButtonSet(),
                                 MarkFavWidget(
                                   isFav: true,
                                 )
