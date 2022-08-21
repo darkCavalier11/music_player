@@ -14,7 +14,7 @@ class AppRouter {
     router.define(
       MusicSearchScreen.routeScreen,
       handler: _musicSearchPageHandler,
-      transitionType: TransitionType.fadeIn,
+      transitionType: TransitionType.cupertinoFullScreenDialog,
     );
   }
 }
