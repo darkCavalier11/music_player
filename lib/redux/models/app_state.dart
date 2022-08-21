@@ -3,22 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/models/audio_player_state.dart';
+import 'package:music_player/redux/models/search_state.dart';
 
 class AppState {
   final UiState uiState;
   final AudioPlayerState audioPlayerState;
+  final SearchState searchState;
   AppState({
     required this.uiState,
     required this.audioPlayerState,
+    required this.searchState,
   });
 
   AppState copyWith({
     UiState? uiState,
     AudioPlayerState? audioPlayerState,
+    SearchState? searchState,
   }) {
     return AppState(
       uiState: uiState ?? this.uiState,
       audioPlayerState: audioPlayerState ?? this.audioPlayerState,
+      searchState: searchState ?? this.searchState,
     );
   }
 
@@ -26,23 +31,25 @@ class AppState {
     return AppState(
       uiState: UiState.initial(),
       audioPlayerState: AudioPlayerState.initial(),
+      searchState: SearchState.initial(),
     );
   }
 
   @override
-  String toString() => 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState)';
+  String toString() => 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState)';
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(covariant AppState other) {
     if (identical(this, other)) return true;
   
-    return other is AppState &&
+    return 
       other.uiState == uiState &&
-      other.audioPlayerState == audioPlayerState;
+      other.audioPlayerState == audioPlayerState &&
+      other.searchState == searchState;
   }
 
   @override
-  int get hashCode => uiState.hashCode ^ audioPlayerState.hashCode;
+  int get hashCode => uiState.hashCode ^ audioPlayerState.hashCode ^ searchState.hashCode;
 }
 
 class UiState {
