@@ -111,7 +111,7 @@ class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
     return _ViewModel(
       query: state.searchState.query,
       changeSearchQuery: (query) {
-        dispatch(ChangeSearchQuery(query: query));
+        dispatch(OnChangeSearchQueryAction(query: query));
       },
     );
   }

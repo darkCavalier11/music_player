@@ -1,13 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:html';
 
 import 'package:async_redux/async_redux.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/utils/api_request.dart';
+import 'package:music_player/utils/url.dart';
 
-class ChangeSearchQuery extends ReduxAction<AppState> {
+class _ChangeSearchQuery extends ReduxAction<AppState> {
   final String query;
-  ChangeSearchQuery({
+  _ChangeSearchQuery({
     required this.query,
   });
   @override
@@ -20,13 +23,27 @@ class ChangeSearchQuery extends ReduxAction<AppState> {
   }
 }
 
-class FetchSearchQueryResults extends ReduxAction<AppState> {
+class _FetchSearchQueryResults extends ReduxAction<AppState> {
   final String query;
-  FetchSearchQueryResults({
+  _FetchSearchQueryResults({
     required this.query,
   });
   @override
-  Future<AppState?> reduce() {
-    throw UnimplementedError();
+  Future<AppState> reduce() async {
+    final res = await ApiRequest.get(AppUrl.suggestionUrl(query));
+    print(res);
+    return state;
+  }
+}
+
+class OnChangeSearchQueryAction extends ReduxAction<AppState> {
+  final String query;
+  OnChangeSearchQueryAction({
+    required this.query,
+  });
+  @override
+  Future<AppState?> reduce() async {
+    dispatch(_ChangeSearchQuery(query: query));
+    dispatch(_FetchSearchQueryResults(query: query));
   }
 }

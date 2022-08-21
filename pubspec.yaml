@@ -43,6 +43,7 @@ dependencies:
   fluttertoast: ^8.0.9
   fluro: ^2.0.3
   dio: ^4.0.6
+  collection: ^1.16.0
 
 dev_dependencies:
   flutter_test:
