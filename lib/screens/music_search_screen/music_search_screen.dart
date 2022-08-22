@@ -83,25 +83,55 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                         final currentSearchResult =
                             snapshot.searchResults[index].split(' ');
                         List<TextSpan> displayText = [];
-                        for (var w1 in currentSearchResult) {
-                          if (searchWords.contains(w1)) {
-                            displayText.add(
-                              TextSpan(
-                                text: w1,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            );
-                          } else {
-                            displayText.add(TextSpan(
-                                text: w1,
-                                style: Theme.of(context).textTheme.bodyText1));
+                        if (snapshot.searchResults[index]
+                            .contains(snapshot.query)) {
+                          final searchString = snapshot.query;
+                          final resultString = snapshot.searchResults[index];
+                          final highlightPart = resultString.substring(
+                              resultString.indexOf(searchString),
+                              resultString.indexOf(searchString) +
+                                  searchString.length);
+                          final nonHighlightPartLeft = resultString.substring(
+                                  0, resultString.indexOf(searchString)),
+                              nonHighlightPartRight = resultString.substring(
+                                  resultString.indexOf(searchString) +
+                                      searchString.length);
+                          displayText.add(TextSpan(
+                              text: nonHighlightPartLeft,
+                              style: Theme.of(context).textTheme.bodyLarge));
+                          displayText.add(TextSpan(
+                              text: highlightPart,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  )));
+                          displayText.add(TextSpan(
+                              text: nonHighlightPartRight,
+                              style: Theme.of(context).textTheme.bodyLarge));
+                        } else {
+                          for (var w1 in currentSearchResult) {
+                            if (searchWords.contains(w1)) {
+                              displayText.add(
+                                TextSpan(
+                                  text: w1,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              );
+                            } else {
+                              displayText.add(TextSpan(
+                                  text: w1,
+                                  style:
+                                      Theme.of(context).textTheme.bodyText1));
+                            }
+                            displayText.add(const TextSpan(text: ' '));
                           }
-                          displayText.add(const TextSpan(text: ' '));
                         }
 
                         return ListTile(
@@ -112,7 +142,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                             ),
                           ),
                           onTap: () {
-                            print('object');
+                            log(displayText.toString());
                           },
                         );
                       },
