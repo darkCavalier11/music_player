@@ -44,6 +44,7 @@ dependencies:
   fluro: ^2.0.3
   collection: ^1.16.0
   http: ^0.13.5
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

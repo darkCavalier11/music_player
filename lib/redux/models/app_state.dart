@@ -1,29 +1,35 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/models/audio_player_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 
 class AppState {
   final UiState uiState;
   final AudioPlayerState audioPlayerState;
   final SearchState searchState;
+  final List<MusicItem> searchScreenMusicItems;
   AppState({
     required this.uiState,
     required this.audioPlayerState,
     required this.searchState,
+    required this.searchScreenMusicItems,
   });
 
   AppState copyWith({
     UiState? uiState,
     AudioPlayerState? audioPlayerState,
     SearchState? searchState,
+    List<MusicItem>? searchScreenMusicItems,
   }) {
     return AppState(
       uiState: uiState ?? this.uiState,
       audioPlayerState: audioPlayerState ?? this.audioPlayerState,
       searchState: searchState ?? this.searchState,
+      searchScreenMusicItems: searchScreenMusicItems ?? this.searchScreenMusicItems,
     );
   }
 
@@ -32,11 +38,14 @@ class AppState {
       uiState: UiState.initial(),
       audioPlayerState: AudioPlayerState.initial(),
       searchState: SearchState.initial(),
+      searchScreenMusicItems: [],
     );
   }
 
   @override
-  String toString() => 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState)';
+  String toString() {
+    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, searchScreenMusicItems: $searchScreenMusicItems)';
+  }
 
   @override
   bool operator ==(covariant AppState other) {
@@ -45,11 +54,17 @@ class AppState {
     return 
       other.uiState == uiState &&
       other.audioPlayerState == audioPlayerState &&
-      other.searchState == searchState;
+      other.searchState == searchState &&
+      listEquals(other.searchScreenMusicItems, searchScreenMusicItems);
   }
 
   @override
-  int get hashCode => uiState.hashCode ^ audioPlayerState.hashCode ^ searchState.hashCode;
+  int get hashCode {
+    return uiState.hashCode ^
+      audioPlayerState.hashCode ^
+      searchState.hashCode ^
+      searchScreenMusicItems.hashCode;
+  }
 }
 
 class UiState {
