@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:html/parser.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/music_model.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/utils/api_request.dart';
@@ -81,4 +83,43 @@ class _SetSearchCurrentStateAction extends ReduxAction<AppState> {
       ),
     );
   }
+}
+
+class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
+  final String searchQuery;
+  GetMusicItemFromQueryAction({
+    required this.searchQuery,
+  });
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final res = await ApiRequest.get(AppUrl.searchResultUrl(searchQuery));
+      if (res.statusCode == 200) {
+        final json = decodeHtmlResponse(res.body);
+        final items = json['contents']['twoColumnSearchResultsRenderer']
+                ['primaryContents']['sectionListRenderer']['contents'][0]
+            ['itemSectionRenderer']['contents'];
+        final List<MusicItem> searchScreenMusicItems = [];
+        for (var item in items) {
+          searchScreenMusicItems.add(MusicItem.fromJson(item['videoRenderer']));
+        }
+        return state.copyWith(
+          searchScreenMusicItems: searchScreenMusicItems,
+        );
+      }
+    } catch (err) {
+      log(err.toString());
+    }
+  }
+}
+
+dynamic decodeHtmlResponse(String response) {
+  final scriptElements = parse(response).getElementsByTagName('script');
+  final contentElement = scriptElements.firstWhere((element) {
+    return element.innerHtml.startsWith('var ytInitialData');
+  });
+  final formatedJson = contentElement.innerHtml
+      .replaceAll('var ytInitialData =', '')
+      .replaceFirst(';', '', contentElement.innerHtml.length - 20);
+  return jsonDecode(formatedJson);
 }
