@@ -142,7 +142,8 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                             ),
                           ),
                           onTap: () {
-                            log(displayText.toString());
+                            snapshot.onTapSearchResult(
+                                snapshot.searchResults[index]);
                           },
                         );
                       },
@@ -164,11 +165,13 @@ class _ViewModel extends Vm {
   final void Function(String) changeSearchQuery;
   final LoadingState currentSeacrhState;
   final List<String> searchResults;
+  final void Function(String) onTapSearchResult;
   _ViewModel({
     required this.query,
     required this.changeSearchQuery,
     required this.currentSeacrhState,
     required this.searchResults,
+    required this.onTapSearchResult,
   }) : super(equals: [query, currentSeacrhState, searchResults]);
 
   @override
@@ -178,7 +181,8 @@ class _ViewModel extends Vm {
     return other.query == query &&
         other.changeSearchQuery == changeSearchQuery &&
         other.currentSeacrhState == currentSeacrhState &&
-        listEquals(other.searchResults, searchResults);
+        listEquals(other.searchResults, searchResults) &&
+        other.onTapSearchResult == onTapSearchResult;
   }
 
   @override
@@ -186,7 +190,8 @@ class _ViewModel extends Vm {
     return query.hashCode ^
         changeSearchQuery.hashCode ^
         currentSeacrhState.hashCode ^
-        searchResults.hashCode;
+        searchResults.hashCode ^
+        onTapSearchResult.hashCode;
   }
 }
 
@@ -196,6 +201,9 @@ class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      onTapSearchResult: (query) {
+        dispatch(GetMusicItemFromQueryAction(searchQuery: query));
+      },
       searchResults: state.searchState.musicSearchResults.searchResults,
       query: state.searchState.query,
       changeSearchQuery: (query) {
