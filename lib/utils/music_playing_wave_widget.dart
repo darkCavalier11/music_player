@@ -38,6 +38,7 @@ class _AnimatedMusicWaveState extends State<MusicPlayingWaveWidget>
       if (!event) {
         _animationController.stop();
       } else {
+        _animationController.forward();
         _animationController.repeat(reverse: true);
       }
     });

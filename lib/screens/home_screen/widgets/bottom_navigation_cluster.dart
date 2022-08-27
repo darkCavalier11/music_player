@@ -65,7 +65,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       return const SizedBox.shrink();
                     }
                     return Visibility(
-                      visible: processingSnapshot.data != ProcessingState.idle,
+                      visible:
+                          processingSnapshot.data != ProcessingState.buffering,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 240,
