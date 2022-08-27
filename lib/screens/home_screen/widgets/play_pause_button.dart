@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
+
 import 'package:music_player/redux/models/app_state.dart';
 
 class PlayPauseButtonSet extends StatelessWidget {
@@ -69,7 +72,7 @@ class PlayPauseButtonSet extends StatelessWidget {
                                             .scaffoldBackgroundColor,
                                       )
                                 : Icon(
-                                    CupertinoIcons.play,
+                                    CupertinoIcons.play_circle,
                                     size: 25,
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
@@ -89,7 +92,11 @@ class PlayPauseButtonSet extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final AudioPlayer audioPlayer;
-  _ViewModel({required this.audioPlayer});
+  final MediaItem? selectedMusic;
+  _ViewModel({
+    required this.audioPlayer,
+    required this.selectedMusic,
+  });
 }
 
 class _Factory extends VmFactory<AppState, PlayPauseButtonSet> {
@@ -98,6 +105,7 @@ class _Factory extends VmFactory<AppState, PlayPauseButtonSet> {
   _ViewModel fromStore() {
     return _ViewModel(
       audioPlayer: state.audioPlayerState.audioPlayer,
+      selectedMusic: state.audioPlayerState.selectedMusic,
     );
   }
 }

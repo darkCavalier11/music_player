@@ -43,7 +43,6 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
-        log(snapshot.currentSeacrhState.toString());
         return Scaffold(
           floatingActionButton: FloatingActionButton(onPressed: () {
             Navigator.of(context).pop();

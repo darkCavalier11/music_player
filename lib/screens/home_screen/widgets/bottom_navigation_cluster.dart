@@ -57,80 +57,72 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
           alignment: Alignment.bottomCenter,
           children: [
             ClipRRect(
-              child: StreamBuilder<ProcessingState>(
-                  stream: snapshot.processingStateStream,
-                  builder: (context, processingSnapshot) {
-                    if (!processingSnapshot.hasData ||
-                        processingSnapshot.hasError) {
-                      return const SizedBox.shrink();
-                    }
-                    return Visibility(
-                      visible:
-                          processingSnapshot.data != ProcessingState.buffering,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 240,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                child: Visibility(
+              visible: snapshot.selectedMusic != null,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 240,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: CircleAvatar(
+                            maxRadius: 30,
+                            backgroundImage: NetworkImage(
+                              'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+                            ),
+                          ),
                         ),
-                        child: Column(
-                          children: [
-                            Row(
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: CircleAvatar(
-                                    maxRadius: 30,
-                                    backgroundImage: NetworkImage(
-                                      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Sample Music',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
-                                            ),
+                                // todo : add trasition animation
+                                Text(
+                                  snapshot.selectedMusic?.title ?? '-',
+                                  maxLines: 1,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                       ),
-                                      Text(
-                                        'Unknown',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .overline
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .backgroundColor,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                                const Spacer(),
-                                const PlayPauseButtonSet(),
-                                MarkFavWidget(
-                                  isFav: true,
-                                )
+                                Text(
+                                  snapshot.selectedMusic?.artist ?? 'Unknown',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .overline
+                                      ?.copyWith(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                ),
                               ],
                             ),
-                            PlayTimerWidget(),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-            ),
+                        const PlayPauseButtonSet(),
+                        MarkFavWidget(
+                          isFav: true,
+                        )
+                      ],
+                    ),
+                    PlayTimerWidget(),
+                  ],
+                ),
+              ),
+            )),
             Column(
               children: [
                 Container(
@@ -245,12 +237,14 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
 
 class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
+  final MediaItem? selectedMusic;
   final int currentBottomNavIndex;
   final Function(int) changeBottomNavIndex;
   _ViewModel({
     required this.processingStateStream,
     required this.currentBottomNavIndex,
     required this.changeBottomNavIndex,
+    required this.selectedMusic,
   });
 
   @override
@@ -275,6 +269,7 @@ class _Factory extends VmFactory<AppState, _BottomNavigationClusterState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+        selectedMusic: state.audioPlayerState.selectedMusic,
         processingStateStream:
             state.audioPlayerState.audioPlayer.processingStateStream,
         currentBottomNavIndex: state.uiState.currentBottomNavIndex,
