@@ -28,47 +28,54 @@ class PlayPauseButtonSet extends StatelessWidget {
               return StreamBuilder<ProcessingState>(
                   stream: snapshot.audioPlayer.processingStateStream,
                   builder: (context, processingSnapshot) {
-                    return IconButton(
-                      onPressed: () {
-                        if (processingSnapshot.data ==
-                            ProcessingState.completed) {
-                          snapshot.audioPlayer.seek(const Duration(seconds: 0));
-                          snapshot.audioPlayer.play();
-                        } else if (stateSnapshot.data == true) {
-                          snapshot.audioPlayer.pause();
-                        } else {
-                          snapshot.audioPlayer.play();
-                        }
-                      },
-                      icon: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        transitionBuilder: (child, animation) {
-                          return ScaleTransition(
-                            scale: animation,
-                            child: child,
-                          );
-                        },
-                        child: stateSnapshot.data == true
-                            ? processingSnapshot.data ==
-                                    ProcessingState.completed
-                                ? Icon(
-                                    Iconsax.repeat,
-                                    size: 25,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  )
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Material(
+                        color: Theme.of(context).primaryColor.withAlpha(0),
+                        child: IconButton(
+                          onPressed: () {
+                            if (processingSnapshot.data ==
+                                ProcessingState.completed) {
+                              snapshot.audioPlayer
+                                  .seek(const Duration(seconds: 0));
+                              snapshot.audioPlayer.play();
+                            } else if (stateSnapshot.data == true) {
+                              snapshot.audioPlayer.pause();
+                            } else {
+                              snapshot.audioPlayer.play();
+                            }
+                          },
+                          icon: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 200),
+                            transitionBuilder: (child, animation) {
+                              return ScaleTransition(
+                                scale: animation,
+                                child: child,
+                              );
+                            },
+                            child: stateSnapshot.data == true
+                                ? processingSnapshot.data ==
+                                        ProcessingState.completed
+                                    ? Icon(
+                                        Iconsax.repeat,
+                                        size: 25,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      )
+                                    : Icon(
+                                        CupertinoIcons.pause,
+                                        size: 25,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      )
                                 : Icon(
-                                    CupertinoIcons.pause,
+                                    CupertinoIcons.play,
                                     size: 25,
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
-                                  )
-                            : Icon(
-                                CupertinoIcons.play,
-                                size: 25,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                              ),
+                                  ),
+                          ),
+                        ),
                       ),
                     );
                   });

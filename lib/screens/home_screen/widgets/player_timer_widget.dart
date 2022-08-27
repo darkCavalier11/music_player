@@ -306,33 +306,39 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: IconButton(
-        onPressed: () {
-          setState(() {
-            _isFav = !_isFav;
-          });
-        },
-        icon: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: ((child, animation) {
-              return ScaleTransition(
-                scale: animation,
-                child: child,
-              );
-            }),
-            child: _isFav
-                ? Icon(
-                    CupertinoIcons.heart_fill,
-                    key: ValueKey<int>(0),
-                    size: 25,
-                    color: Theme.of(context).colorScheme.secondary,
-                  )
-                : Icon(
-                    CupertinoIcons.heart,
-                    key: ValueKey<int>(1),
-                    size: 30,
-                    color: Theme.of(context).colorScheme.secondary,
-                  )),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: Material(
+          color: Theme.of(context).primaryColor.withAlpha(0),
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _isFav = !_isFav;
+              });
+            },
+            icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: ((child, animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                }),
+                child: _isFav
+                    ? Icon(
+                        CupertinoIcons.heart_fill,
+                        key: ValueKey<int>(0),
+                        size: 25,
+                        color: Theme.of(context).colorScheme.secondary,
+                      )
+                    : Icon(
+                        CupertinoIcons.heart,
+                        key: ValueKey<int>(1),
+                        size: 30,
+                        color: Theme.of(context).colorScheme.secondary,
+                      )),
+          ),
+        ),
       ),
     );
   }

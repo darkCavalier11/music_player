@@ -68,6 +68,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       visible: processingSnapshot.data != ProcessingState.idle,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
+                        height: 240,
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
                         ),
