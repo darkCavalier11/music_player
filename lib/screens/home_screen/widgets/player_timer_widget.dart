@@ -13,8 +13,10 @@ import 'package:music_player/utils/extensions.dart';
 
 class PlayTimerWidget extends StatefulWidget {
   final Color? progressBarColor;
+  final Color? textColor;
   const PlayTimerWidget({
     this.progressBarColor,
+    this.textColor,
     Key? key,
   }) : super(key: key);
 
@@ -159,13 +161,10 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                           }
                           return Text(
                             playerSnapshot.data?.formatDurationString() ?? '-',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      color: widget.textColor,
+                                    ),
                           );
                         },
                       ),
@@ -188,13 +187,10 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                           }
                           return Text(
                             playerSnapshot.data?.formatDurationString() ?? '-',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      color: widget.textColor,
+                                    ),
                           );
                         },
                       ),

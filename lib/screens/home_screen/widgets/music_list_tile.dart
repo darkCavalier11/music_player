@@ -15,9 +15,11 @@ import 'package:music_player/utils/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget {
   final MediaItem selectedMusic;
+  final bool? isPlaylist;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
+    this.isPlaylist,
   }) : super(key: key);
 
   @override
@@ -35,11 +37,27 @@ class MusicListTile extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: MusicCircularAvatar(
-                      imageUrl: selectedMusic.artHeaders?['image_url'],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: MusicCircularAvatar(
+                          imageUrl: selectedMusic.artHeaders?['image_url'],
+                        ),
+                      ),
+                      if (isPlaylist ?? false)
+                        const Positioned(
+                          top: 15,
+                          left: 15,
+                          child: CircleAvatar(
+                            maxRadius: 10,
+                            child: Icon(
+                              Icons.playlist_play,
+                              size: 15,
+                            ),
+                          ),
+                        )
+                    ],
                   ),
                   Expanded(
                     flex: 4,

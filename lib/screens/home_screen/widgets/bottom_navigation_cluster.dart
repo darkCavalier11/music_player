@@ -116,8 +116,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               ?.copyWith(
                                                 color: paletteSnapshot
                                                         .data
-                                                        ?.dominantColor
-                                                        ?.titleTextColor ??
+                                                        ?.mutedColor
+                                                        ?.bodyTextColor ??
                                                     Theme.of(context)
                                                         .scaffoldBackgroundColor,
                                               ),
@@ -131,7 +131,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               ?.copyWith(
                                                   color: paletteSnapshot
                                                           .data
-                                                          ?.dominantColor
+                                                          ?.mutedColor
                                                           ?.bodyTextColor ??
                                                       Theme.of(context)
                                                           .scaffoldBackgroundColor),
@@ -151,6 +151,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                             PlayTimerWidget(
                               progressBarColor: paletteSnapshot
                                   .data?.lightVibrantColor?.color,
+                              textColor: paletteSnapshot
+                                  .data?.mutedColor?.bodyTextColor,
                             ),
                           ],
                         ),
