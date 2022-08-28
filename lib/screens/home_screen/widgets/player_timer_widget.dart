@@ -78,32 +78,32 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                       ),
                                     ),
                                     StreamBuilder<Duration>(
-                                        stream: snapshot
-                                            .audioPlayer.bufferedPositionStream,
-                                        builder: (context, bufferSnapshot) {
-                                          if (!bufferSnapshot.hasData ||
-                                              bufferSnapshot.hasError) {
-                                            return const SizedBox.shrink();
-                                          }
-                                          final fractionCovered =
-                                              ((bufferSnapshot.data
-                                                          ?.inMicroseconds ??
-                                                      0) /
-                                                  (snapshot.audioPlayer.duration
-                                                          ?.inMicroseconds ??
-                                                      1));
-                                          return Container(
-                                            width: constraints.maxWidth *
-                                                fractionCovered,
-                                            height: 3,
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .backgroundColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          );
-                                        }),
+                                      stream: snapshot
+                                          .audioPlayer.bufferedPositionStream,
+                                      builder: (context, bufferSnapshot) {
+                                        if (!bufferSnapshot.hasData ||
+                                            bufferSnapshot.hasError) {
+                                          return const SizedBox.shrink();
+                                        }
+                                        final fractionCovered = ((bufferSnapshot
+                                                    .data?.inMicroseconds ??
+                                                0) /
+                                            (snapshot.audioPlayer.duration
+                                                    ?.inMicroseconds ??
+                                                1));
+                                        return Container(
+                                          width: constraints.maxWidth *
+                                              fractionCovered,
+                                          height: 3,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .backgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     Container(
                                       width: posX,
                                       height: 6,

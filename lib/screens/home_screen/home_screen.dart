@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                   artist: 'Darshan Raval',
                   artHeaders: {
                     'image_url':
-                        'https://images.unsplash.com/photo-1661667592582-feb71ae595e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+                        'https://images.unsplash.com/photo-1661524852318-2b5d38aadfb8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
                   },
                   artUri: Uri.parse(
                     'https://res.cloudinary.com/dftm6eyhx/video/upload/v1660413153/Ek_Ladki_Ko_Dekha_Toh_Aisa_Laga_Slowed_Reverb_-_Darshan_Raval___MUSIC_MANIA_LO-FI_q_MahaxjIEo_uxm3en.mp3',

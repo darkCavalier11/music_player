@@ -117,7 +117,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                                 color: paletteSnapshot
                                                         .data
                                                         ?.dominantColor
-                                                        ?.bodyTextColor ??
+                                                        ?.titleTextColor ??
                                                     Theme.of(context)
                                                         .scaffoldBackgroundColor,
                                               ),
@@ -129,9 +129,12 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               .textTheme
                                               .overline
                                               ?.copyWith(
-                                                color: paletteSnapshot.data
-                                                    ?.lightVibrantColor?.color,
-                                              ),
+                                                  color: paletteSnapshot
+                                                          .data
+                                                          ?.dominantColor
+                                                          ?.bodyTextColor ??
+                                                      Theme.of(context)
+                                                          .scaffoldBackgroundColor),
                                         ),
                                       ],
                                     ),
