@@ -12,7 +12,9 @@ import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/utils/extensions.dart';
 
 class PlayTimerWidget extends StatefulWidget {
+  final Color? progressBarColor;
   const PlayTimerWidget({
+    this.progressBarColor,
     Key? key,
   }) : super(key: key);
 
@@ -106,9 +108,10 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                       width: posX,
                                       height: 6,
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
+                                        color: widget.progressBarColor ??
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                         borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(8),
                                           topLeft: Radius.circular(8),
@@ -285,9 +288,11 @@ class _Factory extends VmFactory<AppState, _PlayTimerWidgetState> {
 
 class MarkFavWidget extends StatefulWidget {
   final bool isFav;
+  final Color? color;
   const MarkFavWidget({
     Key? key,
     required this.isFav,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -328,14 +333,14 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
                     ? Icon(
                         CupertinoIcons.heart_fill,
                         key: ValueKey<int>(0),
-                        size: 25,
-                        color: Theme.of(context).colorScheme.secondary,
+                        size: 30,
+                        color: widget.color,
                       )
                     : Icon(
                         CupertinoIcons.heart,
                         key: ValueKey<int>(1),
-                        size: 30,
-                        color: Theme.of(context).colorScheme.secondary,
+                        size: 25,
+                        color: widget.color,
                       )),
           ),
         ),
