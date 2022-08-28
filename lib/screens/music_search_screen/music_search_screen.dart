@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -25,6 +26,7 @@ class MusicSearchScreen extends StatefulWidget {
 
 class _MusicSearchScreenState extends State<MusicSearchScreen> {
   late TextEditingController _textEditingController;
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -64,8 +67,14 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                       child: SearchTextField(
                         textEditingController: _textEditingController
                           ..addListener(() {
-                            snapshot
-                                .changeSearchQuery(_textEditingController.text);
+                            if (_debounce?.isActive ?? false) {
+                              _debounce?.cancel();
+                            }
+                            _debounce =
+                                Timer(const Duration(milliseconds: 500), () {
+                              snapshot.changeSearchQuery(
+                                  _textEditingController.text);
+                            });
                           }),
                       ),
                     ),

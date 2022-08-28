@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
 
@@ -8,6 +9,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
+import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 
 import 'package:music_player/utils/constants.dart';
 
@@ -25,6 +27,12 @@ class HomeScreen extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(MusicSearchResultScreen.routeName);
+            },
+          ),
           backgroundColor: snapshot.uiState.themeMode == ThemeMode.light
               ? Colors.white
               : Colors.black,
