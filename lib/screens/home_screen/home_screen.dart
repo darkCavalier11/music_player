@@ -66,15 +66,13 @@ class HomeScreen extends StatelessWidget {
                   id: 'MUSIC_ID',
                   title: 'Ek Ladki Ko Dekha Toh Aisa Laga [Slowed+Reverb]',
                   artist: 'Darshan Raval',
+                  artHeaders: {
+                    'image_url': 'https://images.unsplash.com/photo-1661546693984-63f8c49fa0d9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=726&q=80',
+                  },
                   artUri: Uri.parse(
                     'https://res.cloudinary.com/dftm6eyhx/video/upload/v1660413153/Ek_Ladki_Ko_Dekha_Toh_Aisa_Laga_Slowed_Reverb_-_Darshan_Raval___MUSIC_MANIA_LO-FI_q_MahaxjIEo_uxm3en.mp3',
                   ),
                 ),
-              ),
-              Divider(
-                endIndent: 20,
-                indent: 20,
-                color: Theme.of(context).primaryColor.withOpacity(0.2),
               ),
               MusicListTile(
                 selectedMusic: MediaItem(

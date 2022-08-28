@@ -15,6 +15,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/widgets/play_pause_button.dart';
 import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/utils/constants.dart';
+import 'package:music_player/utils/music_circular_avatar.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
   final Function(int) onPageChanged;
@@ -70,13 +71,11 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: CircleAvatar(
-                            maxRadius: 30,
-                            backgroundImage: NetworkImage(
-                              'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                            ),
+                          child: MusicCircularAvatar(
+                            imageUrl: snapshot
+                                .selectedMusic?.artHeaders?['image_url'],
                           ),
                         ),
                         const SizedBox(width: 10),

@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget {
@@ -23,50 +25,54 @@ class MusicListTile extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
-        return GestureDetector(
-          onTap: () async {
-            await snapshot.playMusic(selectedMusic);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Icon(
-                    CupertinoIcons.music_mic,
+        return Material(
+          color: Theme.of(context).primaryColor.withAlpha(0),
+          child: InkWell(
+            onTap: () async {
+              await snapshot.playMusic(selectedMusic);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: MusicCircularAvatar(
+                      imageUrl: selectedMusic.artHeaders?['image_url'],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        selectedMusic.title,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        maxLines: 1,
-                      ),
-                      Text(
-                        selectedMusic.artist ?? 'Unknown',
-                        style: Theme.of(context).textTheme.overline?.copyWith(
-                              color: Theme.of(context).hintColor,
-                            ),
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
-                ),
-                snapshot.currentMusic?.id == selectedMusic.id
-                    ? SizedBox(
-                        child: _MusicTileTrailingWidget(
-                          processingStateStream: snapshot.processingStateStream,
-                          playingStream: snapshot.playingStream,
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          selectedMusic.title,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          maxLines: 1,
                         ),
-                      )
-                    : _PlayButtonWidget(),
-                const SizedBox(width: 20),
-              ],
+                        Text(
+                          selectedMusic.artist ?? 'Unknown',
+                          style: Theme.of(context).textTheme.overline?.copyWith(
+                                color: Theme.of(context).hintColor,
+                              ),
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  snapshot.currentMusic?.id == selectedMusic.id
+                      ? SizedBox(
+                          child: _MusicTileTrailingWidget(
+                            processingStateStream:
+                                snapshot.processingStateStream,
+                            playingStream: snapshot.playingStream,
+                          ),
+                        )
+                      : _PlayButtonWidget(),
+                  const SizedBox(width: 20),
+                ],
+              ),
             ),
           ),
         );
