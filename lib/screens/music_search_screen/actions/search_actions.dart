@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:html/parser.dart';
+import 'package:music_player/main.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
@@ -42,8 +43,10 @@ class _FetchSearchQueryResults extends ReduxAction<AppState> {
       final res = await ApiRequest.get(AppUrl.suggestionUrl(query));
       if (res.statusCode == 200) {
         dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.idle));
+        final resultString =
+            res.data?.replaceAll('window.google.ac.h(', '').replaceAll(')', '');
         final searchResult = MusicSearchResults.fromCustomJson(
-            jsonDecode(res.body.replaceAll(')]}\'', '')) as List);
+            jsonDecode(resultString!) as List);
         return state.copyWith(
           searchState: state.searchState.copyWith(
             musicSearchResults: searchResult,
@@ -95,7 +98,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
     try {
       final res = await ApiRequest.get(AppUrl.searchResultUrl(searchQuery));
       if (res.statusCode == 200) {
-        final json = decodeHtmlResponse(res.body);
+        final json = decodeHtmlResponse(res.data!);
         final items = json['contents']['twoColumnSearchResultsRenderer']
                 ['primaryContents']['sectionListRenderer']['contents'][0]
             ['itemSectionRenderer']['contents'];

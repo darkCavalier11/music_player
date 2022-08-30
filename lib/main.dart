@@ -10,6 +10,7 @@ import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 
 late Store<AppState> store;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppRouter.setupRoutes();

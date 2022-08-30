@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 
 class MusicSearchResults {
@@ -30,6 +32,7 @@ class MusicSearchResults {
 
   // this parsing different from regular json, only for specific use cases
   factory MusicSearchResults.fromCustomJson(List<dynamic> json) {
+    log(json.toString());
     try {
       final searchString = json[0] as String;
       final searchResults = <String>[];
