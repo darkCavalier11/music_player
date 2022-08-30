@@ -3,10 +3,27 @@ import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+late PersistCookieJar persistCookieJar;
+
 class ApiRequest {
+  // Need to initialised once at the beginning.
+  static void init() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    persistCookieJar = PersistCookieJar(
+      persistSession: true,
+      ignoreExpires: true,
+      storage: FileStorage(
+        appDocPath + '/.cookies/',
+      ),
+    );
+  }
+
   static final _dio = Dio(
     BaseOptions(
       connectTimeout: 5000,
@@ -30,17 +47,8 @@ class ApiRequest {
     'upgrade-insecure-requests': '1'
   };
 
-  static Future<String?> get _getCookies async {
-    final sp = await SharedPreferences.getInstance();
-    return sp.getString('cookies');
-  }
-
-  static Future<void> _setCookies(String cookies) async {
-    final sp = await SharedPreferences.getInstance();
-    sp.setString('cookies', cookies);
-  }
-
   static Future<Response<String>> get(String url) {
+    _dio.interceptors.add(CookieManager(persistCookieJar));
     return _dio.get(url);
   }
 }

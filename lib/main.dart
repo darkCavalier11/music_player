@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -6,6 +7,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/page_view_navigation.dart';
+import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 
@@ -13,6 +15,7 @@ late Store<AppState> store;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ApiRequest.init();
   AppRouter.setupRoutes();
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',

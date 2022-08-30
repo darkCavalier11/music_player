@@ -65,6 +65,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     child: Hero(
                       tag: 'search',
                       child: SearchTextField(
+                        loadingState: snapshot.currentSeacrhState,
                         textEditingController: _textEditingController
                           ..addListener(() {
                             if (_debounce?.isActive ?? false) {
@@ -80,8 +81,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                   ),
                   const Divider(),
-                  if (snapshot.currentSeacrhState == LoadingState.loading)
-                    LoadingIndicator.small(context),
+                  
                   Flexible(
                     flex: 1,
                     child: ListView.builder(
