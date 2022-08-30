@@ -43,7 +43,6 @@ dependencies:
   fluttertoast: ^8.0.9
   fluro: ^2.0.3
   collection: ^1.16.0
-  http: ^0.13.5
   html: ^0.15.0
   cached_network_image: ^3.2.1
   palette_generator: ^0.3.3+2
