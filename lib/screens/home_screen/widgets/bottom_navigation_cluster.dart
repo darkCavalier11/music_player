@@ -116,7 +116,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               ?.copyWith(
                                                 color: paletteSnapshot
                                                         .data
-                                                        ?.mutedColor
+                                                        ?.dominantColor
                                                         ?.bodyTextColor ??
                                                     Theme.of(context)
                                                         .scaffoldBackgroundColor,
@@ -131,8 +131,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               ?.copyWith(
                                                   color: paletteSnapshot
                                                           .data
-                                                          ?.mutedColor
-                                                          ?.bodyTextColor ??
+                                                          ?.dominantColor
+                                                          ?.titleTextColor ??
                                                       Theme.of(context)
                                                           .scaffoldBackgroundColor),
                                         ),
@@ -150,9 +150,9 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                             ),
                             PlayTimerWidget(
                               progressBarColor: paletteSnapshot
-                                  .data?.lightVibrantColor?.color,
+                                  .data?.dominantColor?.bodyTextColor,
                               textColor: paletteSnapshot
-                                  .data?.mutedColor?.bodyTextColor,
+                                  .data?.dominantColor?.bodyTextColor,
                             ),
                           ],
                         ),

@@ -31,11 +31,18 @@ class MusicItem {
   }
 
   MediaItem toMediaItem() {
+    final durationList = duration.split(':');
+    int durSeconds = 0, counter = 1;
+    for (int i = durationList.length - 1; i >= 0; i--) {
+      int d = int.parse(durationList[i]);
+      durSeconds += d * counter;
+      counter *= 60;
+    }
     return MediaItem(
       id: videoId,
       title: title,
       // todo : parse proper duration
-      duration: const Duration(seconds: 1),
+      duration: Duration(seconds: durSeconds),
       artUri: Uri.parse('https://www.google.com/smaple.mp3'),
       artist: author,
       artHeaders: {'image_url': imageUrl},
