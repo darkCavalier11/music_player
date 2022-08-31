@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/models/audio_player_state.dart';
+import 'package:music_player/redux/models/home_page_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 
@@ -11,25 +12,25 @@ class AppState {
   final UiState uiState;
   final AudioPlayerState audioPlayerState;
   final SearchState searchState;
-  final List<MusicItem> searchScreenMusicItems;
+  final HomePageState homePageState;
   AppState({
     required this.uiState,
     required this.audioPlayerState,
     required this.searchState,
-    required this.searchScreenMusicItems,
+    required this.homePageState,
   });
 
   AppState copyWith({
     UiState? uiState,
     AudioPlayerState? audioPlayerState,
     SearchState? searchState,
-    List<MusicItem>? searchScreenMusicItems,
+    HomePageState? homePageState,
   }) {
     return AppState(
       uiState: uiState ?? this.uiState,
       audioPlayerState: audioPlayerState ?? this.audioPlayerState,
       searchState: searchState ?? this.searchState,
-      searchScreenMusicItems: searchScreenMusicItems ?? this.searchScreenMusicItems,
+      homePageState: homePageState ?? this.homePageState,
     );
   }
 
@@ -38,32 +39,31 @@ class AppState {
       uiState: UiState.initial(),
       audioPlayerState: AudioPlayerState.initial(),
       searchState: SearchState.initial(),
-      searchScreenMusicItems: [],
+      homePageState: HomePageState.initial(),
     );
   }
 
   @override
   String toString() {
-    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, searchScreenMusicItems: $searchScreenMusicItems)';
+    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, homePageState: $homePageState)';
   }
 
   @override
   bool operator ==(covariant AppState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.uiState == uiState &&
-      other.audioPlayerState == audioPlayerState &&
-      other.searchState == searchState &&
-      listEquals(other.searchScreenMusicItems, searchScreenMusicItems);
+
+    return other.uiState == uiState &&
+        other.audioPlayerState == audioPlayerState &&
+        other.searchState == searchState &&
+        other.homePageState == homePageState;
   }
 
   @override
   int get hashCode {
     return uiState.hashCode ^
-      audioPlayerState.hashCode ^
-      searchState.hashCode ^
-      searchScreenMusicItems.hashCode;
+        audioPlayerState.hashCode ^
+        searchState.hashCode ^
+        homePageState.hashCode;
   }
 }
 
@@ -88,20 +88,21 @@ class UiState {
   }) {
     return UiState(
       themeMode: themeMode ?? this.themeMode,
-      currentBottomNavIndex: currentBottomNavIndex ?? this.currentBottomNavIndex,
+      currentBottomNavIndex:
+          currentBottomNavIndex ?? this.currentBottomNavIndex,
     );
   }
 
   @override
-  String toString() => 'UiState(themeMode: $themeMode, currentBottomNavIndex: $currentBottomNavIndex)';
+  String toString() =>
+      'UiState(themeMode: $themeMode, currentBottomNavIndex: $currentBottomNavIndex)';
 
   @override
   bool operator ==(covariant UiState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.themeMode == themeMode &&
-      other.currentBottomNavIndex == currentBottomNavIndex;
+
+    return other.themeMode == themeMode &&
+        other.currentBottomNavIndex == currentBottomNavIndex;
   }
 
   @override

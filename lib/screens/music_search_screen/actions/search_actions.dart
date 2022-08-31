@@ -112,7 +112,9 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
           }
         }
         return state.copyWith(
-          searchScreenMusicItems: searchScreenMusicItems,
+          searchState: state.searchState.copyWith(
+            searchResultMusicItems: searchScreenMusicItems,
+          ),
         );
       }
     } catch (err) {
