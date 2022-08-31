@@ -104,7 +104,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
             ['itemSectionRenderer']['contents'];
         final List<MusicItem> searchScreenMusicItems = [];
         for (var item in items) {
-          if (item['videRenderer'] != null) {
+          if (item['videoRenderer'] != null) {
             searchScreenMusicItems
                 .add(MusicItem.fromJson(item['videoRenderer']));
           } else if (item['radioRenderer'] != null) {

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 class AppUrl {
   static String suggestionUrl(String query) {
     return Uri.encodeFull(
@@ -9,5 +7,11 @@ class AppUrl {
   static String searchResultUrl(String query) {
     return Uri.encodeFull(
         "https://www.youtube.com/results?search_query=${query.replaceAll(' ', '+')}");
+  }
+
+  static const loadPayloadForFilterUrl = 'https://www.youtube.com/?themeRefresh=1';
+
+  static String homepageMusicUrl(String apiKey) {
+    return Uri.encodeFull('https://www.youtube.com/youtubei/v1/browse?key=$apiKey&prettyPrint=false');
   }
 }

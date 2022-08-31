@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/main.dart';
+import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 
@@ -29,8 +31,9 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(MusicSearchResultScreen.routeName);
+              store.dispatch(LoadHomePageMusicAction());
+              // Navigator.of(context)
+              //     .pushNamed(MusicSearchResultScreen.routeName);
             },
           ),
           backgroundColor: snapshot.uiState.themeMode == ThemeMode.light

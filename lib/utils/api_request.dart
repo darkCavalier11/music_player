@@ -49,6 +49,15 @@ class ApiRequest {
 
   static Future<Response<String>> get(String url) {
     _dio.interceptors.add(CookieManager(persistCookieJar));
-    return _dio.get(url);
+    return _dio.get(url, queryParameters: _defaultHeaders);
+  }
+
+  static Future<Response<String>> post(String url, dynamic data) async {
+    _dio.interceptors.add(CookieManager(persistCookieJar));
+    return _dio.post(
+      url,
+      data: data,
+      queryParameters: _defaultHeaders,
+    );
   }
 }
