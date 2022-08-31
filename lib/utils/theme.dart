@@ -6,6 +6,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: 'Inter',
+      primaryColor: const Color.fromRGBO(38, 65, 60, 1),
       primarySwatch: SwatchGenerator.generateMaterialColor(
         const Color.fromRGBO(38, 65, 60, 1),
       ),

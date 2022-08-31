@@ -85,7 +85,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                       builder: (context, bufferSnapshot) {
                                         if (!bufferSnapshot.hasData ||
                                             bufferSnapshot.hasError) {
-                                          return const SizedBox.shrink();
+                                          return Container();
                                         }
                                         final fractionCovered = ((bufferSnapshot
                                                     .data?.inMicroseconds ??
@@ -93,6 +93,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                             (snapshot.audioPlayer.duration
                                                     ?.inMicroseconds ??
                                                 1));
+
                                         return Container(
                                           width: constraints.maxWidth *
                                               fractionCovered,
@@ -106,20 +107,20 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                         );
                                       },
                                     ),
-                                    Container(
-                                      width: posX,
-                                      height: 6,
-                                      decoration: BoxDecoration(
-                                        color: widget.progressBarColor ??
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                        borderRadius: const BorderRadius.only(
-                                          bottomLeft: Radius.circular(8),
-                                          topLeft: Radius.circular(8),
-                                        ),
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   width: posX,
+                                    //   height: 6,
+                                    //   decoration: BoxDecoration(
+                                    //     color: widget.progressBarColor ??
+                                    //         Theme.of(context)
+                                    //             .colorScheme
+                                    //             .secondary,
+                                    //     borderRadius: const BorderRadius.only(
+                                    //       bottomLeft: Radius.circular(8),
+                                    //       topLeft: Radius.circular(8),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Positioned(
                                       left: posX - 4,
                                       child: Container(
