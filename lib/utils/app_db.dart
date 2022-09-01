@@ -1,17 +1,21 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:music_player/main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-class AppDb {
-  static Future<Database> init() async {
+class AppDatabse {
+  static late Database mainDb;
+
+  /// Need to call the intialise the static [Database] variable.
+  static Future<void> init() async {
     try {
       final dir = await getApplicationDocumentsDirectory();
       await dir.create(recursive: true);
       final dbPath = dir.path + 'app_main.db';
-      return databaseFactoryIo.openDatabase(dbPath);
+      mainDb = await databaseFactoryIo.openDatabase(dbPath);
     } catch (err) {
       log(err.toString());
       throw Exception(err);
