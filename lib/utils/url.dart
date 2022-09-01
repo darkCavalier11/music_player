@@ -11,6 +11,7 @@ class AppUrl {
 
   static const loadPayloadForFilterUrl = 'https://www.youtube.com/?themeRefresh=1';
 
+  // This generic url used both for search and loading music.
   static String genricUrl(String apiKey) {
     return Uri.encodeFull('https://www.youtube.com/youtubei/v1/browse?key=$apiKey&prettyPrint=false');
   }

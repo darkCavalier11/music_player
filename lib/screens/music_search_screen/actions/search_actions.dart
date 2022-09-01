@@ -4,14 +4,18 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
 import 'package:music_player/main.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/music_model.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/api_request.dart';
+import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/url.dart';
 
@@ -96,27 +100,27 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final res = await ApiRequest.get(AppUrl.searchResultUrl(searchQuery));
-      if (res.statusCode == 200) {
-        final json = decodeHtmlResponse(res.data!);
-        final items = json['contents']['twoColumnSearchResultsRenderer']
-                ['primaryContents']['sectionListRenderer']['contents'][0]
-            ['itemSectionRenderer']['contents'];
-        final List<MusicItem> searchScreenMusicItems = [];
-        for (var item in items) {
-          if (item['videoRenderer'] != null) {
-            searchScreenMusicItems
-                .add(MusicItem.fromJson(item['videoRenderer']));
-          } else if (item['radioRenderer'] != null) {
-            log(item.toString());
-          }
-        }
-        return state.copyWith(
-          searchState: state.searchState.copyWith(
-            searchResultMusicItems: searchScreenMusicItems,
-          ),
-        );
+      String? payload = await AppDatabse.getQuery(DbKeys.context);
+      if (payload == null) {
+        LoadHomePageMusicAction();
       }
+      payload = await AppDatabse.getQuery(DbKeys.context);
+      if (payload == null) {
+        Fluttertoast.showToast(msg: 'Internal Server Error');
+        return null;
+      }
+      final musicContextPayload =
+          MusicFilterPayloadModel.fromJson(jsonDecode(payload));
+      // final res = await ApiRequest.post(
+      //   AppUrl.genricUrl(musicFilterpayload.apiKey),
+      //   {
+      //     'context': musicFilterpayload.context.toJson(),
+      //     'query': searchQuery,
+      //   },
+      // );
+      // if (res.statusCode == 200) {
+      //   log(res.data.toString());
+      // }
     } catch (err) {
       log(err.toString());
     }

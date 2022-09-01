@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
@@ -26,6 +27,7 @@ class MusicFilterPayloadModel {
     return {
       'context': context.toJson(),
       'continuation': continuation,
+      'apiKey': apiKey,
     };
   }
 

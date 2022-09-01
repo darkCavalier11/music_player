@@ -4,12 +4,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:music_player/redux/action/app_db_action.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/utils/api_request.dart';
+import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/url.dart';
 
 import '../../../redux/models/music_item.dart';
@@ -22,8 +22,8 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       final tempRes = await ApiRequest.get(AppUrl.loadPayloadForFilterUrl);
       final musicFilterPayload =
           MusicFilterPayloadModel.fromApiResponse(tempRes);
-      dispatch(
-          SaveMusicFilterPayloadToDb(musicFilterPayload: musicFilterPayload));
+      await AppDatabse.setQuery(
+          DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
       final res = await ApiRequest.post(
           AppUrl.genricUrl(musicFilterPayload.apiKey),
           musicFilterPayload.toJson());

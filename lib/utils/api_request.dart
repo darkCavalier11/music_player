@@ -48,16 +48,36 @@ class ApiRequest {
   };
 
   static Future<Response<String>> get(String url) {
+    log('url: $url');
     _dio.interceptors.add(CookieManager(persistCookieJar));
+    _dio.interceptors.add(AppHttpInterceptor());
     return _dio.get(url, queryParameters: _defaultHeaders);
   }
 
   static Future<Response<String>> post(String url, dynamic data) async {
+    log('url: $url');
+    log('payload: $data');
     _dio.interceptors.add(CookieManager(persistCookieJar));
+    _dio.interceptors.add(AppHttpInterceptor());
     return _dio.post(
       url,
       data: data,
       queryParameters: _defaultHeaders,
     );
+  }
+}
+
+class AppHttpInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    log(options.path);
+    log(options.data);
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    log(response.statusCode.toString());
+    super.onResponse(response, handler);
   }
 }

@@ -7,18 +7,51 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
 class AppDatabse {
-  static late Database mainDb;
+  static late Database _mainDb;
 
   /// Need to call the intialise the static [Database] variable.
+  /// Most helpful for storing encoded json data.
   static Future<void> init() async {
     try {
       final dir = await getApplicationDocumentsDirectory();
       await dir.create(recursive: true);
       final dbPath = dir.path + 'app_main.db';
-      mainDb = await databaseFactoryIo.openDatabase(dbPath);
+      _mainDb = await databaseFactoryIo.openDatabase(dbPath);
     } catch (err) {
       log(err.toString());
       throw Exception(err);
+    }
+  }
+
+  static Future<void> setQuery(DbKeys key, String value) async {
+    try {
+      final store = StoreRef<String, String>.main();
+      await store.record(key.toEnumString()).put(_mainDb, value);
+    } catch (err) {
+      throw ErrorSummary('settQuery failed $key: $value > $err');
+    }
+  }
+
+  static Future<String?> getQuery(DbKeys key) async {
+    try {
+      final store = StoreRef<String, String>.main();
+      return store.record(key.toEnumString()).get(_mainDb);
+    } catch (err) {
+      throw ErrorSummary('Error getQuery $key > $err');
+    }
+  }
+}
+
+enum DbKeys {
+  context,
+}
+
+extension on DbKeys {
+  String toEnumString() {
+    if (this == DbKeys.context) {
+      return 'context';
+    } else {
+      return '#';
     }
   }
 }
