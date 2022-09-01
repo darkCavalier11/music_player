@@ -24,9 +24,11 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
           MusicFilterPayloadModel.fromApiResponse(tempRes);
       await AppDatabse.setQuery(
           DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
-      final res = await ApiRequest.post(
-          AppUrl.genricUrl(musicFilterPayload.apiKey),
-          musicFilterPayload.toJson());
+      final res =
+          await ApiRequest.post(AppUrl.browseUrl(musicFilterPayload.apiKey), {
+        'context': musicFilterPayload.context.toJson(),
+        'continuation': musicFilterPayload.continuation
+      });
       final json = jsonDecode(res.data.toString());
       final items = json['onResponseReceivedActions'][0]
           ['reloadContinuationItemsCommand']['continuationItems'] as List;

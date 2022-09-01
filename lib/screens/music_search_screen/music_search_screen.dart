@@ -81,7 +81,6 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                   ),
                   const Divider(),
-                  
                   Flexible(
                     flex: 1,
                     child: ListView.builder(

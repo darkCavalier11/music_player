@@ -102,25 +102,25 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
     try {
       String? payload = await AppDatabse.getQuery(DbKeys.context);
       if (payload == null) {
-        LoadHomePageMusicAction();
+        await dispatch(LoadHomePageMusicAction());
       }
       payload = await AppDatabse.getQuery(DbKeys.context);
       if (payload == null) {
         Fluttertoast.showToast(msg: 'Internal Server Error');
         return null;
       }
-      final musicContextPayload =
+      final musicFilterPayload =
           MusicFilterPayloadModel.fromJson(jsonDecode(payload));
-      // final res = await ApiRequest.post(
-      //   AppUrl.genricUrl(musicFilterpayload.apiKey),
-      //   {
-      //     'context': musicFilterpayload.context.toJson(),
-      //     'query': searchQuery,
-      //   },
-      // );
-      // if (res.statusCode == 200) {
-      //   log(res.data.toString());
-      // }
+      final res = await ApiRequest.post(
+        AppUrl.searchUrl(musicFilterPayload.apiKey),
+        {
+          'context': musicFilterPayload.context.toJson(),
+          'query': searchQuery,
+        },
+      );
+      if (res.statusCode == 200) {
+        log(res.data.toString());
+      }
     } catch (err) {
       log(err.toString());
     }
