@@ -25,7 +25,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       dispatch(
           SaveMusicFilterPayloadToDb(musicFilterPayload: musicFilterPayload));
       final res = await ApiRequest.post(
-          AppUrl.homepageMusicUrl(musicFilterPayload.apiKey),
+          AppUrl.genricUrl(musicFilterPayload.apiKey),
           musicFilterPayload.toJson());
       final json = jsonDecode(res.data.toString());
       final items = json['onResponseReceivedActions'][0]
