@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:music_player/redux/action/app_db_action.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
@@ -21,6 +22,8 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       final tempRes = await ApiRequest.get(AppUrl.loadPayloadForFilterUrl);
       final musicFilterPayload =
           MusicFilterPayloadModel.fromApiResponse(tempRes);
+      dispatch(
+          SaveMusicFilterPayloadToDb(musicFilterPayload: musicFilterPayload));
       final res = await ApiRequest.post(
           AppUrl.homepageMusicUrl(musicFilterPayload.apiKey),
           musicFilterPayload.toJson());
@@ -64,18 +67,5 @@ class _SetHomeScreenLoadingAction extends ReduxAction<AppState> {
         homepageMusicListLoading: loadingState,
       ),
     );
-  }
-}
-
-class GetMusicFilterPayloadAction extends ReduxAction<AppState> {
-  @override
-  Future<AppState?> reduce() async {
-    try {
-      final res = await ApiRequest.get(AppUrl.loadPayloadForFilterUrl);
-      final musicFilterPayload = MusicFilterPayloadModel.fromApiResponse(res);
-      log(musicFilterPayload.toString());
-    } catch (err) {
-      log(err.toString());
-    }
   }
 }

@@ -16,7 +16,7 @@ late Store<AppState> store;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AppDatabse.init();
+  await AppDatabse.init();
   ApiRequest.init();
   AppRouter.setupRoutes();
   await JustAudioBackground.init(
