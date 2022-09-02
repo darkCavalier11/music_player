@@ -8,6 +8,7 @@ import 'package:music_player/redux/models/app_state.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 
 import '../home_screen/home_screen.dart';
@@ -63,8 +64,13 @@ class MusicSearchResultScreen extends StatelessWidget {
                       ),
                       ...snapshot.searchResultMusicItems
                           .map(
-                            (e) => MusicListTile(
-                              selectedMusic: e.toMediaItem(),
+                            (e) => Column(
+                              children: [
+                                MusicListTile(
+                                  selectedMusic: e.toMediaItem(),
+                                ),
+                                const Divider(),
+                              ],
                             ),
                           )
                           .toList(),

@@ -118,8 +118,17 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ...snapshot.homeScreenMusicList
                     .map(
-                      (e) => MusicListTile(
-                        selectedMusic: e.toMediaItem(),
+                      (e) => Column(
+                        children: [
+                          MusicListTile(
+                            selectedMusic: e.toMediaItem(),
+                          ),
+                          const Divider(
+                            endIndent: 50,
+                            indent: 50,
+                            height: 5,
+                          ),
+                        ],
                       ),
                     )
                     .toList(),

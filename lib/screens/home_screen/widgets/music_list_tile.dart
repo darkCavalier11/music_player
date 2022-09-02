@@ -15,7 +15,7 @@ import 'package:music_player/utils/mixins.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 
-class MusicListTile extends StatelessWidget {
+class MusicListTile extends StatelessWidget with AppUtilityMixin {
   final MediaItem selectedMusic;
   final bool? isPlaylist;
   const MusicListTile({
@@ -78,6 +78,9 @@ class MusicListTile extends StatelessWidget {
                               ),
                           maxLines: 1,
                         ),
+                        if (selectedMusic.duration != null)
+                          Text(
+                              convertDurationToString(selectedMusic.duration!)),
                       ],
                     ),
                   ),
@@ -87,12 +90,9 @@ class MusicListTile extends StatelessWidget {
                             processingStateStream:
                                 snapshot.processingStateStream,
                             playingStream: snapshot.playingStream,
-                            duration: selectedMusic.duration,
                           ),
                         )
-                      : _PlayButtonWidget(
-                          duration: selectedMusic.duration,
-                        ),
+                      : _PlayButtonWidget(),
                   const SizedBox(width: 20),
                 ],
               ),
@@ -130,7 +130,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
             snapshot.data == ProcessingState.buffering) {
           return LoadingIndicator.small(context);
         } else {
-          return _PlayButtonWidget(duration: duration);
+          return _PlayButtonWidget();
         }
       },
     );
@@ -189,27 +189,20 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   }
 }
 
-class _PlayButtonWidget extends StatelessWidget with AppUtilityMixin {
-  final Duration? duration;
+class _PlayButtonWidget extends StatelessWidget {
   const _PlayButtonWidget({
     Key? key,
-    required this.duration,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: const Icon(
-              CupertinoIcons.play_arrow,
-              size: 18,
-            ),
-          ),
-          if (duration != null) Text(convertDurationToString(duration!)),
-        ],
+      child: GestureDetector(
+        onTap: () {},
+        child: const Icon(
+          CupertinoIcons.play_circle,
+          size: 20,
+        ),
       ),
     );
   }
