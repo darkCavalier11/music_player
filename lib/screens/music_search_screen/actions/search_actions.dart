@@ -6,8 +6,8 @@ import 'dart:developer';
 import 'package:async_redux/async_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
-import 'package:music_player/main.dart';
 
+import 'package:music_player/main.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/redux/models/music_item.dart';
@@ -49,7 +49,7 @@ class _FetchSearchQueryResults extends ReduxAction<AppState> {
         dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.idle));
         final resultString =
             res.data?.replaceAll('window.google.ac.h(', '').replaceAll(')', '');
-        final searchResult = MusicSearchResults.fromCustomJson(
+        final searchResult = MusicSearchStringResults.fromCustomJson(
             jsonDecode(resultString!) as List);
         return state.copyWith(
           searchState: state.searchState.copyWith(
@@ -92,6 +92,21 @@ class _SetSearchCurrentStateAction extends ReduxAction<AppState> {
   }
 }
 
+class _SetSearchResultFetchingAction extends ReduxAction<AppState> {
+  final LoadingState loadingState;
+  _SetSearchResultFetchingAction({
+    required this.loadingState,
+  });
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      searchState: state.searchState.copyWith(
+        searchResultFetchingState: loadingState,
+      ),
+    );
+  }
+}
+
 class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
   final String searchQuery;
   GetMusicItemFromQueryAction({
@@ -100,6 +115,8 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
+      dispatch(
+          _SetSearchResultFetchingAction(loadingState: LoadingState.loading));
       String? payload = await AppDatabse.getQuery(DbKeys.context);
       if (payload == null) {
         await dispatch(LoadHomePageMusicAction());
@@ -119,9 +136,34 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
         },
       );
       if (res.statusCode == 200) {
-        log(res.data.toString());
+        dispatch(
+            _SetSearchResultFetchingAction(loadingState: LoadingState.idle));
+        final musicResponseJson = jsonDecode(res.data!);
+        final musicListItems = musicResponseJson['contents']
+                    ['twoColumnSearchResultsRenderer']['primaryContents']
+                ['sectionListRenderer']['contents'][0]['itemSectionRenderer']
+            ['contents'] as List;
+        final searchScreenMusicItems = <MusicItem>[];
+        for (var item in musicListItems) {
+          if (item['videoRenderer'] != null) {
+            searchScreenMusicItems
+                .add(MusicItem.fromJson(item['videoRenderer']));
+          } else {
+            log('message');
+          }
+        }
+
+        return state.copyWith(
+          searchState: state.searchState.copyWith(
+            searchResultMusicItems: searchScreenMusicItems,
+          ),
+        );
       }
+      dispatch(
+          _SetSearchResultFetchingAction(loadingState: LoadingState.failed));
     } catch (err) {
+      dispatch(
+          _SetSearchResultFetchingAction(loadingState: LoadingState.failed));
       log(err.toString());
     }
   }

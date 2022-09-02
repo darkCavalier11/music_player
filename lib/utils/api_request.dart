@@ -5,8 +5,8 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:music_player/env.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 late PersistCookieJar persistCookieJar;
 
@@ -69,7 +69,7 @@ class AppHttpInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     log(options.path);
-    if (options.data != null) {
+    if (options.data != null && EnvConfig.logLevel == 1) {
       log(options.data.toString());
     }
     super.onRequest(options, handler);
@@ -77,7 +77,10 @@ class AppHttpInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    log(response.statusCode.toString());
+    log('${response.statusCode}');
+    if (EnvConfig.logLevel == 1) {
+      log(response.data);
+    }
     super.onResponse(response, handler);
   }
 }

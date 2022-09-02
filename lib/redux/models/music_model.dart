@@ -2,20 +2,20 @@ import 'dart:developer';
 
 import 'package:collection/collection.dart';
 
-class MusicSearchResults {
+class MusicSearchStringResults {
   final String searchString;
   final List<String> searchResults;
-  MusicSearchResults({
+  MusicSearchStringResults({
     required this.searchString,
     required this.searchResults,
   });
 
   @override
   String toString() =>
-      'MusicSearchResults(searchString: $searchString, searchResults: $searchResults)';
+      'MusicSearchStringResults(searchString: $searchString, searchResults: $searchResults)';
 
   @override
-  bool operator ==(covariant MusicSearchResults other) {
+  bool operator ==(covariant MusicSearchStringResults other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 
@@ -23,22 +23,22 @@ class MusicSearchResults {
         listEquals(other.searchResults, searchResults);
   }
 
-  factory MusicSearchResults.initial() {
-    return MusicSearchResults(
+  factory MusicSearchStringResults.initial() {
+    return MusicSearchStringResults(
       searchString: '',
       searchResults: [],
     );
   }
 
   // this parsing different from regular json, only for specific use cases
-  factory MusicSearchResults.fromCustomJson(List<dynamic> json) {
+  factory MusicSearchStringResults.fromCustomJson(List<dynamic> json) {
     try {
       final searchString = json[0] as String;
       final searchResults = <String>[];
       for (var result in json[1]) {
         searchResults.add(result[0] as String);
       }
-      return MusicSearchResults(
+      return MusicSearchStringResults(
         searchString: searchString,
         searchResults: searchResults,
       );
@@ -51,11 +51,11 @@ class MusicSearchResults {
   @override
   int get hashCode => searchString.hashCode ^ searchResults.hashCode;
 
-  MusicSearchResults copyWith({
+  MusicSearchStringResults copyWith({
     String? searchString,
     List<String>? searchResults,
   }) {
-    return MusicSearchResults(
+    return MusicSearchStringResults(
       searchString: searchString ?? this.searchString,
       searchResults: searchResults ?? this.searchResults,
     );

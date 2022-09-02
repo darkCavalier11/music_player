@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -10,6 +11,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/utils/mixins.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 
@@ -85,9 +87,12 @@ class MusicListTile extends StatelessWidget {
                             processingStateStream:
                                 snapshot.processingStateStream,
                             playingStream: snapshot.playingStream,
+                            duration: selectedMusic.duration,
                           ),
                         )
-                      : _PlayButtonWidget(),
+                      : _PlayButtonWidget(
+                          duration: selectedMusic.duration,
+                        ),
                   const SizedBox(width: 20),
                 ],
               ),
@@ -104,9 +109,11 @@ class _MusicTileTrailingWidget extends StatelessWidget {
     Key? key,
     required this.processingStateStream,
     required this.playingStream,
+    this.duration,
   }) : super(key: key);
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
+  final Duration? duration;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +130,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
             snapshot.data == ProcessingState.buffering) {
           return LoadingIndicator.small(context);
         } else {
-          return _PlayButtonWidget();
+          return _PlayButtonWidget(duration: duration);
         }
       },
     );
@@ -182,20 +189,27 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   }
 }
 
-class _PlayButtonWidget extends StatelessWidget {
+class _PlayButtonWidget extends StatelessWidget with AppUtilityMixin {
+  final Duration? duration;
   const _PlayButtonWidget({
     Key? key,
+    required this.duration,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: GestureDetector(
-        onTap: () {},
-        child: const Icon(
-          CupertinoIcons.play_arrow,
-          size: 18,
-        ),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              CupertinoIcons.play_arrow,
+              size: 18,
+            ),
+          ),
+          if (duration != null) Text(convertDurationToString(duration!)),
+        ],
       ),
     );
   }
