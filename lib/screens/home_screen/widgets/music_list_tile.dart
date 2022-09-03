@@ -109,11 +109,9 @@ class _MusicTileTrailingWidget extends StatelessWidget {
     Key? key,
     required this.processingStateStream,
     required this.playingStream,
-    this.duration,
   }) : super(key: key);
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
-  final Duration? duration;
 
   @override
   Widget build(BuildContext context) {

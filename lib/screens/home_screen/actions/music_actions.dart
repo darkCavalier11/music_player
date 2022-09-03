@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,6 +17,7 @@ import 'package:music_player/screens/home_screen/actions/home_screen_actions.dar
 import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/url.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../../redux/models/music_item.dart';
 
@@ -44,9 +46,16 @@ class PlayAudioAction extends ReduxAction<AppState> {
     try {
       await dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: mediaItem));
+      final yt = YoutubeExplode();
+      final manifest =
+          await yt.videos.streamsClient.getManifest(mediaItem.videoId);
+      final url =
+          manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
       final audioUri = AudioSource.uri(
-        Uri.parse(state.audioPlayerState.selectedMusic?.musicUrl ?? ''),
-        tag: mediaItem.toMediaItem(),
+        url,
+        tag: state.audioPlayerState.selectedMusic
+            ?.toMediaItem()
+            .copyWith(artUri: url),
       );
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
       await state.audioPlayerState.audioPlayer.play();
@@ -65,6 +74,7 @@ class StopAudioAction extends ReduxAction<AppState> {
   }
 }
 
+// dummy request for now update the client data to predict more accurate items
 class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
   final MusicItem selectedMusicItem;
   _FetchMusicDetailsForSelectedMusicAction({
@@ -92,24 +102,6 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
           'videoId': selectedMusicItem.videoId,
         },
       );
-      if (res.statusCode == 200) {
-        final selectedMusicData = jsonDecode(res.data!);
-        final formatList =
-            selectedMusicData['streamingData']['adaptiveFormats'] as List;
-
-        for (var musicFormatItem in formatList) {
-          if (musicFormatItem['itag'] == 140) {
-            return state.copyWith(
-              audioPlayerState: state.audioPlayerState.copyWith(
-                selectedMusic: state.audioPlayerState.selectedMusic?.copyWith(
-                  musicUrl: musicFormatItem['url'],
-                ),
-              ),
-            );
-          }
-        }
-      }
-      Fluttertoast.showToast(msg: 'Error getting music item');
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
