@@ -92,10 +92,8 @@ class PlayPauseButtonSet extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final AudioPlayer audioPlayer;
-  final MediaItem? selectedMusic;
   _ViewModel({
     required this.audioPlayer,
-    required this.selectedMusic,
   });
 }
 
@@ -105,7 +103,6 @@ class _Factory extends VmFactory<AppState, PlayPauseButtonSet> {
   _ViewModel fromStore() {
     return _ViewModel(
       audioPlayer: state.audioPlayerState.audioPlayer,
-      selectedMusic: state.audioPlayerState.selectedMusic,
     );
   }
 }

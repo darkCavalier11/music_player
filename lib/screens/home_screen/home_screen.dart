@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                       (e) => Column(
                         children: [
                           MusicListTile(
-                            selectedMusic: e.toMediaItem(),
+                            selectedMusic: e,
                           ),
                           const Divider(
                             endIndent: 50,

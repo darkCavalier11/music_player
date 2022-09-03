@@ -9,6 +9,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 import 'package:music_player/utils/mixins.dart';
@@ -16,7 +17,7 @@ import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/utils/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget with AppUtilityMixin {
-  final MediaItem selectedMusic;
+  final MusicItem selectedMusic;
   final bool? isPlaylist;
   const MusicListTile({
     Key? key,
@@ -44,7 +45,7 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: MusicCircularAvatar(
-                          imageUrl: selectedMusic.artHeaders?['image_url'],
+                          imageUrl: selectedMusic.imageUrl,
                         ),
                       ),
                       if (isPlaylist ?? false)
@@ -72,19 +73,18 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                           maxLines: 1,
                         ),
                         Text(
-                          selectedMusic.artist ?? 'Unknown',
+                          selectedMusic.author,
                           style: Theme.of(context).textTheme.overline?.copyWith(
                                 color: Theme.of(context).hintColor,
                               ),
                           maxLines: 1,
                         ),
                         if (selectedMusic.duration != null)
-                          Text(
-                              convertDurationToString(selectedMusic.duration!)),
+                          Text(selectedMusic.duration),
                       ],
                     ),
                   ),
-                  snapshot.currentMusic?.id == selectedMusic.id
+                  snapshot.currentMusic?.videoId == selectedMusic.videoId
                       ? SizedBox(
                           child: _MusicTileTrailingWidget(
                             processingStateStream:
@@ -138,8 +138,8 @@ class _MusicTileTrailingWidget extends StatelessWidget {
 }
 
 class _ViewModel extends Vm {
-  final MediaItem? currentMusic;
-  final Future<void> Function(MediaItem) playMusic;
+  final MusicItem? currentMusic;
+  final Future<void> Function(MusicItem) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
 

@@ -13,6 +13,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/widgets/play_pause_button.dart';
 import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/utils/constants.dart';
@@ -64,11 +65,11 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                   child: Visibility(
                 visible: snapshot.selectedMusic != null,
                 child: FutureBuilder<PaletteGenerator>(
-                    future: snapshot.selectedMusic?.artHeaders?['image_url'] !=
+                    future: snapshot.selectedMusic?.imageUrl !=
                             null
                         ? PaletteGenerator.fromImageProvider(
                             CachedNetworkImageProvider(snapshot
-                                    .selectedMusic?.artHeaders?['image_url'] ??
+                                    .selectedMusic?.imageUrl ??
                                 ''))
                         : Future.value(
                             PaletteGenerator.fromColors([
@@ -94,8 +95,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: MusicCircularAvatar(
-                                    imageUrl: snapshot.selectedMusic
-                                        ?.artHeaders?['image_url'],
+                                    imageUrl: snapshot.selectedMusic?.imageUrl,
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -123,7 +123,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                               ),
                                         ),
                                         Text(
-                                          snapshot.selectedMusic?.artist ??
+                                          snapshot.selectedMusic?.author ??
                                               'Unknown',
                                           style: Theme.of(context)
                                               .textTheme
@@ -274,7 +274,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
 
 class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
-  final MediaItem? selectedMusic;
+  final MusicItem? selectedMusic;
   final int currentBottomNavIndex;
   final Function(int) changeBottomNavIndex;
   _ViewModel({

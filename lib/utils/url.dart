@@ -12,15 +12,20 @@ class AppUrl {
   static const loadPayloadForFilterUrl =
       'https://www.youtube.com/?themeRefresh=1';
 
-  // This generic url used both for browsing music
+  // This url used for browsing music
   static String browseUrl(String apiKey) {
     return Uri.encodeFull(
         'https://www.youtube.com/youtubei/v1/browse?key=$apiKey&prettyPrint=false');
   }
 
-  // This generic url used both for searching music
+  // This url used for searching music
   static String searchUrl(String apiKey) {
     return Uri.encodeFull(
         'https://www.youtube.com/youtubei/v1/search?key=$apiKey&prettyPrint=false');
+  }
+
+  // url used to fetch paricular music details
+  static String playMusicUrl(String apiKey) {
+    return 'https://www.youtube.com/youtubei/v1/player?key=$apiKey&prettyPrint=false';
   }
 }

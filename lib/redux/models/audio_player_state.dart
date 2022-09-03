@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/music_model.dart';
 
 class AudioPlayerState {
   final AudioPlayer audioPlayer;
-  final MediaItem? selectedMusic;
+  final MusicItem? selectedMusic;
   AudioPlayerState({
     required this.audioPlayer,
     this.selectedMusic,
@@ -19,7 +21,7 @@ class AudioPlayerState {
 
   AudioPlayerState copyWith({
     AudioPlayer? audioPlayer,
-    MediaItem? selectedMusic,
+    MusicItem? selectedMusic,
   }) {
     return AudioPlayerState(
       audioPlayer: audioPlayer ?? this.audioPlayer,
@@ -28,12 +30,12 @@ class AudioPlayerState {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(covariant AudioPlayerState other) {
     if (identical(this, other)) return true;
-
-    return other is AudioPlayerState &&
-        other.audioPlayer == audioPlayer &&
-        other.selectedMusic == selectedMusic;
+  
+    return 
+      other.audioPlayer == audioPlayer &&
+      other.selectedMusic == selectedMusic;
   }
 
   @override

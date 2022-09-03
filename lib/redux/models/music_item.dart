@@ -8,12 +8,15 @@ class MusicItem {
   final String title;
   final String author;
   final String duration;
+  // this field gets populated when the music details fetched.
+  final String? musicUrl;
   MusicItem({
     required this.videoId,
     required this.imageUrl,
     required this.title,
     required this.author,
     required this.duration,
+    this.musicUrl,
   });
 
   factory MusicItem.fromJson(Map<String, dynamic> json) {
@@ -27,7 +30,7 @@ class MusicItem {
 
   @override
   String toString() {
-    return 'MusicItem(videoId: $videoId, imageUrl: $imageUrl, title: $title, author: $author, duration: $duration)';
+    return 'MusicItem(videoId: $videoId, imageUrl: $imageUrl, title: $title, author: $author, duration: $duration, musicUrl: $musicUrl)';
   }
 
   MediaItem toMediaItem() {
@@ -43,9 +46,49 @@ class MusicItem {
       title: title,
       // todo : parse proper duration
       duration: Duration(seconds: durSeconds),
-      artUri: Uri.parse('https://www.google.com/smaple.mp3'),
+      artUri: Uri.parse(musicUrl ?? ''),
       artist: author,
       artHeaders: {'image_url': imageUrl},
     );
+  }
+
+  MusicItem copyWith({
+    String? videoId,
+    String? imageUrl,
+    String? title,
+    String? author,
+    String? duration,
+    String? musicUrl,
+  }) {
+    return MusicItem(
+      videoId: videoId ?? this.videoId,
+      imageUrl: imageUrl ?? this.imageUrl,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      duration: duration ?? this.duration,
+      musicUrl: musicUrl ?? this.musicUrl,
+    );
+  }
+
+  @override
+  bool operator ==(covariant MusicItem other) {
+    if (identical(this, other)) return true;
+
+    return other.videoId == videoId &&
+        other.imageUrl == imageUrl &&
+        other.title == title &&
+        other.author == author &&
+        other.duration == duration &&
+        other.musicUrl == musicUrl;
+  }
+
+  @override
+  int get hashCode {
+    return videoId.hashCode ^
+        imageUrl.hashCode ^
+        title.hashCode ^
+        author.hashCode ^
+        duration.hashCode ^
+        musicUrl.hashCode;
   }
 }
