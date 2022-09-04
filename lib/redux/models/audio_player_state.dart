@@ -32,10 +32,9 @@ class AudioPlayerState {
   @override
   bool operator ==(covariant AudioPlayerState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.audioPlayer == audioPlayer &&
-      other.selectedMusic == selectedMusic;
+
+    return other.audioPlayer == audioPlayer &&
+        other.selectedMusic == selectedMusic;
   }
 
   @override

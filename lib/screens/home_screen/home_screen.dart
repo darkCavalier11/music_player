@@ -36,106 +36,108 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (context, snapshot) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // Navigator.of(context)
-              //     .pushNamed(MusicSearchResultScreen.routeName);
-            },
-          ),
           backgroundColor: snapshot.uiState.themeMode == ThemeMode.light
               ? Colors.white
               : Colors.black,
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 24, right: 24, top: 64),
-                  child: DummySearchTextField(
-                    tag: 'search',
-                    navigatingRouteName: MusicSearchScreen.routeScreen,
+          body: RefreshIndicator(
+            onRefresh: () async {
+              log('message');
+            },
+            color: Theme.of(context).primaryColor,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24, top: 64),
+                    child: DummySearchTextField(
+                      tag: 'search',
+                      navigatingRouteName: MusicSearchScreen.routeScreen,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Iconsax.music,
-                        size: 35,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Recently played',
-                        style: Theme.of(context).textTheme.button?.copyWith(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(),
-                Text('No recently played music!'),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-                  decoration: BoxDecoration(
-                    color: AppConstants.primaryColorLight,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Text(
-                    'See More',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.stopwatch,
+                          size: 35,
                           color: Theme.of(context).primaryColor,
                         ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Recently played',
+                          style: Theme.of(context).textTheme.button?.copyWith(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Iconsax.mini_music_sqaure,
-                        size: 35,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'For you',
-                        style: Theme.of(context).textTheme.button?.copyWith(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
+                  const Divider(),
+                  Text('No recently played music!'),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 80),
+                    decoration: BoxDecoration(
+                      color: AppConstants.primaryColorLight,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      'See More',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Iconsax.mini_music_sqaure,
+                          size: 35,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'For you',
+                          style: Theme.of(context).textTheme.button?.copyWith(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ...snapshot.homeScreenMusicList
+                      .map(
+                        (e) => Column(
+                          children: [
+                            MusicListTile(
+                              selectedMusic: e,
+                              onTap: snapshot.playMusic,
                             ),
-                      ),
-                    ],
-                  ),
-                ),
-                ...snapshot.homeScreenMusicList
-                    .map(
-                      (e) => Column(
-                        children: [
-                          MusicListTile(
-                            selectedMusic: e,
-                            onTap: snapshot.playMusic,
-                          ),
-                          const Divider(
-                            endIndent: 50,
-                            indent: 50,
-                            height: 5,
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList(),
-                const Divider(),
-              ],
+                            const Divider(
+                              endIndent: 50,
+                              indent: 50,
+                              height: 5,
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                  const SizedBox(
+                    height: 250,
+                  )
+                ],
+              ),
             ),
           ),
         );

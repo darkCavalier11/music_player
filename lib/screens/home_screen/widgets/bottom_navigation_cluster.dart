@@ -81,9 +81,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       }
                       return Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 240,
+                        height: 150,
                         decoration: BoxDecoration(
                           color: paletteSnapshot.data?.dominantColor?.color,
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
                           children: [
@@ -157,111 +158,111 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       );
                     }),
               )),
-              Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: AppConstants.primaryColorLight,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Stack(
-                      children: [
-                        AnimatedPositioned(
-                          curve: Curves.fastOutSlowIn,
-                          top: 10,
-                          left: getIconPosition(
-                              MediaQuery.of(context).size.width * 0.8,
-                              snapshot.currentBottomNavIndex),
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          duration: const Duration(milliseconds: 200),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BottomNavigationBottom(
-                                homeIcon: snapshot.currentBottomNavIndex == 0
-                                    ? const Icon(
-                                        Iconsax.home1,
-                                        color: Colors.white,
-                                        key: ValueKey<int>(10),
-                                      )
-                                    : const Icon(
-                                        Iconsax.home_1,
-                                        key: ValueKey<int>(0),
-                                      ),
-                                onTap: () {
-                                  widget.onPageChanged(0);
-                                  snapshot.changeBottomNavIndex(0);
-                                },
-                              ),
-                              BottomNavigationBottom(
-                                homeIcon: snapshot.currentBottomNavIndex == 1
-                                    ? const Icon(
-                                        CupertinoIcons.heart_fill,
-                                        color: Colors.white,
-                                        key: ValueKey<int>(11),
-                                      )
-                                    : const Icon(
-                                        CupertinoIcons.heart,
-                                        key: ValueKey<int>(1),
-                                      ),
-                                onTap: () {
-                                  widget.onPageChanged(1);
-                                  snapshot.changeBottomNavIndex(1);
-                                },
-                              ),
-                              BottomNavigationBottom(
-                                homeIcon: snapshot.currentBottomNavIndex == 2
-                                    ? const Icon(
-                                        Iconsax.music_playlist5,
-                                        color: Colors.white,
-                                        key: ValueKey<int>(12),
-                                      )
-                                    : const Icon(
-                                        Iconsax.music_playlist,
-                                        key: ValueKey<int>(2),
-                                      ),
-                                onTap: () {
-                                  widget.onPageChanged(2);
-                                  snapshot.changeBottomNavIndex(2);
-                                },
-                              ),
-                              BottomNavigationBottom(
-                                homeIcon: snapshot.currentBottomNavIndex == 3
-                                    ? const Icon(
-                                        CupertinoIcons.person_fill,
-                                        color: Colors.white,
-                                        key: ValueKey<int>(10),
-                                      )
-                                    : const Icon(
-                                        CupertinoIcons.person,
-                                        key: ValueKey<int>(1),
-                                      ),
-                                onTap: () {
-                                  widget.onPageChanged(3);
-                                  snapshot.changeBottomNavIndex(3);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     Container(
+              //       width: MediaQuery.of(context).size.width * 0.8,
+              //       height: 70,
+              //       decoration: BoxDecoration(
+              //         color: AppConstants.primaryColorLight,
+              //         borderRadius: BorderRadius.circular(50),
+              //       ),
+              //       child: Stack(
+              //         children: [
+              //           AnimatedPositioned(
+              //             curve: Curves.fastOutSlowIn,
+              //             top: 10,
+              //             left: getIconPosition(
+              //                 MediaQuery.of(context).size.width * 0.8,
+              //                 snapshot.currentBottomNavIndex),
+              //             child: Container(
+              //               width: 50,
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                 color: Theme.of(context).primaryColor,
+              //                 borderRadius: BorderRadius.circular(50),
+              //               ),
+              //             ),
+              //             duration: const Duration(milliseconds: 200),
+              //           ),
+              //           Padding(
+              //             padding: const EdgeInsets.all(12.0),
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 BottomNavigationBottom(
+              //                   homeIcon: snapshot.currentBottomNavIndex == 0
+              //                       ? const Icon(
+              //                           Iconsax.home1,
+              //                           color: Colors.white,
+              //                           key: ValueKey<int>(10),
+              //                         )
+              //                       : const Icon(
+              //                           Iconsax.home_1,
+              //                           key: ValueKey<int>(0),
+              //                         ),
+              //                   onTap: () {
+              //                     widget.onPageChanged(0);
+              //                     snapshot.changeBottomNavIndex(0);
+              //                   },
+              //                 ),
+              //                 BottomNavigationBottom(
+              //                   homeIcon: snapshot.currentBottomNavIndex == 1
+              //                       ? const Icon(
+              //                           CupertinoIcons.heart_fill,
+              //                           color: Colors.white,
+              //                           key: ValueKey<int>(11),
+              //                         )
+              //                       : const Icon(
+              //                           CupertinoIcons.heart,
+              //                           key: ValueKey<int>(1),
+              //                         ),
+              //                   onTap: () {
+              //                     widget.onPageChanged(1);
+              //                     snapshot.changeBottomNavIndex(1);
+              //                   },
+              //                 ),
+              //                 BottomNavigationBottom(
+              //                   homeIcon: snapshot.currentBottomNavIndex == 2
+              //                       ? const Icon(
+              //                           Iconsax.music_playlist5,
+              //                           color: Colors.white,
+              //                           key: ValueKey<int>(12),
+              //                         )
+              //                       : const Icon(
+              //                           Iconsax.music_playlist,
+              //                           key: ValueKey<int>(2),
+              //                         ),
+              //                   onTap: () {
+              //                     widget.onPageChanged(2);
+              //                     snapshot.changeBottomNavIndex(2);
+              //                   },
+              //                 ),
+              //                 BottomNavigationBottom(
+              //                   homeIcon: snapshot.currentBottomNavIndex == 3
+              //                       ? const Icon(
+              //                           CupertinoIcons.person_fill,
+              //                           color: Colors.white,
+              //                           key: ValueKey<int>(10),
+              //                         )
+              //                       : const Icon(
+              //                           CupertinoIcons.person,
+              //                           key: ValueKey<int>(1),
+              //                         ),
+              //                   onTap: () {
+              //                     widget.onPageChanged(3);
+              //                     snapshot.changeBottomNavIndex(3);
+              //                   },
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     const SizedBox(height: 15),
+              //   ],
+              // ),
             ],
           );
         },
