@@ -107,20 +107,20 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                         );
                                       },
                                     ),
-                                    // Container(
-                                    //   width: posX,
-                                    //   height: 6,
-                                    //   decoration: BoxDecoration(
-                                    //     color: widget.progressBarColor ??
-                                    //         Theme.of(context)
-                                    //             .colorScheme
-                                    //             .secondary,
-                                    //     borderRadius: const BorderRadius.only(
-                                    //       bottomLeft: Radius.circular(8),
-                                    //       topLeft: Radius.circular(8),
-                                    //     ),
-                                    //   ),
-                                    // ),
+                                    Container(
+                                      width: posX,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: widget.progressBarColor ??
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(8),
+                                          topLeft: Radius.circular(8),
+                                        ),
+                                      ),
+                                    ),
                                     Positioned(
                                       left: posX - 4,
                                       child: Container(

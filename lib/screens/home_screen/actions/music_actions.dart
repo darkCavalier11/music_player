@@ -42,7 +42,6 @@ class PlayAudioAction extends ReduxAction<AppState> {
   });
   @override
   Future<AppState?> reduce() async {
-    dispatch(_SetMediaItemStateAction(selectedMusic: mediaItem));
     try {
       await dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: mediaItem));
@@ -51,11 +50,11 @@ class PlayAudioAction extends ReduxAction<AppState> {
           await yt.videos.streamsClient.getManifest(mediaItem.videoId);
       final url =
           manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
+      dispatch(_SetMediaItemStateAction(selectedMusic: mediaItem));
+
       final audioUri = AudioSource.uri(
         url,
-        tag: state.audioPlayerState.selectedMusic
-            ?.toMediaItem()
-            .copyWith(artUri: url),
+        tag: mediaItem.toMediaItem().copyWith(artUri: url),
       );
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
       await state.audioPlayerState.audioPlayer.play();

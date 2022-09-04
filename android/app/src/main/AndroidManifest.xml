@@ -3,6 +3,7 @@
     package="com.example.music_player">
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET" /> 
    <application
         android:label="music_player"
         android:name="${applicationName}"

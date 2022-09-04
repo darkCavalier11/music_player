@@ -65,12 +65,10 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                   child: Visibility(
                 visible: snapshot.selectedMusic != null,
                 child: FutureBuilder<PaletteGenerator>(
-                    future: snapshot.selectedMusic?.imageUrl !=
-                            null
+                    future: snapshot.selectedMusic?.imageUrl != null
                         ? PaletteGenerator.fromImageProvider(
-                            CachedNetworkImageProvider(snapshot
-                                    .selectedMusic?.imageUrl ??
-                                ''))
+                            CachedNetworkImageProvider(
+                                snapshot.selectedMusic?.imageUrl ?? ''))
                         : Future.value(
                             PaletteGenerator.fromColors([
                               PaletteColor(Theme.of(context).primaryColor, 1),
@@ -149,8 +147,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                               ],
                             ),
                             PlayTimerWidget(
-                              progressBarColor: paletteSnapshot
-                                  .data?.dominantColor?.bodyTextColor,
+                              progressBarColor:
+                                  paletteSnapshot.data?.vibrantColor?.color,
                               textColor: paletteSnapshot
                                   .data?.dominantColor?.bodyTextColor,
                             ),

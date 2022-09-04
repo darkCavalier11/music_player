@@ -22,6 +22,7 @@ import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
 import '../home_screen/widgets/music_list_tile.dart';
 import '../music_search_screen/music_search_screen.dart';
+import 'actions/music_actions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -122,6 +123,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           MusicListTile(
                             selectedMusic: e,
+                            onTap: snapshot.playMusic,
                           ),
                           const Divider(
                             endIndent: 50,
@@ -201,11 +203,13 @@ class _ViewModel extends Vm {
   final AudioPlayer audioPlayer;
   final Function() toggleTheme;
   final List<MusicItem> homeScreenMusicList;
+  final void Function(MusicItem) playMusic;
   _ViewModel({
     required this.audioPlayer,
     required this.uiState,
     required this.toggleTheme,
     required this.homeScreenMusicList,
+    required this.playMusic,
   }) : super(equals: [
           uiState,
           audioPlayer,
@@ -247,6 +251,11 @@ class _Factory extends VmFactory<AppState, HomeScreen> {
         }
       },
       homeScreenMusicList: state.homePageState.homePageMusicList,
+      playMusic: (mediaItem) async {
+        await dispatch(
+          PlayAudioAction(mediaItem: mediaItem),
+        );
+      },
     );
   }
 }

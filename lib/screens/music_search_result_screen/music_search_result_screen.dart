@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:music_player/redux/models/app_state.dart';
 
+import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/utils/loading_indicator.dart';
 
+import '../home_screen/actions/music_actions.dart';
 import '../home_screen/home_screen.dart';
 import '../home_screen/widgets/music_list_tile.dart';
 import '../music_search_screen/music_search_screen.dart';
@@ -25,6 +26,9 @@ class MusicSearchResultScreen extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return Scaffold(
+          floatingActionButton: FloatingActionButton(onPressed: () {
+            Navigator.of(context).pop();
+          }),
           body: snapshot.searchResultFetchingState == LoadingState.loading
               ? Center(
                   child: LoadingIndicator.small(context),
@@ -68,6 +72,10 @@ class MusicSearchResultScreen extends StatelessWidget {
                               children: [
                                 MusicListTile(
                                   selectedMusic: e,
+                                  onTap: (musicItem) {
+                                    Navigator.of(context).pop();
+                                    snapshot.playMusic(musicItem);
+                                  },
                                 ),
                                 const Divider(),
                               ],
@@ -87,9 +95,11 @@ class MusicSearchResultScreen extends StatelessWidget {
 class _ViewModel extends Vm {
   final LoadingState searchResultFetchingState;
   final List<MusicItem> searchResultMusicItems;
+  final void Function(MusicItem) playMusic;
   _ViewModel({
     required this.searchResultFetchingState,
     required this.searchResultMusicItems,
+    required this.playMusic,
   }) : super(equals: [
           searchResultFetchingState,
           searchResultMusicItems,
@@ -103,6 +113,11 @@ class _Factory extends VmFactory<AppState, MusicSearchResultScreen> {
     return _ViewModel(
       searchResultFetchingState: state.searchState.searchResultFetchingState,
       searchResultMusicItems: state.searchState.searchResultMusicItems,
+      playMusic: (mediaItem) async {
+        await dispatch(
+          PlayAudioAction(mediaItem: mediaItem),
+        );
+      },
     );
   }
 }
