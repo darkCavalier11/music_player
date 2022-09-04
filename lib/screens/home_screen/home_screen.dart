@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:async';
 import 'dart:developer';
-import 'dart:math' hide log;
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,13 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
-import 'package:music_player/main.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
-import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
-import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';

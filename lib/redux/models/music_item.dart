@@ -52,6 +52,16 @@ class MusicItem {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'videoId': videoId,
+      'imageUrl': imageUrl,
+      'title': title,
+      'author': author,
+      'duration': duration,
+    };
+  }
+
   MusicItem copyWith({
     String? videoId,
     String? imageUrl,

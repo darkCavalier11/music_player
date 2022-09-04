@@ -44,12 +44,15 @@ class AppDatabse {
 
 enum DbKeys {
   context,
+  recentlyPlayedList,
 }
 
 extension on DbKeys {
   String toEnumString() {
     if (this == DbKeys.context) {
       return 'context';
+    } else if (this == DbKeys.recentlyPlayedList) {
+      return 'recentlyPlayedList';
     } else {
       return '#';
     }

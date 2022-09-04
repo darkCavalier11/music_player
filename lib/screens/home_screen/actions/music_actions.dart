@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/redux/action/app_db_actions.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/audio_player_state.dart';
@@ -58,6 +59,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       );
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
       await state.audioPlayerState.audioPlayer.play();
+      dispatch(AddItemToRecentlyPlayedList(musicItem: mediaItem));
     } catch (err) {
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
