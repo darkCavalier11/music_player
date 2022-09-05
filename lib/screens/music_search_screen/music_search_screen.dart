@@ -97,7 +97,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                           return ListTile(
                             onTap: () {
                               snapshot.onTapSearchResult(
-                                  snapshot.searchResults[index]);
+                                  snapshot.previouslySearchedItems[index]);
                               Navigator.of(context).popAndPushNamed(
                                   MusicSearchResultScreen.routeName);
                             },

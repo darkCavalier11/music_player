@@ -19,7 +19,6 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
     try {
       final serialisedList =
           await AppDatabse.getQuery(DbKeys.recentlyPlayedList);
-
       if (serialisedList == null) {
         AppDatabse.setQuery(
             DbKeys.recentlyPlayedList, jsonEncode([musicItem.toJson()]));
@@ -85,6 +84,7 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
       if (serialisedList.length == 5) {
         previouslySearchedItems.removeLast();
       }
+      previouslySearchedItems.remove(searchQuery);
       previouslySearchedItems.add(searchQuery);
       AppDatabse.setQuery(DbKeys.searchedItemList,
           jsonEncode(previouslySearchedItems.reversed.toList()));
