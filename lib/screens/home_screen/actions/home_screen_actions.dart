@@ -38,7 +38,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
         if (musicItem != null && musicItem['content'] != null) {
           if (musicItem['content']['videoRenderer'] != null) {
             homeScreenMusicItems
-                .add(MusicItem.fromJson(musicItem['content']['videoRenderer']));
+                .add(MusicItem.fromApiJson(musicItem['content']['videoRenderer']));
           } else {
             log('message');
           }

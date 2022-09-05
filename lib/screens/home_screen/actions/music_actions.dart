@@ -57,9 +57,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
         url,
         tag: mediaItem.toMediaItem().copyWith(artUri: url),
       );
+      dispatch(AddItemToRecentlyPlayedList(musicItem: mediaItem));
+
       await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
       await state.audioPlayerState.audioPlayer.play();
-      dispatch(AddItemToRecentlyPlayedList(musicItem: mediaItem));
     } catch (err) {
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));

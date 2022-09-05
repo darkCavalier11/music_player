@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_player/redux/action/app_db_actions.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
@@ -26,6 +27,7 @@ class HomeScreen extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       onInit: (store) {
+        store.dispatch(GetRecentlyPlayedMusicList());
         store.dispatch(LoadHomePageMusicAction());
       },
       builder: (context, snapshot) {
@@ -73,7 +75,15 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  Text('No recently played music!'),
+                  ...snapshot.recentlyPlayedList
+                      .take(5)
+                      .map(
+                        (e) => MusicListTile(
+                          selectedMusic: e,
+                          onTap: snapshot.playMusic,
+                        ),
+                      )
+                      .toList(),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 80),
@@ -199,6 +209,7 @@ class _ViewModel extends Vm {
   final AudioPlayer audioPlayer;
   final Function() toggleTheme;
   final List<MusicItem> homeScreenMusicList;
+  final List<MusicItem> recentlyPlayedList;
   final void Function(MusicItem) playMusic;
   _ViewModel({
     required this.audioPlayer,
@@ -206,9 +217,11 @@ class _ViewModel extends Vm {
     required this.toggleTheme,
     required this.homeScreenMusicList,
     required this.playMusic,
+    required this.recentlyPlayedList,
   }) : super(equals: [
           uiState,
           audioPlayer,
+          recentlyPlayedList,
           homeScreenMusicList,
         ]);
 
@@ -237,6 +250,7 @@ class _Factory extends VmFactory<AppState, HomeScreen> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      recentlyPlayedList: state.homePageState.recentlyPlayedMusicList,
       audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
       toggleTheme: () {

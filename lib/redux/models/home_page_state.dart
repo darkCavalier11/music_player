@@ -6,20 +6,23 @@ import 'package:music_player/redux/models/search_state.dart';
 
 class HomePageState {
   final List<MusicItem> homePageMusicList;
+  final List<MusicItem> recentlyPlayedMusicList;
   final LoadingState homepageMusicListLoading;
   HomePageState({
     required this.homePageMusicList,
+    required this.recentlyPlayedMusicList,
     required this.homepageMusicListLoading,
   });
 
   HomePageState copyWith({
     List<MusicItem>? homePageMusicList,
+    List<MusicItem>? recentlyPlayedMusicList,
     LoadingState? homepageMusicListLoading,
   }) {
     return HomePageState(
       homePageMusicList: homePageMusicList ?? this.homePageMusicList,
-      homepageMusicListLoading:
-          homepageMusicListLoading ?? this.homepageMusicListLoading,
+      recentlyPlayedMusicList: recentlyPlayedMusicList ?? this.recentlyPlayedMusicList,
+      homepageMusicListLoading: homepageMusicListLoading ?? this.homepageMusicListLoading,
     );
   }
 
@@ -27,22 +30,23 @@ class HomePageState {
     return HomePageState(
       homePageMusicList: [],
       homepageMusicListLoading: LoadingState.idle,
+      recentlyPlayedMusicList: [],
     );
   }
 
   @override
-  String toString() =>
-      'HomePageState(homePageMusicList: $homePageMusicList, homepageMusicListLoading: $homepageMusicListLoading)';
+  String toString() => 'HomePageState(homePageMusicList: $homePageMusicList, recentlyPlayedMusicList: $recentlyPlayedMusicList, homepageMusicListLoading: $homepageMusicListLoading)';
 
   @override
   bool operator ==(covariant HomePageState other) {
     if (identical(this, other)) return true;
-
-    return listEquals(other.homePageMusicList, homePageMusicList) &&
-        other.homepageMusicListLoading == homepageMusicListLoading;
+  
+    return 
+      listEquals(other.homePageMusicList, homePageMusicList) &&
+      listEquals(other.recentlyPlayedMusicList, recentlyPlayedMusicList) &&
+      other.homepageMusicListLoading == homepageMusicListLoading;
   }
 
   @override
-  int get hashCode =>
-      homePageMusicList.hashCode ^ homepageMusicListLoading.hashCode;
+  int get hashCode => homePageMusicList.hashCode ^ recentlyPlayedMusicList.hashCode ^ homepageMusicListLoading.hashCode;
 }

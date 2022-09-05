@@ -19,13 +19,23 @@ class MusicItem {
     this.musicUrl,
   });
 
-  factory MusicItem.fromJson(Map<String, dynamic> json) {
+  factory MusicItem.fromApiJson(Map<String, dynamic> json) {
     return MusicItem(
         videoId: json['videoId'],
         imageUrl: json['thumbnail']['thumbnails'][0]['url'],
         title: json['title']['runs'][0]['text'],
         author: json['longBylineText']['runs'][0]['text'],
         duration: json['lengthText']['simpleText']);
+  }
+
+  factory MusicItem.fromJson(Map<String, dynamic> json) {
+    return MusicItem(
+      videoId: json['videoId'],
+      imageUrl: json['imageUrl'],
+      title: json['title'],
+      author: json['author'],
+      duration: json['duration'],
+    );
   }
 
   @override

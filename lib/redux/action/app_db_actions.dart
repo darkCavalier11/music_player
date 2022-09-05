@@ -20,15 +20,45 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
       final serialisedList =
           await AppDatabse.getQuery(DbKeys.recentlyPlayedList);
       if (serialisedList == null) {
-        AppDatabse.setQuery(DbKeys.recentlyPlayedList, jsonEncode([musicItem]));
+        AppDatabse.setQuery(
+            DbKeys.recentlyPlayedList, jsonEncode([musicItem.toJson()]));
         return null;
       }
-      final oldmusicList = (jsonDecode(serialisedList) as List)
-          .map((e) => MusicItem.fromJson(e))
-          .toList();
+      final oldmusicList = (jsonDecode(serialisedList) as List).map((e) {
+        return MusicItem.fromJson(e);
+      }).toList();
+      if (oldmusicList.contains(musicItem)) {
+        oldmusicList.remove(musicItem);
+      }
       oldmusicList.add(musicItem);
-      AppDatabse.setQuery(DbKeys.recentlyPlayedList,
+      await AppDatabse.setQuery(DbKeys.recentlyPlayedList,
           jsonEncode(oldmusicList.map((e) => e.toJson()).toList()));
+      dispatch(GetRecentlyPlayedMusicList());
+    } catch (err) {
+      log(err.toString());
+    }
+  }
+}
+
+class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final serialisedList =
+          await AppDatabse.getQuery(DbKeys.recentlyPlayedList);
+      if (serialisedList == null) {
+        return null;
+      }
+      final musicList = jsonDecode(serialisedList) as List;
+      return state.copyWith(
+        homePageState: state.homePageState.copyWith(
+          recentlyPlayedMusicList: musicList
+              .map((e) => MusicItem.fromJson(e))
+              .toList()
+              .reversed
+              .toList(),
+        ),
+      );
     } catch (err) {
       log(err.toString());
     }
