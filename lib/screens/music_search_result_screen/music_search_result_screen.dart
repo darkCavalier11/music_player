@@ -41,6 +41,7 @@ class MusicSearchResultScreen extends StatelessWidget {
                         child: DummySearchTextField(
                           tag: 'search',
                           navigatingRouteName: MusicSearchScreen.routeScreen,
+                          shouldPopCurrentRoute: true,
                         ),
                       ),
                       const SizedBox(height: 16),

@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
 
 import 'package:music_player/main.dart';
+import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/redux/models/music_item.dart';
@@ -117,6 +118,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
     try {
       dispatch(
           _SetSearchResultFetchingAction(loadingState: LoadingState.loading));
+      dispatch(AddItemToSearchedItemList(searchQuery: searchQuery));
       String? payload = await AppDatabse.getQuery(DbKeys.context);
       if (payload == null) {
         await dispatch(LoadHomePageMusicAction());
@@ -149,7 +151,6 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
             searchScreenMusicItems
                 .add(MusicItem.fromApiJson(item['videoRenderer']));
           } else {
-            log('message');
           }
         }
 

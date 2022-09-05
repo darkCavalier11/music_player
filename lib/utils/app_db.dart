@@ -45,6 +45,7 @@ class AppDatabse {
 enum DbKeys {
   context,
   recentlyPlayedList,
+  searchedItemList,
 }
 
 extension on DbKeys {
@@ -53,6 +54,8 @@ extension on DbKeys {
       return 'context';
     } else if (this == DbKeys.recentlyPlayedList) {
       return 'recentlyPlayedList';
+    } else if (this == DbKeys.searchedItemList) {
+      return 'searchItemList';
     } else {
       return '#';
     }

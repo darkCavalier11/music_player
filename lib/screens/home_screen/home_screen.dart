@@ -36,9 +36,7 @@ class HomeScreen extends StatelessWidget {
               ? Colors.white
               : Colors.black,
           body: RefreshIndicator(
-            onRefresh: () async {
-              log('message');
-            },
+            onRefresh: () async {},
             color: Theme.of(context).primaryColor,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -53,52 +51,54 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: [
-                        Icon(
-                          CupertinoIcons.stopwatch,
-                          size: 35,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Recently played',
-                          style: Theme.of(context).textTheme.button?.copyWith(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  ...snapshot.recentlyPlayedList
-                      .take(5)
-                      .map(
-                        (e) => MusicListTile(
-                          selectedMusic: e,
-                          onTap: snapshot.playMusic,
-                        ),
-                      )
-                      .toList(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 80),
-                    decoration: BoxDecoration(
-                      color: AppConstants.primaryColorLight,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      'See More',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
+                  if (snapshot.recentlyPlayedList.isNotEmpty) ...[
+                    const Divider(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.stopwatch,
+                            size: 35,
                             color: Theme.of(context).primaryColor,
                           ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Recently played',
+                            style: Theme.of(context).textTheme.button?.copyWith(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    ...snapshot.recentlyPlayedList
+                        .take(5)
+                        .map(
+                          (e) => MusicListTile(
+                            selectedMusic: e,
+                            onTap: snapshot.playMusic,
+                          ),
+                        )
+                        .toList(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 80),
+                      decoration: BoxDecoration(
+                        color: AppConstants.primaryColorLight,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Text(
+                        'See More',
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
+                    ),
+                  ],
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Row(
@@ -154,9 +154,11 @@ class HomeScreen extends StatelessWidget {
 class DummySearchTextField extends StatelessWidget {
   final String tag;
   final String navigatingRouteName;
+  final bool? shouldPopCurrentRoute;
   const DummySearchTextField({
     required this.navigatingRouteName,
     required this.tag,
+    this.shouldPopCurrentRoute,
     Key? key,
   }) : super(key: key);
 
@@ -166,6 +168,9 @@ class DummySearchTextField extends StatelessWidget {
       tag: tag,
       child: GestureDetector(
         onTap: () {
+          if (shouldPopCurrentRoute == true) {
+            Navigator.of(context).pop();
+          }
           Navigator.of(context).pushNamed(navigatingRouteName);
         },
         child: Material(

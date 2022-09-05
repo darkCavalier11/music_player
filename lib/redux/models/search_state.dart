@@ -7,7 +7,6 @@ import 'package:music_player/redux/models/music_model.dart';
 
 class SearchState {
   final String query;
-  // todo : fetch from db
   final List<String> previouslySearchedItems;
   final MusicSearchStringResults musicSearchResults;
   final LoadingState currentSeacrhState;

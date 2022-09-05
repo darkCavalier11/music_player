@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
@@ -46,6 +47,9 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onInit: (store) {
+        store.dispatch(GetSearchedItemList());
+      },
       onDispose: (store) {
         store.dispatch(OnChangeSearchQueryAction(query: ''));
       },
@@ -85,6 +89,37 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                   ),
                   const Divider(),
+                  if (_textEditingController.text.isEmpty) ...[
+                    Flexible(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(0),
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              snapshot.onTapSearchResult(
+                                  snapshot.searchResults[index]);
+                              Navigator.of(context).popAndPushNamed(
+                                  MusicSearchResultScreen.routeName);
+                            },
+                            leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  CupertinoIcons.search,
+                                ),
+                              ],
+                            ),
+                            title: Text(
+                              snapshot.previouslySearchedItems[index],
+                            ),
+                          );
+                        },
+                        itemCount: snapshot.previouslySearchedItems.length,
+                      ),
+                      flex: 4,
+                    )
+                  ],
+                  // exact search query
                   ListTile(
                     title: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -101,6 +136,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                           .popAndPushNamed(MusicSearchResultScreen.routeName);
                     },
                   ),
+                  // suggestion list
                   Flexible(
                     flex: 1,
                     child: ListView.builder(
@@ -194,12 +230,14 @@ class _ViewModel extends Vm {
   final void Function(String) changeSearchQuery;
   final LoadingState currentSeacrhState;
   final List<String> searchResults;
+  final List<String> previouslySearchedItems;
   final void Function(String) onTapSearchResult;
   _ViewModel({
     required this.query,
     required this.changeSearchQuery,
     required this.currentSeacrhState,
     required this.searchResults,
+    required this.previouslySearchedItems,
     required this.onTapSearchResult,
   }) : super(equals: [query, currentSeacrhState, searchResults]);
 
@@ -230,6 +268,7 @@ class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      previouslySearchedItems: state.searchState.previouslySearchedItems,
       onTapSearchResult: (query) {
         dispatch(GetMusicItemFromQueryAction(searchQuery: query));
       },
