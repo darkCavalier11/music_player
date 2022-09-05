@@ -46,6 +46,9 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onDispose: (store) {
+        store.dispatch(OnChangeSearchQueryAction(query: ''));
+      },
       builder: (context, snapshot) {
         return Scaffold(
           floatingActionButton: FloatingActionButton(onPressed: () {
@@ -82,6 +85,22 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                   ),
                   const Divider(),
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Text(
+                        _textEditingController.text,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                    onTap: () {
+                      snapshot.onTapSearchResult(_textEditingController.text);
+                      Navigator.of(context)
+                          .popAndPushNamed(MusicSearchResultScreen.routeName);
+                    },
+                  ),
                   Flexible(
                     flex: 1,
                     child: ListView.builder(
