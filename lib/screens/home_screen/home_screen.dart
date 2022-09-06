@@ -268,7 +268,7 @@ class _Factory extends VmFactory<AppState, HomeScreen> {
       homeScreenMusicList: state.homePageState.homePageMusicList,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(mediaItem: mediaItem),
+          PlayAudioAction(musicItem: mediaItem),
         );
       },
     );

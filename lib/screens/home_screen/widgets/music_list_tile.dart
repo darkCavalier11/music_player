@@ -86,7 +86,7 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                       ],
                     ),
                   ),
-                  snapshot.currentMusic?.videoId == selectedMusic.videoId
+                  snapshot.currentMusic?.musicId == selectedMusic.musicId
                       ? SizedBox(
                           child: _MusicTileTrailingWidget(
                             processingStateStream:
@@ -181,7 +181,7 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
           state.audioPlayerState.audioPlayer.processingStateStream,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(mediaItem: mediaItem),
+          PlayAudioAction(musicItem: mediaItem),
         );
       },
       currentMusic: state.audioPlayerState.selectedMusic,

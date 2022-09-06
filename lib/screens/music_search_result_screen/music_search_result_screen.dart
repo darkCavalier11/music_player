@@ -116,7 +116,7 @@ class _Factory extends VmFactory<AppState, MusicSearchResultScreen> {
       searchResultMusicItems: state.searchState.searchResultMusicItems,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(mediaItem: mediaItem),
+          PlayAudioAction(musicItem: mediaItem),
         );
       },
     );

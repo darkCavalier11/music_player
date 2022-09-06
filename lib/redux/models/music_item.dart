@@ -3,7 +3,7 @@
 import 'package:just_audio_background/just_audio_background.dart';
 
 class MusicItem {
-  final String videoId;
+  final String musicId;
   final String imageUrl;
   final String title;
   final String author;
@@ -11,7 +11,7 @@ class MusicItem {
   // this field gets populated when the music details fetched.
   final String? musicUrl;
   MusicItem({
-    required this.videoId,
+    required this.musicId,
     required this.imageUrl,
     required this.title,
     required this.author,
@@ -21,16 +21,17 @@ class MusicItem {
 
   factory MusicItem.fromApiJson(Map<String, dynamic> json) {
     return MusicItem(
-        videoId: json['videoId'],
+        musicId: json['videoId'],
         imageUrl: json['thumbnail']['thumbnails'][0]['url'],
         title: json['title']['runs'][0]['text'],
         author: json['longBylineText']['runs'][0]['text'],
         duration: json['lengthText']['simpleText']);
   }
 
+  // store and retrieve from db
   factory MusicItem.fromJson(Map<String, dynamic> json) {
     return MusicItem(
-      videoId: json['videoId'],
+      musicId: json['musicId'],
       imageUrl: json['imageUrl'],
       title: json['title'],
       author: json['author'],
@@ -40,7 +41,7 @@ class MusicItem {
 
   @override
   String toString() {
-    return 'MusicItem(videoId: $videoId, imageUrl: $imageUrl, title: $title, author: $author, duration: $duration, musicUrl: $musicUrl)';
+    return 'MusicItem(musicId: $musicId, imageUrl: $imageUrl, title: $title, author: $author, duration: $duration, musicUrl: $musicUrl)';
   }
 
   MediaItem toMediaItem() {
@@ -52,7 +53,7 @@ class MusicItem {
       counter *= 60;
     }
     return MediaItem(
-      id: videoId,
+      id: musicId,
       title: title,
       // todo : parse proper duration
       duration: Duration(seconds: durSeconds),
@@ -64,7 +65,7 @@ class MusicItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'videoId': videoId,
+      'musicId': musicId,
       'imageUrl': imageUrl,
       'title': title,
       'author': author,
@@ -73,7 +74,7 @@ class MusicItem {
   }
 
   MusicItem copyWith({
-    String? videoId,
+    String? musicId,
     String? imageUrl,
     String? title,
     String? author,
@@ -81,7 +82,7 @@ class MusicItem {
     String? musicUrl,
   }) {
     return MusicItem(
-      videoId: videoId ?? this.videoId,
+      musicId: musicId ?? this.musicId,
       imageUrl: imageUrl ?? this.imageUrl,
       title: title ?? this.title,
       author: author ?? this.author,
@@ -93,22 +94,23 @@ class MusicItem {
   @override
   bool operator ==(covariant MusicItem other) {
     if (identical(this, other)) return true;
-
-    return other.videoId == videoId &&
-        other.imageUrl == imageUrl &&
-        other.title == title &&
-        other.author == author &&
-        other.duration == duration &&
-        other.musicUrl == musicUrl;
+  
+    return 
+      other.musicId == musicId &&
+      other.imageUrl == imageUrl &&
+      other.title == title &&
+      other.author == author &&
+      other.duration == duration &&
+      other.musicUrl == musicUrl;
   }
 
   @override
   int get hashCode {
-    return videoId.hashCode ^
-        imageUrl.hashCode ^
-        title.hashCode ^
-        author.hashCode ^
-        duration.hashCode ^
-        musicUrl.hashCode;
+    return musicId.hashCode ^
+      imageUrl.hashCode ^
+      title.hashCode ^
+      author.hashCode ^
+      duration.hashCode ^
+      musicUrl.hashCode;
   }
 }

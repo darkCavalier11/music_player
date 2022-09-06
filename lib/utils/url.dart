@@ -28,4 +28,9 @@ class AppUrl {
   static String playMusicUrl(String apiKey) {
     return 'https://www.youtube.com/youtubei/v1/player?key=$apiKey&prettyPrint=false';
   }
+
+  // url to fetch next set of music
+  static String nextMusicListUrl(String apiKey) {
+    return 'https://www.youtube.com/youtubei/v1/next?key=$apiKey&prettyPrint=false';
+  }
 }
