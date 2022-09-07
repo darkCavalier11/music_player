@@ -40,6 +40,16 @@ class AppDatabse {
       throw ErrorSummary('Error getQuery $key > $err');
     }
   }
+
+  // use with caution.
+  static Future<String?> clearDbWithKey(DbKeys key) async {
+    try {
+      final store = StoreRef<String, String>.main();
+      return store.record(key.toEnumString()).delete(_mainDb);
+    } catch (err) {
+      throw ErrorSummary('Deleting query failed $key > $err');
+    }
+  }
 }
 
 enum DbKeys {

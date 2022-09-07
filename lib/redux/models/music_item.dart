@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:just_audio_background/just_audio_background.dart';
 
 class MusicItem {
@@ -94,23 +96,22 @@ class MusicItem {
   @override
   bool operator ==(covariant MusicItem other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.musicId == musicId &&
-      other.imageUrl == imageUrl &&
-      other.title == title &&
-      other.author == author &&
-      other.duration == duration &&
-      other.musicUrl == musicUrl;
+
+    return other.musicId == musicId &&
+        other.imageUrl == imageUrl &&
+        other.title == title &&
+        other.author == author &&
+        other.duration == duration &&
+        other.musicUrl == musicUrl;
   }
 
   @override
   int get hashCode {
     return musicId.hashCode ^
-      imageUrl.hashCode ^
-      title.hashCode ^
-      author.hashCode ^
-      duration.hashCode ^
-      musicUrl.hashCode;
+        imageUrl.hashCode ^
+        title.hashCode ^
+        author.hashCode ^
+        duration.hashCode ^
+        musicUrl.hashCode;
   }
 }

@@ -88,7 +88,7 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
         },
       );
       if (res.statusCode == 200) {
-        log(res.data.toString());
+        // log(res.data.toString());
       }
     } catch (err) {}
   }
@@ -122,7 +122,7 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
       }
       final musicPayload =
           MusicFilterPayloadModel.fromJson(jsonDecode(musicPayloadString));
-      final res = await ApiRequest.post(
+      final _ = await ApiRequest.post(
         AppUrl.playMusicUrl(musicPayload.apiKey),
         {
           'context': musicPayload.context.toJson(),

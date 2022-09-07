@@ -24,8 +24,9 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
             DbKeys.recentlyPlayedList, jsonEncode([musicItem.toJson()]));
         return null;
       }
+
       final oldmusicList = (jsonDecode(serialisedList) as List).map((e) {
-        return MusicItem.fromJson(e);
+        return MusicItem.fromJson(e as Map<String, dynamic>);
       }).toList();
 
       if (oldmusicList.contains(musicItem)) {
