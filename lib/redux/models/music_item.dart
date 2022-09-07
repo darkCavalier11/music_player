@@ -21,11 +21,16 @@ class MusicItem {
     this.musicUrl,
   });
 
-  factory MusicItem.fromApiJson(Map<String, dynamic> json) {
+  // `parsingForMusicList` used for getting title from set of
+  // next music list json which has a little different structure.
+  factory MusicItem.fromApiJson(Map<String, dynamic> json,
+      {bool? parsingForMusicList}) {
     return MusicItem(
         musicId: json['videoId'],
         imageUrl: json['thumbnail']['thumbnails'][0]['url'],
-        title: json['title']['runs'][0]['text'],
+        title: parsingForMusicList == false
+            ? json['title']['runs'][0]['text']
+            : json['title']['simpleText'],
         author: json['longBylineText']['runs'][0]['text'],
         duration: json['lengthText']['simpleText']);
   }

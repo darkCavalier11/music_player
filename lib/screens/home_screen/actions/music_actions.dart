@@ -88,9 +88,27 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
         },
       );
       if (res.statusCode == 200) {
-        // log(res.data.toString());
+        final nextMusicList = <MusicItem>[];
+
+        final nextMusicListResponse = jsonDecode(res.data!)['contents']
+                ['twoColumnWatchNextResults']['secondaryResults']
+            ['secondaryResults']['results'] as List;
+        for (var item in nextMusicListResponse) {
+          if (item['compactVideoRenderer'] != null) {
+            if (item['compactVideoRenderer']['videoId'] != null) {
+              nextMusicList.add(MusicItem.fromApiJson(
+                  item['compactVideoRenderer'],
+                  parsingForMusicList: true));
+            } else {
+              // todo : handle playlist
+            }
+          }
+        }
+        log(nextMusicList[0].toString());
       }
-    } catch (err) {}
+    } catch (err) {
+      log(err.toString(), stackTrace: StackTrace.current);
+    }
   }
 }
 
