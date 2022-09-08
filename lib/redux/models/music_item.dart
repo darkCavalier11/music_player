@@ -28,9 +28,9 @@ class MusicItem {
     return MusicItem(
         musicId: json['videoId'],
         imageUrl: json['thumbnail']['thumbnails'][0]['url'],
-        title: parsingForMusicList == false
-            ? json['title']['runs'][0]['text']
-            : json['title']['simpleText'],
+        title: parsingForMusicList == true
+            ? json['title']['simpleText']
+            : json['title']['runs'][0]['text'],
         author: json['longBylineText']['runs'][0]['text'],
         duration: json['lengthText']['simpleText']);
   }

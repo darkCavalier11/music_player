@@ -62,7 +62,7 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
         ),
       );
     } catch (err) {
-      log(err.toString());
+      log(err.toString(), stackTrace: StackTrace.current);
     }
   }
 }

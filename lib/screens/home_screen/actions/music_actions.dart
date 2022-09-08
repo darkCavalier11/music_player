@@ -104,7 +104,11 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
             }
           }
         }
-        log(nextMusicList[0].toString());
+        return state.copyWith(
+          audioPlayerState: state.audioPlayerState.copyWith(
+            nextMusicList: nextMusicList,
+          ),
+        );
       }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);

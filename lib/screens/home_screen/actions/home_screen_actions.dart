@@ -50,7 +50,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       );
     } catch (err) {
       _SetHomeScreenLoadingAction(loadingState: LoadingState.failed);
-      log(err.toString());
+      log(err.toString(), stackTrace: StackTrace.current);
     }
   }
 }

@@ -18,7 +18,9 @@ class MusicCircularAvatar extends StatelessWidget {
               imageUrl!,
             )
           : null,
-      child: imageUrl != null ? null : const Icon(Icons.music_note_outlined),
+      child: imageUrl == null || imageUrl!.isEmpty
+          ? const Icon(Icons.music_note_outlined)
+          : null,
     );
   }
 }
