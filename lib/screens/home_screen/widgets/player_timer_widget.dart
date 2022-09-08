@@ -307,7 +307,7 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(0.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
         child: Material(

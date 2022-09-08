@@ -81,7 +81,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                       }
                       return Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 150,
+                        height: 140,
                         decoration: BoxDecoration(
                           color: paletteSnapshot.data?.dominantColor?.color,
                           borderRadius: BorderRadius.circular(20),
@@ -146,7 +146,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       paletteSnapshot.data?.vibrantColor?.color,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Material(
