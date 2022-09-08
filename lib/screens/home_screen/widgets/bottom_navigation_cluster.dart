@@ -144,7 +144,26 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                   isFav: true,
                                   color:
                                       paletteSnapshot.data?.vibrantColor?.color,
-                                )
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Material(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withAlpha(0),
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Iconsax.next,
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             PlayTimerWidget(
