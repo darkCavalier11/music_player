@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -18,7 +19,6 @@ import 'package:music_player/screens/home_screen/widgets/play_pause_button.dart'
 import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/utils/constants.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
-import 'package:palette_generator/palette_generator.dart';
 
 class BottomNavigationCluster extends StatefulWidget {
   final Function(int) onPageChanged;
@@ -105,22 +105,14 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // todo : add trasition animation
-                                        Text(
-                                          snapshot.selectedMusic?.title ?? '-',
-                                          maxLines: 1,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                color: paletteSnapshot
-                                                        .data
-                                                        ?.dominantColor
-                                                        ?.bodyTextColor ??
-                                                    Theme.of(context)
-                                                        .scaffoldBackgroundColor,
-                                              ),
-                                        ),
+                                        TranslatingText(
+                                            text:
+                                                snapshot.selectedMusic?.title ??
+                                                    '-',
+                                            color: paletteSnapshot
+                                                .data
+                                                ?.dominantColor
+                                                ?.titleTextColor),
                                         Text(
                                           snapshot.selectedMusic?.author ??
                                               'Unknown',
@@ -287,6 +279,55 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
           );
         },
       ),
+    );
+  }
+}
+
+class TranslatingText extends StatefulWidget {
+  final String text;
+  final Color? color;
+  const TranslatingText({
+    Key? key,
+    required this.text,
+    this.color,
+  }) : super(key: key);
+
+  @override
+  State<TranslatingText> createState() => _TranslatingTextState();
+}
+
+class _TranslatingTextState extends State<TranslatingText>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+  late final Animation _translationAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    _translationAnimation =
+        Tween<double>(begin: 0, end: pi).animate(_animationController);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      child: Text(
+        widget.text,
+        maxLines: 1,
+        overflow: TextOverflow.clip,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: widget.color ?? Theme.of(context).scaffoldBackgroundColor,
+            ),
+      ),
+      animation: _translationAnimation,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _translationAnimation.value,
+          child: child,
+        );
+      },
     );
   }
 }

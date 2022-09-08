@@ -329,14 +329,14 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
                 child: _isFav
                     ? Icon(
                         CupertinoIcons.heart_fill,
-                        key: ValueKey<int>(0),
+                        key: const ValueKey<int>(0),
                         size: 30,
                         color: widget.color ??
                             Theme.of(context).colorScheme.secondary,
                       )
                     : Icon(
                         CupertinoIcons.heart,
-                        key: ValueKey<int>(1),
+                        key: const ValueKey<int>(1),
                         size: 25,
                         color: widget.color ??
                             Theme.of(context).colorScheme.secondary,
