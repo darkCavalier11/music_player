@@ -307,7 +307,7 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
         child: Material(
@@ -331,13 +331,15 @@ class _MarkFavWidgetState extends State<MarkFavWidget> {
                         CupertinoIcons.heart_fill,
                         key: ValueKey<int>(0),
                         size: 30,
-                        color: widget.color,
+                        color: widget.color ??
+                            Theme.of(context).colorScheme.secondary,
                       )
                     : Icon(
                         CupertinoIcons.heart,
                         key: ValueKey<int>(1),
                         size: 25,
-                        color: widget.color,
+                        color: widget.color ??
+                            Theme.of(context).colorScheme.secondary,
                       )),
           ),
         ),

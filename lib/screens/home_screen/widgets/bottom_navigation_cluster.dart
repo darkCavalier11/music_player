@@ -146,7 +146,8 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       paletteSnapshot.data?.vibrantColor?.color,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Material(

@@ -21,7 +21,7 @@ class PlayPauseButtonSet extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return Padding(
-          padding: const EdgeInsets.all(0.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: StreamBuilder<bool>(
             stream: snapshot.audioPlayer.playingStream,
             builder: (context, stateSnapshot) {
