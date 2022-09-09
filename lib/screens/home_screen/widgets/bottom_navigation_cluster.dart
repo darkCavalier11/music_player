@@ -359,7 +359,8 @@ class _TranslatingTextState extends State<TranslatingText>
               decoration: const BoxDecoration(),
               child: Transform.translate(
                 offset: Offset(
-                    (2 * _animationController.value - 1) * constraint.maxWidth,
+                    -(1 - _animationController.value) * textWidth +
+                        _animationController.value * (constraint.maxWidth),
                     0),
                 child: child!,
               ),
