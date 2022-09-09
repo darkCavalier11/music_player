@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
@@ -299,33 +300,71 @@ class TranslatingText extends StatefulWidget {
 class _TranslatingTextState extends State<TranslatingText>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-  late final Animation _translationAnimation;
+  double textWidth = 0;
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    _translationAnimation =
-        Tween<double>(begin: 0, end: pi).animate(_animationController);
+    _animationController = AnimationController(
+      vsync: this,
+      reverseDuration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 11),
+    );
+    _animationController.forward();
+    _animationController.repeat(reverse: false);
+    textWidth = (TextPainter(
+            text: TextSpan(
+              text: widget.text,
+            ),
+            maxLines: 1,
+            textScaleFactor: 1,
+            textDirection: TextDirection.ltr)
+          ..layout())
+        .size
+        .width;
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      child: Text(
-        widget.text,
-        maxLines: 1,
-        overflow: TextOverflow.clip,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: widget.color ?? Theme.of(context).scaffoldBackgroundColor,
+      animation: _animationController,
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              widget.text,
+              softWrap: false,
+              overflow: TextOverflow.visible,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: widget.color ??
+                        Theme.of(context).scaffoldBackgroundColor,
+                  ),
             ),
+          ),
+        ],
       ),
-      animation: _translationAnimation,
       builder: (context, child) {
-        return Transform.rotate(
-          angle: _translationAnimation.value,
-          child: child,
+        return LayoutBuilder(
+          builder: (context, constraint) {
+            if (constraint.maxWidth >= textWidth) return child!;
+            return Container(
+              width: constraint.maxWidth,
+              clipBehavior: Clip.hardEdge,
+              decoration: const BoxDecoration(),
+              child: Transform.translate(
+                offset: Offset(
+                    (2 * _animationController.value - 1) * constraint.maxWidth,
+                    0),
+                child: child!,
+              ),
+            );
+          },
         );
       },
     );
