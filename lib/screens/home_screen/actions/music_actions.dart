@@ -22,6 +22,21 @@ import 'package:music_player/utils/url.dart';
 
 import '../../../redux/models/music_item.dart';
 
+// add callback to certain stream events from the musci player
+class InitMusicPlayerAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
+      if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
+        // * get the current music item that will be played
+        final currentMusicItem =
+            state.audioPlayerState.currentPlaylist.sequence[1].tag.toString();
+        log(currentMusicItem);
+      }
+    });
+  }
+}
+
 class _SetMediaItemStateAction extends ReduxAction<AppState> {
   final MusicItem? selectedMusic;
   _SetMediaItemStateAction({
@@ -201,7 +216,9 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
 
 // When the next button is clicked on UI or on the background this action
 // nextMusicList based on the current music item to be played and load the url
-// for first music item in the nextMusicList.
+// for first music item in the nextMusicList. This way new music item will be added
+// to the current playlist and nextMusicList will hold the suggestion for
+// currently playing item.
 class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
@@ -211,6 +228,22 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
         return null;
       }
       dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
+
+      final nextMusicItem = state.audioPlayerState.nextMusicList.first;
+
+      final yt = YoutubeExplode();
+      final manifest =
+          await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);
+      final url =
+          manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
+
+      return state.copyWith(
+        audioPlayerState: state.audioPlayerState.copyWith(
+          currentPlaylist: state.audioPlayerState.currentPlaylist
+            ..add(AudioSource.uri(url,
+                tag: nextMusicItem.toMediaItem().copyWith(artUri: url))),
+        ),
+      );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }

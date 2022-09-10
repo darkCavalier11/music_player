@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       onInit: (store) {
+        store.dispatch(InitMusicPlayerAction());
         store.dispatch(GetRecentlyPlayedMusicList());
         store.dispatch(LoadHomePageMusicAction());
       },

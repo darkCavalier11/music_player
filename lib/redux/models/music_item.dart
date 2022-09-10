@@ -72,7 +72,7 @@ class MusicItem {
       duration: Duration(seconds: durSeconds),
       artUri: Uri.parse(musicUrl ?? ''),
       artist: author,
-      artHeaders: {'image_url': imageUrl},
+      extras: {'image_url': imageUrl},
     );
   }
 
