@@ -36,9 +36,25 @@ class _SetMediaItemStateAction extends ReduxAction<AppState> {
   }
 }
 
+class SetPlaylistAction extends ReduxAction<AppState> {
+  final ConcatenatingAudioSource playlist;
+  SetPlaylistAction({
+    required this.playlist,
+  });
+
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      audioPlayerState: state.audioPlayerState.copyWith(
+        currentPlaylist: playlist,
+      ),
+    );
+  }
+}
+
 // It loads the url of the music item and the fetch next music items(not urls) based on this url
-// the next item are saved on the nextMusicList. Only the current music item and first one of the 
-// nextMusicList added to the current playlist. 
+// the next item are saved on the nextMusicList. Only the current music item and first one of the
+// nextMusicList added to the current playlist.
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   PlayAudioAction({
@@ -79,8 +95,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
       ]);
 
       // * add item to local db
+      dispatch(SetPlaylistAction(playlist: _playlist));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
-      await state.audioPlayerState.audioPlayer.setAudioSource(_playlist);
+      await state.audioPlayerState.audioPlayer
+          .setAudioSource(state.audioPlayerState.currentPlaylist);
 
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
@@ -91,7 +109,6 @@ class PlayAudioAction extends ReduxAction<AppState> {
     }
   }
 }
-
 
 // set the nextMusicList based on the current music item.
 class FetchMusicListFromMusicId extends ReduxAction<AppState> {
@@ -182,9 +199,8 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
   }
 }
 
-
 // When the next button is clicked on UI or on the background this action
-// nextMusicList based on the current music item to be played and load the url 
+// nextMusicList based on the current music item to be played and load the url
 // for first music item in the nextMusicList.
 class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
   @override
@@ -195,7 +211,7 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
         return null;
       }
       dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
-    } catch(err) {
+    } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
   }

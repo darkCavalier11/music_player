@@ -12,16 +12,19 @@ class AudioPlayerState {
   final AudioPlayer audioPlayer;
   final MusicItem? selectedMusic;
   final List<MusicItem> nextMusicList;
+  final ConcatenatingAudioSource currentPlaylist;
   AudioPlayerState({
     required this.audioPlayer,
     this.selectedMusic,
     required this.nextMusicList,
+    required this.currentPlaylist,
   });
 
   factory AudioPlayerState.initial() {
     return AudioPlayerState(
       audioPlayer: AudioPlayer(),
       nextMusicList: [],
+      currentPlaylist: ConcatenatingAudioSource(children: []),
     );
   }
 
@@ -29,11 +32,13 @@ class AudioPlayerState {
     AudioPlayer? audioPlayer,
     MusicItem? selectedMusic,
     List<MusicItem>? nextMusicList,
+    ConcatenatingAudioSource? currentPlaylist,
   }) {
     return AudioPlayerState(
       audioPlayer: audioPlayer ?? this.audioPlayer,
       selectedMusic: selectedMusic ?? this.selectedMusic,
       nextMusicList: nextMusicList ?? this.nextMusicList,
+      currentPlaylist: currentPlaylist ?? this.currentPlaylist,
     );
   }
 
@@ -43,16 +48,22 @@ class AudioPlayerState {
 
     return other.audioPlayer == audioPlayer &&
         other.selectedMusic == selectedMusic &&
-        listEquals(other.nextMusicList, nextMusicList);
+        listEquals(other.nextMusicList, nextMusicList) &&
+        other.currentPlaylist == currentPlaylist;
   }
 
   @override
-  int get hashCode =>
-      audioPlayer.hashCode ^ selectedMusic.hashCode ^ nextMusicList.hashCode;
+  int get hashCode {
+    return audioPlayer.hashCode ^
+        selectedMusic.hashCode ^
+        nextMusicList.hashCode ^
+        currentPlaylist.hashCode;
+  }
 
   @override
-  String toString() =>
-      'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusic: $selectedMusic, nextMusicList: $nextMusicList)';
+  String toString() {
+    return 'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusic: $selectedMusic, nextMusicList: $nextMusicList, currentPlaylist: $currentPlaylist)';
+  }
 }
 
 enum AudioPlayerStatus {
