@@ -44,6 +44,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
+      // * fetching music url
       await dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: musicItem));
       final yt = YoutubeExplode();
@@ -53,13 +54,31 @@ class PlayAudioAction extends ReduxAction<AppState> {
           manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
-      final audioUri = AudioSource.uri(
-        url,
-        tag: musicItem.toMediaItem().copyWith(artUri: url),
-      );
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
+      // * fetch next list based on suggestions
       dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
-      await state.audioPlayerState.audioPlayer.setAudioSource(audioUri);
+
+      final nextManifest = await yt.videos.streamsClient
+          .getManifest(state.audioPlayerState.nextMusicList[0].musicId);
+      final nextUrl = nextManifest.audioOnly
+          .firstWhere((element) => element.tag == 140)
+          .url;
+      final _playlist = ConcatenatingAudioSource(children: [
+        AudioSource.uri(
+          url,
+          tag: musicItem.toMediaItem().copyWith(artUri: url),
+        ),
+        AudioSource.uri(
+          nextUrl,
+          tag: state.audioPlayerState.nextMusicList.first
+              .toMediaItem()
+              .copyWith(artUri: nextUrl),
+        ),
+      ]);
+
+      // * add item to local db
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
+      await state.audioPlayerState.audioPlayer.setAudioSource(_playlist);
+      
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       Fluttertoast.showToast(msg: "Error loading music, try again!");

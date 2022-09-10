@@ -90,7 +90,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                   ),
                   const Divider(),
                   if (_textEditingController.text.isEmpty) ...[
-                    Flexible(
+                    Expanded(
                       child: ListView.builder(
                         padding: const EdgeInsets.all(0),
                         itemBuilder: (context, index) {
