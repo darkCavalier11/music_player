@@ -315,6 +315,7 @@ class _TranslatingTextState extends State<TranslatingText>
     textWidth = (TextPainter(
             text: TextSpan(
               text: widget.text,
+              style: const TextStyle(fontSize: 16),
             ),
             maxLines: 1,
             textScaleFactor: 1,
@@ -328,6 +329,24 @@ class _TranslatingTextState extends State<TranslatingText>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant TranslatingText oldWidget) {
+    if (oldWidget.text != widget.text) {
+      textWidth = (TextPainter(
+              text: TextSpan(
+                text: widget.text,
+                style: const TextStyle(fontSize: 16),
+              ),
+              maxLines: 1,
+              textScaleFactor: 1,
+              textDirection: TextDirection.ltr)
+            ..layout())
+          .size
+          .width;
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

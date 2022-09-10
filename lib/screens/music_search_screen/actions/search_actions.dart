@@ -150,8 +150,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
           if (item['videoRenderer'] != null) {
             searchScreenMusicItems
                 .add(MusicItem.fromApiJson(item['videoRenderer']));
-          } else {
-          }
+          } else {}
         }
 
         return state.copyWith(

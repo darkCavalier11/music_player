@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 class MusicItem {
@@ -25,14 +26,19 @@ class MusicItem {
   // next music list json which has a little different structure.
   factory MusicItem.fromApiJson(Map<String, dynamic> json,
       {bool? parsingForMusicList}) {
-    return MusicItem(
-        musicId: json['videoId'],
-        imageUrl: json['thumbnail']['thumbnails'][0]['url'],
-        title: parsingForMusicList == true
-            ? json['title']['simpleText']
-            : json['title']['runs'][0]['text'],
-        author: json['longBylineText']['runs'][0]['text'],
-        duration: json['lengthText']['simpleText']);
+    try {
+      return MusicItem(
+          musicId: json['videoId'],
+          imageUrl: json['thumbnail']['thumbnails'][0]['url'],
+          title: parsingForMusicList == true
+              ? json['title']['simpleText']
+              : json['title']['runs'][0]['text'],
+          author: json['longBylineText']['runs'][0]['text'],
+          duration: json['lengthText']?['simpleText'] ?? '-');
+    } catch (err) {
+      log(json.toString());
+      throw ErrorDescription(err.toString());
+    }
   }
 
   // store and retrieve from db
