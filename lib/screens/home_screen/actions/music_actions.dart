@@ -36,6 +36,9 @@ class _SetMediaItemStateAction extends ReduxAction<AppState> {
   }
 }
 
+// It loads the url of the music item and the fetch next music items(not urls) based on this url
+// the next item are saved on the nextMusicList. Only the current music item and first one of the 
+// nextMusicList added to the current playlist. 
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   PlayAudioAction({
@@ -55,7 +58,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
       // * fetch next list based on suggestions
-      dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
+      await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
 
       final nextManifest = await yt.videos.streamsClient
           .getManifest(state.audioPlayerState.nextMusicList[0].musicId);
@@ -78,9 +81,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
       // * add item to local db
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
       await state.audioPlayerState.audioPlayer.setAudioSource(_playlist);
-      
+
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
+      log(err.toString());
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
@@ -88,6 +92,8 @@ class PlayAudioAction extends ReduxAction<AppState> {
   }
 }
 
+
+// set the nextMusicList based on the current music item.
 class FetchMusicListFromMusicId extends ReduxAction<AppState> {
   final MusicItem musicItem;
   FetchMusicListFromMusicId({
@@ -171,6 +177,25 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
         },
       );
     } catch (err) {
+      log(err.toString(), stackTrace: StackTrace.current);
+    }
+  }
+}
+
+
+// When the next button is clicked on UI or on the background this action
+// nextMusicList based on the current music item to be played and load the url 
+// for first music item in the nextMusicList.
+class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final currentMusicItem = state.audioPlayerState.selectedMusic;
+      if (currentMusicItem == null) {
+        return null;
+      }
+      dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
+    } catch(err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
   }
