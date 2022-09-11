@@ -118,6 +118,7 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                         Text(
                                           snapshot.selectedMusic?.author ??
                                               'Unknown',
+                                          maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
                                               .overline
@@ -308,20 +309,19 @@ class _ViewModel extends Vm {
   @override
   bool operator ==(covariant _ViewModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.processingStateStream == processingStateStream &&
-      other.selectedMusic == selectedMusic &&
-      other.currentBottomNavIndex == currentBottomNavIndex &&
-      other.changeBottomNavIndex == changeBottomNavIndex;
+
+    return other.processingStateStream == processingStateStream &&
+        other.selectedMusic == selectedMusic &&
+        other.currentBottomNavIndex == currentBottomNavIndex &&
+        other.changeBottomNavIndex == changeBottomNavIndex;
   }
 
   @override
   int get hashCode {
     return processingStateStream.hashCode ^
-      selectedMusic.hashCode ^
-      currentBottomNavIndex.hashCode ^
-      changeBottomNavIndex.hashCode;
+        selectedMusic.hashCode ^
+        currentBottomNavIndex.hashCode ^
+        changeBottomNavIndex.hashCode;
   }
 }
 

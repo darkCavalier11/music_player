@@ -52,6 +52,7 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   sembast: ^3.3.0
   youtube_explode_dart: ^1.12.0
+  marquee: ^2.2.3
 
 dev_dependencies:
   flutter_test:

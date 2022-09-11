@@ -31,8 +31,9 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
         return null;
       }
       // * get the current music item that will be played
-      final currentMusicItem = MusicItem.fromMediaItem(
-          state.audioPlayerState.currentPlaylist.sequence[index].tag);
+
+      final currentMusicItem = MusicItem.fromMediaItem(state
+          .audioPlayerState.currentPlaylist.children[index].sequence.first.tag);
       dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
       if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
         dispatch(GetNextMusicUrlAndAddToPlaylistAction());
@@ -231,7 +232,7 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       if (currentMusicItem == null) {
         return null;
       }
-      dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
+      await dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
 
       final nextMusicItem = state.audioPlayerState.nextMusicList.first;
 
@@ -240,14 +241,10 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
           await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);
       final url =
           manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
-
-      return state.copyWith(
-        audioPlayerState: state.audioPlayerState.copyWith(
-          currentPlaylist: state.audioPlayerState.currentPlaylist
-            ..add(AudioSource.uri(url,
-                tag: nextMusicItem.toMediaItem().copyWith(artUri: url))),
-        ),
-      );
+      log(currentMusicItem.toString());
+      log(nextMusicItem.toString());
+      await state.audioPlayerState.currentPlaylist.add(AudioSource.uri(url,
+          tag: nextMusicItem.toMediaItem().copyWith(artUri: url)));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
