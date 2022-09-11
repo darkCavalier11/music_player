@@ -83,9 +83,12 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
+      
       // * fetching music url
       await dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: musicItem));
+
+      await state.audioPlayerState.currentPlaylist.clear();
       final yt = YoutubeExplode();
       final manifest =
           await yt.videos.streamsClient.getManifest(musicItem.musicId);
