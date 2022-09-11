@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:marquee/marquee.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
@@ -107,14 +108,28 @@ class _BottomNavigationClusterState extends State<BottomNavigationCluster> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TranslatingText(
+                                        // Text('Hello'),
+                                        SizedBox(
+                                          height: 25,
+                                          child: Marquee(
                                             text:
                                                 snapshot.selectedMusic?.title ??
                                                     '-',
-                                            color: paletteSnapshot
-                                                .data
-                                                ?.dominantColor
-                                                ?.titleTextColor),
+                                            scrollAxis: Axis.horizontal,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    color: paletteSnapshot
+                                                        .data
+                                                        ?.dominantColor
+                                                        ?.titleTextColor),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            blankSpace: 60.0,
+                                            velocity: 30,
+                                          ),
+                                        ),
                                         Text(
                                           snapshot.selectedMusic?.author ??
                                               'Unknown',

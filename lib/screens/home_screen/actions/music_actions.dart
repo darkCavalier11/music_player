@@ -241,10 +241,10 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
           await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);
       final url =
           manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
-      log(currentMusicItem.toString());
-      log(nextMusicItem.toString());
       await state.audioPlayerState.currentPlaylist.add(AudioSource.uri(url,
           tag: nextMusicItem.toMediaItem().copyWith(artUri: url)));
+      dispatch(_FetchMusicDetailsForSelectedMusicAction(
+          selectedMusicItem: currentMusicItem));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
