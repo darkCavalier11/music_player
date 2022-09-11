@@ -27,11 +27,15 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
+      if (index == null) {
+        return null;
+      }
+      // * get the current music item that will be played
+      final currentMusicItem = MusicItem.fromMediaItem(
+          state.audioPlayerState.currentPlaylist.sequence[index].tag);
+      dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
       if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
-        // * get the current music item that will be played
-        final currentMusicItem =
-            state.audioPlayerState.currentPlaylist.sequence[1].tag.toString();
-        log(currentMusicItem);
+        dispatch(GetNextMusicUrlAndAddToPlaylistAction());
       }
     });
   }

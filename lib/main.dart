@@ -23,6 +23,7 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
     preloadArtwork: true,
+    androidShowNotificationBadge: true,
   );
   store = Store<AppState>(
     initialState: AppState.initial(),

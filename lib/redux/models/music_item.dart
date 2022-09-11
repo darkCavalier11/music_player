@@ -76,6 +76,31 @@ class MusicItem {
     );
   }
 
+  factory MusicItem.fromMediaItem(MediaItem mediaItem) {
+    return MusicItem(
+      musicId: mediaItem.id,
+      imageUrl: mediaItem.extras!['image_url'],
+      title: mediaItem.title,
+      author: mediaItem.artist!,
+      duration: convertDurationToString(mediaItem.duration!),
+    );
+  }
+
+  static String convertDurationToString(Duration duration) {
+    int inSeconds = duration.inSeconds;
+    var durString = <String>[];
+    while (inSeconds > 0) {
+      int rem = inSeconds % 60;
+      if (rem < 10) {
+        durString.add('0$rem');
+      } else {
+        durString.add('$rem');
+      }
+      inSeconds ~/= 60;
+    }
+    return durString.reversed.join(':');
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'musicId': musicId,
