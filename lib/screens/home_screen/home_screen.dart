@@ -33,9 +33,7 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: snapshot.uiState.themeMode == ThemeMode.light
-              ? Colors.white
-              : Colors.black,
+          backgroundColor: Colors.black,
           body: RefreshIndicator(
             onRefresh: () async {},
             color: Theme.of(context).primaryColor,
@@ -88,8 +86,10 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 80),
                       decoration: BoxDecoration(
-                        color: AppConstants.primaryColorLight,
                         borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                       child: Text(
                         'See More',
@@ -181,7 +181,6 @@ class DummySearchTextField extends StatelessWidget {
             decoration: InputDecoration(
               isDense: true,
               prefixIcon: const Icon(CupertinoIcons.search),
-              fillColor: AppConstants.primaryColorLight,
               filled: true,
               hintText: 'Search songs, artist & genres...',
               focusedBorder: OutlineInputBorder(

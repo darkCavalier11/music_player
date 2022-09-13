@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
           // todo : light theme
           themeMode: ThemeMode.dark,
           theme: AppTheme.getTheme,
-          darkTheme: AppTheme.getDarkTheme,
           debugShowCheckedModeBanner: false,
           home: const TabView(),
           onGenerateRoute: AppRouter.router.generator,

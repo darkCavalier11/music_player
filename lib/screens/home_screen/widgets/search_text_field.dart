@@ -19,6 +19,7 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.black,
       child: TextField(
         autofocus: true,
         cursorColor: Theme.of(context).primaryColor,
@@ -41,7 +42,6 @@ class SearchTextField extends StatelessWidget {
             CupertinoIcons.search,
             color: Theme.of(context).primaryColor,
           ),
-          fillColor: AppConstants.primaryColorLight,
           filled: true,
           hintText: 'Search songs, artist & genres...',
           focusedBorder: OutlineInputBorder(

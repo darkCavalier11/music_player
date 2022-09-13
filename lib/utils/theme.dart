@@ -6,12 +6,13 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: 'Inter',
-      primaryColor: const Color.fromRGBO(38, 65, 60, 1),
+      primaryColor: const Color(0xff61c9a8),
       primarySwatch: SwatchGenerator.generateMaterialColor(
-        const Color.fromRGBO(38, 65, 60, 1),
+        const Color(0xff61c9a8),
       ),
       colorScheme: const ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
+        brightness: Brightness.dark,
       ),
       scaffoldBackgroundColor: Colors.black,
     );
