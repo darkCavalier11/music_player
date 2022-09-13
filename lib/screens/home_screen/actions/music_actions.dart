@@ -36,6 +36,7 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
           .audioPlayerState.currentPlaylist.children[index].sequence.first.tag);
       dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
       if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
+        log('message');
         dispatch(GetNextMusicUrlAndAddToPlaylistAction());
       }
     });
@@ -83,7 +84,6 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      
       // * fetching music url
       await dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: musicItem));
@@ -107,13 +107,11 @@ class PlayAudioAction extends ReduxAction<AppState> {
       final _playlist = ConcatenatingAudioSource(children: [
         AudioSource.uri(
           url,
-          tag: musicItem.toMediaItem().copyWith(artUri: url),
+          tag: musicItem.toMediaItem(),
         ),
         AudioSource.uri(
           nextUrl,
-          tag: state.audioPlayerState.nextMusicList.first
-              .toMediaItem()
-              .copyWith(artUri: nextUrl),
+          tag: state.audioPlayerState.nextMusicList.first.toMediaItem(),
         ),
       ]);
 
@@ -240,12 +238,14 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       final nextMusicItem = state.audioPlayerState.nextMusicList.first;
 
       final yt = YoutubeExplode();
+      log(currentMusicItem.title);
+
       final manifest =
           await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);
       final url =
           manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
-      await state.audioPlayerState.currentPlaylist.add(AudioSource.uri(url,
-          tag: nextMusicItem.toMediaItem().copyWith(artUri: url)));
+      await state.audioPlayerState.currentPlaylist
+          .add(AudioSource.uri(url, tag: nextMusicItem.toMediaItem()));
       dispatch(_FetchMusicDetailsForSelectedMusicAction(
           selectedMusicItem: currentMusicItem));
     } catch (err) {

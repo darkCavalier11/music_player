@@ -26,7 +26,6 @@ class _TabViewState extends State<TabView> {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          
           bottom: TabBar(
             tabs: [
               Tab(

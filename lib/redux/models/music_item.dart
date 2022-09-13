@@ -70,16 +70,15 @@ class MusicItem {
       title: title,
       // todo : parse proper duration
       duration: Duration(seconds: durSeconds),
-      artUri: Uri.parse(musicUrl ?? ''),
+      artUri: Uri.parse(imageUrl),
       artist: author,
-      extras: {'image_url': imageUrl},
     );
   }
 
   factory MusicItem.fromMediaItem(MediaItem mediaItem) {
     return MusicItem(
       musicId: mediaItem.id,
-      imageUrl: mediaItem.extras!['image_url'],
+      imageUrl: mediaItem.artUri?.path ?? '',
       title: mediaItem.title,
       author: mediaItem.artist!,
       duration: convertDurationToString(mediaItem.duration!),

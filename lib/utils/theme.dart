@@ -13,6 +13,7 @@ class AppTheme {
       colorScheme: const ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
       ),
+      scaffoldBackgroundColor: Colors.black,
     );
   }
 
