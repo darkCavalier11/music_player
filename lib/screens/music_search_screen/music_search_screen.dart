@@ -59,7 +59,6 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
             Navigator.of(context).pop();
           }),
           body: Material(
-            color: Colors.black,
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(

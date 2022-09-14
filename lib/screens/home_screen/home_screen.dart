@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.black,
           body: RefreshIndicator(
             onRefresh: () async {},
             color: Theme.of(context).primaryColor,

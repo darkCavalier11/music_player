@@ -19,7 +19,6 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black,
       child: TextField(
         autofocus: true,
         cursorColor: Theme.of(context).primaryColor,

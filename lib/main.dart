@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
-          home: const TabView(),
+          home: const BottomNavigationView(),
           onGenerateRoute: AppRouter.router.generator,
         );
       },

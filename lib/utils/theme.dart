@@ -10,11 +10,11 @@ class AppTheme {
       primarySwatch: SwatchGenerator.generateMaterialColor(
         const Color(0xff61c9a8),
       ),
+      canvasColor: Colors.black,
       colorScheme: const ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
         brightness: Brightness.dark,
       ),
-      scaffoldBackgroundColor: Colors.black,
     );
   }
 
