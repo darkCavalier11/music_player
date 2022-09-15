@@ -238,7 +238,6 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       final nextMusicItem = state.audioPlayerState.nextMusicList.first;
 
       final yt = YoutubeExplode();
-      log(currentMusicItem.title);
 
       final manifest =
           await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);

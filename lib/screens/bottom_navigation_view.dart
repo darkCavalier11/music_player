@@ -11,6 +11,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/account_screen/account_screen.dart';
 import 'package:music_player/screens/favorite_page/favorite_screen.dart';
 import 'package:music_player/screens/home_screen/home_screen.dart';
+import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
 import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
 
 final _screenIndex = <Widget>[
@@ -50,7 +51,15 @@ class BottomNavigationView extends StatelessWidget {
             ),
           ],
         ),
-        body: _screenIndex[snapshot.currentBottomNavIndex],
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Expanded(child: _screenIndex[snapshot.currentBottomNavIndex]),
+              BottomNavigationCluster(onPageChanged: (x) {})
+            ],
+          ),
+        ),
       ),
     );
   }
