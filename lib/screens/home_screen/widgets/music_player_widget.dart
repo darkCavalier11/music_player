@@ -22,6 +22,8 @@ import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dar
 import 'package:music_player/utils/music_circular_avatar.dart';
 
 class MusicPlayerWidget extends StatelessWidget {
+  const MusicPlayerWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -33,129 +35,135 @@ class MusicPlayerWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                   child: Visibility(
-                visible: snapshot.selectedMusic != null,
-                child: FutureBuilder<PaletteGenerator>(
-                    future: snapshot.selectedMusic?.imageUrl != null
-                        ? PaletteGenerator.fromImageProvider(
-                            CachedNetworkImageProvider(
-                                snapshot.selectedMusic?.imageUrl ?? ''))
-                        : Future.value(
-                            PaletteGenerator.fromColors([
-                              PaletteColor(Theme.of(context).primaryColor, 1),
-                            ]),
-                          ),
-                    builder: (context, paletteSnapshot) {
-                      if (!paletteSnapshot.hasData ||
-                          paletteSnapshot.hasError) {
-                        return const SizedBox.shrink();
-                      }
-                      return AnimatedContainer(
-                        duration: const Duration(seconds: 1),
-                        width: MediaQuery.of(context).size.width,
-                        height: 140,
-                        decoration: BoxDecoration(
-                          color: paletteSnapshot.data?.dominantColor?.color,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    visible: snapshot.selectedMusic != null,
+                    child: FutureBuilder<PaletteGenerator>(
+                        future: snapshot.selectedMusic?.imageUrl != null
+                            ? PaletteGenerator.fromImageProvider(
+                                CachedNetworkImageProvider(
+                                    snapshot.selectedMusic?.imageUrl ?? ''))
+                            : Future.value(
+                                PaletteGenerator.fromColors([
+                                  PaletteColor(
+                                      Theme.of(context).primaryColor, 1),
+                                ]),
+                              ),
+                        builder: (context, paletteSnapshot) {
+                          if (!paletteSnapshot.hasData ||
+                              paletteSnapshot.hasError) {
+                            return const SizedBox.shrink();
+                          }
+                          return AnimatedContainer(
+                            duration: const Duration(seconds: 1),
+                            width: MediaQuery.of(context).size.width,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              color: paletteSnapshot.data?.dominantColor?.color,
+                            ),
+                            child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: MusicCircularAvatar(
-                                    imageUrl: snapshot.selectedMusic?.imageUrl,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Text('Hello'),
-                                        SizedBox(
-                                          height: 25,
-                                          child: Marquee(
-                                            text:
-                                                snapshot.selectedMusic?.title ??
-                                                    '-',
-                                            scrollAxis: Axis.horizontal,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                    color: paletteSnapshot
-                                                        .data
-                                                        ?.dominantColor
-                                                        ?.titleTextColor),
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            blankSpace: 60.0,
-                                            velocity: 30,
-                                          ),
-                                        ),
-                                        Text(
-                                          snapshot.selectedMusic?.author ??
-                                              'Unknown',
-                                          maxLines: 1,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .overline
-                                              ?.copyWith(
-                                                  color: paletteSnapshot
-                                                          .data
-                                                          ?.dominantColor
-                                                          ?.titleTextColor ??
-                                                      Theme.of(context)
-                                                          .scaffoldBackgroundColor),
-                                        ),
-                                      ],
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: MusicCircularAvatar(
+                                        imageUrl:
+                                            snapshot.selectedMusic?.imageUrl,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const PlayPauseButtonSet(),
-                                MarkFavWidget(
-                                  isFav: true,
-                                  color:
-                                      paletteSnapshot.data?.vibrantColor?.color,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Material(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withAlpha(0),
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Iconsax.next,
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // Text('Hello'),
+                                            SizedBox(
+                                              height: 25,
+                                              child: Marquee(
+                                                text: snapshot
+                                                        .selectedMusic?.title ??
+                                                    '-',
+                                                scrollAxis: Axis.horizontal,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                        color: paletteSnapshot
+                                                            .data
+                                                            ?.dominantColor
+                                                            ?.titleTextColor),
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                blankSpace: 60.0,
+                                                velocity: 30,
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot.selectedMusic?.author ??
+                                                  'Unknown',
+                                              maxLines: 1,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .overline
+                                                  ?.copyWith(
+                                                      color: paletteSnapshot
+                                                              .data
+                                                              ?.dominantColor
+                                                              ?.titleTextColor ??
+                                                          Theme.of(context)
+                                                              .scaffoldBackgroundColor),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    const PlayPauseButtonSet(),
+                                    MarkFavWidget(
+                                      isFav: true,
+                                      color: paletteSnapshot
+                                          .data?.vibrantColor?.color,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Material(
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withAlpha(0),
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(
+                                              Iconsax.next,
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                PlayTimerWidget(
+                                  progressBarColor:
+                                      paletteSnapshot.data?.vibrantColor?.color,
+                                  textColor: paletteSnapshot
+                                      .data?.dominantColor?.bodyTextColor,
                                 ),
                               ],
                             ),
-                            PlayTimerWidget(
-                              progressBarColor:
-                                  paletteSnapshot.data?.vibrantColor?.color,
-                              textColor: paletteSnapshot
-                                  .data?.dominantColor?.bodyTextColor,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              )),
+                          );
+                        }),
+                  )),
             ],
           ),
         );
