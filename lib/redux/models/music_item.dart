@@ -78,7 +78,7 @@ class MusicItem {
   factory MusicItem.fromMediaItem(MediaItem mediaItem) {
     return MusicItem(
       musicId: mediaItem.id,
-      imageUrl: mediaItem.artUri?.path ?? '',
+      imageUrl: mediaItem.artUri.toString() ,
       title: mediaItem.title,
       author: mediaItem.artist!,
       duration: convertDurationToString(mediaItem.duration!),

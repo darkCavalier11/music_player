@@ -32,8 +32,8 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
       }
       // * get the current music item that will be played
 
-      final currentMusicItem = MusicItem.fromMediaItem(state
-          .audioPlayerState.currentPlaylist.children[index].sequence.first.tag);
+      final currentMusicItem = MusicItem.fromMediaItem(state.audioPlayerState
+          .currentPlaylist.children[index].sequence.first.tag as MediaItem);
       dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
       if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
         log('message');

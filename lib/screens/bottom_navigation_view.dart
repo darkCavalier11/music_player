@@ -11,7 +11,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/account_screen/account_screen.dart';
 import 'package:music_player/screens/favorite_page/favorite_screen.dart';
 import 'package:music_player/screens/home_screen/home_screen.dart';
-import 'package:music_player/screens/home_screen/widgets/bottom_navigation_cluster.dart';
+import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
 import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
 
 final _screenIndex = <Widget>[
@@ -32,7 +32,7 @@ class BottomNavigationView extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           onTap: snapshot.changeBottomNavIndex,
           currentIndex: snapshot.currentBottomNavIndex,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
               label: 'Home',
@@ -56,7 +56,7 @@ class BottomNavigationView extends StatelessWidget {
           child: Column(
             children: [
               Expanded(child: _screenIndex[snapshot.currentBottomNavIndex]),
-              BottomNavigationCluster(onPageChanged: (x) {})
+              MusicPlayerWidget()
             ],
           ),
         ),
