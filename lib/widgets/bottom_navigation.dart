@@ -13,35 +13,45 @@ class BottomNavigationWidget extends StatelessWidget {
         color: Theme.of(context).canvasColor,
         borderRadius: BorderRadius.circular(50),
         border: Border.all(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).disabledColor,
           width: 2,
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon: Icon(
-                CupertinoIcons.home,
-                size: 30,
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(20),
               ),
-              onPressed: () {},
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.home,
+                    size: 20,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Home',
+                    style: Theme.of(context).textTheme.button?.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                  )
+                ],
+              ),
             ),
-            IconButton(
-              icon: Icon(
-                Iconsax.music_playlist,
-                size: 30,
-              ),
-              onPressed: () {},
+            Icon(
+              Iconsax.music_playlist,
+              size: 20,
             ),
-            IconButton(
-              icon: Icon(
-                CupertinoIcons.person,
-                size: 30,
-              ),
-              onPressed: () {},
+            Icon(
+              CupertinoIcons.person,
+              size: 20,
             ),
           ],
         ),
