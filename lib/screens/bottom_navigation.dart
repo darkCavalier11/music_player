@@ -8,9 +8,16 @@ class BottomNavigationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 60,
       width: MediaQuery.of(context).size.width * 0.6,
-      color: Colors.amber,
+      decoration: BoxDecoration(
+        color: Theme.of(context).canvasColor,
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(
+          color: Theme.of(context).primaryColor,
+          width: 2,
+        ),
+      ),
     );
   }
 }

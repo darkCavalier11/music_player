@@ -55,7 +55,7 @@ class _AppScreensState extends State<AppScreens> {
                 physics: const BouncingScrollPhysics(),
               ),
               Positioned(
-                bottom: 10,
+                bottom: 15,
                 child: BottomNavigationWidget(),
               )
             ],
