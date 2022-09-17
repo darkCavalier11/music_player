@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_player/redux/action/app_db_actions.dart';
 
+import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/constants.dart';
@@ -81,7 +81,14 @@ class HomeScreen extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                    AppPrimaryButton(),
+                    AppPrimaryButton(
+                      buttonText: 'See More',
+                      trailingIcon: Icon(
+                        CupertinoIcons.arrow_right,
+                        color: Theme.of(context).primaryColor,
+                        size: 16,
+                      ),
+                    ),
                   ],
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -135,8 +142,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class AppPrimaryButton extends StatelessWidget {
+  final String buttonText;
+  final Widget? trailingIcon;
   const AppPrimaryButton({
     Key? key,
+    required this.buttonText,
+    this.trailingIcon,
   }) : super(key: key);
 
   @override
@@ -158,18 +169,14 @@ class AppPrimaryButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'See More',
+              buttonText,
               style: Theme.of(context)
                   .textTheme
                   .button
                   ?.copyWith(color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: 10),
-            Icon(
-              CupertinoIcons.arrow_right,
-              color: Theme.of(context).primaryColor,
-              size: 16,
-            ),
+            if (trailingIcon != null) trailingIcon!
           ],
         ),
       ),
