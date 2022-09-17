@@ -15,6 +15,7 @@ import 'package:music_player/utils/constants.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
+import '../../widgets/app_primary_button.dart';
 import '../home_screen/widgets/music_list_tile.dart';
 import '../music_search_screen/music_search_screen.dart';
 import 'actions/music_actions.dart';
@@ -140,50 +141,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-class AppPrimaryButton extends StatelessWidget {
-  final String buttonText;
-  final Widget? trailingIcon;
-  const AppPrimaryButton({
-    Key? key,
-    required this.buttonText,
-    this.trailingIcon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 8,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
-          border: Border.all(
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              buttonText,
-              style: Theme.of(context)
-                  .textTheme
-                  .button
-                  ?.copyWith(color: Theme.of(context).primaryColor),
-            ),
-            const SizedBox(width: 10),
-            if (trailingIcon != null) trailingIcon!
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+  
 // responsible for holding a dummy text field that will navigate on tap to a different route.
 class DummySearchTextField extends StatelessWidget {
   final String tag;
