@@ -39,22 +39,24 @@ class _AppScreensState extends State<AppScreens> {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              PageView(
-                controller: _pageController,
-                children: _screens,
-                onPageChanged: snapshot.changeBottomNavIndex,
-                physics: const BouncingScrollPhysics(),
-              ),
-              Positioned(
-                bottom: 15,
-                child: BottomNavigationWidget(),
-              )
-            ],
+        return Scaffold(
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                PageView(
+                  controller: _pageController,
+                  children: _screens,
+                  onPageChanged: snapshot.changeBottomNavIndex,
+                  physics: const BouncingScrollPhysics(),
+                ),
+                Positioned(
+                  bottom: 15,
+                  child: BottomNavigationWidget(),
+                )
+              ],
+            ),
           ),
         );
       },
