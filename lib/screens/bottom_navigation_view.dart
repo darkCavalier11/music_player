@@ -14,58 +14,46 @@ import 'package:music_player/screens/home_screen/home_screen.dart';
 import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
 import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
 
-final _screenIndex = <Widget>[
+const _screens = <Widget>[
   HomeScreen(),
   FavoriteScreen(),
   PlaylistScreen(),
   AccountScreen(),
 ];
 
-class BottomNavigationView extends StatelessWidget {
-  const BottomNavigationView({Key? key}) : super(key: key);
+class AppScreens extends StatefulWidget {
+  const AppScreens({Key? key}) : super(key: key);
+
+  @override
+  State<AppScreens> createState() => _AppScreensState();
+}
+
+class _AppScreensState extends State<AppScreens> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
-      builder: (context, snapshot) => Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: snapshot.changeBottomNavIndex,
-          currentIndex: snapshot.currentBottomNavIndex,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.heart),
-              label: 'Fav',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.music_playlist),
-              label: 'Playlist',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.person),
-              label: 'Account',
-            ),
-          ],
-        ),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Expanded(child: _screenIndex[snapshot.currentBottomNavIndex]),
-              MusicPlayerWidget()
-            ],
-          ),
-        ),
-      ),
+      builder: (context, snapshot) {
+        return PageView(
+          controller: _pageController,
+          children: _screens,
+          onPageChanged: snapshot.changeBottomNavIndex,
+          physics: const BouncingScrollPhysics(),
+        );
+      },
     );
   }
 }
 
-class _Factory extends VmFactory<AppState, BottomNavigationView> {
+class _Factory extends VmFactory<AppState, _AppScreensState> {
   _Factory(widget) : super(widget);
   @override
   _ViewModel fromStore() {
