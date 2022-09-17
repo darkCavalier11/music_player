@@ -81,23 +81,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 80),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: Text(
-                        'See More',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
-                    ),
+                    AppPrimaryButton(),
                   ],
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -146,6 +130,49 @@ class HomeScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class AppPrimaryButton extends StatelessWidget {
+  const AppPrimaryButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'See More',
+              style: Theme.of(context)
+                  .textTheme
+                  .button
+                  ?.copyWith(color: Theme.of(context).primaryColor),
+            ),
+            const SizedBox(width: 10),
+            Icon(
+              CupertinoIcons.arrow_right,
+              color: Theme.of(context).primaryColor,
+              size: 16,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
