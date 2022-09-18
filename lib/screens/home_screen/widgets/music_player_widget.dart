@@ -176,12 +176,10 @@ class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
   final MusicItem? selectedMusic;
   final int currentBottomNavIndex;
-  final Function(int) changeBottomNavIndex;
   _ViewModel({
     required this.processingStateStream,
     required this.selectedMusic,
     required this.currentBottomNavIndex,
-    required this.changeBottomNavIndex,
   });
 
   @override
@@ -190,16 +188,14 @@ class _ViewModel extends Vm {
 
     return other.processingStateStream == processingStateStream &&
         other.selectedMusic == selectedMusic &&
-        other.currentBottomNavIndex == currentBottomNavIndex &&
-        other.changeBottomNavIndex == changeBottomNavIndex;
+        other.currentBottomNavIndex == currentBottomNavIndex;
   }
 
   @override
   int get hashCode {
     return processingStateStream.hashCode ^
         selectedMusic.hashCode ^
-        currentBottomNavIndex.hashCode ^
-        changeBottomNavIndex.hashCode;
+        currentBottomNavIndex.hashCode;
   }
 }
 
@@ -209,13 +205,11 @@ class _Factory extends VmFactory<AppState, MusicPlayerWidget> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-        selectedMusic: state.audioPlayerState.selectedMusic,
-        processingStateStream:
-            state.audioPlayerState.audioPlayer.processingStateStream,
-        currentBottomNavIndex: state.uiState.currentBottomNavIndex,
-        changeBottomNavIndex: (index) {
-          dispatch(ChangeBottomNavIndex(index: index));
-        });
+      selectedMusic: state.audioPlayerState.selectedMusic,
+      processingStateStream:
+          state.audioPlayerState.audioPlayer.processingStateStream,
+      currentBottomNavIndex: state.uiState.currentBottomNavIndex,
+    );
   }
 }
 

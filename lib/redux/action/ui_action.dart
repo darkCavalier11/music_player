@@ -29,6 +29,9 @@ class ChangeBottomNavIndex extends ReduxAction<AppState> {
   });
   @override
   AppState reduce() {
+    if (state.uiState.currentBottomNavIndex == index) {
+      return state;
+    }
     return state.copyWith(
       uiState: state.uiState.copyWith(
         currentBottomNavIndex: index,

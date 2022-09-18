@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class AppScreens extends StatefulWidget {
 
 class _AppScreensState extends State<AppScreens> {
   late PageController _pageController;
+  int _currentIndex = -1;
 
   @override
   void initState() {
@@ -34,9 +37,28 @@ class _AppScreensState extends State<AppScreens> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onInit: (store) {
+        store.onChange.listen((newState) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+          if (newState.uiState.currentBottomNavIndex != _currentIndex) {
+            _currentIndex = newState.uiState.currentBottomNavIndex;
+            _pageController.animateToPage(
+              _currentIndex,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.fastOutSlowIn,
+            );
+          }
+        });
+      },
       builder: (context, snapshot) {
         return Scaffold(
           body: SizedBox(
@@ -47,8 +69,11 @@ class _AppScreensState extends State<AppScreens> {
                 PageView(
                   controller: _pageController,
                   children: _screens,
-                  onPageChanged: snapshot.changeBottomNavIndex,
                   physics: const BouncingScrollPhysics(),
+                  onPageChanged: (page) async {
+                    await Future.delayed(const Duration(milliseconds: 100));
+                    snapshot.changeBottomNavIndex(page);
+                  },
                 ),
                 Positioned(
                   bottom: 15,
@@ -68,10 +93,11 @@ class _Factory extends VmFactory<AppState, _AppScreensState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-        currentBottomNavIndex: state.uiState.currentBottomNavIndex,
-        changeBottomNavIndex: (index) {
-          dispatch(ChangeBottomNavIndex(index: index));
-        });
+      currentBottomNavIndex: state.uiState.currentBottomNavIndex,
+      changeBottomNavIndex: (index) {
+        dispatch(ChangeBottomNavIndex(index: index));
+      },
+    );
   }
 }
 

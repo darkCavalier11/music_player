@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,7 @@ class BottomNavigationWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               snapshot.onChange(0);
                             },
@@ -53,7 +55,7 @@ class BottomNavigationWidget extends StatelessWidget {
                               enabled: snapshot.currentBottomNavIndex == 0,
                             ),
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               snapshot.onChange(1);
                             },
@@ -63,7 +65,7 @@ class BottomNavigationWidget extends StatelessWidget {
                               enabled: snapshot.currentBottomNavIndex == 1,
                             ),
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               snapshot.onChange(2);
                             },
@@ -129,7 +131,6 @@ class _BottomNavigationButtonState extends State<_BottomNavigationButton>
       borderRadius: BorderRadius.circular(50),
       child: AnimatedSize(
         alignment: Alignment.topLeft,
-        clipBehavior: Clip.hardEdge,
         duration: const Duration(milliseconds: 400),
         child: Container(
           height: 45,
