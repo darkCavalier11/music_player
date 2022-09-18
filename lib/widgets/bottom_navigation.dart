@@ -3,6 +3,8 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:just_audio/just_audio.dart';
+
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
 
@@ -14,78 +16,90 @@ class BottomNavigationWidget extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
-        return Row(
-          children: [
-            AnimatedContainer(
-              duration: const Duration(seconds: 1),
-              width: MediaQuery.of(context).size.width * 0.7,
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(
-                  color: Theme.of(context).disabledColor,
-                  width: 1,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        snapshot.onChange(0);
-                      },
-                      child: _BottomNavigationButton(
-                        enabledText: 'Home',
-                        icon: CupertinoIcons.home,
-                        enabled: snapshot.currentBottomNavIndex == 0,
+        return StreamBuilder<ProcessingState>(
+            stream: snapshot.musicPlayingState,
+            builder: (context, musicSnapshot) {
+              if (!musicSnapshot.hasData || musicSnapshot.hasError) {
+                return const SizedBox.shrink();
+              }
+              return Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    width: MediaQuery.of(context).size.width *
+                        (musicSnapshot.data! == ProcessingState.idle
+                            ? 0.6
+                            : 0.7),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).canvasColor,
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        color: Theme.of(context).disabledColor,
+                        width: 1,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        snapshot.onChange(1);
-                      },
-                      child: _BottomNavigationButton(
-                        enabledText: 'Playlist',
-                        icon: Iconsax.music_playlist,
-                        enabled: snapshot.currentBottomNavIndex == 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              snapshot.onChange(0);
+                            },
+                            child: _BottomNavigationButton(
+                              enabledText: 'Home',
+                              icon: CupertinoIcons.home,
+                              enabled: snapshot.currentBottomNavIndex == 0,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              snapshot.onChange(1);
+                            },
+                            child: _BottomNavigationButton(
+                              enabledText: 'Playlist',
+                              icon: Iconsax.music_playlist,
+                              enabled: snapshot.currentBottomNavIndex == 1,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              snapshot.onChange(2);
+                            },
+                            child: _BottomNavigationButton(
+                              enabledText: 'Account',
+                              icon: CupertinoIcons.person,
+                              enabled: snapshot.currentBottomNavIndex == 2,
+                            ),
+                          ),
+                          if (musicSnapshot.data! != ProcessingState.idle) ...[
+                            Container(
+                              height: 20,
+                              width: 1,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // snapshot.onChange(2);
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                            ),
+                          ]
+                        ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        snapshot.onChange(2);
-                      },
-                      child: _BottomNavigationButton(
-                        enabledText: 'Account',
-                        icon: CupertinoIcons.person,
-                        enabled: snapshot.currentBottomNavIndex == 2,
-                      ),
-                    ),
-                    Container(
-                      height: 20,
-                      width: 1,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // snapshot.onChange(2);
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.pinkAccent,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
+                  ),
+                ],
+              );
+            });
       },
     );
   }
@@ -155,9 +169,11 @@ class _BottomNavigationButtonState extends State<_BottomNavigationButton>
 class _ViewModel extends Vm {
   final int currentBottomNavIndex;
   final void Function(int) onChange;
+  final Stream<ProcessingState> musicPlayingState;
   _ViewModel({
     required this.currentBottomNavIndex,
     required this.onChange,
+    required this.musicPlayingState,
   });
 }
 
@@ -170,6 +186,8 @@ class _Factory extends VmFactory<AppState, BottomNavigationWidget> {
       onChange: (index) {
         dispatch(ChangeBottomNavIndex(index: index));
       },
+      musicPlayingState:
+          state.audioPlayerState.audioPlayer.processingStateStream,
     );
   }
 }
