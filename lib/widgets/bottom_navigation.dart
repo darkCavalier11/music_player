@@ -13,55 +13,80 @@ class BottomNavigationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
-      builder: (context, snapshot) => Container(
-        width: MediaQuery.of(context).size.width * 0.6,
-        decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
-          borderRadius: BorderRadius.circular(50),
-          border: Border.all(
-            color: Theme.of(context).disabledColor,
-            width: 1,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  snapshot.onChange(0);
-                },
-                child: _BottomNavigationButton(
-                  enabledText: 'Home',
-                  icon: CupertinoIcons.home,
-                  enabled: snapshot.currentBottomNavIndex == 0,
+      builder: (context, snapshot) {
+        return Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              width: MediaQuery.of(context).size.width * 0.7,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  color: Theme.of(context).disabledColor,
+                  width: 1,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  snapshot.onChange(1);
-                },
-                child: _BottomNavigationButton(
-                  enabledText: 'Playlist',
-                  icon: Iconsax.music_playlist,
-                  enabled: snapshot.currentBottomNavIndex == 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        snapshot.onChange(0);
+                      },
+                      child: _BottomNavigationButton(
+                        enabledText: 'Home',
+                        icon: CupertinoIcons.home,
+                        enabled: snapshot.currentBottomNavIndex == 0,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        snapshot.onChange(1);
+                      },
+                      child: _BottomNavigationButton(
+                        enabledText: 'Playlist',
+                        icon: Iconsax.music_playlist,
+                        enabled: snapshot.currentBottomNavIndex == 1,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        snapshot.onChange(2);
+                      },
+                      child: _BottomNavigationButton(
+                        enabledText: 'Account',
+                        icon: CupertinoIcons.person,
+                        enabled: snapshot.currentBottomNavIndex == 2,
+                      ),
+                    ),
+                    Container(
+                      height: 20,
+                      width: 1,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // snapshot.onChange(2);
+                      },
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.pinkAccent,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  snapshot.onChange(2);
-                },
-                child: _BottomNavigationButton(
-                  enabledText: 'Account',
-                  icon: CupertinoIcons.person,
-                  enabled: snapshot.currentBottomNavIndex == 2,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
