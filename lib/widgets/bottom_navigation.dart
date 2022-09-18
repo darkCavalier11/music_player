@@ -66,7 +66,7 @@ class BottomNavigationWidget extends StatelessWidget {
   }
 }
 
-class _BottomNavigationButton extends StatelessWidget {
+class _BottomNavigationButton extends StatefulWidget {
   final IconData icon;
   final String enabledText;
   final bool enabled;
@@ -78,31 +78,50 @@ class _BottomNavigationButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_BottomNavigationButton> createState() =>
+      _BottomNavigationButtonState();
+}
+
+class _BottomNavigationButtonState extends State<_BottomNavigationButton>
+    with SingleTickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: enabled ? Theme.of(context).primaryColor.withOpacity(0.2) : null,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 20,
-            color: enabled
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).hintColor,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(50),
+      child: AnimatedSize(
+        alignment: Alignment.topLeft,
+        clipBehavior: Clip.hardEdge,
+        duration: const Duration(milliseconds: 400),
+        child: Container(
+          height: 45,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: widget.enabled
+                ? Theme.of(context).primaryColor.withOpacity(0.2)
+                : null,
+            borderRadius: BorderRadius.circular(20),
           ),
-          const SizedBox(width: 4),
-          if (enabled)
-            Text(
-              enabledText,
-              style: Theme.of(context).textTheme.button?.copyWith(
-                    color: Theme.of(context).primaryColor,
-                  ),
-            )
-        ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                widget.icon,
+                size: 20,
+                color: widget.enabled
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).hintColor,
+              ),
+              const SizedBox(width: 4),
+              if (widget.enabled)
+                Text(
+                  widget.enabledText,
+                  style: Theme.of(context).textTheme.button?.copyWith(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                )
+            ],
+          ),
+        ),
       ),
     );
   }
