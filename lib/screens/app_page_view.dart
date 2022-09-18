@@ -13,7 +13,6 @@ import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
 
 const _screens = <Widget>[
   HomeScreen(),
-  FavoriteScreen(),
   PlaylistScreen(),
   AccountScreen(),
 ];

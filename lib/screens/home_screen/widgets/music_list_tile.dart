@@ -71,7 +71,10 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                       children: [
                         Text(
                           selectedMusic.title,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: Theme.of(context).primaryColorLight,
+                                  ),
                           maxLines: 1,
                         ),
                         Text(
