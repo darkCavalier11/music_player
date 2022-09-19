@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
 
 class PlaylistScreen extends StatelessWidget {
@@ -53,8 +51,8 @@ class PlaylistScreen extends StatelessWidget {
                               ),
                               child: Image.network(
                                 'https://images.unsplash.com/photo-1513010963904-2fefe6a92780?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                                height: 80,
-                                width: 80,
+                                height: 60,
+                                width: 60,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -71,8 +69,8 @@ class PlaylistScreen extends StatelessWidget {
                               ),
                               child: Image.network(
                                 'https://images.unsplash.com/photo-1663431261867-01399cf8847d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                                height: 80,
-                                width: 80,
+                                height: 60,
+                                width: 60,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -85,23 +83,16 @@ class PlaylistScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100),
                               child: Image.network(
                                 'https://images.unsplash.com/photo-1663475928373-12f26f48e4b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-                                height: 80,
-                                width: 80,
+                                height: 60,
+                                width: 60,
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Theme.of(context).canvasColor,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 3,
-                                ),
-                              ),
-                            ),
+                            Icon(
+                              CupertinoIcons.play_circle_fill,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              size: 28,
+                            )
                           ],
                         ),
                       ],
