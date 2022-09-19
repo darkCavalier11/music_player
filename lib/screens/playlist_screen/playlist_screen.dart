@@ -37,7 +37,7 @@ class PlaylistScreen extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: 100,
+                    width: 80,
                     child: Stack(
                       children: [
                         Positioned(
@@ -88,10 +88,21 @@ class PlaylistScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            Icon(
-                              CupertinoIcons.play_circle_fill,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              size: 28,
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  )),
+                            ),
+                            const Icon(
+                              CupertinoIcons.play_arrow_solid,
+                              size: 12,
                             )
                           ],
                         ),
@@ -100,7 +111,6 @@ class PlaylistScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    flex: 9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -126,19 +136,6 @@ class PlaylistScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  RotatedBox(
-                    quarterTurns: 1,
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: InkWell(
-                        radius: 20,
-                        borderRadius: BorderRadius.circular(50),
-                        onTap: () {},
-                        child: const Icon(Iconsax.more),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
