@@ -151,9 +151,6 @@ class PlaylistScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              color: Theme.of(context).disabledColor,
-            ),
           ],
         ),
       ),
