@@ -23,7 +23,7 @@ class BottomNavigationWidget extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return StreamBuilder<ProcessingState>(
-            stream: snapshot.musicPlayingState,
+            stream: snapshot.processingStateStream,
             builder: (context, musicSnapshot) {
               if (!musicSnapshot.hasData || musicSnapshot.hasError) {
                 return const SizedBox.shrink();
@@ -87,6 +87,7 @@ class BottomNavigationWidget extends StatelessWidget {
                             ),
                             MusicPlayingSmallIndicator(
                               imageUrl: snapshot.musicItem!.imageUrl,
+                              playingStream: snapshot.playingStream,
                             ),
                           ]
                         ],
@@ -103,9 +104,11 @@ class BottomNavigationWidget extends StatelessWidget {
 
 class MusicPlayingSmallIndicator extends StatefulWidget {
   final String imageUrl;
+  final Stream<bool> playingStream;
   const MusicPlayingSmallIndicator({
     Key? key,
     required this.imageUrl,
+    required this.playingStream,
   }) : super(key: key);
 
   @override
@@ -127,6 +130,15 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
     );
     _animationController.forward();
     _animationController.repeat(reverse: false);
+
+    widget.playingStream.listen((event) {
+      if (!event) {
+        _animationController.stop();
+      } else {
+        _animationController.forward();
+        _animationController.repeat(reverse: false);
+      }
+    });
   }
 
   @override
@@ -245,12 +257,14 @@ class _BottomNavigationButtonState extends State<_BottomNavigationButton>
 class _ViewModel extends Vm {
   final int currentBottomNavIndex;
   final void Function(int) onChange;
-  final Stream<ProcessingState> musicPlayingState;
+  final Stream<ProcessingState> processingStateStream;
+  final Stream<bool> playingStream;
   final MusicItem? musicItem;
   _ViewModel({
     required this.currentBottomNavIndex,
     required this.onChange,
-    required this.musicPlayingState,
+    required this.processingStateStream,
+    required this.playingStream,
     required this.musicItem,
   });
 }
@@ -260,12 +274,13 @@ class _Factory extends VmFactory<AppState, BottomNavigationWidget> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      playingStream: state.audioPlayerState.audioPlayer.playingStream,
       musicItem: state.audioPlayerState.selectedMusic,
       currentBottomNavIndex: state.uiState.currentBottomNavIndex,
       onChange: (index) {
         dispatch(ChangeBottomNavIndex(index: index));
       },
-      musicPlayingState:
+      processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
     );
   }

@@ -15,7 +15,7 @@ import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
-import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 
 class MusicSearchScreen extends StatefulWidget {
   const MusicSearchScreen({Key? key}) : super(key: key);

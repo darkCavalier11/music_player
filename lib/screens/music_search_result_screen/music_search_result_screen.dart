@@ -9,7 +9,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
-import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 
 import '../home_screen/actions/music_actions.dart';
 import '../home_screen/home_screen.dart';

@@ -11,10 +11,10 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
-import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/utils/mixins.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
-import 'package:music_player/utils/music_playing_wave_widget.dart';
+import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatelessWidget with AppUtilityMixin {
   final MusicItem selectedMusic;

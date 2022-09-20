@@ -17,7 +17,7 @@ import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
-import 'package:music_player/utils/loading_indicator.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/utils/url.dart';
 
 class _ChangeSearchQuery extends ReduxAction<AppState> {
