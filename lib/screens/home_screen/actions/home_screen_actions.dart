@@ -29,6 +29,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
         'context': musicFilterPayload.context.toJson(),
         'continuation': musicFilterPayload.continuation
       });
+      log(res.toString());
       final json = jsonDecode(res.data.toString());
       final items = json['onResponseReceivedActions'][0]
           ['reloadContinuationItemsCommand']['continuationItems'] as List;
