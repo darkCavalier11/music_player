@@ -4,16 +4,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/api_request.dart';
@@ -139,39 +137,13 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final serialisedString = await AppDatabse.getQuery(DbKeys.context);
-      final musicFilterPayload =
-          MusicFilterPayloadModel.fromJson(jsonDecode(serialisedString!));
-      final res = await ApiRequest.post(
-        AppUrl.nextMusicListUrl(musicFilterPayload.apiKey),
-        {
-          'context': musicFilterPayload.context.toJson(),
-          'videoId': musicItem.musicId,
-        },
+      final nextMusicList =
+          await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
+      return state.copyWith(
+        audioPlayerState: state.audioPlayerState.copyWith(
+          nextMusicList: nextMusicList,
+        ),
       );
-      if (res.statusCode == 200) {
-        final nextMusicList = <MusicItem>[];
-
-        final nextMusicListResponse = jsonDecode(res.data!)['contents']
-                ['twoColumnWatchNextResults']['secondaryResults']
-            ['secondaryResults']['results'] as List;
-        for (var item in nextMusicListResponse) {
-          if (item['compactVideoRenderer'] != null) {
-            if (item['compactVideoRenderer']['videoId'] != null) {
-              nextMusicList.add(MusicItem.fromApiJson(
-                  item['compactVideoRenderer'],
-                  parsingForMusicList: true));
-            } else {
-              // todo : handle playlist
-            }
-          }
-        }
-        return state.copyWith(
-          audioPlayerState: state.audioPlayerState.copyWith(
-            nextMusicList: nextMusicList,
-          ),
-        );
-      }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }

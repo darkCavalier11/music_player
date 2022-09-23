@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+
 import '../../../redux/models/music_filter_payload.dart';
 import '../../../redux/models/music_item.dart';
 import '../../api_request.dart';
@@ -44,6 +46,42 @@ class ParserHelper {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
       throw Error.safeToString(err);
+    }
+  }
+
+  static Future<List<MusicItem>> getNextSuggestionMusicList(String musicId) async {
+    try {
+      final res = await ApiRequest.post(
+        AppUrl.nextMusicListUrl(musicFilterPayload.apiKey),
+        {
+          'context': musicFilterPayload.context.toJson(),
+          'videoId': musicId,
+        },
+      );
+      if (res.statusCode == 200) {
+        final nextMusicList = <MusicItem>[];
+
+        final nextMusicListResponse = jsonDecode(res.data!)['contents']
+                ['twoColumnWatchNextResults']['secondaryResults']
+            ['secondaryResults']['results'] as List;
+        for (var item in nextMusicListResponse) {
+          if (item['compactVideoRenderer'] != null) {
+            if (item['compactVideoRenderer']['videoId'] != null) {
+              nextMusicList.add(MusicItem.fromApiJson(
+                  item['compactVideoRenderer'],
+                  parsingForMusicList: true));
+            } else {
+              // todo : handle playlist
+            }
+          }
+        }
+        return nextMusicList;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      log(err.toString(), stackTrace: StackTrace.current);
+      throw ErrorDescription(err.toString());
     }
   }
 }
