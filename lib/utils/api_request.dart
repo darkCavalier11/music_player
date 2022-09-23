@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:music_player/env.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -12,7 +11,7 @@ late PersistCookieJar persistCookieJar;
 
 class ApiRequest {
   // Need to initialised once at the beginning.
-  static void init() async {
+  static Future<void> init() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
     persistCookieJar = PersistCookieJar(
@@ -31,7 +30,6 @@ class ApiRequest {
       headers: _defaultHeaders,
     ),
   );
-  static final _client = http.Client();
   static const Map<String, String> _defaultHeaders = {
     'user-agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36',

@@ -10,13 +10,15 @@ import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
+import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 late Store<AppState> store;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppDatabse.init();
-  ApiRequest.init();
+  await ApiRequest.init();
+  await ParserHelper.init();
   AppRouter.setupRoutes();
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
