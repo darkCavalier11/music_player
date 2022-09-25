@@ -15,7 +15,7 @@ class AppDatabse {
     try {
       final dir = await getApplicationDocumentsDirectory();
       await dir.create(recursive: true);
-      final dbPath = dir.path + 'app_main.db';
+      final dbPath = dir.path + '/app_main.db';
       _mainDb = await databaseFactoryIo.openDatabase(dbPath);
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
