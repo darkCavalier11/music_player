@@ -55,9 +55,6 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
       },
       builder: (context, snapshot) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(onPressed: () {
-            Navigator.of(context).pop();
-          }),
           body: Material(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -70,22 +67,44 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                       right: 24,
                       top: 64,
                     ),
-                    child: Hero(
-                      tag: 'search',
-                      child: SearchTextField(
-                        loadingState: snapshot.currentSeacrhState,
-                        textEditingController: _textEditingController
-                          ..addListener(() {
-                            if (_debounce?.isActive ?? false) {
-                              _debounce?.cancel();
-                            }
-                            _debounce =
-                                Timer(const Duration(milliseconds: 500), () {
-                              snapshot.changeSearchQuery(
-                                  _textEditingController.text);
-                            });
-                          }),
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Icon(
+                                CupertinoIcons.chevron_back,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 8,
+                          child: Hero(
+                            tag: 'search',
+                            child: SearchTextField(
+                              loadingState: snapshot.currentSeacrhState,
+                              textEditingController: _textEditingController
+                                ..addListener(() {
+                                  if (_debounce?.isActive ?? false) {
+                                    _debounce?.cancel();
+                                  }
+                                  _debounce = Timer(
+                                      const Duration(milliseconds: 500), () {
+                                    snapshot.changeSearchQuery(
+                                        _textEditingController.text);
+                                  });
+                                }),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const Divider(),

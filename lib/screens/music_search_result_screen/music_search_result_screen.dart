@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -36,12 +37,31 @@ class MusicSearchResultScreen extends StatelessWidget {
               : SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(left: 24, right: 24, top: 64),
-                        child: DummySearchTextField(
-                          tag: 'search',
-                          navigatingRouteName: MusicSearchScreen.routeScreen,
-                          shouldPopCurrentRoute: true,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  CupertinoIcons.chevron_back,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                            const Expanded(
+                              child: DummySearchTextField(
+                                tag: 'search',
+                                navigatingRouteName:
+                                    MusicSearchScreen.routeScreen,
+                                shouldPopCurrentRoute: true,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16),
