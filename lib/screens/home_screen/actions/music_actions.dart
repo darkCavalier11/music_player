@@ -26,7 +26,7 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
       if (index == null) {
-        return null;
+        return;
       }
       // * get the current music item that will be played
 
@@ -82,8 +82,11 @@ class PlayAudioAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       // * fetching music url
-      await dispatch(_FetchMusicDetailsForSelectedMusicAction(
-          selectedMusicItem: musicItem));
+      await dispatch(
+        _FetchMusicDetailsForSelectedMusicAction(
+          selectedMusicItem: musicItem,
+        ),
+      );
 
       await state.audioPlayerState.currentPlaylist.clear();
       final yt = YoutubeExplode();
@@ -178,6 +181,7 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
       }
       final musicPayload =
           MusicFilterPayloadModel.fromJson(jsonDecode(musicPayloadString));
+      // todo : get music url here
       final _ = await ApiRequest.post(
         AppUrl.playMusicUrl(musicPayload.apiKey),
         {

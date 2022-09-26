@@ -22,6 +22,7 @@ class ParserHelper {
         DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
   }
 
+  // load the list of music for home screen at the beginning
   static Future<List<MusicItem>> getHomeScreenMusic() async {
     try {
       final res =
@@ -49,6 +50,8 @@ class ParserHelper {
     }
   }
 
+  // When the current music item is clicked, it fetches the next set of music items
+  // depending upon the current music Id.
   static Future<List<MusicItem>> getNextSuggestionMusicList(String musicId) async {
     try {
       final res = await ApiRequest.post(
