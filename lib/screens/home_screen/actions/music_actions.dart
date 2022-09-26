@@ -182,13 +182,17 @@ class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
       final musicPayload =
           MusicFilterPayloadModel.fromJson(jsonDecode(musicPayloadString));
       // todo : get music url here
-      final _ = await ApiRequest.post(
+      final res = await ApiRequest.post(
         AppUrl.playMusicUrl(musicPayload.apiKey),
         {
           'context': musicPayload.context.toJson(),
           'videoId': selectedMusicItem.musicId,
         },
       );
+      final streamList =
+          jsonDecode(res.data!)['streamingData']['adaptiveFormats'] as List;
+      final musicUrl = streamList.firstWhere((e) => e['itag'] == 140)['url'];
+      log(musicUrl.toString());
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }

@@ -13,6 +13,7 @@ class AppPrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
+        margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 8,
