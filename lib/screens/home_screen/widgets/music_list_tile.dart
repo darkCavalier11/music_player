@@ -34,12 +34,13 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
       builder: (context, snapshot) {
         return Material(
           color: Theme.of(context).primaryColor.withAlpha(0),
-          child: InkWell(
-            onTap: () async {
-              await snapshot.playMusic(selectedMusic);
-            },
-            child: Container(
-              padding: const EdgeInsets.all(8),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () async {
+                await snapshot.playMusic(selectedMusic);
+              },
               child: Row(
                 children: [
                   Stack(
