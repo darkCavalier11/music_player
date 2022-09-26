@@ -52,7 +52,8 @@ class ParserHelper {
 
   // When the current music item is clicked, it fetches the next set of music items
   // depending upon the current music Id.
-  static Future<List<MusicItem>> getNextSuggestionMusicList(String musicId) async {
+  static Future<List<MusicItem>> getNextSuggestionMusicList(
+      String musicId) async {
     try {
       final res = await ApiRequest.post(
         AppUrl.nextMusicListUrl(musicFilterPayload.apiKey),
@@ -85,6 +86,24 @@ class ParserHelper {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
       throw ErrorDescription(err.toString());
+    }
+  }
+
+  static Future<Uri> getMusicItemUrl(String musicId) async {
+    try {
+      final res = await ApiRequest.post(
+        AppUrl.playMusicUrl(musicFilterPayload.apiKey),
+        {
+          'context': musicFilterPayload.context.toJson(),
+          'videoId': musicId,
+        },
+      );
+      final streamList =
+          jsonDecode(res.data!)['streamingData']['adaptiveFormats'] as List;
+      final musicUrl = streamList.firstWhere((e) => e['itag'] == 140)['url'];
+      return Uri.parse(musicUrl);
+    } catch (err) {
+      rethrow;
     }
   }
 }

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -8,15 +7,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/music_filter_payload.dart';
-import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
-import 'package:music_player/utils/api_request.dart';
-import 'package:music_player/utils/app_db.dart';
-import 'package:music_player/utils/url.dart';
 
 import '../../../redux/models/music_item.dart';
 
@@ -82,28 +75,16 @@ class PlayAudioAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       // * fetching music url
-      await dispatch(
-        _FetchMusicDetailsForSelectedMusicAction(
-          selectedMusicItem: musicItem,
-        ),
-      );
 
       await state.audioPlayerState.currentPlaylist.clear();
-      final yt = YoutubeExplode();
-      final manifest =
-          await yt.videos.streamsClient.getManifest(musicItem.musicId);
-      final url =
-          manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
+      final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
       // * fetch next list based on suggestions
       await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
 
-      final nextManifest = await yt.videos.streamsClient
-          .getManifest(state.audioPlayerState.nextMusicList[0].musicId);
-      final nextUrl = nextManifest.audioOnly
-          .firstWhere((element) => element.tag == 140)
-          .url;
+      final nextUrl = await ParserHelper.getMusicItemUrl(
+          state.audioPlayerState.nextMusicList[0].musicId);
       final _playlist = ConcatenatingAudioSource(children: [
         AudioSource.uri(
           url,
@@ -160,45 +141,6 @@ class StopAudioAction extends ReduxAction<AppState> {
   }
 }
 
-// dummy request for now update the client data to predict more accurate items
-class _FetchMusicDetailsForSelectedMusicAction extends ReduxAction<AppState> {
-  final MusicItem selectedMusicItem;
-  _FetchMusicDetailsForSelectedMusicAction({
-    required this.selectedMusicItem,
-  });
-  @override
-  Future<AppState?> reduce() async {
-    try {
-      String? musicPayloadString = await AppDatabse.getQuery(DbKeys.context);
-
-      if (musicPayloadString == null) {
-        dispatch(LoadHomePageMusicAction());
-      }
-      musicPayloadString = await AppDatabse.getQuery(DbKeys.context);
-      if (musicPayloadString == null) {
-        Fluttertoast.showToast(msg: 'Error getting music item.');
-        return null;
-      }
-      final musicPayload =
-          MusicFilterPayloadModel.fromJson(jsonDecode(musicPayloadString));
-      // todo : get music url here
-      final res = await ApiRequest.post(
-        AppUrl.playMusicUrl(musicPayload.apiKey),
-        {
-          'context': musicPayload.context.toJson(),
-          'videoId': selectedMusicItem.musicId,
-        },
-      );
-      final streamList =
-          jsonDecode(res.data!)['streamingData']['adaptiveFormats'] as List;
-      final musicUrl = streamList.firstWhere((e) => e['itag'] == 140)['url'];
-      log(musicUrl.toString());
-    } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
-    }
-  }
-}
-
 // When the next button is clicked on UI or on the background this action
 // nextMusicList based on the current music item to be played and load the url
 // for first music item in the nextMusicList. This way new music item will be added
@@ -215,17 +157,9 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       await dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
 
       final nextMusicItem = state.audioPlayerState.nextMusicList.first;
-
-      final yt = YoutubeExplode();
-
-      final manifest =
-          await yt.videos.streamsClient.getManifest(nextMusicItem.musicId);
-      final url =
-          manifest.audioOnly.firstWhere((element) => element.tag == 140).url;
+      final url = await ParserHelper.getMusicItemUrl(currentMusicItem.musicId);
       await state.audioPlayerState.currentPlaylist
           .add(AudioSource.uri(url, tag: nextMusicItem.toMediaItem()));
-      dispatch(_FetchMusicDetailsForSelectedMusicAction(
-          selectedMusicItem: currentMusicItem));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current);
     }
