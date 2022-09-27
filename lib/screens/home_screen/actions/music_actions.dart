@@ -83,18 +83,12 @@ class PlayAudioAction extends ReduxAction<AppState> {
       // * fetch next list based on suggestions
       await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
 
-      final nextUrl = await ParserHelper.getMusicItemUrl(
-          state.audioPlayerState.nextMusicList[0].musicId);
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
       final _playlist = ConcatenatingAudioSource(children: [
         AudioSource.uri(
           url,
           tag: musicItem.toMediaItem(),
-        ),
-        AudioSource.uri(
-          nextUrl,
-          tag: state.audioPlayerState.nextMusicList.first.toMediaItem(),
         ),
       ]);
 
@@ -104,6 +98,15 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
       await state.audioPlayerState.audioPlayer
           .setAudioSource(state.audioPlayerState.currentPlaylist);
+
+      final nextUrl = await ParserHelper.getMusicItemUrl(
+          state.audioPlayerState.nextMusicList[0].musicId);
+      _playlist.add(
+        AudioSource.uri(
+          nextUrl,
+          tag: state.audioPlayerState.nextMusicList.first.toMediaItem(),
+        ),
+      );
 
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
