@@ -92,6 +92,9 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                     ),
                   ),
                   snapshot.currentMusic?.musicId == selectedMusic.musicId
+                  // if current music tile is to be played and the music metadata
+                  // was still being fetched, show loading and after that hand it to the
+                  // audio player stream to handle the rest.
                       ? snapshot.musicItemMetaDataLoadingState ==
                               LoadingState.loading
                           ? LoadingIndicator.small(context)
