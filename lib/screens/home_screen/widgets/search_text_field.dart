@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +12,10 @@ import '../../../utils/constants.dart';
 class SearchTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final LoadingState loadingState;
+  final void Function(String) onSubmitted;
   const SearchTextField({
     Key? key,
+    required this.onSubmitted,
     required this.textEditingController,
     required this.loadingState,
   }) : super(key: key);
@@ -20,6 +24,7 @@ class SearchTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: TextField(
+        onSubmitted: onSubmitted,
         autofocus: true,
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,

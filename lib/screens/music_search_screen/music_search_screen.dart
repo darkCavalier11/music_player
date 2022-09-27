@@ -89,6 +89,11 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                           child: Hero(
                             tag: 'search',
                             child: SearchTextField(
+                              onSubmitted: (text) {
+                                snapshot.onTapSearchResult(text);
+                                Navigator.of(context).popAndPushNamed(
+                                    MusicSearchResultScreen.routeName);
+                              },
                               loadingState: snapshot.currentSeacrhState,
                               textEditingController: _textEditingController
                                 ..addListener(() {
@@ -127,6 +132,15 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                   CupertinoIcons.search,
                                 ),
                               ],
+                            ),
+                            trailing: GestureDetector(
+                              child: const Icon(
+                                CupertinoIcons.arrow_up_left,
+                              ),
+                              onTap: () {
+                                _textEditingController.text =
+                                    snapshot.previouslySearchedItems[index];
+                              },
                             ),
                             title: Text(
                               snapshot.previouslySearchedItems[index],
