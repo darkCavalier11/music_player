@@ -14,6 +14,8 @@ class AudioPlayerState {
   final MusicItem? selectedMusic;
   final List<MusicItem> nextMusicList;
   final ConcatenatingAudioSource currentPlaylist;
+  // This loading state is required to keep track when the music item actually fetching the
+  // music url. In that time this chages to loading and enhances the feedback for the user.
   final LoadingState musicItemMetaDataLoadingState;
   AudioPlayerState({
     required this.audioPlayer,
