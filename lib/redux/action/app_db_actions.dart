@@ -37,7 +37,7 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
           jsonEncode(oldmusicList.map((e) => e.toJson()).toList()));
       dispatch(GetRecentlyPlayedMusicList());
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }
@@ -62,7 +62,7 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
         ),
       );
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }
@@ -90,7 +90,7 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
       AppDatabse.setQuery(DbKeys.searchedItemList,
           jsonEncode(previouslySearchedItems.reversed.toList()));
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }
@@ -111,7 +111,7 @@ class GetSearchedItemList extends ReduxAction<AppState> {
         ),
       );
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }

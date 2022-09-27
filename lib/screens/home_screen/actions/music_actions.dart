@@ -79,13 +79,14 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       await state.audioPlayerState.currentPlaylist.clear();
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
-      dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
       // * fetch next list based on suggestions
       await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
 
       final nextUrl = await ParserHelper.getMusicItemUrl(
           state.audioPlayerState.nextMusicList[0].musicId);
+      dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
+
       final _playlist = ConcatenatingAudioSource(children: [
         AudioSource.uri(
           url,
@@ -98,6 +99,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       ]);
 
       // * add item to local db
+
       dispatch(SetPlaylistAction(playlist: _playlist));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
       await state.audioPlayerState.audioPlayer
@@ -105,7 +107,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
@@ -130,7 +132,7 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
         ),
       );
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }
@@ -162,7 +164,7 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       await state.audioPlayerState.currentPlaylist
           .add(AudioSource.uri(url, tag: nextMusicItem.toMediaItem()));
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }

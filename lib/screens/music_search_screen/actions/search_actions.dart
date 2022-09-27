@@ -60,7 +60,7 @@ class _FetchSearchQueryResults extends ReduxAction<AppState> {
       }
       dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.failed));
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.failed));
     }
   }
@@ -164,7 +164,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
     } catch (err) {
       dispatch(
           _SetSearchResultFetchingAction(loadingState: LoadingState.failed));
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }

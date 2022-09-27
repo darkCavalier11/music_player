@@ -46,7 +46,7 @@ class ParserHelper {
       }
       return homeScreenMusicItems;
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw Error.safeToString(err);
     }
   }
@@ -85,7 +85,7 @@ class ParserHelper {
         return [];
       }
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw ErrorDescription(err.toString());
     }
   }

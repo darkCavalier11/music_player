@@ -18,7 +18,7 @@ class AppDatabse {
       final dbPath = dir.path + '/app_main.db';
       _mainDb = await databaseFactoryIo.openDatabase(dbPath);
     } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw Exception(err);
     }
   }

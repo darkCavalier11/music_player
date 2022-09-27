@@ -66,7 +66,7 @@ class ApiRequest {
 class AppHttpInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    log(options.path);
+    log(options.path, name: 'Url');
     if (options.data != null && EnvConfig.logLevel == 1) {
       log(options.data.toString());
     }
@@ -75,7 +75,7 @@ class AppHttpInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    log('${response.statusCode}');
+    log('${response.statusCode}', name: 'StatusCode');
     if (EnvConfig.logLevel == 1) {
       log(response.data);
     }

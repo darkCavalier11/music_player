@@ -8,7 +8,6 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
-
 class LoadHomePageMusicAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
@@ -23,7 +22,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       );
     } catch (err) {
       _SetHomeScreenLoadingAction(loadingState: LoadingState.failed);
-      log(err.toString(), stackTrace: StackTrace.current);
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
   }
 }
