@@ -103,7 +103,6 @@ class GetSearchedItemList extends ReduxAction<AppState> {
       if (serialisedList == null) {
         return null;
       }
-      log(serialisedList.toString());
       final previouslySearchedItems = jsonDecode(serialisedList) as List;
       return state.copyWith(
         searchState: state.searchState.copyWith(

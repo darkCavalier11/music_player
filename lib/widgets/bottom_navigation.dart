@@ -133,7 +133,9 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
 
     widget.playingStream.listen((event) {
       if (!event) {
-        _animationController.stop();
+        if (_animationController.isAnimating) {
+          _animationController.stop();
+        }
       } else {
         _animationController.forward();
         _animationController.repeat(reverse: false);

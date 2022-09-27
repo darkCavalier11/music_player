@@ -10,6 +10,7 @@ import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../../redux/models/music_item.dart';
 
@@ -104,7 +105,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
-      log(err.toString());
+      log(err.toString(), stackTrace: StackTrace.current);
       Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();

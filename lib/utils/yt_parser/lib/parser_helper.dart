@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../../redux/models/music_filter_payload.dart';
 import '../../../redux/models/music_item.dart';
@@ -98,9 +99,12 @@ class ParserHelper {
           'videoId': musicId,
         },
       );
-      final streamList =
-          jsonDecode(res.data!)['streamingData']['adaptiveFormats'] as List;
-      final musicUrl = streamList.firstWhere((e) => e['itag'] == 140)['url'];
+      final yt = YoutubeExplode().videos.streamsClient;
+      final m = await yt.getManifest(musicId);
+      final musicUrl = m.audioOnly
+          .firstWhere((element) => element.tag == 140)
+          .url
+          .toString();
       return Uri.parse(musicUrl);
     } catch (err) {
       rethrow;
