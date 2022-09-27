@@ -10,6 +10,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
+import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/utils/mixins.dart';
@@ -91,14 +92,17 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                     ),
                   ),
                   snapshot.currentMusic?.musicId == selectedMusic.musicId
-                      ? SizedBox(
-                          child: _MusicTileTrailingWidget(
-                            processingStateStream:
-                                snapshot.processingStateStream,
-                            playingStream: snapshot.playingStream,
-                          ),
-                        )
-                      : _PlayButtonWidget(),
+                      ? snapshot.musicItemMetaDataLoadingState ==
+                              LoadingState.loading
+                          ? LoadingIndicator.small(context)
+                          : SizedBox(
+                              child: _MusicTileTrailingWidget(
+                                processingStateStream:
+                                    snapshot.processingStateStream,
+                                playingStream: snapshot.playingStream,
+                              ),
+                            )
+                      : const _PlayButtonWidget(),
                   const SizedBox(width: 20),
                 ],
               ),
@@ -146,13 +150,19 @@ class _ViewModel extends Vm {
   final Future<void> Function(MusicItem) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
+  final LoadingState musicItemMetaDataLoadingState;
 
   _ViewModel({
     this.currentMusic,
     required this.playMusic,
+    required this.musicItemMetaDataLoadingState,
     required this.processingStateStream,
     required this.playingStream,
-  }) : super(equals: [currentMusic, processingStateStream]);
+  }) : super(equals: [
+          currentMusic,
+          processingStateStream,
+          musicItemMetaDataLoadingState
+        ]);
 
   @override
   bool operator ==(Object other) {
@@ -180,6 +190,8 @@ class _Factory extends VmFactory<AppState, MusicListTile> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      musicItemMetaDataLoadingState:
+          state.audioPlayerState.musicItemMetaDataLoadingState,
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,

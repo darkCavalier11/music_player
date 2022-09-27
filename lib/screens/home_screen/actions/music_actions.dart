@@ -6,11 +6,12 @@ import 'package:async_redux/async_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 import '../../../redux/models/music_item.dart';
 
@@ -76,16 +77,19 @@ class PlayAudioAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       dispatch(StopAudioAction());
-      // * fetching music url
+      dispatch(_SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.loading));
+      dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
 
       await state.audioPlayerState.currentPlaylist.clear();
+      // * fetching music url
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
 
       // * fetch next list based on suggestions
       await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
 
-      dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
-
+      dispatch(_SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.idle));
       final _playlist = ConcatenatingAudioSource(children: [
         AudioSource.uri(
           url,
@@ -116,6 +120,21 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
     }
+  }
+}
+
+class _SetMusicItemMetaDataLoadingStateAction extends ReduxAction<AppState> {
+  final LoadingState loadingState;
+  _SetMusicItemMetaDataLoadingStateAction({
+    required this.loadingState,
+  });
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      audioPlayerState: state.audioPlayerState.copyWith(
+        musicItemMetaDataLoadingState: loadingState,
+      ),
+    );
   }
 }
 
