@@ -92,7 +92,6 @@ class ParserHelper {
 
   static Future<Uri> getMusicItemUrl(String musicId) async {
     try {
-      log('95');
       ApiRequest.post(
         AppUrl.playMusicUrl(musicFilterPayload.apiKey),
         {
@@ -100,16 +99,12 @@ class ParserHelper {
           'videoId': musicId,
         },
       );
-      log('103');
       final yt = YoutubeExplode().videos.streamsClient;
-      log('105');
       final m = await yt.getManifest(musicId);
-      log('107');
       final musicUrl = m.audioOnly
           .firstWhere((element) => element.tag == 140)
           .url
           .toString();
-      log('112');
       return Uri.parse(musicUrl);
     } catch (err) {
       rethrow;
