@@ -98,7 +98,6 @@ class PlayAudioAction extends ReduxAction<AppState> {
           ),
         ],
       );
-      await state.audioPlayerState.audioPlayer.play();
 
       // * add item to local db
 
@@ -106,6 +105,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
       await state.audioPlayerState.audioPlayer
           .setAudioSource(state.audioPlayerState.currentPlaylist);
+      await state.audioPlayerState.audioPlayer.play();
 
       final nextUrl = await ParserHelper.getMusicItemUrl(
           state.audioPlayerState.nextMusicList[0].musicId);
