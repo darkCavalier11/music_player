@@ -30,7 +30,7 @@ class MusicPlayerWidget extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return SizedBox(
-          height: snapshot.selectedMusic == null ? 0 : 140,
+          height: snapshot.selectedMusic == null ? 0 : 210,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -60,7 +60,7 @@ class MusicPlayerWidget extends StatelessWidget {
                           return AnimatedContainer(
                             duration: const Duration(seconds: 1),
                             width: MediaQuery.of(context).size.width,
-                            height: 140,
+                            height: 240,
                             decoration: BoxDecoration(
                               color: paletteSnapshot.data?.dominantColor?.color,
                             ),
