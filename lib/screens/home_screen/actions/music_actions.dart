@@ -90,12 +90,15 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.idle));
-      final _playlist = ConcatenatingAudioSource(children: [
-        AudioSource.uri(
-          url,
-          tag: musicItem.toMediaItem(),
-        ),
-      ]);
+      final _playlist = ConcatenatingAudioSource(
+        children: [
+          AudioSource.uri(
+            url,
+            tag: musicItem.toMediaItem(),
+          ),
+        ],
+      );
+      await state.audioPlayerState.audioPlayer.play();
 
       // * add item to local db
 
@@ -106,14 +109,12 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       final nextUrl = await ParserHelper.getMusicItemUrl(
           state.audioPlayerState.nextMusicList[0].musicId);
-      _playlist.add(
+      state.audioPlayerState.currentPlaylist.add(
         AudioSource.uri(
           nextUrl,
           tag: state.audioPlayerState.nextMusicList.first.toMediaItem(),
         ),
       );
-
-      await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       Fluttertoast.showToast(msg: "Error loading music, try again!");
