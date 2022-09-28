@@ -132,6 +132,9 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
     _animationController.repeat(reverse: false);
 
     widget.playingStream.listen((event) {
+      if (!mounted) {
+        return;
+      }
       if (!event) {
         if (_animationController.isAnimating) {
           _animationController.stop();
@@ -145,8 +148,8 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
+    _animationController.dispose();
   }
 
   @override
@@ -156,7 +159,7 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
       child: GestureDetector(
         onTap: () {
           // todo : expand to full playing screen
-          // snapshot.onChange(2);
+          log('message');
         },
         child: Container(
           width: 30,
