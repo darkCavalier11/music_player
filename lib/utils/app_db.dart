@@ -56,6 +56,7 @@ enum DbKeys {
   context,
   recentlyPlayedList,
   searchedItemList,
+  playlistItem,
 }
 
 extension on DbKeys {

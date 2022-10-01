@@ -3,16 +3,19 @@ import 'package:flutter/foundation.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
 
-class MusicListItem {
+class UserPlaylistListItem {
+  final String id;
   final String title;
   final List<MusicItem> musicItems;
-  MusicListItem({
+  UserPlaylistListItem({
+    required this.id,
     required this.title,
     required this.musicItems,
   });
 
-  factory MusicListItem.fromJson(Map<String, dynamic> json) {
-    return MusicListItem(
+  factory UserPlaylistListItem.fromJson(Map<String, dynamic> json) {
+    return UserPlaylistListItem(
+      id: json['id'],
       title: json['title'],
       musicItems: (json['musicItem'] as List)
           .map(
@@ -24,6 +27,7 @@ class MusicListItem {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'musicItems': musicItems.map(
         (e) => e.toJson(),
@@ -32,25 +36,30 @@ class MusicListItem {
   }
 
   @override
-  String toString() => 'MusicListItem(title: $title, musicItems: $musicItems)';
+  String toString() => 'UserPlaylistListItem(id: $id, title: $title, musicItems: $musicItems)';
 
-  MusicListItem copyWith({
+  UserPlaylistListItem copyWith({
+    String? id,
     String? title,
     List<MusicItem>? musicItems,
   }) {
-    return MusicListItem(
+    return UserPlaylistListItem(
+      id: id ?? this.id,
       title: title ?? this.title,
       musicItems: musicItems ?? this.musicItems,
     );
   }
 
   @override
-  bool operator ==(covariant MusicListItem other) {
+  bool operator ==(covariant UserPlaylistListItem other) {
     if (identical(this, other)) return true;
-
-    return other.title == title && listEquals(other.musicItems, musicItems);
+  
+    return 
+      other.id == id &&
+      other.title == title &&
+      listEquals(other.musicItems, musicItems);
   }
 
   @override
-  int get hashCode => title.hashCode ^ musicItems.hashCode;
+  int get hashCode => id.hashCode ^ title.hashCode ^ musicItems.hashCode;
 }
