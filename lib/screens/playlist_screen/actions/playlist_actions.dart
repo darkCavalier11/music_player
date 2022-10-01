@@ -116,3 +116,38 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
     }
   }
 }
+
+class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
+  final String id;
+  final MusicItem musicItem;
+  RemoveMusicItemFromPlaylist({
+    required this.id,
+    required this.musicItem,
+  });
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final playlistsString = await AppDatabse.getQuery(DbKeys.playlistItem);
+      final playListitems = (jsonDecode(playlistsString ?? '[]') as List)
+          .map(
+            (e) => UserPlaylistListItem.fromJson(e),
+          )
+          .toList();
+      final playlistToAdd =
+          playListitems.firstWhere((element) => element.id == id);
+      playlistToAdd.musicItems.remove(musicItem);
+      await AppDatabse.setQuery(
+        DbKeys.playlistItem,
+        jsonEncode(
+          playListitems.map((e) => e.toJson()).toList(),
+        ),
+      );
+    } catch (err) {
+      log(
+        err.toString(),
+        name: 'ErrorLog',
+        stackTrace: StackTrace.current,
+      );
+    }
+  }
+}
