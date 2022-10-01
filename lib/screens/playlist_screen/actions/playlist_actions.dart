@@ -23,6 +23,7 @@ class CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
     try {
       final previousPlaylistsString =
           await AppDatabse.getQuery(DbKeys.playlistItem);
+      // todo : handle duplicate playlist name
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
@@ -48,9 +49,9 @@ class CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   }
 }
 
-class RemovePlaylistById extends ReduxAction<AppState> {
+class RemovePlaylistByName extends ReduxAction<AppState> {
   final String playlistName;
-  RemovePlaylistById({
+  RemovePlaylistByName({
     required this.playlistName,
   });
   @override
@@ -91,15 +92,14 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final playlistsString =
-          await AppDatabse.getQuery(DbKeys.playlistItem);
-      final playListitems =
-          (jsonDecode(playlistsString ?? '[]') as List)
-              .map(
-                (e) => UserPlaylistListItem.fromJson(e),
-              )
-              .toList();
-      final playlistToAdd = playListitems.firstWhere((element) => element.title == playlistName);
+      final playlistsString = await AppDatabse.getQuery(DbKeys.playlistItem);
+      final playListitems = (jsonDecode(playlistsString ?? '[]') as List)
+          .map(
+            (e) => UserPlaylistListItem.fromJson(e),
+          )
+          .toList();
+      final playlistToAdd =
+          playListitems.firstWhere((element) => element.title == playlistName);
       playlistToAdd.musicItems.add(musicItem);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
@@ -140,6 +140,40 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
         DbKeys.playlistItem,
         jsonEncode(
           playListitems.map((e) => e.toJson()).toList(),
+        ),
+      );
+    } catch (err) {
+      log(
+        err.toString(),
+        name: 'ErrorLog',
+        stackTrace: StackTrace.current,
+      );
+    }
+  }
+}
+
+class AddItemToFavPlaylist extends ReduxAction<AppState> {
+  final MusicItem musicItem;
+  AddItemToFavPlaylist({
+    required this.musicItem,
+  });
+  @override
+  FutureOr<AppState?> reduce() async {
+    try {
+      final playlistsString = await AppDatabse.getQuery(DbKeys.favouriteItems);
+      UserPlaylistListItem favPlaylist;
+      if (playlistsString == null) {
+        favPlaylist = UserPlaylistListItem(
+            id: Uuid().v4(), title: 'Favourite', musicItems: []);
+      } else {
+        favPlaylist =
+            UserPlaylistListItem.fromJson(jsonDecode(playlistsString));
+      }
+      favPlaylist.musicItems.add(musicItem);
+      await AppDatabse.setQuery(
+        DbKeys.favouriteItems,
+        jsonEncode(
+          favPlaylist.toJson(),
         ),
       );
     } catch (err) {
