@@ -49,9 +49,9 @@ class CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
 }
 
 class RemovePlaylistById extends ReduxAction<AppState> {
-  final String id;
+  final String playlistName;
   RemovePlaylistById({
-    required this.id,
+    required this.playlistName,
   });
   @override
   Future<AppState?> reduce() async {
@@ -64,7 +64,7 @@ class RemovePlaylistById extends ReduxAction<AppState> {
                 (e) => UserPlaylistListItem.fromJson(e),
               )
               .toList();
-      playListitems.removeWhere((element) => element.id == id);
+      playListitems.removeWhere((element) => element.title == playlistName);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
@@ -82,10 +82,10 @@ class RemovePlaylistById extends ReduxAction<AppState> {
 }
 
 class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
-  final String id;
+  final String playlistName;
   final MusicItem musicItem;
   AddMusicItemtoPlaylist({
-    required this.id,
+    required this.playlistName,
     required this.musicItem,
   });
   @override
@@ -99,7 +99,7 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
                 (e) => UserPlaylistListItem.fromJson(e),
               )
               .toList();
-      final playlistToAdd = playListitems.firstWhere((element) => element.id == id);
+      final playlistToAdd = playListitems.firstWhere((element) => element.title == playlistName);
       playlistToAdd.musicItems.add(musicItem);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,

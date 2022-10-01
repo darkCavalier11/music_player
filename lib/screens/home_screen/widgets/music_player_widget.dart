@@ -12,6 +12,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:marquee/marquee.dart';
+import 'package:music_player/screens/playlist_screen/actions/playlist_actions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
@@ -80,9 +81,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                               .textTheme
                                               .bodyMedium,
                                         ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
+                                        onPressed: () {},
                                       ),
                                       CupertinoContextMenuAction(
                                         child: Text(
@@ -97,7 +96,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                       ),
                                       CupertinoContextMenuAction(
                                         child: Text(
-                                          "Show next music",
+                                          "Show next music list",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,
@@ -209,10 +208,12 @@ class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
   final MusicItem? selectedMusic;
   final int currentBottomNavIndex;
+  final void Function(MusicItem) addMusicIteToFav;
   _ViewModel({
     required this.processingStateStream,
     required this.selectedMusic,
     required this.currentBottomNavIndex,
+    required this.addMusicIteToFav,
   });
 
   @override
@@ -242,6 +243,12 @@ class _Factory extends VmFactory<AppState, MusicPlayerWidget> {
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
       currentBottomNavIndex: state.uiState.currentBottomNavIndex,
+      addMusicIteToFav: (musicItem) {
+        dispatch(
+          AddMusicItemtoPlaylist(
+              playlistName: 'Favourite', musicItem: musicItem),
+        );
+      },
     );
   }
 }
