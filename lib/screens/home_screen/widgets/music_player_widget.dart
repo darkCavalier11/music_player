@@ -30,7 +30,7 @@ class MusicPlayerWidget extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return SizedBox(
-          height: snapshot.selectedMusic == null ? 0 : 210,
+          height: snapshot.selectedMusic == null ? 0 : 250,
           child: Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.bottomCenter,
@@ -60,10 +60,9 @@ class MusicPlayerWidget extends StatelessWidget {
                       return AnimatedContainer(
                         duration: const Duration(seconds: 1),
                         width: MediaQuery.of(context).size.width,
-                        height: 240,
+                        height: 210,
                         decoration: BoxDecoration(
-                          color: paletteSnapshot.data?.dominantColor?.color ??
-                              Colors.red,
+                          color: paletteSnapshot.data?.dominantColor?.color,
                         ),
                         child: Column(
                           children: [
@@ -126,11 +125,6 @@ class MusicPlayerWidget extends StatelessWidget {
                                   ),
                                 ),
                                 const PlayPauseButtonSet(),
-                                MarkFavWidget(
-                                  isFav: true,
-                                  color:
-                                      paletteSnapshot.data?.vibrantColor?.color,
-                                ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
@@ -165,27 +159,6 @@ class MusicPlayerWidget extends StatelessWidget {
                     }),
               ),
               // Minimize the current music player
-              FutureBuilder<PaletteGenerator>(
-                future: snapshot.selectedMusic?.imageUrl != null
-                    ? PaletteGenerator.fromImageProvider(
-                        CachedNetworkImageProvider(
-                            snapshot.selectedMusic?.imageUrl ?? ''))
-                    : Future.value(
-                        PaletteGenerator.fromColors([
-                          PaletteColor(Theme.of(context).primaryColor, 1),
-                        ]),
-                      ),
-                builder: (context, paletteSnapshot) {
-                  return Positioned(
-                    top: -25,
-                    left: 5,
-                    child: Icon(
-                      CupertinoIcons.chevron_down_circle_fill,
-                      color: paletteSnapshot.data?.dominantColor?.color,
-                    ),
-                  );
-                },
-              ),
             ],
           ),
         );
