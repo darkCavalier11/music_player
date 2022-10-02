@@ -87,7 +87,8 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
     try {
       final playlistsString = await AppDatabse.getQuery(DbKeys.playlistItem);
       if (playlistsString == null) {
-        await dispatch(_CreateNewPlaylistWithMusicItem(musicItem: musicItem, playlistName: playlistName));
+        await dispatch(_CreateNewPlaylistWithMusicItem(
+            musicItem: musicItem, playlistName: playlistName));
         return null;
       }
       final playListItems = (jsonDecode(playlistsString) as List)
@@ -97,6 +98,9 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
           .toList();
       final playlistToAdd =
           playListItems.firstWhere((element) => element.title == playlistName);
+      if (!playlistToAdd.musicItems.contains(musicItem)) {
+        return null;
+      }
       playlistToAdd.musicItems.add(musicItem);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
@@ -148,5 +152,3 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
     }
   }
 }
-
-

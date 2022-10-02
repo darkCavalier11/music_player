@@ -84,6 +84,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                         onPressed: () {
                                           snapshot.addMusicItemToFav(
                                               snapshot.selectedMusic!);
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                       CupertinoContextMenuAction(
