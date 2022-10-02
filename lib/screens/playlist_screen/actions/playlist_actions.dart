@@ -28,6 +28,11 @@ class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
         DbKeys.playlistItem,
         jsonEncode(
           [
+            UserPlaylistListItem(
+              id: '',
+              title: playlistName,
+              musicItems: [musicItem],
+            ).toJson(),
             ...jsonDecode(previousPlaylistsString ?? '[]'),
           ],
         ),
