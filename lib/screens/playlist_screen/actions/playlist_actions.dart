@@ -11,10 +11,11 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/utils/app_db.dart';
 
-class CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
+// Called after checking the playlist doesn't exist
+class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   final MusicItem musicItem;
   final String playlistName;
-  CreateNewPlaylistWithMusicItem({
+  _CreateNewPlaylistWithMusicItem({
     required this.musicItem,
     required this.playlistName,
   });
@@ -23,18 +24,10 @@ class CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
     try {
       final previousPlaylistsString =
           await AppDatabse.getQuery(DbKeys.playlistItem);
-      // todo : handle duplicate playlist name
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
           [
-            UserPlaylistListItem(
-              id: const Uuid().v4(),
-              title: playlistName,
-              musicItems: [
-                musicItem,
-              ],
-            ).toJson(),
             ...jsonDecode(previousPlaylistsString ?? '[]'),
           ],
         ),
@@ -59,17 +52,17 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
     try {
       final previousPlaylistsString =
           await AppDatabse.getQuery(DbKeys.playlistItem);
-      final playListitems =
+      final playListItems =
           (jsonDecode(previousPlaylistsString ?? '[]') as List)
               .map(
                 (e) => UserPlaylistListItem.fromJson(e),
               )
               .toList();
-      playListitems.removeWhere((element) => element.title == playlistName);
+      playListItems.removeWhere((element) => element.title == playlistName);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
-          playListitems.map((e) => e.toJson()).toList(),
+          playListItems.map((e) => e.toJson()).toList(),
         ),
       );
     } catch (err) {
@@ -93,18 +86,22 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       final playlistsString = await AppDatabse.getQuery(DbKeys.playlistItem);
-      final playListitems = (jsonDecode(playlistsString ?? '[]') as List)
+      if (playlistsString == null) {
+        await dispatch(_CreateNewPlaylistWithMusicItem(musicItem: musicItem, playlistName: playlistName));
+        return null;
+      }
+      final playListItems = (jsonDecode(playlistsString) as List)
           .map(
             (e) => UserPlaylistListItem.fromJson(e),
           )
           .toList();
       final playlistToAdd =
-          playListitems.firstWhere((element) => element.title == playlistName);
+          playListItems.firstWhere((element) => element.title == playlistName);
       playlistToAdd.musicItems.add(musicItem);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
-          playListitems.map((e) => e.toJson()).toList(),
+          playListItems.map((e) => e.toJson()).toList(),
         ),
       );
     } catch (err) {
@@ -128,18 +125,18 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       final playlistsString = await AppDatabse.getQuery(DbKeys.playlistItem);
-      final playListitems = (jsonDecode(playlistsString ?? '[]') as List)
+      final playListItems = (jsonDecode(playlistsString ?? '[]') as List)
           .map(
             (e) => UserPlaylistListItem.fromJson(e),
           )
           .toList();
       final playlistToAdd =
-          playListitems.firstWhere((element) => element.id == id);
+          playListItems.firstWhere((element) => element.id == id);
       playlistToAdd.musicItems.remove(musicItem);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
-          playListitems.map((e) => e.toJson()).toList(),
+          playListItems.map((e) => e.toJson()).toList(),
         ),
       );
     } catch (err) {
@@ -152,36 +149,4 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
   }
 }
 
-class AddItemToFavPlaylist extends ReduxAction<AppState> {
-  final MusicItem musicItem;
-  AddItemToFavPlaylist({
-    required this.musicItem,
-  });
-  @override
-  FutureOr<AppState?> reduce() async {
-    try {
-      final playlistsString = await AppDatabse.getQuery(DbKeys.favouriteItems);
-      UserPlaylistListItem favPlaylist;
-      if (playlistsString == null) {
-        favPlaylist = UserPlaylistListItem(
-            id: Uuid().v4(), title: 'Favourite', musicItems: []);
-      } else {
-        favPlaylist =
-            UserPlaylistListItem.fromJson(jsonDecode(playlistsString));
-      }
-      favPlaylist.musicItems.add(musicItem);
-      await AppDatabse.setQuery(
-        DbKeys.favouriteItems,
-        jsonEncode(
-          favPlaylist.toJson(),
-        ),
-      );
-    } catch (err) {
-      log(
-        err.toString(),
-        name: 'ErrorLog',
-        stackTrace: StackTrace.current,
-      );
-    }
-  }
-}
+

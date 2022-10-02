@@ -81,7 +81,10 @@ class MusicPlayerWidget extends StatelessWidget {
                                               .textTheme
                                               .bodyMedium,
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          snapshot.addMusicItemToFav(
+                                              snapshot.selectedMusic!);
+                                        },
                                       ),
                                       CupertinoContextMenuAction(
                                         child: Text(
@@ -208,12 +211,12 @@ class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
   final MusicItem? selectedMusic;
   final int currentBottomNavIndex;
-  final void Function(MusicItem) addMusicIteToFav;
+  final void Function(MusicItem) addMusicItemToFav;
   _ViewModel({
     required this.processingStateStream,
     required this.selectedMusic,
     required this.currentBottomNavIndex,
-    required this.addMusicIteToFav,
+    required this.addMusicItemToFav,
   });
 
   @override
@@ -243,10 +246,13 @@ class _Factory extends VmFactory<AppState, MusicPlayerWidget> {
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
       currentBottomNavIndex: state.uiState.currentBottomNavIndex,
-      addMusicIteToFav: (musicItem) {
+      addMusicItemToFav: (musicItem) {
+        // todo : create single action to add item to playlist and private create playlist action incase the playlist absent
         dispatch(
           AddMusicItemtoPlaylist(
-              playlistName: 'Favourite', musicItem: musicItem),
+            musicItem: musicItem,
+            playlistName: 'Favourite',
+          ),
         );
       },
     );
