@@ -58,9 +58,9 @@ class PlaylistScreen extends StatelessWidget {
                       child: ListView.builder(
                         padding: const EdgeInsets.all(0),
                         itemBuilder: (context, idx) {
-                          // return PlaylistItemTile(
-                          //   imageUrl1: ,
-                          // );
+                          return PlaylistItemTile(
+                            userPlaylist: playlistItems[idx],
+                          );
                         },
                         itemCount: playlistItems.length,
                       ),

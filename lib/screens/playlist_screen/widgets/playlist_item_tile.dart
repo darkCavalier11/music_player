@@ -2,17 +2,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/redux/models/user_playlist_list_item.dart';
 
 class PlaylistItemTile extends StatelessWidget {
-  final String imageUrl1;
-  final String? imageUrl2;
-  final String? imageUrl3;
+  final UserPlaylistListItem userPlaylist;
 
   const PlaylistItemTile({
     Key? key,
-    required this.imageUrl1,
-    this.imageUrl2,
-    this.imageUrl3,
+    required this.userPlaylist,
   }) : super(key: key);
 
   @override
@@ -25,7 +22,7 @@ class PlaylistItemTile extends StatelessWidget {
             width: 80,
             child: Stack(
               children: [
-                if (imageUrl3 != null)
+                if (userPlaylist.musicItems.length > 2)
                   Positioned(
                     left: 20,
                     child: ClipRRect(
@@ -36,7 +33,7 @@ class PlaylistItemTile extends StatelessWidget {
                           BlendMode.modulate,
                         ),
                         child: Image.network(
-                          imageUrl3!,
+                          userPlaylist.musicItems[1].imageUrl,
                           height: 60,
                           width: 60,
                           fit: BoxFit.cover,
@@ -44,7 +41,7 @@ class PlaylistItemTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (imageUrl2 != null)
+                if (userPlaylist.musicItems.length > 1)
                   Positioned(
                     left: 10,
                     child: ClipRRect(
@@ -55,7 +52,7 @@ class PlaylistItemTile extends StatelessWidget {
                           BlendMode.modulate,
                         ),
                         child: Image(
-                          image: CachedNetworkImageProvider(imageUrl2 ?? ''),
+                          image: CachedNetworkImageProvider(userPlaylist.musicItems[1].imageUrl),
                           height: 60,
                           width: 60,
                           fit: BoxFit.cover,
@@ -69,7 +66,8 @@ class PlaylistItemTile extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image(
-                        image: CachedNetworkImageProvider(imageUrl1),
+                        image: CachedNetworkImageProvider(
+                            userPlaylist.musicItems.first.imageUrl),
                         height: 60,
                         width: 60,
                         fit: BoxFit.cover,
@@ -108,7 +106,7 @@ class PlaylistItemTile extends StatelessWidget {
                       ),
                 ),
                 Text(
-                  '26 Songs',
+                  '${userPlaylist.musicItems.length} Song(s)',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).hintColor,
                       ),
