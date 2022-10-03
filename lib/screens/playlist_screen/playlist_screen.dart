@@ -54,16 +54,18 @@ class PlaylistScreen extends StatelessWidget {
                     final playlistItems = (jsonDecode(snapshot.data!) as List)
                         .map((e) => UserPlaylistListItem.fromJson(e))
                         .toList();
-                    return Text('ej');
+                    return Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(0),
+                        itemBuilder: (context, idx) {
+                          // return PlaylistItemTile(
+                          //   imageUrl1: ,
+                          // );
+                        },
+                        itemCount: playlistItems.length,
+                      ),
+                    );
                   }),
-                  // PlaylistItemTile(
-                  //   imageUrl1:
-                  //       'https://images.unsplash.com/photo-1513010963904-2fefe6a92780?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                  //   imageUrl2:
-                  //       'https://images.unsplash.com/photo-1663431261867-01399cf8847d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-                  //   imageUrl3:
-                  //       'https://images.unsplash.com/photo-1663475928373-12f26f48e4b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-                  // ),
                 ),
               ],
             ),

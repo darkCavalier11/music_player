@@ -16,7 +16,6 @@ class UserPlaylistListItem {
   });
 
   factory UserPlaylistListItem.fromJson(Map<String, dynamic> json) {
-    log(json.toString());
     return UserPlaylistListItem(
       id: json['id'],
       title: json['title'],
