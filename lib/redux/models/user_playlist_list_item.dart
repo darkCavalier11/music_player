@@ -29,14 +29,17 @@ class UserPlaylistListItem {
     return {
       'id': id,
       'title': title,
-      'musicItems': musicItems.map(
-        (e) => e.toJson(),
-      )
+      'musicItems': musicItems
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
     };
   }
 
   @override
-  String toString() => 'UserPlaylistListItem(id: $id, title: $title, musicItems: $musicItems)';
+  String toString() =>
+      'UserPlaylistListItem(id: $id, title: $title, musicItems: $musicItems)';
 
   UserPlaylistListItem copyWith({
     String? id,
@@ -53,11 +56,10 @@ class UserPlaylistListItem {
   @override
   bool operator ==(covariant UserPlaylistListItem other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.title == title &&
-      listEquals(other.musicItems, musicItems);
+
+    return other.id == id &&
+        other.title == title &&
+        listEquals(other.musicItems, musicItems);
   }
 
   @override

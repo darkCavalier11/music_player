@@ -11,7 +11,7 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/utils/app_db.dart';
 
-// Called after checking the playlist doesn't exist
+// should be called after checking the playlist doesn't exist
 class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   final MusicItem musicItem;
   final String playlistName;
@@ -22,20 +22,16 @@ class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final previousPlaylistsString =
-          await AppDatabse.getQuery(DbKeys.playlistItem);
+      final playlistItems = [
+        UserPlaylistListItem(
+          id: '',
+          title: playlistName,
+          musicItems: [musicItem],
+        ),
+      ];
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
-        jsonEncode(
-          [
-            UserPlaylistListItem(
-              id: '',
-              title: playlistName,
-              musicItems: [musicItem],
-            ).toJson(),
-            ...jsonDecode(previousPlaylistsString ?? '[]'),
-          ],
-        ),
+        jsonEncode(playlistItems),
       );
     } catch (err) {
       log(
