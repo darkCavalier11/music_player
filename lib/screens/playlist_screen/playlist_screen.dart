@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,10 +45,16 @@ class PlaylistScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-                FutureBuilder<List<UserPlaylistListItem>>(
-                  future: snapshot.userPlaylistListItems(),
+                FutureBuilder<String?>(
+                  future: AppDatabse.getQuery(DbKeys.playlistItem),
                   builder: ((context, snapshot) {
-                    return Text('${snapshot.data?.length}');
+                    if (!snapshot.hasData || snapshot.hasError) {
+                      return const SizedBox.shrink();
+                    }
+                    final playlistItems = (jsonDecode(snapshot.data!) as List)
+                        .map((e) => UserPlaylistListItem.fromJson(e))
+                        .toList();
+                    return Text('ej');
                   }),
                   // PlaylistItemTile(
                   //   imageUrl1:

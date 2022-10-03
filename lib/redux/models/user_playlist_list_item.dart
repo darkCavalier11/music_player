@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
@@ -14,10 +16,11 @@ class UserPlaylistListItem {
   });
 
   factory UserPlaylistListItem.fromJson(Map<String, dynamic> json) {
+    log(json.toString());
     return UserPlaylistListItem(
       id: json['id'],
       title: json['title'],
-      musicItems: (json['musicItem'] as List)
+      musicItems: (json['musicItems'] as List)
           .map(
             (e) => MusicItem.fromJson(e),
           )
