@@ -52,7 +52,8 @@ class PlaylistItemTile extends StatelessWidget {
                           BlendMode.modulate,
                         ),
                         child: Image(
-                          image: CachedNetworkImageProvider(userPlaylist.musicItems[1].imageUrl),
+                          image: CachedNetworkImageProvider(
+                              userPlaylist.musicItems[1].imageUrl),
                           height: 60,
                           width: 60,
                           fit: BoxFit.cover,
@@ -99,6 +100,7 @@ class PlaylistItemTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // todo : edit playlist name
                 Text(
                   'My Playlist',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -106,11 +108,13 @@ class PlaylistItemTile extends StatelessWidget {
                       ),
                 ),
                 Text(
-                  '${userPlaylist.musicItems.length} Song(s)',
+                  '${userPlaylist.musicItems.length} ' +
+                      (userPlaylist.musicItems.length > 1 ? 'Songs' : 'Song'),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).hintColor,
                       ),
                 ),
+                // todo : added a more frequent artist map
                 Text(
                   'Humane sagar, Kuldeep pattnaik, Mantu churia',
                   overflow: TextOverflow.ellipsis,
