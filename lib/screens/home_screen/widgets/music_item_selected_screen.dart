@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -20,54 +22,65 @@ class MusicItemSelectedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor.withOpacity(0.9),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 25,
+              sigmaY: 25,
+            ),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(0.1),
+              ),
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  padding: const EdgeInsets.all(0),
-                  splashColor: Colors.redAccent.withOpacity(0.2),
-                  onPressed: () {},
-                  icon: Icon(
-                    CupertinoIcons.heart,
-                    color: Colors.redAccent,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      padding: const EdgeInsets.all(0),
+                      splashColor: Colors.redAccent.withOpacity(0.2),
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.heart,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    const AppPrimaryButton(
+                      buttonText: 'Add To Playlist',
+                      trailingIcon: Icon(
+                        Iconsax.music_playlist,
+                        size: 18,
+                      ),
+                    ),
+                    const AppPrimaryButton(
+                      buttonText: 'Show next',
+                      trailingIcon: Icon(
+                        CupertinoIcons.list_bullet,
+                        size: 18,
+                      ),
+                    ),
+                  ],
                 ),
-                AppPrimaryButton(
-                  buttonText: 'Add To Playlist',
-                  trailingIcon: Icon(
-                    Iconsax.music_playlist,
-                    size: 18,
-                  ),
-                ),
-                AppPrimaryButton(
-                  buttonText: 'Show next',
-                  trailingIcon: Icon(
-                    CupertinoIcons.list_bullet,
-                    size: 18,
+                Hero(
+                  tag: musicItem.musicId,
+                  child: MusicListTile(
+                    selectedMusic: musicItem,
+                    onTap: (p) {},
                   ),
                 ),
               ],
             ),
-            Hero(
-              tag: musicItem.musicId,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).dividerColor),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: MusicListTile(
-                  selectedMusic: musicItem,
-                  onTap: (p) {},
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
