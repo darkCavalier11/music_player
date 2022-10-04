@@ -42,34 +42,6 @@ class MusicItemSelectedScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      padding: const EdgeInsets.all(0),
-                      splashColor: Colors.redAccent.withOpacity(0.2),
-                      onPressed: () {},
-                      icon: const Icon(
-                        CupertinoIcons.heart,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                    const AppPrimaryButton(
-                      buttonText: 'Add To Playlist',
-                      trailingIcon: Icon(
-                        Iconsax.music_playlist,
-                        size: 18,
-                      ),
-                    ),
-                    const AppPrimaryButton(
-                      buttonText: 'Show next',
-                      trailingIcon: Icon(
-                        CupertinoIcons.list_bullet,
-                        size: 18,
-                      ),
-                    ),
-                  ],
-                ),
                 Hero(
                   tag: musicItem.musicId,
                   child: MusicListTile(
@@ -77,11 +49,79 @@ class MusicItemSelectedScreen extends StatelessWidget {
                     onTap: (p) {},
                   ),
                 ),
+                _ButtonRowWidget(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ButtonRowWidget extends StatefulWidget {
+  const _ButtonRowWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_ButtonRowWidget> createState() => _ButtonRowWidgetState();
+}
+
+class _ButtonRowWidgetState extends State<_ButtonRowWidget>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _animationController.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _animationController.value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - _animationController.value) * 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  padding: const EdgeInsets.all(0),
+                  splashColor: Colors.redAccent.withOpacity(0.2),
+                  onPressed: () {},
+                  icon: const Icon(
+                    CupertinoIcons.heart,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                const AppPrimaryButton(
+                  buttonText: 'Add To Playlist',
+                  trailingIcon: Icon(
+                    Iconsax.music_playlist,
+                    size: 18,
+                  ),
+                ),
+                const AppPrimaryButton(
+                  buttonText: 'Show next',
+                  trailingIcon: Icon(
+                    CupertinoIcons.list_bullet,
+                    size: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
