@@ -116,7 +116,7 @@ class PlaylistItemTile extends StatelessWidget {
                 ),
                 // todo : added a more frequent artist map
                 Text(
-                  'Humane sagar, Kuldeep pattnaik, Mantu churia',
+                  userPlaylist.getPlaylistAuthorSubtitle(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
