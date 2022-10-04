@@ -74,9 +74,12 @@ class HomeScreen extends StatelessWidget {
                     ...snapshot.recentlyPlayedList
                         .take(5)
                         .map(
-                          (e) => MusicListTile(
-                            selectedMusic: e,
-                            onTap: snapshot.playMusic,
+                          (e) => Hero(
+                            tag: e.musicId,
+                            child: MusicListTile(
+                              selectedMusic: e,
+                              onTap: snapshot.playMusic,
+                            ),
                           ),
                         )
                         .toList(),
@@ -139,7 +142,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-  
+
 // responsible for holding a dummy text field that will navigate on tap to a different route.
 class DummySearchTextField extends StatelessWidget {
   final String tag;

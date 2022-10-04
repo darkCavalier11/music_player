@@ -9,6 +9,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
+import 'package:music_player/screens/home_screen/widgets/music_item_selected_screen.dart';
 import 'package:music_player/utils/mixins.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
@@ -43,6 +44,17 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                   }
                   return InkWell(
                     borderRadius: BorderRadius.circular(12),
+                    onLongPress: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (context, _, __) =>
+                              MusicItemSelectedScreen(
+                            musicItem: selectedMusic,
+                          ),
+                        ),
+                      );
+                    },
                     onTap: () async {
                       if (isPlayingSnapshot.data! &&
                           selectedMusic.musicId ==
