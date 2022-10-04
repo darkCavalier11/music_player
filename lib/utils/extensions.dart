@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 extension FormatingUtility on Duration {
   String formatDurationString() {

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:uuid/uuid.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
@@ -40,6 +39,7 @@ class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
         stackTrace: StackTrace.current,
       );
     }
+    return null;
   }
 }
 
@@ -73,6 +73,7 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
         stackTrace: StackTrace.current,
       );
     }
+    return null;
   }
 }
 
@@ -116,6 +117,7 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
         stackTrace: StackTrace.current,
       );
     }
+    return null;
   }
 }
 
@@ -151,5 +153,6 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
         stackTrace: StackTrace.current,
       );
     }
+    return null;
   }
 }

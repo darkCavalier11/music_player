@@ -1,14 +1,10 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/utils/extensions.dart';
 
 class PlayTimerWidget extends StatefulWidget {

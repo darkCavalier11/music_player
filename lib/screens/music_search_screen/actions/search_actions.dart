@@ -7,7 +7,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
 
-import 'package:music_player/main.dart';
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_filter_payload.dart';
@@ -17,7 +16,6 @@ import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
-import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/utils/url.dart';
 
 class _ChangeSearchQuery extends ReduxAction<AppState> {
@@ -63,6 +61,7 @@ class _FetchSearchQueryResults extends ReduxAction<AppState> {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSearchCurrentStateAction(loadingState: LoadingState.failed));
     }
+    return null;
   }
 }
 
@@ -75,6 +74,7 @@ class OnChangeSearchQueryAction extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     dispatch(_ChangeSearchQuery(query: query));
     dispatch(_FetchSearchQueryResults(query: query));
+    return null;
   }
 }
 
@@ -166,6 +166,7 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
           _SetSearchResultFetchingAction(loadingState: LoadingState.failed));
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 

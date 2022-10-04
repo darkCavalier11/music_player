@@ -272,6 +272,26 @@ class _ViewModel extends Vm {
     required this.playingStream,
     required this.musicItem,
   });
+
+  @override
+  bool operator ==(covariant _ViewModel other) {
+    if (identical(this, other)) return true;
+
+    return other.currentBottomNavIndex == currentBottomNavIndex &&
+        other.onChange == onChange &&
+        other.processingStateStream == processingStateStream &&
+        other.playingStream == playingStream &&
+        other.musicItem == musicItem;
+  }
+
+  @override
+  int get hashCode {
+    return currentBottomNavIndex.hashCode ^
+        onChange.hashCode ^
+        processingStateStream.hashCode ^
+        playingStream.hashCode ^
+        musicItem.hashCode;
+  }
 }
 
 class _Factory extends VmFactory<AppState, BottomNavigationWidget> {

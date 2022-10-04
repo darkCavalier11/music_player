@@ -1,12 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
-import 'package:music_player/redux/models/music_model.dart';
 import 'package:music_player/redux/models/search_state.dart';
 
 class AudioPlayerState {

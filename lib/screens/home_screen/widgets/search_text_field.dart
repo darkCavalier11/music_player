@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 
-import '../../../utils/constants.dart';
 
 class SearchTextField extends StatelessWidget {
   final TextEditingController textEditingController;

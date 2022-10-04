@@ -1,15 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/account_screen/account_screen.dart';
 import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
-import 'package:music_player/screens/home_screen/widgets/player_timer_widget.dart';
 import 'package:music_player/widgets/bottom_navigation.dart';
 import 'package:music_player/screens/home_screen/home_screen.dart';
 import 'package:music_player/screens/playlist_screen/playlist_screen.dart';
@@ -76,11 +73,11 @@ class _AppScreensState extends State<AppScreens> {
                     snapshot.changeBottomNavIndex(page);
                   },
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 0,
                   child: MusicPlayerWidget(),
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 15,
                   child: BottomNavigationWidget(),
                 )

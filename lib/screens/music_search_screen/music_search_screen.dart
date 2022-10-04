@@ -1,13 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -15,7 +12,6 @@ import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
-import 'package:music_player/widgets/loading_indicator.dart';
 
 class MusicSearchScreen extends StatefulWidget {
   const MusicSearchScreen({Key? key}) : super(key: key);

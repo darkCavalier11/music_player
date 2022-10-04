@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 
 class MusicPlayingWaveWidget extends StatefulWidget {
   final Stream<bool> playingStream;

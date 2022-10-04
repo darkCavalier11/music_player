@@ -6,7 +6,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -32,6 +31,7 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
         dispatch(GetNextMusicUrlAndAddToPlaylistAction());
       }
     });
+    return null;
   }
 }
 
@@ -121,6 +121,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
     }
+    return null;
   }
 }
 
@@ -158,6 +159,7 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 
@@ -165,6 +167,7 @@ class StopAudioAction extends ReduxAction<AppState> {
   @override
   AppState? reduce() {
     state.audioPlayerState.audioPlayer.stop();
+    return null;
   }
 }
 
@@ -190,5 +193,6 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }

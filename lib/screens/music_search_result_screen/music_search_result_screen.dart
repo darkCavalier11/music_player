@@ -2,14 +2,11 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
-import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 
 import '../home_screen/actions/music_actions.dart';
@@ -38,7 +35,7 @@ class MusicSearchResultScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 24, right: 24, top: 64),
+                        padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
                         child: Row(
                           children: [
                             Padding(

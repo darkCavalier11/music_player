@@ -39,6 +39,7 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 
@@ -64,6 +65,7 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 
@@ -92,6 +94,7 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 
@@ -113,5 +116,6 @@ class GetSearchedItemList extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }

@@ -24,6 +24,7 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
       _SetHomeScreenLoadingAction(loadingState: LoadingState.failed);
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
     }
+    return null;
   }
 }
 

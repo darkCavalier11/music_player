@@ -160,7 +160,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
             snapshot.data == ProcessingState.buffering) {
           return LoadingIndicator.small(context);
         } else {
-          return _PlayButtonWidget();
+          return const _PlayButtonWidget();
         }
       },
     );
