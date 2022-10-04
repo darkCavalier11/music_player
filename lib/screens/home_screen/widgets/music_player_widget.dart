@@ -65,48 +65,8 @@ class MusicPlayerWidget extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: CupertinoContextMenu(
-                                    actions: [
-                                      CupertinoContextMenuAction(
-                                        child: Text(
-                                          "Add to Favorite",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        onPressed: () {
-                                          snapshot.addMusicItemToFav(
-                                              snapshot.selectedMusic!);
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      CupertinoContextMenuAction(
-                                        child: Text(
-                                          "Add to Playlist",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      CupertinoContextMenuAction(
-                                        child: Text(
-                                          "Show next music list",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                    child: MusicCircularAvatar(
-                                      imageUrl:
-                                          snapshot.selectedMusic?.imageUrl,
-                                    ),
+                                  child: MusicCircularAvatar(
+                                    imageUrl: snapshot.selectedMusic?.imageUrl,
                                   ),
                                 ),
                                 const SizedBox(width: 10),

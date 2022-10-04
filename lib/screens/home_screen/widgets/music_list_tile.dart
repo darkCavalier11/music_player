@@ -48,7 +48,8 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                           selectedMusic.musicId ==
                               snapshot.currentMusic?.musicId) {
                         snapshot.pauseMusic();
-                      } else if (selectedMusic.musicId != snapshot.currentMusic?.musicId) {
+                      } else if (selectedMusic.musicId !=
+                          snapshot.currentMusic?.musicId) {
                         snapshot.playMusic(selectedMusic);
                       } else {
                         snapshot.resumeMusic();
