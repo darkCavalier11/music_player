@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,8 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
+import 'package:music_player/screens/playlist_screen/actions/playlist_actions.dart';
 import 'package:music_player/screens/playlist_screen/widgets/playlist_item_tile.dart';
-import 'package:music_player/utils/app_db.dart';
 
 class PlaylistScreen extends StatelessWidget {
   const PlaylistScreen({Key? key}) : super(key: key);
@@ -17,6 +16,9 @@ class PlaylistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onInit: (store) {
+        store.dispatch(LoadUserPlaylistAction());
+      },
       builder: (context, snapshot) {
         return Scaffold(
           body: Padding(
@@ -43,28 +45,17 @@ class PlaylistScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-                FutureBuilder<String?>(
-                  future: AppDatabse.getQuery(DbKeys.playlistItem),
-                  builder: ((context, snapshot) {
-                    if (!snapshot.hasData || snapshot.hasError) {
-                      return const SizedBox.shrink();
-                    }
-                    final playlistItems = (jsonDecode(snapshot.data!) as List)
-                        .map((e) => UserPlaylistListItem.fromJson(e))
-                        .toList();
-                    return Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(0),
-                        itemBuilder: (context, idx) {
-                          return PlaylistItemTile(
-                            userPlaylist: playlistItems[idx],
-                          );
-                        },
-                        itemCount: playlistItems.length,
-                      ),
-                    );
-                  }),
-                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    itemBuilder: (context, idx) {
+                      return PlaylistItemTile(
+                        userPlaylist: snapshot.userPlaylistListItems[idx],
+                      );
+                    },
+                    itemCount: snapshot.userPlaylistListItems.length,
+                  ),
+                )
               ],
             ),
           ),
@@ -75,24 +66,18 @@ class PlaylistScreen extends StatelessWidget {
 }
 
 class _ViewModel extends Vm {
-  final Future<List<UserPlaylistListItem>> Function() userPlaylistListItems;
+  final List<UserPlaylistListItem> userPlaylistListItems;
   _ViewModel({
     required this.userPlaylistListItems,
-  });
+  }) : super(equals: [userPlaylistListItems]);
 }
 
 class _Factory extends VmFactory<AppState, PlaylistScreen> {
   _Factory(widget) : super(widget);
   @override
   _ViewModel fromStore() {
-    return _ViewModel(userPlaylistListItems: () async {
-      final playlistString = await AppDatabse.getQuery(DbKeys.playlistItem);
-      if (playlistString == null) {
-        return [];
-      }
-      return (jsonDecode(playlistString) as List)
-          .map((e) => UserPlaylistListItem.fromJson(e))
-          .toList();
-    });
+    return _ViewModel(
+      userPlaylistListItems: state.userPlaylistState.userPlaylistItems,
+    );
   }
 }

@@ -17,6 +17,10 @@ class UserPlaylistState {
     );
   }
 
+  factory UserPlaylistState.initial() {
+    return UserPlaylistState(userPlaylistItems: []);
+  }
+
   @override
   String toString() => 'UserPlaylistState(userPlaylistItems: $userPlaylistItems)';
 

@@ -10,6 +10,29 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/utils/app_db.dart';
 
+class LoadUserPlaylistAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final playlistString = await AppDatabse.getQuery(DbKeys.playlistItem);
+      if (playlistString == null) {
+        return null;
+      }
+      final userPlaylistItems = (jsonDecode(playlistString) as List)
+          .map((e) => UserPlaylistListItem.fromJson(e))
+          .toList();
+      return state.copyWith(
+        userPlaylistState: state.userPlaylistState.copyWith(
+          userPlaylistItems: userPlaylistItems,
+        ),
+      );
+    } catch (err) {
+      log(err.toString(), name: 'ErrorLog', stackTrace: StackTrace.current);
+    }
+    return null;
+  }
+}
+
 // should be called after checking the playlist doesn't exist
 class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   final MusicItem musicItem;
@@ -119,6 +142,12 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
     }
     return null;
   }
+
+  @override
+  void after() {
+    dispatch(LoadUserPlaylistAction());
+    super.after();
+  }
 }
 
 class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
@@ -154,5 +183,12 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
       );
     }
     return null;
+  }
+
+  @override
+  void after() {
+    dispatch(LoadUserPlaylistAction());
+
+    super.after();
   }
 }

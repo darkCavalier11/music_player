@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/redux/models/home_page_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/redux/models/user_playlist_state.dart';
 
 class AppState {
   final UiState uiState;
   final AudioPlayerState audioPlayerState;
   final SearchState searchState;
   final HomePageState homePageState;
+  final UserPlaylistState userPlaylistState;
   AppState({
     required this.uiState,
     required this.audioPlayerState,
     required this.searchState,
     required this.homePageState,
+    required this.userPlaylistState,
   });
 
   AppState copyWith({
@@ -22,12 +25,14 @@ class AppState {
     AudioPlayerState? audioPlayerState,
     SearchState? searchState,
     HomePageState? homePageState,
+    UserPlaylistState? userPlaylistState,
   }) {
     return AppState(
       uiState: uiState ?? this.uiState,
       audioPlayerState: audioPlayerState ?? this.audioPlayerState,
       searchState: searchState ?? this.searchState,
       homePageState: homePageState ?? this.homePageState,
+      userPlaylistState: userPlaylistState ?? this.userPlaylistState,
     );
   }
 
@@ -37,12 +42,13 @@ class AppState {
       audioPlayerState: AudioPlayerState.initial(),
       searchState: SearchState.initial(),
       homePageState: HomePageState.initial(),
+      userPlaylistState: UserPlaylistState.initial(),
     );
   }
 
   @override
   String toString() {
-    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, homePageState: $homePageState)';
+    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, homePageState: $homePageState, userPlaylistState: $userPlaylistState)';
   }
 
   @override
@@ -52,7 +58,8 @@ class AppState {
     return other.uiState == uiState &&
         other.audioPlayerState == audioPlayerState &&
         other.searchState == searchState &&
-        other.homePageState == homePageState;
+        other.homePageState == homePageState &&
+        other.userPlaylistState == userPlaylistState;
   }
 
   @override
@@ -60,7 +67,8 @@ class AppState {
     return uiState.hashCode ^
         audioPlayerState.hashCode ^
         searchState.hashCode ^
-        homePageState.hashCode;
+        homePageState.hashCode ^
+        userPlaylistState.hashCode;
   }
 }
 
