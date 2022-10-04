@@ -100,7 +100,7 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
           .toList();
       final playlistToAdd =
           playListItems.firstWhere((element) => element.title == playlistName);
-      if (!playlistToAdd.musicItems.contains(musicItem)) {
+      if (playlistToAdd.musicItems.contains(musicItem)) {
         return null;
       }
       playlistToAdd.musicItems.add(musicItem);

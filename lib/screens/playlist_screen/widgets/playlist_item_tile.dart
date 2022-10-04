@@ -114,7 +114,6 @@ class PlaylistItemTile extends StatelessWidget {
                         color: Theme.of(context).hintColor,
                       ),
                 ),
-                // todo : added a more frequent artist map
                 Text(
                   userPlaylist.getPlaylistAuthorSubtitle(),
                   overflow: TextOverflow.ellipsis,
