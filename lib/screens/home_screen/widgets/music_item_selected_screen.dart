@@ -54,76 +54,83 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 25,
-                sigmaY: 25,
-              ),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor.withOpacity(0.1),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Stack(
+            children: [
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 25,
+                  sigmaY: 25,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor.withOpacity(0.1),
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Hero(
-                    tag: widget.musicItem.musicId,
-                    child: MusicListTile(
-                      selectedMusic: widget.musicItem,
-                      onTap: (p) {},
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Hero(
+                      tag: widget.musicItem.musicId,
+                      child: MusicListTile(
+                        selectedMusic: widget.musicItem,
+                        onTap: (p) {},
+                      ),
                     ),
-                  ),
-                  AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Opacity(
-                        opacity: _animationController.value,
-                        child: Transform.translate(
-                          offset:
-                              Offset(0, (1 - _animationController.value) * 50),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                padding: const EdgeInsets.all(0),
-                                splashColor: Colors.redAccent.withOpacity(0.2),
-                                onPressed: () {},
-                                icon: const Icon(
-                                  CupertinoIcons.heart,
-                                  color: Colors.redAccent,
+                    AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        return Opacity(
+                          opacity: _animationController.value,
+                          child: Transform.translate(
+                            offset: Offset(
+                                0, (1 - _animationController.value) * 50),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  splashColor:
+                                      Colors.redAccent.withOpacity(0.2),
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    CupertinoIcons.heart,
+                                    color: Colors.redAccent,
+                                  ),
                                 ),
-                              ),
-                              const AppPrimaryButton(
-                                buttonText: 'Add To Playlist',
-                                trailingIcon: Icon(
-                                  Iconsax.music_playlist,
-                                  size: 18,
+                                const AppPrimaryButton(
+                                  buttonText: 'Add To Playlist',
+                                  trailingIcon: Icon(
+                                    Iconsax.music_playlist,
+                                    size: 18,
+                                  ),
                                 ),
-                              ),
-                              const AppPrimaryButton(
-                                buttonText: 'Show next',
-                                trailingIcon: Icon(
-                                  CupertinoIcons.list_bullet,
-                                  size: 18,
+                                const AppPrimaryButton(
+                                  buttonText: 'Show next',
+                                  trailingIcon: Icon(
+                                    CupertinoIcons.list_bullet,
+                                    size: 18,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
+                        );
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
