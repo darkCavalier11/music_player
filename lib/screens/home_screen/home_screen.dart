@@ -74,12 +74,9 @@ class HomeScreen extends StatelessWidget {
                     ...snapshot.recentlyPlayedList
                         .take(5)
                         .map(
-                          (e) => Hero(
-                            tag: e.musicId,
-                            child: MusicListTile(
-                              selectedMusic: e,
-                              onTap: snapshot.playMusic,
-                            ),
+                          (e) => MusicListTile(
+                            selectedMusic: e,
+                            onTap: snapshot.playMusic,
                           ),
                         )
                         .toList(),

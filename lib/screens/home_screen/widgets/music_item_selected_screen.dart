@@ -78,12 +78,9 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Hero(
-                      tag: widget.musicItem.musicId,
-                      child: MusicListTile(
-                        selectedMusic: widget.musicItem,
-                        onTap: (p) {},
-                      ),
+                    MusicListTile(
+                      selectedMusic: widget.musicItem,
+                      onTap: (p) {},
                     ),
                     AnimatedBuilder(
                       animation: _animationController,
