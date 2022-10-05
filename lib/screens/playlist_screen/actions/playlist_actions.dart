@@ -151,10 +151,10 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
 }
 
 class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
-  final String id;
+  final String title;
   final MusicItem musicItem;
   RemoveMusicItemFromPlaylist({
-    required this.id,
+    required this.title,
     required this.musicItem,
   });
   @override
@@ -166,9 +166,13 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
             (e) => UserPlaylistListItem.fromJson(e),
           )
           .toList();
-      final playlistToAdd =
-          playListItems.firstWhere((element) => element.id == id);
-      playlistToAdd.musicItems.remove(musicItem);
+      final playlistToRemove =
+          playListItems.firstWhere((element) => element.title == title);
+      playlistToRemove.musicItems.remove(musicItem);
+      // remove if no music left
+      if (playlistToRemove.musicItems.isEmpty) {
+        playListItems.remove(playlistToRemove);
+      }
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
