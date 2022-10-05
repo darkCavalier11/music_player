@@ -165,12 +165,10 @@ class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
   final MusicItem? selectedMusic;
   final int currentBottomNavIndex;
-  final void Function(MusicItem) addMusicItemToFav;
   _ViewModel({
     required this.processingStateStream,
     required this.selectedMusic,
     required this.currentBottomNavIndex,
-    required this.addMusicItemToFav,
   });
 
   @override
@@ -200,14 +198,6 @@ class _Factory extends VmFactory<AppState, MusicPlayerWidget> {
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
       currentBottomNavIndex: state.uiState.currentBottomNavIndex,
-      addMusicItemToFav: (musicItem) {
-        dispatch(
-          AddMusicItemtoPlaylist(
-            musicItem: musicItem,
-            playlistName: 'Favourite',
-          ),
-        );
-      },
     );
   }
 }

@@ -168,7 +168,8 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
           .toList();
       final playlistToRemove =
           playListItems.firstWhere((element) => element.title == title);
-      playlistToRemove.musicItems.remove(musicItem);
+      playlistToRemove.musicItems
+          .removeWhere((e) => e.musicId == musicItem.musicId);
       // remove if no music left
       if (playlistToRemove.musicItems.isEmpty) {
         playListItems.remove(playlistToRemove);

@@ -108,9 +108,13 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                           Colors.redAccent.withOpacity(0.2),
                                       onPressed: () {
                                         if (_isMusicItemInFav) {
+                                          snapshot.removeMusicItemFromPlaylist(
+                                              widget.musicItem, 'Favourite');
                                         } else {
-                                          snapshot.addMusicItemToFav(
-                                              widget.musicItem);
+                                          snapshot.addMusicItemToPlaylist(
+                                            widget.musicItem,
+                                            'Favourite',
+                                          );
                                         }
                                       },
                                       icon: Icon(
@@ -154,10 +158,13 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
 }
 
 class _ViewModel extends Vm {
-  final void Function(MusicItem) addMusicItemToFav;
+  final void Function(MusicItem, String playlistName) addMusicItemToPlaylist;
+  final void Function(MusicItem, String playlistName)
+      removeMusicItemFromPlaylist;
   final bool Function(MusicItem) isMusicItemInFav;
   _ViewModel({
-    required this.addMusicItemToFav,
+    required this.addMusicItemToPlaylist,
+    required this.removeMusicItemFromPlaylist,
     required this.isMusicItemInFav,
   });
 }
@@ -167,6 +174,10 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      removeMusicItemFromPlaylist: (musicitem, playlistName) {
+        dispatch(RemoveMusicItemFromPlaylist(
+            title: playlistName, musicItem: musicitem));
+      },
       isMusicItemInFav: (musicItem) {
         final userPlaylistListItems = state.userPlaylistState.userPlaylistItems;
         for (var playlist in userPlaylistListItems) {
@@ -178,11 +189,11 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
         }
         return false;
       },
-      addMusicItemToFav: (musicItem) {
+      addMusicItemToPlaylist: (musicItem, playlistName) {
         dispatch(
           AddMusicItemtoPlaylist(
             musicItem: musicItem,
-            playlistName: 'Favourite',
+            playlistName: playlistName,
           ),
         );
       },
