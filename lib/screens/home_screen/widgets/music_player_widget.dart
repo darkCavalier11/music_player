@@ -201,7 +201,6 @@ class _Factory extends VmFactory<AppState, MusicPlayerWidget> {
           state.audioPlayerState.audioPlayer.processingStateStream,
       currentBottomNavIndex: state.uiState.currentBottomNavIndex,
       addMusicItemToFav: (musicItem) {
-        // todo : create single action to add item to playlist and private create playlist action incase the playlist absent
         dispatch(
           AddMusicItemtoPlaylist(
             musicItem: musicItem,
