@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/app_page_view.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
@@ -53,6 +54,8 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
+        final bool _isMusicItemInFav =
+            snapshot.isMusicItemInFav(widget.musicItem);
         return WillPopScope(
           onWillPop: () async {
             _animationController.reverse();
@@ -103,9 +106,17 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                       padding: const EdgeInsets.all(0),
                                       splashColor:
                                           Colors.redAccent.withOpacity(0.2),
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        CupertinoIcons.heart,
+                                      onPressed: () {
+                                        if (_isMusicItemInFav) {
+                                        } else {
+                                          snapshot.addMusicItemToFav(
+                                              widget.musicItem);
+                                        }
+                                      },
+                                      icon: Icon(
+                                        _isMusicItemInFav
+                                            ? CupertinoIcons.heart_fill
+                                            : CupertinoIcons.heart,
                                         color: Colors.redAccent,
                                       ),
                                     ),
@@ -144,8 +155,10 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
 
 class _ViewModel extends Vm {
   final void Function(MusicItem) addMusicItemToFav;
+  final bool Function(MusicItem) isMusicItemInFav;
   _ViewModel({
     required this.addMusicItemToFav,
+    required this.isMusicItemInFav,
   });
 }
 
@@ -154,6 +167,17 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      isMusicItemInFav: (musicItem) {
+        final userPlaylistListItems = state.userPlaylistState.userPlaylistItems;
+        for (var playlist in userPlaylistListItems) {
+          if (playlist.musicItems.indexWhere(
+                  (element) => element.musicId == musicItem.musicId) !=
+              -1) {
+            return true;
+          }
+        }
+        return false;
+      },
       addMusicItemToFav: (musicItem) {
         dispatch(
           AddMusicItemtoPlaylist(
