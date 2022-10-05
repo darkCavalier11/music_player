@@ -92,7 +92,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                           opacity: _animationController.value,
                           child: Transform.translate(
                             offset: Offset(
-                                0, (1 - _animationController.value) * 50),
+                                0, (1 - _animationController.value) * 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
