@@ -143,6 +143,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
               AppPrimaryButton(
                 buttonText: 'Play all',
                 trailingIcon: CupertinoIcons.play_circle,
+                onTap: () {},
               )
             ],
           ),

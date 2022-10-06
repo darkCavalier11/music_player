@@ -124,13 +124,25 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                         size: _isMusicItemInFav ? 30 : 24,
                                       ),
                                     ),
-                                    const AppPrimaryButton(
+                                    AppPrimaryButton(
                                       buttonText: 'Add To Playlist',
                                       trailingIcon: Iconsax.music_playlist,
+                                      onTap: () {
+                                        showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CupertinoAlertDialog(
+                                              title: const Text('Title'),
+                                              // content: SizedBox(height: MediaQuery.of, width: MediaQuery.of(context).size.width,),
+                                            );
+                                          },
+                                        );
+                                      },
                                     ),
-                                    const AppPrimaryButton(
+                                    AppPrimaryButton(
                                       buttonText: 'Show next',
                                       trailingIcon: CupertinoIcons.list_bullet,
+                                      onTap: () {},
                                     ),
                                   ],
                                 ),

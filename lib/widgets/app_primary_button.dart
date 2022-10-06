@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 class AppPrimaryButton extends StatelessWidget {
   final String buttonText;
   final IconData? trailingIcon;
+  final void Function() onTap;
   const AppPrimaryButton({
     Key? key,
     required this.buttonText,
+    required this.onTap,
     this.trailingIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.symmetric(
