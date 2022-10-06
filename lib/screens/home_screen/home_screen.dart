@@ -76,7 +76,6 @@ class HomeScreen extends StatelessWidget {
                         .map(
                           (e) => MusicListTile(
                             selectedMusic: e,
-                            onTap: snapshot.playMusic,
                           ),
                         )
                         .toList(),
@@ -116,7 +115,6 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             MusicListTile(
                               selectedMusic: e,
-                              onTap: snapshot.playMusic,
                             ),
                             const Divider(
                               endIndent: 50,

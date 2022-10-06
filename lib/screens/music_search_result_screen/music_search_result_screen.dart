@@ -35,7 +35,8 @@ class MusicSearchResultScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 64),
                         child: Row(
                           children: [
                             Padding(
@@ -90,10 +91,6 @@ class MusicSearchResultScreen extends StatelessWidget {
                               children: [
                                 MusicListTile(
                                   selectedMusic: e,
-                                  onTap: (musicItem) {
-                                    Navigator.of(context).pop();
-                                    snapshot.playMusic(musicItem);
-                                  },
                                 ),
                                 const Divider(),
                               ],

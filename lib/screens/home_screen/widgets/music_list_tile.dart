@@ -18,11 +18,9 @@ import 'package:music_player/widgets/music_playing_wave_widget.dart';
 class MusicListTile extends StatelessWidget with AppUtilityMixin {
   final MusicItem selectedMusic;
   final bool? isPlaylist;
-  final void Function(MusicItem) onTap;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
-    required this.onTap,
     this.isPlaylist,
   }) : super(key: key);
 

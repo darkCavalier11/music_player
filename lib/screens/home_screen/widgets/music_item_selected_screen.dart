@@ -89,7 +89,6 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                       children: [
                         MusicListTile(
                           selectedMusic: widget.musicItem,
-                          onTap: (p) {},
                         ),
                         AnimatedBuilder(
                           animation: _animationController,
