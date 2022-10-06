@@ -8,22 +8,25 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
+import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
-  const PlaylistDetailsScreen({Key? key}) : super(key: key);
+  final UserPlaylistListItem userPlaylistListItem;
+  const PlaylistDetailsScreen({Key? key, required this.userPlaylistListItem})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-        child: Column(
-          children: [
-            FutureBuilder<PaletteGenerator>(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12, top: 64),
+            child: FutureBuilder<PaletteGenerator>(
               future: PaletteGenerator.fromImageProvider(
                 NetworkImage(
-                  'https://images.unsplash.com/photo-1664737586772-12e985e51979?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1972&q=80',
+                  userPlaylistListItem.musicItems.first.imageUrl,
                 ),
               ),
               builder: (context, paletteSnapshot) {
@@ -37,7 +40,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     child: Stack(
                       children: [
                         Image.network(
-                          'https://images.unsplash.com/photo-1664737586772-12e985e51979?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1972&q=80',
+                          userPlaylistListItem.musicItems.first.imageUrl,
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
@@ -66,7 +69,6 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                     .labelMedium
                                     ?.copyWith(
                                       fontSize: 30,
-                                      fontWeight: FontWeight.bold,
                                       letterSpacing: 2.5,
                                       fontFamily: 'Courgette',
                                       color: paletteSnapshot
@@ -83,7 +85,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                       fontSize: 12,
                                       color: paletteSnapshot
                                               .data!.darkMutedColor?.color ??
-                                          Theme.of(context).canvasColor,
+                                          Theme.of(context).cardColor,
                                     ),
                               ),
                               Row(
@@ -92,7 +94,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                     CupertinoIcons.time,
                                     color: paletteSnapshot
                                             .data!.darkMutedColor?.color ??
-                                        Theme.of(context).disabledColor,
+                                        Theme.of(context).cardColor,
                                     size: 14,
                                   ),
                                   const SizedBox(width: 4),
@@ -105,7 +107,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                           fontSize: 12,
                                           color: paletteSnapshot.data!
                                                   .darkMutedColor?.color ??
-                                              Theme.of(context).disabledColor,
+                                              Theme.of(context).cardColor,
                                         ),
                                   ),
                                 ],
@@ -119,8 +121,18 @@ class PlaylistDetailsScreen extends StatelessWidget {
                 );
               },
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, idx) {
+                return MusicListTile(
+                  selectedMusic: userPlaylistListItem.musicItems[idx],
+                );
+              },
+              itemCount: userPlaylistListItem.musicItems.length,
+            ),
+          )
+        ],
       ),
     );
   }

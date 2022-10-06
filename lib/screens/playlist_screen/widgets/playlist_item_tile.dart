@@ -20,7 +20,9 @@ class PlaylistItemTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PlaylistDetailsScreen(),
+            builder: (context) => PlaylistDetailsScreen(
+              userPlaylistListItem: userPlaylist,
+            ),
           ),
         );
       },
