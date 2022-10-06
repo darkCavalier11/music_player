@@ -122,6 +122,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                             ? CupertinoIcons.heart_fill
                                             : CupertinoIcons.heart,
                                         color: Colors.redAccent,
+                                        size: _isMusicItemInFav ? 30 : 24,
                                       ),
                                     ),
                                     const AppPrimaryButton(
