@@ -44,6 +44,21 @@ class PlaylistDetailsScreen extends StatelessWidget {
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
+                        BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 50,
+                            sigmaY: 0,
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .canvasColor
+                                  .withOpacity(0.1),
+                            ),
+                          ),
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -69,7 +84,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                     .labelMedium
                                     ?.copyWith(
                                       fontSize: 30,
-                                      letterSpacing: 2.5,
+                                      letterSpacing: 0,
                                       fontFamily: 'Courgette',
                                       color: paletteSnapshot
                                               .data!.darkVibrantColor?.color ??
