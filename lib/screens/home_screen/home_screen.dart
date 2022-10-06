@@ -82,8 +82,7 @@ class HomeScreen extends StatelessWidget {
                     AppPrimaryButton(
                       buttonText: 'See More',
                       trailingIcon: CupertinoIcons.arrow_right,
-                onTap: () {},
-
+                      onTap: () {},
                     ),
                   ],
                   Padding(

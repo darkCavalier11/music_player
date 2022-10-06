@@ -11,6 +11,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/app_page_view.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
+import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
 import '../../../redux/models/music_item.dart';
@@ -128,15 +129,14 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                       buttonText: 'Add To Playlist',
                                       trailingIcon: Iconsax.music_playlist,
                                       onTap: () {
-                                        showCupertinoDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return CupertinoAlertDialog(
-                                              title: const Text('Title'),
-                                              // content: SizedBox(height: MediaQuery.of, width: MediaQuery.of(context).size.width,),
-                                            );
-                                          },
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            opaque: false,
+                                            pageBuilder: (context, _, __) =>
+                                                SelectMusicAdMusicScreen(),
+                                          ),
                                         );
+                                        // Navigator.of(context).pop;
                                       },
                                     ),
                                     AppPrimaryButton(
