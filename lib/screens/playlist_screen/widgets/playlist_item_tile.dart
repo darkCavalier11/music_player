@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
+import 'package:music_player/screens/playlist_screen/playlist_details_screen.dart';
 
 class PlaylistItemTile extends StatelessWidget {
   final UserPlaylistListItem userPlaylist;
@@ -17,22 +18,10 @@ class PlaylistItemTile extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
-        showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          builder: (context) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              color: Colors.amber,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[],
-                ),
-              ),
-            );
-          },
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PlaylistDetailsScreen(),
+          ),
         );
       },
       child: Padding(
