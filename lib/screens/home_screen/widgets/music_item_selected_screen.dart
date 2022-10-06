@@ -126,17 +126,11 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                     ),
                                     const AppPrimaryButton(
                                       buttonText: 'Add To Playlist',
-                                      trailingIcon: Icon(
-                                        Iconsax.music_playlist,
-                                        size: 18,
-                                      ),
+                                      trailingIcon: Iconsax.music_playlist,
                                     ),
                                     const AppPrimaryButton(
                                       buttonText: 'Show next',
-                                      trailingIcon: Icon(
-                                        CupertinoIcons.list_bullet,
-                                        size: 18,
-                                      ),
+                                      trailingIcon: CupertinoIcons.list_bullet,
                                     ),
                                   ],
                                 ),

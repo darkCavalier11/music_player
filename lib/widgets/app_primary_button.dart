@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppPrimaryButton extends StatelessWidget {
   final String buttonText;
-  final Widget? trailingIcon;
+  final IconData? trailingIcon;
   const AppPrimaryButton({
     Key? key,
     required this.buttonText,
@@ -36,7 +36,12 @@ class AppPrimaryButton extends StatelessWidget {
                   ?.copyWith(color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: 10),
-            if (trailingIcon != null) trailingIcon!
+            if (trailingIcon != null)
+              Icon(
+                trailingIcon,
+                size: 18,
+                color: Theme.of(context).primaryColor,
+              )
           ],
         ),
       ),

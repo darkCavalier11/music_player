@@ -4,11 +4,11 @@ import 'dart:ui';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
+import 'package:music_player/widgets/app_primary_button.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
@@ -137,8 +137,18 @@ class PlaylistDetailsScreen extends StatelessWidget {
               },
             ),
           ),
+          Row(
+            children: [
+              const Spacer(),
+              AppPrimaryButton(
+                buttonText: 'Play all',
+                trailingIcon: CupertinoIcons.play_circle,
+              )
+            ],
+          ),
           Expanded(
             child: ListView.builder(
+              padding: const EdgeInsets.all(0),
               itemBuilder: (context, idx) {
                 return MusicListTile(
                   selectedMusic: userPlaylistListItem.musicItems[idx],
