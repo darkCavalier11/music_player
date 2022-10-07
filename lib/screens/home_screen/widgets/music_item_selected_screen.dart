@@ -74,7 +74,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                   BackdropFilter(
                     filter: ImageFilter.blur(
                       sigmaX: 25,
-                      sigmaY: 25,
+                      sigmaY: 35,
                     ),
                     child: Container(
                       width: double.infinity,
@@ -129,11 +129,12 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                       buttonText: 'Add To Playlist',
                                       trailingIcon: Iconsax.music_playlist,
                                       onTap: () {
+                                        Navigator.of(context).pop();
                                         Navigator.of(context).push(
                                           PageRouteBuilder(
                                             opaque: false,
                                             pageBuilder: (context, _, __) =>
-                                                SelectMusicAdMusicScreen(),
+                                                SelectMusicAddMusicScreen(),
                                           ),
                                         );
                                         // Navigator.of(context).pop;

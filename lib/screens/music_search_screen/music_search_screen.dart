@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
-import 'package:music_player/screens/home_screen/widgets/search_text_field.dart';
+import 'package:music_player/widgets/search_text_field.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
 
