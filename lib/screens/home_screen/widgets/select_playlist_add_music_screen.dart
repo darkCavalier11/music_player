@@ -127,7 +127,17 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                   const Spacer(),
                                   AppPrimaryButton(
                                     buttonText: 'Done',
-                                    onTap: () {},
+                                    onTap: () {
+                                      for (var element
+                                          in _selectedTileIndexes) {
+                                        snapshot.addToPlaylist(
+                                          snapshot
+                                              .userPlaylistItems[element].title,
+                                          widget.musicItem,
+                                        );
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
                                     trailingIcon: Icons.done,
                                   ),
                                 ],
