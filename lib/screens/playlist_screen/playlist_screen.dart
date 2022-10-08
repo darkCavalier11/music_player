@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -49,8 +50,29 @@ class PlaylistScreen extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.all(0),
                     itemBuilder: (context, idx) {
-                      return PlaylistItemTile(
-                        userPlaylist: snapshot.userPlaylistListItems[idx],
+                      return Dismissible(
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: const [
+                              Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Icon(
+                                  CupertinoIcons.delete,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        key: ValueKey('1'),
+                        child: PlaylistItemTile(
+                          userPlaylist: snapshot.userPlaylistListItems[idx],
+                        ),
                       );
                     },
                     itemCount: snapshot.userPlaylistListItems.length,
