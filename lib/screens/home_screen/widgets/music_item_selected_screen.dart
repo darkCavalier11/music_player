@@ -188,11 +188,15 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
             title: playlistName, musicItem: musicitem));
       },
       isMusicItemInFav: (musicItem) {
-        final userPlaylistListItems = state.userPlaylistState.userPlaylistItems
-            .firstWhere((element) => element.title == 'Favourite');
-
-        return userPlaylistListItems.musicItems.indexWhere(
-                (element) => element.musicId == musicItem.musicId) !=
+        final _index = state.userPlaylistState.userPlaylistItems.indexWhere(
+          (element) => element.title == 'Favourite',
+        );
+        if (_index == -1) {
+          return false;
+        }
+        return state.userPlaylistState.userPlaylistItems[_index].musicItems
+                .indexWhere(
+                    (element) => element.musicId == musicItem.musicId) !=
             -1;
       },
       addMusicItemToPlaylist: (musicItem, playlistName) {
