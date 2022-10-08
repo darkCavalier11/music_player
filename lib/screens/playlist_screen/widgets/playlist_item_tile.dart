@@ -45,7 +45,7 @@ class PlaylistItemTile extends StatelessWidget {
                             BlendMode.modulate,
                           ),
                           child: Image.network(
-                            userPlaylist.musicItems[1].imageUrl,
+                            userPlaylist.musicItems[2].imageUrl,
                             height: 60,
                             width: 60,
                             fit: BoxFit.cover,
