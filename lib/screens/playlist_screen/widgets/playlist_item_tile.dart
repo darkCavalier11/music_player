@@ -114,7 +114,7 @@ class PlaylistItemTile extends StatelessWidget {
                 children: [
                   // todo : edit playlist name
                   Text(
-                    'My Playlist',
+                    userPlaylist.title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).hintColor,
                         ),

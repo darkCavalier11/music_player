@@ -134,7 +134,9 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                           PageRouteBuilder(
                                             opaque: false,
                                             pageBuilder: (context, _, __) =>
-                                                SelectMusicAddMusicScreen(),
+                                                SelectMusicAddMusicScreen(
+                                                    musicItem:
+                                                        widget.musicItem),
                                           ),
                                         );
                                         // Navigator.of(context).pop;
@@ -186,15 +188,12 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
             title: playlistName, musicItem: musicitem));
       },
       isMusicItemInFav: (musicItem) {
-        final userPlaylistListItems = state.userPlaylistState.userPlaylistItems;
-        for (var playlist in userPlaylistListItems) {
-          if (playlist.musicItems.indexWhere(
-                  (element) => element.musicId == musicItem.musicId) !=
-              -1) {
-            return true;
-          }
-        }
-        return false;
+        final userPlaylistListItems = state.userPlaylistState.userPlaylistItems
+            .firstWhere((element) => element.title == 'Favourite');
+
+        return userPlaylistListItems.musicItems.indexWhere(
+                (element) => element.musicId == musicItem.musicId) !=
+            -1;
       },
       addMusicItemToPlaylist: (musicItem, playlistName) {
         dispatch(

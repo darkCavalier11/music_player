@@ -8,16 +8,20 @@ import 'package:music_player/widgets/loading_indicator.dart';
 
 class AppTextField extends StatelessWidget {
   final TextEditingController? textEditingController;
-  final void Function(String) onSubmitted;
+  final void Function(String)? onSubmitted;
+  final void Function(String)? onChanged;
   final IconData? leadingIcon;
   final IconData? trailingIcon;
+  final bool? enabled;
   final String hintText;
   const AppTextField({
     Key? key,
     this.textEditingController,
-    required this.onSubmitted,
+    this.onSubmitted,
+    this.onChanged,
     this.trailingIcon,
     this.leadingIcon,
+    this.enabled,
     required this.hintText,
   }) : super(key: key);
 
@@ -26,6 +30,9 @@ class AppTextField extends StatelessWidget {
     return Material(
       borderRadius: BorderRadius.circular(50),
       child: TextField(
+        onChanged: onChanged,
+        keyboardType: TextInputType.name,
+        enabled: enabled,
         onSubmitted: onSubmitted,
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,
