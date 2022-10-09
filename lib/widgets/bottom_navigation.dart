@@ -31,7 +31,7 @@ class BottomNavigationWidget extends StatelessWidget {
               return Row(
                 children: [
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 100),
                     width: MediaQuery.of(context).size.width *
                         (musicSnapshot.data! == ProcessingState.idle
                             ? 0.6
@@ -223,7 +223,7 @@ class _BottomNavigationButtonState extends State<_BottomNavigationButton>
       borderRadius: BorderRadius.circular(50),
       child: AnimatedSize(
         alignment: Alignment.topLeft,
-        duration: const Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 200),
         child: Container(
           height: 45,
           padding: const EdgeInsets.all(8),
