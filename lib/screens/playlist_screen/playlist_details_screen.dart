@@ -131,6 +131,24 @@ class PlaylistDetailsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Positioned(
+                          left: 10,
+                          top: 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.arrow_back_ios_rounded),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

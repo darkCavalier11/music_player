@@ -99,9 +99,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/Inter-ExtraLight.ttf
           weight: 200
-    - family: Courgette
-      fonts:
-        - asset: assets/fonts/Courgette-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
