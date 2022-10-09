@@ -156,15 +156,23 @@ class PlaylistDetailsScreen extends StatelessWidget {
               },
             ),
           ),
-          Row(
-            children: [
-              const Spacer(),
-              AppPrimaryButton(
-                buttonText: 'Play all',
-                trailingIcon: CupertinoIcons.play_circle,
-                onTap: () {},
-              )
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                const Spacer(),
+                AppPrimaryButton(
+                  buttonText: 'Play all',
+                  trailingIcon: CupertinoIcons.play_circle,
+                  onTap: () {},
+                ),
+                const SizedBox(width: 4),
+                AppPrimaryButton(
+                  onTap: () {},
+                  trailingIcon: CupertinoIcons.delete,
+                )
+              ],
+            ),
           ),
           Expanded(
             child: ListView.builder(

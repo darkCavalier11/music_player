@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppPrimaryButton extends StatelessWidget {
-  final String buttonText;
+  final String? buttonText;
   final IconData? trailingIcon;
   final void Function() onTap;
   const AppPrimaryButton({
     Key? key,
-    required this.buttonText,
+    this.buttonText,
     required this.onTap,
     this.trailingIcon,
   }) : super(key: key);
@@ -31,14 +31,16 @@ class AppPrimaryButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              buttonText,
-              style: Theme.of(context)
-                  .textTheme
-                  .button
-                  ?.copyWith(color: Theme.of(context).primaryColor),
-            ),
-            const SizedBox(width: 10),
+            if (buttonText != null) ...[
+              Text(
+                buttonText!,
+                style: Theme.of(context)
+                    .textTheme
+                    .button
+                    ?.copyWith(color: Theme.of(context).primaryColor),
+              ),
+              const SizedBox(width: 10),
+            ],
             if (trailingIcon != null)
               Icon(
                 trailingIcon,
