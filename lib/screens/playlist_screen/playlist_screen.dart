@@ -61,7 +61,7 @@ class PlaylistScreen extends StatelessWidget {
                             children: const [
                               Spacer(),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: Icon(
                                   CupertinoIcons.delete,
                                 ),

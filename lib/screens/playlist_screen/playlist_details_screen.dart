@@ -78,14 +78,15 @@ class PlaylistDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Favourite',
+                                userPlaylistListItem.title,
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelMedium
                                     ?.copyWith(
                                       fontSize: 30,
-                                      letterSpacing: 0,
-                                      fontFamily: 'Courgette',
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: -0.7,
+                                      // fontFamily: 'Courgette',
                                       color: paletteSnapshot
                                               .data!.darkVibrantColor?.color ??
                                           Theme.of(context).canvasColor,
