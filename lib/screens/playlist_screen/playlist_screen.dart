@@ -12,6 +12,7 @@ import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/playlist_screen/actions/playlist_actions.dart';
 import 'package:music_player/screens/playlist_screen/widgets/playlist_item_tile.dart';
 import 'package:music_player/utils/constants.dart';
+import 'package:music_player/widgets/app_dialog.dart';
 
 class PlaylistScreen extends StatelessWidget {
   const PlaylistScreen({Key? key}) : super(key: key);
@@ -56,52 +57,7 @@ class PlaylistScreen extends StatelessWidget {
                       return Dismissible(
                         direction: DismissDirection.endToStart,
                         confirmDismiss: (_) async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  decoration: BoxDecoration(
-                                    color: AppConstants.backgroundColorLight,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: 'Remove playlist ',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge),
-                                            TextSpan(
-                                              text:
-                                                  '${snapshot.userPlaylistListItems[idx].title}?',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                          await AppUiUtils.appGenericDialog(context);
                           return false;
                         },
                         background: Container(
