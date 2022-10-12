@@ -13,6 +13,7 @@ import 'package:music_player/screens/playlist_screen/actions/playlist_actions.da
 import 'package:music_player/screens/playlist_screen/widgets/playlist_item_tile.dart';
 import 'package:music_player/utils/constants.dart';
 import 'package:music_player/widgets/app_dialog.dart';
+import 'package:music_player/widgets/app_primary_button.dart';
 
 class PlaylistScreen extends StatelessWidget {
   const PlaylistScreen({Key? key}) : super(key: key);
@@ -57,7 +58,44 @@ class PlaylistScreen extends StatelessWidget {
                       return Dismissible(
                         direction: DismissDirection.endToStart,
                         confirmDismiss: (_) async {
-                          await AppUiUtils.appGenericDialog(context);
+                          await AppUiUtils.appGenericDialog(
+                            context,
+                            title: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Do you want to remove playlist ',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  TextSpan(
+                                    text: snapshot
+                                        .userPlaylistListItems[idx].title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  TextSpan(text: '?'),
+                                ],
+                              ),
+                            ),
+                            actions: Row(
+                              children: [
+                                const Spacer(),
+                                AppPrimaryButton(
+                                  onTap: () {},
+                                  buttonText: 'Cancel',
+                                ),
+                                AppPrimaryButton(
+                                  onTap: () {},
+                                  buttonText: 'Remove',
+                                ),
+                              ],
+                            ),
+                          );
                           return false;
                         },
                         background: Container(

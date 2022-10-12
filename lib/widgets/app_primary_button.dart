@@ -39,8 +39,9 @@ class AppPrimaryButton extends StatelessWidget {
                     .button
                     ?.copyWith(color: Theme.of(context).primaryColor),
               ),
-              const SizedBox(width: 10),
             ],
+            if (trailingIcon != null && buttonText != null)
+              const SizedBox(width: 10),
             if (trailingIcon != null)
               Icon(
                 trailingIcon,

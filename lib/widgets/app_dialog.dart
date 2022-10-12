@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 class AppUiUtils {
-  static Future<T?> appGenericDialog<T>(BuildContext context) {
+  static Future<T?> appGenericDialog<T>(BuildContext context,
+      {Widget? title, Widget? actions}) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -18,11 +19,13 @@ class AppUiUtils {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
+                    if (title != null) title,
+                    const SizedBox(height: 15),
+                    if (actions != null) actions,
                   ],
                 ),
               ),
