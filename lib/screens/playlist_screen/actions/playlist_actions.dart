@@ -69,6 +69,12 @@ class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
     }
     return null;
   }
+
+  @override
+  void after() {
+    dispatch(LoadUserPlaylistAction());
+    super.after();
+  }
 }
 
 class RemovePlaylistByName extends ReduxAction<AppState> {
@@ -102,6 +108,12 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
       );
     }
     return null;
+  }
+
+  @override
+  void after() {
+    dispatch(LoadUserPlaylistAction());
+    super.after();
   }
 }
 
