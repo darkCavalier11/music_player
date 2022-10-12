@@ -58,7 +58,7 @@ class PlaylistScreen extends StatelessWidget {
                       return Dismissible(
                         direction: DismissDirection.endToStart,
                         confirmDismiss: (_) async {
-                          await AppUiUtils.appGenericDialog(
+                          return AppUiUtils.appGenericDialog<bool>(
                             context,
                             title: RichText(
                               text: TextSpan(
@@ -86,17 +86,22 @@ class PlaylistScreen extends StatelessWidget {
                               children: [
                                 const Spacer(),
                                 AppPrimaryButton(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pop(false);
+                                  },
                                   buttonText: 'Cancel',
                                 ),
                                 AppPrimaryButton(
-                                  onTap: () {},
+                                  onTap: () {
+                                    snapshot.removePlaylist(snapshot
+                                        .userPlaylistListItems[idx].title);
+                                    Navigator.of(context).pop(true);
+                                  },
                                   buttonText: 'Remove',
                                 ),
                               ],
                             ),
                           );
-                          return false;
                         },
                         background: Container(
                           decoration: BoxDecoration(
@@ -135,8 +140,10 @@ class PlaylistScreen extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final List<UserPlaylistListItem> userPlaylistListItems;
+  final void Function(String) removePlaylist;
   _ViewModel({
     required this.userPlaylistListItems,
+    required this.removePlaylist,
   }) : super(equals: [userPlaylistListItems]);
 }
 
@@ -146,6 +153,9 @@ class _Factory extends VmFactory<AppState, PlaylistScreen> {
   _ViewModel fromStore() {
     return _ViewModel(
       userPlaylistListItems: state.userPlaylistState.userPlaylistItems,
+      removePlaylist: (playlistName) {
+        dispatch(RemovePlaylistByName(playlistName: playlistName));
+      },
     );
   }
 }
