@@ -169,6 +169,12 @@ class PlaylistDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 4),
                 AppPrimaryButton(
                   onTap: () {},
+                  buttonText: 'Shuffle Play',
+                  trailingIcon: CupertinoIcons.shuffle,
+                ),
+                const SizedBox(width: 4),
+                AppPrimaryButton(
+                  onTap: () {},
                   trailingIcon: CupertinoIcons.delete,
                 )
               ],
