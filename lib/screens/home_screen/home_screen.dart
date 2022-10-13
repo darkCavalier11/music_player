@@ -48,6 +48,60 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  SizedBox(
+                    height: 260,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(left: 24),
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, idx) {
+                        return Container(
+                          width: 150,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(24),
+                                child: Image.network(
+                                  'https://e7.pngegg.com/pngimages/69/982/png-clipart-music-icon-itunes-computer-icons-logo-itunes-text-logo.png',
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Text(
+                                'Janu tame chamkucha',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                    ),
+                                maxLines: 1,
+                              ),
+                              Text(
+                                'Humane Sagar',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                maxLines: 1,
+                              ),
+                              Text('3:48'),
+                            ],
+                          ),
+                        );
+                      },
+                      itemCount: 6,
+                    ),
+                  ),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),
                     Padding(
