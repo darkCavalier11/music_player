@@ -54,8 +54,8 @@ class _AnimatedMusicWaveState extends State<MusicPlayingWaveWidget>
       animation: _sizeAnimation,
       builder: (context, child) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(width: 20),
             Container(
               margin: const EdgeInsets.all(1),
               decoration: BoxDecoration(
