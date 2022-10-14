@@ -10,6 +10,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
+import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
@@ -53,8 +54,11 @@ class HomeScreen extends StatelessWidget {
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 24),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, idx) => MusicGridTile(
-                          musicItem: snapshot.recentlyPlayedList[idx]),
+                      itemBuilder: (context, idx) {
+                        return MusicGridTile(
+                          selectedMusic: snapshot.recentlyPlayedList[idx],
+                        );
+                      },
                       itemCount: snapshot.recentlyPlayedList.length,
                     ),
                   ),
@@ -141,52 +145,6 @@ class HomeScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class MusicGridTile extends StatelessWidget {
-  final MusicItem musicItem;
-  const MusicGridTile({
-    Key? key,
-    required this.musicItem,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: Image.network(
-              musicItem.imageUrl,
-              height: 120,
-              width: 120,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Text(
-            musicItem.title,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).primaryColorLight,
-                ),
-            maxLines: 1,
-          ),
-          Text(
-            musicItem.author,
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  color: Theme.of(context).hintColor,
-                ),
-            maxLines: 1,
-          ),
-          Text(musicItem.duration),
-        ],
-      ),
     );
   }
 }

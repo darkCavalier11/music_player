@@ -37,7 +37,7 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
                 stream: snapshot.playingStream,
                 builder: (context, isPlayingSnapshot) {
                   if (isPlayingSnapshot.hasError ||
-                      isPlayingSnapshot.hasError) {
+                      !isPlayingSnapshot.hasData) {
                     return const SizedBox.shrink();
                   }
                   return InkWell(
