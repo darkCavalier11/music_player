@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
 import '../../../redux/models/app_state.dart';
@@ -27,99 +30,113 @@ class MusicGridTile extends StatelessWidget {
             if (isPlayingSnapshot.hasError || !isPlayingSnapshot.hasData) {
               return const SizedBox.shrink();
             }
-            return GestureDetector(
-              onTap: () async {
-                if (isPlayingSnapshot.data! &&
-                    selectedMusic.musicId == snapshot.currentMusic?.musicId) {
-                  snapshot.pauseMusic();
-                } else if (selectedMusic.musicId !=
-                    snapshot.currentMusic?.musicId) {
-                  snapshot.playMusic(selectedMusic);
-                } else {
-                  snapshot.resumeMusic();
-                }
-              },
-              child: Container(
-                width: 150,
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: Stack(
+            return StreamBuilder<ProcessingState>(
+                stream: snapshot.processingStateStream,
+                builder: (context, processingSnapshot) {
+                  log('${processingSnapshot.data}');
+                  if (!processingSnapshot.hasData ||
+                      processingSnapshot.hasError) {
+                    return const SizedBox.shrink();
+                  }
+                  return GestureDetector(
+                    onTap: () async {
+                      if (isPlayingSnapshot.data! &&
+                          selectedMusic.musicId ==
+                              snapshot.currentMusic?.musicId) {
+                        snapshot.pauseMusic();
+                      } else if (selectedMusic.musicId !=
+                          snapshot.currentMusic?.musicId) {
+                        snapshot.playMusic(selectedMusic);
+                      } else {
+                        snapshot.resumeMusic();
+                      }
+                    },
+                    child: Container(
+                      width: 150,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(
-                            selectedMusic.imageUrl,
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.cover,
-                          ),
-                          AnimatedPositioned(
-                            duration: const Duration(milliseconds: 400),
-                            right: isPlayingSnapshot.data! &&
-                                    snapshot.currentMusic?.musicId ==
-                                        selectedMusic.musicId
-                                ? 35
-                                : 10,
-                            bottom: isPlayingSnapshot.data! &&
-                                    snapshot.currentMusic?.musicId ==
-                                        selectedMusic.musicId
-                                ? 35
-                                : 10,
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              height: isPlayingSnapshot.data! &&
-                                      snapshot.currentMusic?.musicId ==
-                                          selectedMusic.musicId
-                                  ? 50
-                                  : 25,
-                              width: isPlayingSnapshot.data! &&
-                                      snapshot.currentMusic?.musicId ==
-                                          selectedMusic.musicId
-                                  ? 50
-                                  : 25,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).canvasColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: isPlayingSnapshot.data! &&
-                                      snapshot.currentMusic?.musicId ==
-                                          selectedMusic.musicId
-                                  ? Center(
-                                      child: MusicPlayingWaveWidget(
-                                        playingStream: snapshot.playingStream,
-                                      
-                                      ),
-                                    )
-                                  : Center(
-                                      child: Icon(CupertinoIcons.play_circle),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(24),
+                            child: Stack(
+                              children: [
+                                Image.network(
+                                  selectedMusic.imageUrl,
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                                AnimatedPositioned(
+                                  duration: const Duration(milliseconds: 400),
+                                  right: isPlayingSnapshot.data! &&
+                                          snapshot.currentMusic?.musicId ==
+                                              selectedMusic.musicId
+                                      ? 35
+                                      : 10,
+                                  bottom: isPlayingSnapshot.data! &&
+                                          snapshot.currentMusic?.musicId ==
+                                              selectedMusic.musicId
+                                      ? 35
+                                      : 10,
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    height: isPlayingSnapshot.data! &&
+                                            snapshot.currentMusic?.musicId ==
+                                                selectedMusic.musicId
+                                        ? 50
+                                        : 25,
+                                    width: isPlayingSnapshot.data! &&
+                                            snapshot.currentMusic?.musicId ==
+                                                selectedMusic.musicId
+                                        ? 50
+                                        : 25,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).canvasColor,
+                                      shape: BoxShape.circle,
                                     ),
+                                    child: Center(
+                                      child: snapshot.currentMusic?.musicId ==
+                                              selectedMusic.musicId
+                                          ? snapshot.musicItemMetaDataLoadingState ==
+                                                  LoadingState.loading
+                                              ? LoadingIndicator.small(context)
+                                              : MusicPlayingWaveWidget(
+                                                  playingStream:
+                                                      snapshot.playingStream)
+                                          : const Icon(
+                                              CupertinoIcons.play_circle),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
+                          ),
+                          Text(
+                            selectedMusic.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).primaryColorLight,
+                                ),
+                            maxLines: 1,
+                          ),
+                          Text(
+                            selectedMusic.author,
+                            style:
+                                Theme.of(context).textTheme.caption?.copyWith(
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                            maxLines: 1,
+                          ),
+                          Text(selectedMusic.duration),
                         ],
                       ),
                     ),
-                    Text(
-                      selectedMusic.title,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).primaryColorLight,
-                          ),
-                      maxLines: 1,
-                    ),
-                    Text(
-                      selectedMusic.author,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: Theme.of(context).hintColor,
-                          ),
-                      maxLines: 1,
-                    ),
-                    Text(selectedMusic.duration),
-                  ],
-                ),
-              ),
-            );
+                  );
+                });
           },
         );
       },

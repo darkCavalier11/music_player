@@ -49,19 +49,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(left: 24),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, idx) {
-                        return MusicGridTile(
-                          selectedMusic: snapshot.recentlyPlayedList[idx],
-                        );
-                      },
-                      itemCount: snapshot.recentlyPlayedList.length,
-                    ),
-                  ),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),
                     Padding(
@@ -85,14 +72,19 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ...snapshot.recentlyPlayedList
-                        .take(5)
-                        .map(
-                          (e) => MusicListTile(
-                            selectedMusic: e,
-                          ),
-                        )
-                        .toList(),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(left: 24),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, idx) {
+                          return MusicGridTile(
+                            selectedMusic: snapshot.recentlyPlayedList[idx],
+                          );
+                        },
+                        itemCount: snapshot.recentlyPlayedList.length,
+                      ),
+                    ),
                     AppPrimaryButton(
                       buttonText: 'See More',
                       trailingIcon: CupertinoIcons.arrow_right,
