@@ -54,12 +54,17 @@ class MusicGridTile extends StatelessWidget {
                     child: Container(
                       width: 150,
                       padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                            isPlayingSnapshot.data! ? 24 : 100),
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(24),
                             child: Stack(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
                               children: [
                                 Image.network(
                                   selectedMusic.imageUrl,
@@ -80,17 +85,18 @@ class MusicGridTile extends StatelessWidget {
                                       ? 35
                                       : 10,
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    curve: Curves.fastOutSlowIn,
+                                    duration: const Duration(milliseconds: 800),
                                     height: isPlayingSnapshot.data! &&
                                             snapshot.currentMusic?.musicId ==
                                                 selectedMusic.musicId
                                         ? 50
-                                        : 25,
+                                        : 30,
                                     width: isPlayingSnapshot.data! &&
                                             snapshot.currentMusic?.musicId ==
                                                 selectedMusic.musicId
                                         ? 50
-                                        : 25,
+                                        : 30,
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).canvasColor,
                                       shape: BoxShape.circle,
