@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
+import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
 
 import '../screens/music_search_screen/music_search_screen.dart';
 
@@ -16,6 +17,11 @@ class AppRouter {
     return const MusicSearchResultScreen();
   });
 
+  static final Handler _recentlyPlayedScreenHandler =
+      (Handler(handlerFunc: (context, params) {
+    return const RecentlyPlayedScreen();
+  }));
+
   static void setupRoutes() {
     router.define(
       MusicSearchScreen.routeScreen,
@@ -26,6 +32,12 @@ class AppRouter {
     router.define(
       MusicSearchResultScreen.routeName,
       handler: _musicSearchResultPageHandler,
+      transitionType: TransitionType.cupertinoFullScreenDialog,
+    );
+
+    router.define(
+      RecentlyPlayedScreen.recentlyPlayedScreen,
+      handler: _recentlyPlayedScreenHandler,
       transitionType: TransitionType.cupertinoFullScreenDialog,
     );
   }

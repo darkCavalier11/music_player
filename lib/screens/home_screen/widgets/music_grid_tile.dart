@@ -33,7 +33,6 @@ class MusicGridTile extends StatelessWidget {
             return StreamBuilder<ProcessingState>(
                 stream: snapshot.processingStateStream,
                 builder: (context, processingSnapshot) {
-                  log('${processingSnapshot.data}');
                   if (!processingSnapshot.hasData ||
                       processingSnapshot.hasError) {
                     return const SizedBox.shrink();
