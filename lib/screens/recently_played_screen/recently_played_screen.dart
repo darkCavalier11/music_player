@@ -11,6 +11,8 @@ import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_text_field.dart';
 import 'package:music_player/widgets/search_text_field.dart';
 
+import '../../widgets/app_back_button.dart';
+
 class RecentlyPlayedScreen extends StatelessWidget {
   const RecentlyPlayedScreen({Key? key}) : super(key: key);
 
@@ -28,13 +30,8 @@ class RecentlyPlayedScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 24, right: 24, top: 64),
                 child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(CupertinoIcons.chevron_back),
-                    ),
+                  children: const [
+                    AppBackButton(),
                     Expanded(
                       child: AppTextField(
                         hintText: 'Search Recently played Items...',
