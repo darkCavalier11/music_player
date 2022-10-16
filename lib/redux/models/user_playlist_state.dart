@@ -22,14 +22,14 @@ class UserPlaylistState {
   }
 
   @override
-  String toString() => 'UserPlaylistState(userPlaylistItems: $userPlaylistItems)';
+  String toString() =>
+      'UserPlaylistState(userPlaylistItems: $userPlaylistItems)';
 
   @override
   bool operator ==(covariant UserPlaylistState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      listEquals(other.userPlaylistItems, userPlaylistItems);
+
+    return listEquals(other.userPlaylistItems, userPlaylistItems);
   }
 
   @override

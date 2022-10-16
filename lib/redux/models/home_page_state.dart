@@ -21,8 +21,10 @@ class HomePageState {
   }) {
     return HomePageState(
       homePageMusicList: homePageMusicList ?? this.homePageMusicList,
-      recentlyPlayedMusicList: recentlyPlayedMusicList ?? this.recentlyPlayedMusicList,
-      homepageMusicListLoading: homepageMusicListLoading ?? this.homepageMusicListLoading,
+      recentlyPlayedMusicList:
+          recentlyPlayedMusicList ?? this.recentlyPlayedMusicList,
+      homepageMusicListLoading:
+          homepageMusicListLoading ?? this.homepageMusicListLoading,
     );
   }
 
@@ -35,18 +37,21 @@ class HomePageState {
   }
 
   @override
-  String toString() => 'HomePageState(homePageMusicList: $homePageMusicList, recentlyPlayedMusicList: $recentlyPlayedMusicList, homepageMusicListLoading: $homepageMusicListLoading)';
+  String toString() =>
+      'HomePageState(homePageMusicList: $homePageMusicList, recentlyPlayedMusicList: $recentlyPlayedMusicList, homepageMusicListLoading: $homepageMusicListLoading)';
 
   @override
   bool operator ==(covariant HomePageState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      listEquals(other.homePageMusicList, homePageMusicList) &&
-      listEquals(other.recentlyPlayedMusicList, recentlyPlayedMusicList) &&
-      other.homepageMusicListLoading == homepageMusicListLoading;
+
+    return listEquals(other.homePageMusicList, homePageMusicList) &&
+        listEquals(other.recentlyPlayedMusicList, recentlyPlayedMusicList) &&
+        other.homepageMusicListLoading == homepageMusicListLoading;
   }
 
   @override
-  int get hashCode => homePageMusicList.hashCode ^ recentlyPlayedMusicList.hashCode ^ homepageMusicListLoading.hashCode;
+  int get hashCode =>
+      homePageMusicList.hashCode ^
+      recentlyPlayedMusicList.hashCode ^
+      homepageMusicListLoading.hashCode;
 }

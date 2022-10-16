@@ -43,29 +43,29 @@ class AudioPlayerState {
       selectedMusic: selectedMusic ?? this.selectedMusic,
       nextMusicList: nextMusicList ?? this.nextMusicList,
       currentPlaylist: currentPlaylist ?? this.currentPlaylist,
-      musicItemMetaDataLoadingState: musicItemMetaDataLoadingState ?? this.musicItemMetaDataLoadingState,
+      musicItemMetaDataLoadingState:
+          musicItemMetaDataLoadingState ?? this.musicItemMetaDataLoadingState,
     );
   }
 
   @override
   bool operator ==(covariant AudioPlayerState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.audioPlayer == audioPlayer &&
-      other.selectedMusic == selectedMusic &&
-      listEquals(other.nextMusicList, nextMusicList) &&
-      other.currentPlaylist == currentPlaylist &&
-      other.musicItemMetaDataLoadingState == musicItemMetaDataLoadingState;
+
+    return other.audioPlayer == audioPlayer &&
+        other.selectedMusic == selectedMusic &&
+        listEquals(other.nextMusicList, nextMusicList) &&
+        other.currentPlaylist == currentPlaylist &&
+        other.musicItemMetaDataLoadingState == musicItemMetaDataLoadingState;
   }
 
   @override
   int get hashCode {
     return audioPlayer.hashCode ^
-      selectedMusic.hashCode ^
-      nextMusicList.hashCode ^
-      currentPlaylist.hashCode ^
-      musicItemMetaDataLoadingState.hashCode;
+        selectedMusic.hashCode ^
+        nextMusicList.hashCode ^
+        currentPlaylist.hashCode ^
+        musicItemMetaDataLoadingState.hashCode;
   }
 
   @override

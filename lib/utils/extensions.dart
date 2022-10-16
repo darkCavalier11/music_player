@@ -1,4 +1,3 @@
-
 extension FormatingUtility on Duration {
   String formatDurationString() {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
