@@ -31,7 +31,8 @@ class BottomNavigationWidget extends StatelessWidget {
               return Row(
                 children: [
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.elasticInOut,
+                    duration: const Duration(seconds: 1),
                     width: MediaQuery.of(context).size.width *
                         (musicSnapshot.data! == ProcessingState.idle
                             ? 0.6
