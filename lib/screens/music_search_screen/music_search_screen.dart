@@ -65,20 +65,11 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     ),
                     child: Row(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Icon(
-                                CupertinoIcons.chevron_back,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(CupertinoIcons.chevron_back),
                         ),
                         Expanded(
                           flex: 8,
