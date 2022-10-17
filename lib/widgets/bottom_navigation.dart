@@ -33,10 +33,7 @@ class BottomNavigationWidget extends StatelessWidget {
                   AnimatedContainer(
                     curve: Curves.elasticInOut,
                     duration: const Duration(seconds: 1),
-                    width: MediaQuery.of(context).size.width *
-                        (musicSnapshot.data! == ProcessingState.idle
-                            ? 0.6
-                            : 0.7),
+                    width: MediaQuery.of(context).size.width * 0.6,
                     decoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(50),
@@ -80,17 +77,6 @@ class BottomNavigationWidget extends StatelessWidget {
                               enabled: snapshot.currentBottomNavIndex == 2,
                             ),
                           ),
-                          if (musicSnapshot.data! != ProcessingState.idle) ...[
-                            Container(
-                              height: 20,
-                              width: 1,
-                              color: Theme.of(context).hintColor,
-                            ),
-                            MusicPlayingSmallIndicator(
-                              imageUrl: snapshot.musicItem!.imageUrl,
-                              playingStream: snapshot.playingStream,
-                            ),
-                          ]
                         ],
                       ),
                     ),
