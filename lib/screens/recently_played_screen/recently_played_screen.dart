@@ -28,20 +28,24 @@ class RecentlyPlayedScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 24, right: 24, top: 64),
+                padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
                 child: Row(
                   children: const [
                     AppBackButton(),
                     Expanded(
-                      child: AppTextField(
-                        hintText: 'Search Recently played Items...',
-                        leadingIcon: Icons.search,
+                      child: Hero(
+                        tag: 'search',
+                        child: AppTextField(
+                          hintText: 'Search Recently played Items...',
+                          leadingIcon: Icons.search,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 16),
+              const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Hero(

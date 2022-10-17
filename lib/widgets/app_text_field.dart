@@ -52,6 +52,7 @@ class AppTextField extends StatelessWidget {
           hintText: hintText,
           hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).disabledColor,
+                fontSize: 16,
               ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),

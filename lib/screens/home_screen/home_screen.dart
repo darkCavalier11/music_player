@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                             selectedMusic: snapshot.recentlyPlayedList[idx],
                           );
                         },
-                        itemCount: snapshot.recentlyPlayedList.length,
+                        itemCount: snapshot.recentlyPlayedList.take(5).length,
                       ),
                     ),
                     AppPrimaryButton(
