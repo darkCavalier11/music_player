@@ -14,6 +14,7 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
+import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
@@ -54,29 +55,11 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),
-                    Hero(
-                      tag: 'RECENTLY_PLAYED',
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Icon(
-                              CupertinoIcons.stopwatch,
-                              size: 35,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Recently played',
-                              style:
-                                  Theme.of(context).textTheme.button?.copyWith(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                            ),
-                          ],
-                        ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 24),
+                      child: AppHeaderText(
+                        icon: Iconsax.timer_1,
+                        text: 'Recently played',
                       ),
                     ),
                     SizedBox(
@@ -102,25 +85,11 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                   ],
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Iconsax.mini_music_sqaure,
-                          size: 35,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'For you',
-                          style: Theme.of(context).textTheme.button?.copyWith(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                      ],
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: AppHeaderText(
+                      icon: Iconsax.music_dashboard,
+                      text: 'For you',
                     ),
                   ),
                   ...snapshot.homeScreenMusicList

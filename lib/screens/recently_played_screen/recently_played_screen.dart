@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_text_field.dart';
 import 'package:music_player/widgets/search_text_field.dart';
+import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../widgets/app_back_button.dart';
 
@@ -48,27 +50,8 @@ class RecentlyPlayedScreen extends StatelessWidget {
               const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Hero(
-                  tag: 'RECENTLY_PLAYED',
-                  child: Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.stopwatch,
-                        size: 35,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Recently played',
-                        style: Theme.of(context).textTheme.button?.copyWith(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: AppHeaderText(
+                    icon: Iconsax.timer_1, text: 'Recently played'),
               ),
               Expanded(
                 child: ListView.builder(
