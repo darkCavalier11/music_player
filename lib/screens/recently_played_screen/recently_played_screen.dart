@@ -48,8 +48,8 @@ class RecentlyPlayedScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
                 child: AppHeaderText(
                     icon: Iconsax.timer_1, text: 'Recently played'),
               ),
