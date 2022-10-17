@@ -10,7 +10,10 @@ class AppBackButton extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).pop();
       },
-      icon: const Icon(CupertinoIcons.chevron_back),
+      icon: Icon(
+        CupertinoIcons.chevron_back,
+        color: Theme.of(context).disabledColor,
+      ),
     );
   }
 }
