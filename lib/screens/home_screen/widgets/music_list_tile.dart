@@ -17,10 +17,13 @@ import 'package:music_player/widgets/music_playing_wave_widget.dart';
 class MusicListTile extends StatefulWidget {
   final MusicItem selectedMusic;
   final bool? isPlaylist;
+  // if this is a secondary musictile then long tap will be disabled
+  final bool? isSecondary;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isPlaylist,
+    this.isSecondary,
   }) : super(key: key);
 
   @override

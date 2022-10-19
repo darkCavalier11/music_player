@@ -170,12 +170,6 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                               // Navigator.of(context).pop;
                                             },
                                           ),
-                                          AppPrimaryButton(
-                                            buttonText: 'Show next',
-                                            trailingIcon:
-                                                CupertinoIcons.list_bullet,
-                                            onTap: () {},
-                                          ),
                                         ],
                                       ),
                                     ),
