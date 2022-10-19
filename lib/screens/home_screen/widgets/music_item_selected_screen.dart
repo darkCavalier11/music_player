@@ -20,9 +20,11 @@ import '../../playlist_screen/actions/playlist_actions.dart';
 class MusicItemSelectedScreen extends StatefulWidget {
   static const routeName = '/musicItemSelectedScreen';
   final MusicItem musicItem;
+  final Offset offset;
   const MusicItemSelectedScreen({
     Key? key,
     required this.musicItem,
+    required this.offset,
   }) : super(key: key);
 
   @override
@@ -69,92 +71,118 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Stack(
+              child: Column(
                 children: [
-                  BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 25,
-                      sigmaY: 35,
-                    ),
-                    child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor.withOpacity(0.1),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MusicListTile(
-                          selectedMusic: widget.musicItem,
+                  Stack(
+                    children: [
+                      BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 25,
+                          sigmaY: 35,
                         ),
-                        AnimatedBuilder(
-                          animation: _animationController,
-                          builder: (context, child) {
-                            return Opacity(
-                              opacity: _animationController.value,
-                              child: Transform.translate(
-                                offset: Offset(
-                                    0, (1 - _animationController.value) * 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      padding: const EdgeInsets.all(0),
-                                      splashColor:
-                                          Colors.redAccent.withOpacity(0.2),
-                                      onPressed: () {
-                                        if (_isMusicItemInFav) {
-                                          snapshot.removeMusicItemFromPlaylist(
-                                              widget.musicItem, 'Favourite');
-                                        } else {
-                                          snapshot.addMusicItemToPlaylist(
-                                            widget.musicItem,
-                                            'Favourite',
-                                          );
-                                        }
-                                      },
-                                      icon: Icon(
-                                        _isMusicItemInFav
-                                            ? CupertinoIcons.heart_fill
-                                            : CupertinoIcons.heart,
-                                        color: Colors.redAccent,
-                                        size: _isMusicItemInFav ? 30 : 24,
-                                      ),
-                                    ),
-                                    AppPrimaryButton(
-                                      buttonText: 'Add To Playlist',
-                                      trailingIcon: Iconsax.music_playlist,
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).push(
-                                          PageRouteBuilder(
-                                            opaque: false,
-                                            pageBuilder: (context, _, __) =>
-                                                SelectMusicAddMusicScreen(
-                                                    musicItem:
-                                                        widget.musicItem),
-                                          ),
-                                        );
-                                        // Navigator.of(context).pop;
-                                      },
-                                    ),
-                                    AppPrimaryButton(
-                                      buttonText: 'Show next',
-                                      trailingIcon: CupertinoIcons.list_bullet,
-                                      onTap: () {},
-                                    ),
-                                  ],
+                        child: Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).canvasColor.withOpacity(0.1),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(height: widget.offset.dy),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).dividerColor,
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: MusicListTile(
+                                    selectedMusic: widget.musicItem,
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                        )
-                      ],
-                    ),
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Opacity(
+                                    opacity: _animationController.value,
+                                    child: Transform.translate(
+                                      offset: Offset(
+                                          0,
+                                          (1 - _animationController.value) *
+                                              20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            padding: const EdgeInsets.all(0),
+                                            splashColor: Colors.redAccent
+                                                .withOpacity(0.2),
+                                            onPressed: () {
+                                              if (_isMusicItemInFav) {
+                                                snapshot
+                                                    .removeMusicItemFromPlaylist(
+                                                        widget.musicItem,
+                                                        'Favourite');
+                                              } else {
+                                                snapshot.addMusicItemToPlaylist(
+                                                  widget.musicItem,
+                                                  'Favourite',
+                                                );
+                                              }
+                                            },
+                                            icon: Icon(
+                                              _isMusicItemInFav
+                                                  ? CupertinoIcons.heart_fill
+                                                  : CupertinoIcons.heart,
+                                              color: Colors.redAccent,
+                                              size: _isMusicItemInFav ? 30 : 24,
+                                            ),
+                                          ),
+                                          AppPrimaryButton(
+                                            buttonText: 'Add To Playlist',
+                                            trailingIcon:
+                                                Iconsax.music_playlist,
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                  opaque: false,
+                                                  pageBuilder: (context, _,
+                                                          __) =>
+                                                      SelectMusicAddMusicScreen(
+                                                          musicItem:
+                                                              widget.musicItem),
+                                                ),
+                                              );
+                                              // Navigator.of(context).pop;
+                                            },
+                                          ),
+                                          AppPrimaryButton(
+                                            buttonText: 'Show next',
+                                            trailingIcon:
+                                                CupertinoIcons.list_bullet,
+                                            onTap: () {},
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

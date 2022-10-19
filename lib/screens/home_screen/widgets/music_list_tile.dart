@@ -10,7 +10,6 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_item_selected_screen.dart';
-import 'package:music_player/utils/mixins.dart';
 import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
@@ -29,7 +28,7 @@ class MusicListTile extends StatefulWidget {
 }
 
 class _MusicListTileState extends State<MusicListTile> {
-  late Key _key;
+  late GlobalKey _key;
   @override
   void initState() {
     super.initState();
@@ -56,12 +55,15 @@ class _MusicListTileState extends State<MusicListTile> {
                   return InkWell(
                     borderRadius: BorderRadius.circular(12),
                     onLongPress: () {
+                      RenderBox box = _key.currentContext?.findRenderObject()
+                          as RenderBox;
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,
                           pageBuilder: (context, _, __) =>
                               MusicItemSelectedScreen(
                             musicItem: widget.selectedMusic,
+                            offset: box.localToGlobal(Offset.zero),
                           ),
                         ),
                       );
@@ -128,8 +130,7 @@ class _MusicListTileState extends State<MusicListTile> {
                                     ),
                                 maxLines: 1,
                               ),
-                              if (widget.selectedMusic.duration != null)
-                                Text(widget.selectedMusic.duration),
+                              Text(widget.selectedMusic.duration),
                             ],
                           ),
                         ),
@@ -238,7 +239,7 @@ class _ViewModel extends Vm {
   }
 }
 
-class _Factory extends VmFactory<AppState, MusicListTile> {
+class _Factory extends VmFactory<AppState, _MusicListTileState> {
   _Factory(widget) : super(widget);
 
   @override
