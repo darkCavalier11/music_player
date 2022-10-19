@@ -96,7 +96,8 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TweenAnimationBuilder<double>(
-                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.elasticOut,
+                                duration: const Duration(milliseconds: 800),
                                 tween: Tween<double>(begin: 0, end: 18),
                                 child: MusicListTile(
                                   selectedMusic: widget.musicItem,

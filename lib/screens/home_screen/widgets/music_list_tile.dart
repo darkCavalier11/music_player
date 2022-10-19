@@ -54,7 +54,7 @@ class _MusicListTileState extends State<MusicListTile> {
                   }
                   return InkWell(
                     splashColor: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(18),
                     onLongPress: () {
                       RenderBox box =
                           _key.currentContext?.findRenderObject() as RenderBox;
