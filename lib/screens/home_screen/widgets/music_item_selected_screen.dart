@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/user_playlist_list_item.dart';
-import 'package:music_player/screens/app_page_view.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
 import 'package:music_player/widgets/app_primary_button.dart';

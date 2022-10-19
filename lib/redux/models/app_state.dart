@@ -75,41 +75,54 @@ class AppState {
 class UiState {
   final ThemeMode themeMode;
   final int currentBottomNavIndex;
+  // When tap on a music tile the current screen scales down and music tile
+  // pops to give a subtle animation. When a music is tapped long this set to true and
+  // scale animation started and when finshed set to true.
+  final bool isMusicSelectedScreenActive;
   UiState({
     required this.themeMode,
     required this.currentBottomNavIndex,
+    required this.isMusicSelectedScreenActive,
   });
 
   factory UiState.initial() {
     return UiState(
       themeMode: ThemeMode.light,
       currentBottomNavIndex: 0,
+      isMusicSelectedScreenActive: false,
     );
   }
 
   UiState copyWith({
     ThemeMode? themeMode,
     int? currentBottomNavIndex,
+    bool? isMusicSelectedScreenActive,
   }) {
     return UiState(
       themeMode: themeMode ?? this.themeMode,
       currentBottomNavIndex:
           currentBottomNavIndex ?? this.currentBottomNavIndex,
+      isMusicSelectedScreenActive:
+          isMusicSelectedScreenActive ?? this.isMusicSelectedScreenActive,
     );
   }
 
   @override
   String toString() =>
-      'UiState(themeMode: $themeMode, currentBottomNavIndex: $currentBottomNavIndex)';
+      'UiState(themeMode: $themeMode, currentBottomNavIndex: $currentBottomNavIndex, isMusicSelectedScreenActive: $isMusicSelectedScreenActive)';
 
   @override
   bool operator ==(covariant UiState other) {
     if (identical(this, other)) return true;
 
     return other.themeMode == themeMode &&
-        other.currentBottomNavIndex == currentBottomNavIndex;
+        other.currentBottomNavIndex == currentBottomNavIndex &&
+        other.isMusicSelectedScreenActive == isMusicSelectedScreenActive;
   }
 
   @override
-  int get hashCode => themeMode.hashCode ^ currentBottomNavIndex.hashCode;
+  int get hashCode =>
+      themeMode.hashCode ^
+      currentBottomNavIndex.hashCode ^
+      isMusicSelectedScreenActive.hashCode;
 }
