@@ -15,7 +15,7 @@ import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
-class MusicListTile extends StatelessWidget with AppUtilityMixin {
+class MusicListTile extends StatefulWidget with AppUtilityMixin {
   final MusicItem selectedMusic;
   final bool? isPlaylist;
   const MusicListTile({
@@ -25,124 +25,126 @@ class MusicListTile extends StatelessWidget with AppUtilityMixin {
   }) : super(key: key);
 
   @override
+  State<MusicListTile> createState() => _MusicListTileState();
+}
+
+class _MusicListTileState extends State<MusicListTile> {
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
-        return Draggable(
-          feedback: Container(),
-          child: Material(
-            color: Theme.of(context).primaryColor.withAlpha(0),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: StreamBuilder<bool>(
-                  stream: snapshot.playingStream,
-                  builder: (context, isPlayingSnapshot) {
-                    if (isPlayingSnapshot.hasError ||
-                        !isPlayingSnapshot.hasData) {
-                      return const SizedBox.shrink();
-                    }
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onLongPress: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (context, _, __) =>
-                                MusicItemSelectedScreen(
-                              musicItem: selectedMusic,
-                            ),
+        return Material(
+          color: Theme.of(context).primaryColor.withAlpha(0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: StreamBuilder<bool>(
+                stream: snapshot.playingStream,
+                builder: (context, isPlayingSnapshot) {
+                  if (isPlayingSnapshot.hasError ||
+                      !isPlayingSnapshot.hasData) {
+                    return const SizedBox.shrink();
+                  }
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onLongPress: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (context, _, __) =>
+                              MusicItemSelectedScreen(
+                            musicItem: widget.selectedMusic,
                           ),
-                        );
-                      },
-                      onTap: () async {
-                        if (isPlayingSnapshot.data! &&
-                            selectedMusic.musicId ==
-                                snapshot.currentMusic?.musicId) {
-                          snapshot.pauseMusic();
-                        } else if (selectedMusic.musicId !=
-                            snapshot.currentMusic?.musicId) {
-                          snapshot.playMusic(selectedMusic);
-                        } else {
-                          snapshot.resumeMusic();
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: MusicCircularAvatar(
-                                  imageUrl: selectedMusic.imageUrl,
-                                ),
+                        ),
+                      );
+                    },
+                    onTap: () async {
+                      if (isPlayingSnapshot.data! &&
+                          widget.selectedMusic.musicId ==
+                              snapshot.currentMusic?.musicId) {
+                        snapshot.pauseMusic();
+                      } else if (widget.selectedMusic.musicId !=
+                          snapshot.currentMusic?.musicId) {
+                        snapshot.playMusic(widget.selectedMusic);
+                      } else {
+                        snapshot.resumeMusic();
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: MusicCircularAvatar(
+                                imageUrl: widget.selectedMusic.imageUrl,
                               ),
-                              if (isPlaylist ?? false)
-                                const Positioned(
-                                  top: 15,
-                                  left: 15,
-                                  child: CircleAvatar(
-                                    maxRadius: 10,
-                                    child: Icon(
-                                      Icons.playlist_play,
-                                      size: 15,
-                                    ),
+                            ),
+                            if (widget.isPlaylist ?? false)
+                              const Positioned(
+                                top: 15,
+                                left: 15,
+                                child: CircleAvatar(
+                                  maxRadius: 10,
+                                  child: Icon(
+                                    Icons.playlist_play,
+                                    size: 15,
                                   ),
-                                )
+                                ),
+                              )
+                          ],
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.selectedMusic.title,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                    ),
+                                maxLines: 1,
+                              ),
+                              Text(
+                                widget.selectedMusic.author,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .overline
+                                    ?.copyWith(
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                maxLines: 1,
+                              ),
+                              if (widget.selectedMusic.duration != null)
+                                Text(widget.selectedMusic.duration),
                             ],
                           ),
-                          Expanded(
-                            flex: 4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  selectedMusic.title,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                        color:
-                                            Theme.of(context).primaryColorLight,
-                                      ),
-                                  maxLines: 1,
-                                ),
-                                Text(
-                                  selectedMusic.author,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .overline
-                                      ?.copyWith(
-                                        color: Theme.of(context).hintColor,
-                                      ),
-                                  maxLines: 1,
-                                ),
-                                if (selectedMusic.duration != null)
-                                  Text(selectedMusic.duration),
-                              ],
-                            ),
-                          ),
-                          snapshot.currentMusic?.musicId == selectedMusic.musicId
-                              // if current music tile is to be played and the music metadata
-                              // was still being fetched, show loading and after that hand it to the
-                              // audio player stream to handle the rest.
-                              ? snapshot.musicItemMetaDataLoadingState ==
-                                      LoadingState.loading
-                                  ? LoadingIndicator.small(context)
-                                  : SizedBox(
-                                      child: _MusicTileTrailingWidget(
-                                        processingStateStream:
-                                            snapshot.processingStateStream,
-                                        playingStream: snapshot.playingStream,
-                                      ),
-                                    )
-                              : const _PlayButtonWidget(),
-                          const SizedBox(width: 20),
-                        ],
-                      ),
-                    );
-                  }),
-            ),
+                        ),
+                        snapshot.currentMusic?.musicId == widget.selectedMusic.musicId
+                            // if current music tile is to be played and the music metadata
+                            // was still being fetched, show loading and after that hand it to the
+                            // audio player stream to handle the rest.
+                            ? snapshot.musicItemMetaDataLoadingState ==
+                                    LoadingState.loading
+                                ? LoadingIndicator.small(context)
+                                : SizedBox(
+                                    child: _MusicTileTrailingWidget(
+                                      processingStateStream:
+                                          snapshot.processingStateStream,
+                                      playingStream: snapshot.playingStream,
+                                    ),
+                                  )
+                            : const _PlayButtonWidget(),
+                        const SizedBox(width: 20),
+                      ],
+                    ),
+                  );
+                }),
           ),
         );
       },
