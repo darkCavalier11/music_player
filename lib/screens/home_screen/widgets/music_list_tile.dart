@@ -43,7 +43,7 @@ class _MusicListTileState extends State<MusicListTile> {
         return Material(
           key: _key,
           color: Theme.of(context).primaryColor.withAlpha(0),
-          child: Container(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: StreamBuilder<bool>(
                 stream: snapshot.playingStream,
@@ -53,10 +53,11 @@ class _MusicListTileState extends State<MusicListTile> {
                     return const SizedBox.shrink();
                   }
                   return InkWell(
+                    splashColor: Theme.of(context).dividerColor,
                     borderRadius: BorderRadius.circular(12),
                     onLongPress: () {
-                      RenderBox box = _key.currentContext?.findRenderObject()
-                          as RenderBox;
+                      RenderBox box =
+                          _key.currentContext?.findRenderObject() as RenderBox;
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,

@@ -95,17 +95,20 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                child: Container(
+                              TweenAnimationBuilder<double>(
+                                duration: const Duration(milliseconds: 400),
+                                tween: Tween<double>(begin: 0, end: 18),
+                                child: MusicListTile(
+                                  selectedMusic: widget.musicItem,
+                                ),
+                                builder: (context, value, child) => Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: value),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).dividerColor,
                                     borderRadius: BorderRadius.circular(18),
                                   ),
-                                  child: MusicListTile(
-                                    selectedMusic: widget.musicItem,
-                                  ),
+                                  child: child,
                                 ),
                               ),
                               AnimatedBuilder(
