@@ -15,7 +15,7 @@ import 'package:music_player/utils/music_circular_avatar.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
-class MusicListTile extends StatefulWidget with AppUtilityMixin {
+class MusicListTile extends StatefulWidget {
   final MusicItem selectedMusic;
   final bool? isPlaylist;
   const MusicListTile({
@@ -29,12 +29,20 @@ class MusicListTile extends StatefulWidget with AppUtilityMixin {
 }
 
 class _MusicListTileState extends State<MusicListTile> {
+  late Key _key;
+  @override
+  void initState() {
+    super.initState();
+    _key = GlobalKey();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return Material(
+          key: _key,
           color: Theme.of(context).primaryColor.withAlpha(0),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -125,7 +133,8 @@ class _MusicListTileState extends State<MusicListTile> {
                             ],
                           ),
                         ),
-                        snapshot.currentMusic?.musicId == widget.selectedMusic.musicId
+                        snapshot.currentMusic?.musicId ==
+                                widget.selectedMusic.musicId
                             // if current music tile is to be played and the music metadata
                             // was still being fetched, show loading and after that hand it to the
                             // audio player stream to handle the rest.
