@@ -41,7 +41,7 @@ class PlaylistScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      'Your Playlist',
+                      'My Playlist',
                       style: Theme.of(context).textTheme.button?.copyWith(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
