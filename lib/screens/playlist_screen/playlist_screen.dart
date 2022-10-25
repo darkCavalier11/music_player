@@ -51,84 +51,102 @@ class PlaylistScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(0),
-                    itemBuilder: (context, idx) {
-                      return Dismissible(
-                        direction: DismissDirection.endToStart,
-                        confirmDismiss: (_) async {
-                          return AppUiUtils.appGenericDialog<bool>(
-                            context,
-                            title: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: 'Do you want to remove playlist ',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                  TextSpan(
-                                    text: snapshot
-                                        .userPlaylistListItems[idx].title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
+                snapshot.userPlaylistListItems.isEmpty
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Center(
+                          child: Text(
+                            'No playlists found, Long tap on music item to create a playlist',
+                            style:
+                                Theme.of(context).textTheme.caption?.copyWith(
+                                      color: Theme.of(context).disabledColor,
+                                    ),
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0),
+                          itemBuilder: (context, idx) {
+                            return Dismissible(
+                              direction: DismissDirection.endToStart,
+                              confirmDismiss: (_) async {
+                                return AppUiUtils.appGenericDialog<bool>(
+                                  context,
+                                  title: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              'Do you want to remove playlist ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1,
                                         ),
+                                        TextSpan(
+                                          text: snapshot
+                                              .userPlaylistListItems[idx].title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                        TextSpan(text: '?'),
+                                      ],
+                                    ),
                                   ),
-                                  TextSpan(text: '?'),
-                                ],
+                                  actions: Row(
+                                    children: [
+                                      const Spacer(),
+                                      AppPrimaryButton(
+                                        onTap: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        buttonText: 'Cancel',
+                                      ),
+                                      AppPrimaryButton(
+                                        onTap: () {
+                                          snapshot.removePlaylist(snapshot
+                                              .userPlaylistListItems[idx]
+                                              .title);
+                                          Navigator.of(context).pop(true);
+                                        },
+                                        buttonText: 'Remove',
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              background: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  children: const [
+                                    Spacer(),
+                                    Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Icon(
+                                        CupertinoIcons.delete,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            actions: Row(
-                              children: [
-                                const Spacer(),
-                                AppPrimaryButton(
-                                  onTap: () {
-                                    Navigator.of(context).pop(false);
-                                  },
-                                  buttonText: 'Cancel',
-                                ),
-                                AppPrimaryButton(
-                                  onTap: () {
-                                    snapshot.removePlaylist(snapshot
-                                        .userPlaylistListItems[idx].title);
-                                    Navigator.of(context).pop(true);
-                                  },
-                                  buttonText: 'Remove',
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        background: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: const [
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Icon(
-                                  CupertinoIcons.delete,
-                                ),
+                              key: ValueKey(
+                                  snapshot.userPlaylistListItems[idx].id),
+                              child: PlaylistItemTile(
+                                userPlaylist:
+                                    snapshot.userPlaylistListItems[idx],
                               ),
-                            ],
-                          ),
+                            );
+                          },
+                          itemCount: snapshot.userPlaylistListItems.length,
                         ),
-                        key: ValueKey(snapshot.userPlaylistListItems[idx].id),
-                        child: PlaylistItemTile(
-                          userPlaylist: snapshot.userPlaylistListItems[idx],
-                        ),
-                      );
-                    },
-                    itemCount: snapshot.userPlaylistListItems.length,
-                  ),
-                )
+                      )
               ],
             ),
           ),

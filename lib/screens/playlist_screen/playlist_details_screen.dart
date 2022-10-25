@@ -188,7 +188,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Do you want to remove playlist ',
+                                  text: 'Do you want to delete playlist ',
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 TextSpan(
@@ -218,6 +218,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                   snapshot.removePlaylist(
                                       userPlaylistListItem.title);
                                   Navigator.of(context).pop(true);
+                                  Navigator.of(context).pop();
                                 },
                                 buttonText: 'Remove',
                               ),
