@@ -4,6 +4,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_player/utils/constants.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
@@ -11,13 +12,26 @@ import '../../../redux/models/app_state.dart';
 import '../../../redux/models/music_item.dart';
 import '../../../redux/models/search_state.dart';
 import '../actions/music_actions.dart';
+import 'music_item_selected_screen.dart';
 
-class MusicGridTile extends StatelessWidget {
+class MusicGridTile extends StatefulWidget {
   final MusicItem selectedMusic;
   const MusicGridTile({
     Key? key,
     required this.selectedMusic,
   }) : super(key: key);
+
+  @override
+  State<MusicGridTile> createState() => _MusicGridTileState();
+}
+
+class _MusicGridTileState extends State<MusicGridTile> {
+  late GlobalKey _key;
+  @override
+  void initState() {
+    super.initState();
+    _key = GlobalKey();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +45,38 @@ class MusicGridTile extends StatelessWidget {
               return const SizedBox.shrink();
             }
             return StreamBuilder<ProcessingState>(
+                key: _key,
                 stream: snapshot.processingStateStream,
                 builder: (context, processingSnapshot) {
                   if (!processingSnapshot.hasData ||
                       processingSnapshot.hasError) {
                     return const SizedBox.shrink();
                   }
-                  return GestureDetector(
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(18),
+                    onLongPress: () async {
+                      RenderBox box =
+                          _key.currentContext?.findRenderObject() as RenderBox;
+                      await Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (context, _, __) =>
+                              MusicItemSelectedScreen(
+                            musicItemTileType: MusicItemTileType.grid,
+                            musicItem: widget.selectedMusic,
+                            offset: box.localToGlobal(Offset.zero),
+                          ),
+                        ),
+                      );
+                    },
                     onTap: () async {
                       if (isPlayingSnapshot.data! &&
-                          selectedMusic.musicId ==
+                          widget.selectedMusic.musicId ==
                               snapshot.currentMusic?.musicId) {
                         snapshot.pauseMusic();
-                      } else if (selectedMusic.musicId !=
+                      } else if (widget.selectedMusic.musicId !=
                           snapshot.currentMusic?.musicId) {
-                        snapshot.playMusic(selectedMusic);
+                        snapshot.playMusic(widget.selectedMusic);
                       } else {
                         snapshot.resumeMusic();
                       }
@@ -62,7 +93,7 @@ class MusicGridTile extends StatelessWidget {
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               children: [
                                 Image.network(
-                                  selectedMusic.imageUrl,
+                                  widget.selectedMusic.imageUrl,
                                   height: 120,
                                   width: 120,
                                   fit: BoxFit.cover,
@@ -71,12 +102,12 @@ class MusicGridTile extends StatelessWidget {
                                   duration: const Duration(milliseconds: 400),
                                   right: isPlayingSnapshot.data! &&
                                           snapshot.currentMusic?.musicId ==
-                                              selectedMusic.musicId
+                                              widget.selectedMusic.musicId
                                       ? 35
                                       : 10,
                                   bottom: isPlayingSnapshot.data! &&
                                           snapshot.currentMusic?.musicId ==
-                                              selectedMusic.musicId
+                                              widget.selectedMusic.musicId
                                       ? 35
                                       : 10,
                                   child: AnimatedContainer(
@@ -84,12 +115,12 @@ class MusicGridTile extends StatelessWidget {
                                     duration: const Duration(milliseconds: 800),
                                     height: isPlayingSnapshot.data! &&
                                             snapshot.currentMusic?.musicId ==
-                                                selectedMusic.musicId
+                                                widget.selectedMusic.musicId
                                         ? 50
                                         : 30,
                                     width: isPlayingSnapshot.data! &&
                                             snapshot.currentMusic?.musicId ==
-                                                selectedMusic.musicId
+                                                widget.selectedMusic.musicId
                                         ? 50
                                         : 30,
                                     decoration: BoxDecoration(
@@ -98,7 +129,7 @@ class MusicGridTile extends StatelessWidget {
                                     ),
                                     child: Center(
                                       child: snapshot.currentMusic?.musicId ==
-                                              selectedMusic.musicId
+                                              widget.selectedMusic.musicId
                                           ? snapshot.musicItemMetaDataLoadingState ==
                                                   LoadingState.loading
                                               ? LoadingIndicator.small(context)
@@ -114,7 +145,7 @@ class MusicGridTile extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            selectedMusic.title,
+                            widget.selectedMusic.title,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
@@ -125,7 +156,7 @@ class MusicGridTile extends StatelessWidget {
                             maxLines: 2,
                           ),
                           Text(
-                            selectedMusic.author,
+                            widget.selectedMusic.author,
                             style:
                                 Theme.of(context).textTheme.caption?.copyWith(
                                       color: Theme.of(context).backgroundColor,
@@ -133,7 +164,7 @@ class MusicGridTile extends StatelessWidget {
                                     ),
                             maxLines: 1,
                           ),
-                          Text(selectedMusic.duration),
+                          Text(widget.selectedMusic.duration),
                         ],
                       ),
                     ),
@@ -192,7 +223,7 @@ class _ViewModel extends Vm {
   }
 }
 
-class _Factory extends VmFactory<AppState, MusicGridTile> {
+class _Factory extends VmFactory<AppState, _MusicGridTileState> {
   _Factory(widget) : super(widget);
 
   @override

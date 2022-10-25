@@ -8,7 +8,9 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
+import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
+import 'package:music_player/utils/constants.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
 import '../../../redux/models/music_item.dart';
@@ -18,10 +20,12 @@ class MusicItemSelectedScreen extends StatefulWidget {
   static const routeName = '/musicItemSelectedScreen';
   final MusicItem musicItem;
   final Offset offset;
+  final MusicItemTileType musicItemTileType;
   const MusicItemSelectedScreen({
     Key? key,
     required this.musicItem,
     required this.offset,
+    required this.musicItemTileType,
   }) : super(key: key);
 
   @override
@@ -96,8 +100,12 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                 curve: Curves.elasticOut,
                                 duration: const Duration(milliseconds: 800),
                                 tween: Tween<double>(begin: 0, end: 18),
-                                child: MusicGridTile(
-                                    selectedMusic: widget.musicItem),
+                                child: widget.musicItemTileType ==
+                                        MusicItemTileType.grid
+                                    ? MusicGridTile(
+                                        selectedMusic: widget.musicItem)
+                                    : MusicListTile(
+                                        selectedMusic: widget.musicItem),
                                 builder: (context, value, child) => Container(
                                   margin:
                                       EdgeInsets.symmetric(horizontal: value),
