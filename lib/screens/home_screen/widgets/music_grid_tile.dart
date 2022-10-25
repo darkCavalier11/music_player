@@ -53,12 +53,8 @@ class MusicGridTile extends StatelessWidget {
                     child: Container(
                       width: 150,
                       padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            isPlayingSnapshot.data! ? 24 : 100),
-                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(24),
@@ -126,13 +122,14 @@ class MusicGridTile extends StatelessWidget {
                                 ?.copyWith(
                                   color: Theme.of(context).primaryColorLight,
                                 ),
-                            maxLines: 1,
+                            maxLines: 2,
                           ),
                           Text(
                             selectedMusic.author,
                             style:
                                 Theme.of(context).textTheme.caption?.copyWith(
-                                      color: Theme.of(context).hintColor,
+                                      color: Theme.of(context).backgroundColor,
+                                      fontSize: 10,
                                     ),
                             maxLines: 1,
                           ),

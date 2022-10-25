@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
+import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
@@ -96,9 +96,8 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                 curve: Curves.elasticOut,
                                 duration: const Duration(milliseconds: 800),
                                 tween: Tween<double>(begin: 0, end: 18),
-                                child: MusicListTile(
-                                  selectedMusic: widget.musicItem,
-                                ),
+                                child: MusicGridTile(
+                                    selectedMusic: widget.musicItem),
                                 builder: (context, value, child) => Container(
                                   margin:
                                       EdgeInsets.symmetric(horizontal: value),
