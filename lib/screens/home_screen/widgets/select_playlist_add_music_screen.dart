@@ -26,7 +26,7 @@ class SelectMusicAddMusicScreen extends StatefulWidget {
 }
 
 class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
-  List<int> _selectedTileIndexes = [];
+  final List<int> _selectedTileIndexes = [];
   String _playlistTextField = '';
   @override
   Widget build(BuildContext context) {
@@ -96,31 +96,50 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: ListView.builder(
-                                padding: const EdgeInsets.all(0),
-                                itemBuilder: (context, index) => ListTile(
-                                  title: Text(
-                                      snapshot.userPlaylistItems[index].title),
-                                  onTap: () {
-                                    if (_selectedTileIndexes.contains(index)) {
-                                      _selectedTileIndexes.remove(index);
-                                    } else {
-                                      _selectedTileIndexes.add(index);
-                                    }
-                                    setState(() {});
-                                  },
-                                  trailing: !_selectedTileIndexes
-                                          .contains(index)
-                                      ? const Icon(CupertinoIcons.circle)
-                                      : Icon(
-                                          Iconsax.tick_circle,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                ),
-                                itemCount: snapshot.userPlaylistItems.length,
-                              ),
-                            ),
+                            snapshot.userPlaylistItems.isEmpty
+                                ? Column(
+                                    children: [
+                                      const SizedBox(height: 100),
+                                      Text(
+                                        'No Playlist found!, Add one below.',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .button
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                            ),
+                                      ),
+                                    ],
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                      padding: const EdgeInsets.all(0),
+                                      itemBuilder: (context, index) => ListTile(
+                                        title: Text(snapshot
+                                            .userPlaylistItems[index].title),
+                                        onTap: () {
+                                          if (_selectedTileIndexes
+                                              .contains(index)) {
+                                            _selectedTileIndexes.remove(index);
+                                          } else {
+                                            _selectedTileIndexes.add(index);
+                                          }
+                                          setState(() {});
+                                        },
+                                        trailing: !_selectedTileIndexes
+                                                .contains(index)
+                                            ? const Icon(CupertinoIcons.circle)
+                                            : Icon(
+                                                Iconsax.tick_circle,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                      ),
+                                      itemCount:
+                                          snapshot.userPlaylistItems.length,
+                                    ),
+                                  ),
                             if (_selectedTileIndexes.isNotEmpty)
                               Row(
                                 children: [
