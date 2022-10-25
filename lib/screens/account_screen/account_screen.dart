@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -22,7 +23,7 @@ class AccountScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(16),
                 color: Theme.of(context).disabledColor.withOpacity(0.1),
               ),
               child: Row(
@@ -42,7 +43,12 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
-            AccountTileSwitch(),
+            AccountTileSwitch(
+              description:
+                  'Based on your music playing item, it will cache most played items',
+              title: 'Intelligent Cache',
+              onChanged: (v) {},
+            ),
           ],
         ),
       ),
@@ -51,8 +57,14 @@ class AccountScreen extends StatelessWidget {
 }
 
 class AccountTileSwitch extends StatelessWidget {
+  final String title;
+  final void Function(bool) onChanged;
+  final String description;
   const AccountTileSwitch({
     Key? key,
+    required this.title,
+    required this.onChanged,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -65,21 +77,21 @@ class AccountTileSwitch extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Theme.of(context).disabledColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               children: [
-                Text('Intelligent cache'),
+                Text(title),
                 const Spacer(),
                 CupertinoSwitch(
                   value: true,
-                  onChanged: (v) {},
+                  onChanged: onChanged,
                 )
               ],
             ),
           ),
           Text(
-            'Based on your music playing item, it will cache most played items',
+            description,
             style: Theme.of(context).textTheme.caption,
           ),
         ],
