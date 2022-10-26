@@ -39,13 +39,13 @@ class _MusicGridTileState extends State<MusicGridTile> {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return StreamBuilder<bool>(
+          key: _key,
           stream: snapshot.playingStream,
           builder: (context, isPlayingSnapshot) {
             if (isPlayingSnapshot.hasError || !isPlayingSnapshot.hasData) {
               return const SizedBox.shrink();
             }
             return StreamBuilder<ProcessingState>(
-                key: _key,
                 stream: snapshot.processingStateStream,
                 builder: (context, processingSnapshot) {
                   if (!processingSnapshot.hasData ||
@@ -60,12 +60,16 @@ class _MusicGridTileState extends State<MusicGridTile> {
                       await Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (context, _, __) =>
-                              MusicItemSelectedScreen(
-                            musicItemTileType: MusicItemTileType.grid,
-                            musicItem: widget.selectedMusic,
-                            offset: box.localToGlobal(Offset.zero),
-                          ),
+                          pageBuilder: (context, _, __) {
+                            final _offset = box.localToGlobal(Offset.zero);
+                            return MusicItemSelectedScreen(
+                              musicItemTileType: MusicItemTileType.grid,
+                              musicItem: widget.selectedMusic,
+                              offset: _offset.dy < 0
+                                  ? Offset(_offset.dx, 50)
+                                  : _offset,
+                            );
+                          },
                         ),
                       );
                     },
