@@ -49,6 +49,17 @@ class AccountScreen extends StatelessWidget {
               title: 'Intelligent Cache',
               onChanged: (v) {},
             ),
+            const SizedBox(height: 100),
+            Text(
+              'Made with ❤️ in 🇮🇳',
+              style: Theme.of(context).textTheme.caption,
+            ),
+            Text(
+              'About',
+              style: Theme.of(context).textTheme.caption?.copyWith(
+                    decoration: TextDecoration.underline,
+                  ),
+            )
           ],
         ),
       ),
