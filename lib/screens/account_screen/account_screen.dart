@@ -2,6 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:music_player/main.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../widgets/text_themes/app_header_text.dart';
 
@@ -50,6 +52,7 @@ class AccountScreen extends StatelessWidget {
               onChanged: (v) {},
             ),
             const SizedBox(height: 100),
+            Text('v' + appVersion),
             Text(
               'Made with ❤️ in 🇮🇳',
               style: Theme.of(context).textTheme.caption,

@@ -11,8 +11,11 @@ import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 late Store<AppState> store;
+
+late String appVersion;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +37,9 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.black,
   ));
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  appVersion = packageInfo.version;
   runApp(StoreProvider<AppState>(store: store, child: const MyApp()));
 }
 
