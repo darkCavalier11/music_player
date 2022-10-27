@@ -88,7 +88,7 @@ class BottomNavigationWidget extends StatelessWidget {
                             ),
                             TweenAnimationBuilder<double>(
                               duration: const Duration(milliseconds: 800),
-                              tween: Tween<double>(begin: 1, end: 0),
+                              tween: Tween<double>(begin: 0, end: 0),
                               builder: (context, value, child) {
                                 return Transform.translate(
                                   offset: Offset(-value * 10, 0),
