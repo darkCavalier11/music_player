@@ -33,7 +33,10 @@ class BottomNavigationWidget extends StatelessWidget {
                   AnimatedContainer(
                     curve: Curves.elasticInOut,
                     duration: const Duration(seconds: 1),
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: MediaQuery.of(context).size.width *
+                        (musicSnapshot.data != ProcessingState.idle
+                            ? 0.65
+                            : 0.6),
                     decoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(50),
@@ -77,6 +80,26 @@ class BottomNavigationWidget extends StatelessWidget {
                               enabled: snapshot.currentBottomNavIndex == 2,
                             ),
                           ),
+                          if (musicSnapshot.data! != ProcessingState.idle) ...[
+                            Container(
+                              width: 1,
+                              height: 30,
+                              color: Theme.of(context).disabledColor,
+                            ),
+                            TweenAnimationBuilder<double>(
+                              duration: const Duration(milliseconds: 800),
+                              tween: Tween<double>(begin: 1, end: 0),
+                              builder: (context, value, child) {
+                                return Transform.translate(
+                                  offset: Offset(-value * 10, 0),
+                                  child: MusicPlayingSmallIndicator(
+                                      imageUrl:
+                                          snapshot.musicItem?.imageUrl ?? '',
+                                      playingStream: snapshot.playingStream),
+                                );
+                              },
+                            )
+                          ]
                         ],
                       ),
                     ),
