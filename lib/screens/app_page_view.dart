@@ -74,10 +74,6 @@ class _AppScreensState extends State<AppScreens> {
                   },
                 ),
                 const Positioned(
-                  bottom: 0,
-                  child: MusicPlayerWidget(),
-                ),
-                const Positioned(
                   bottom: 15,
                   child: BottomNavigationWidget(),
                 )

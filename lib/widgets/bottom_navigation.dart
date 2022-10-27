@@ -86,19 +86,10 @@ class BottomNavigationWidget extends StatelessWidget {
                               height: 30,
                               color: Theme.of(context).disabledColor,
                             ),
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 800),
-                              tween: Tween<double>(begin: 0, end: 0),
-                              builder: (context, value, child) {
-                                return Transform.translate(
-                                  offset: Offset(-value * 10, 0),
-                                  child: MusicPlayingSmallIndicator(
-                                      imageUrl:
-                                          snapshot.musicItem?.imageUrl ?? '',
-                                      playingStream: snapshot.playingStream),
-                                );
-                              },
-                            )
+                            MusicPlayingSmallIndicator(
+                              imageUrl: snapshot.musicItem?.imageUrl ?? '',
+                              playingStream: snapshot.playingStream,
+                            ),
                           ]
                         ],
                       ),
