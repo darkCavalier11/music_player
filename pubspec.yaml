@@ -54,6 +54,7 @@ dependencies:
   marquee: ^2.2.3
   uuid: ^3.0.6
   package_info_plus: ^3.0.1
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

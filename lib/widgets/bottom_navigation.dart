@@ -11,6 +11,7 @@ import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/screens/music_item_controller_screen/music_item_controller_screen.dart';
 
 import '../redux/models/music_item.dart';
 
@@ -86,9 +87,14 @@ class BottomNavigationWidget extends StatelessWidget {
                               height: 30,
                               color: Theme.of(context).disabledColor,
                             ),
-                            MusicPlayingSmallIndicator(
-                              imageUrl: snapshot.musicItem?.imageUrl ?? '',
-                              playingStream: snapshot.playingStream,
+                            GestureDetector(
+                              onTap: () {
+                                log('message');
+                              },
+                              child: MusicPlayingSmallIndicator(
+                                imageUrl: snapshot.musicItem?.imageUrl ?? '',
+                                playingStream: snapshot.playingStream,
+                              ),
                             ),
                           ]
                         ],
@@ -119,7 +125,6 @@ class MusicPlayingSmallIndicator extends StatefulWidget {
 
 class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
     with SingleTickerProviderStateMixin {
-  @override
   late AnimationController _animationController;
 
   @override
@@ -159,8 +164,12 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
       animation: _animationController,
       child: GestureDetector(
         onTap: () {
-          // todo : expand to full playing screen
-          log('message');
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (context, _, __) => MusicItemControllerScreen(),
+              opaque: false,
+            ),
+          );
         },
         child: Container(
           width: 30,
