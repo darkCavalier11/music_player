@@ -29,8 +29,10 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
         return MusicItem.fromJson(e as Map<String, dynamic>);
       }).toList();
 
-      if (oldmusicList.contains(musicItem)) {
-        oldmusicList.remove(musicItem);
+      if (oldmusicList
+              .indexWhere((item) => item.musicId == musicItem.musicId) !=
+          -1) {
+        oldmusicList.removeWhere((item) => item.musicId == musicItem.musicId);
       }
       oldmusicList.add(musicItem);
       await AppDatabse.setQuery(DbKeys.recentlyPlayedList,
