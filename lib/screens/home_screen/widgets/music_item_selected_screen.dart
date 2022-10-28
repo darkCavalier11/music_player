@@ -107,8 +107,15 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                     : MusicListTile(
                                         selectedMusic: widget.musicItem),
                                 builder: (context, value, child) => Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: value),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: widget.musicItemTileType ==
+                                              MusicItemTileType.list
+                                          ? value
+                                          : 0,
+                                      vertical: widget.musicItemTileType ==
+                                              MusicItemTileType.grid
+                                          ? value
+                                          : 0),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).dividerColor,
                                     borderRadius: BorderRadius.circular(18),
