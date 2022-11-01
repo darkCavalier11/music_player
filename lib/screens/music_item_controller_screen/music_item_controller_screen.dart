@@ -51,7 +51,7 @@ class MusicListItemControllerScreen extends StatelessWidget {
                               color: Colors.black,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: Colors.white,
+                                color: Theme.of(context).focusColor,
                                 width: 3,
                               ),
                             ),
@@ -63,7 +63,7 @@ class MusicListItemControllerScreen extends StatelessWidget {
                               color: Colors.transparent,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: Colors.white,
+                                color: Theme.of(context).focusColor,
                                 width: 2,
                               ),
                             ),
@@ -77,11 +77,12 @@ class MusicListItemControllerScreen extends StatelessWidget {
             }),
             options: CarouselOptions(
               pageSnapping: false,
-              viewportFraction: 0.4,
+              viewportFraction: 0.5,
               scrollPhysics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               enlargeCenterPage: true,
               enableInfiniteScroll: false,
+              padEnds: true,
             ),
           )
         ],
