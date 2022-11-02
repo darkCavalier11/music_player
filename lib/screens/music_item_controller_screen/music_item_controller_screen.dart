@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
+import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
 
 class MusicListItemControllerScreen extends StatelessWidget {
   const MusicListItemControllerScreen({Key? key}) : super(key: key);
@@ -34,63 +35,87 @@ class MusicListItemControllerScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              CarouselSlider(
-                items: List.generate(snapshot.nexMusicList.length + 1, (index) {
-                  return Container(
-                    child: Column(
+              const Align(
+                child: MusicPlayerWidget(),
+                alignment: Alignment(0, 0),
+              ),
+              Align(
+                alignment: const Alignment(0, 1.5),
+                child: CarouselSlider(
+                  items: List.generate(snapshot.nexMusicList.length, (index) {
+                    return Column(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Stack(
-                            alignment: Alignment.center,
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
                             children: [
-                              Image.network(
-                                index == 0
-                                    ? snapshot.selectedMusicItem!.imageUrl
-                                    : snapshot.nexMusicList[index - 1].imageUrl,
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Theme.of(context).disabledColor,
-                                    width: 3,
-                                  ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.network(
+                                      snapshot.nexMusicList[index].imageUrl,
+                                      width: 150,
+                                      height: 150,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color:
+                                              Theme.of(context).disabledColor,
+                                          width: 3,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 140,
+                                      width: 140,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color:
+                                              Theme.of(context).disabledColor,
+                                          width: 2,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Container(
-                                height: 140,
-                                width: 140,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Theme.of(context).disabledColor,
-                                    width: 2,
-                                  ),
-                                ),
+                              Text(
+                                snapshot.nexMusicList[index].title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
                         ),
                       ],
-                    ),
-                  );
-                }),
-                options: CarouselOptions(
-                  pageSnapping: false,
-                  viewportFraction: 0.5,
-                  scrollPhysics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: false,
-                  padEnds: true,
+                    );
+                  }),
+                  options: CarouselOptions(
+                    aspectRatio: 1.0,
+                    pageSnapping: false,
+                    viewportFraction: 0.5,
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
+                    padEnds: true,
+                  ),
                 ),
               )
             ],

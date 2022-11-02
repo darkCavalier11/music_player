@@ -30,10 +30,7 @@ class MusicPlayerWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.circular(24),
                 child: FutureBuilder<PaletteGenerator>(
                     future: snapshot.selectedMusic?.imageUrl != null
                         ? PaletteGenerator.fromImageProvider(
@@ -55,9 +52,9 @@ class MusicPlayerWidget extends StatelessWidget {
                         duration: const Duration(seconds: 1),
                         width: MediaQuery.of(context).size.width,
                         height: 210,
-                        decoration: BoxDecoration(
-                          color: paletteSnapshot.data?.dominantColor?.color,
-                        ),
+                        // decoration: BoxDecoration(
+                        //   color: paletteSnapshot.data?.dominantColor?.color,
+                        // ),
                         child: Column(
                           children: [
                             Row(
@@ -77,7 +74,6 @@ class MusicPlayerWidget extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // Text('Hello'),
                                         SizedBox(
                                           height: 25,
                                           child: Marquee(
@@ -89,10 +85,9 @@ class MusicPlayerWidget extends StatelessWidget {
                                                 .textTheme
                                                 .bodyLarge
                                                 ?.copyWith(
-                                                    color: paletteSnapshot
-                                                        .data
-                                                        ?.dominantColor
-                                                        ?.titleTextColor),
+                                                  color: Theme.of(context)
+                                                      .disabledColor,
+                                                ),
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             blankSpace: 60.0,
@@ -107,12 +102,9 @@ class MusicPlayerWidget extends StatelessWidget {
                                               .textTheme
                                               .overline
                                               ?.copyWith(
-                                                  color: paletteSnapshot
-                                                          .data
-                                                          ?.dominantColor
-                                                          ?.titleTextColor ??
-                                                      Theme.of(context)
-                                                          .scaffoldBackgroundColor),
+                                                color: Theme.of(context)
+                                                    .disabledColor,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -133,7 +125,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                         icon: Icon(
                                           Iconsax.next,
                                           color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                              .selectedRowColor,
                                         ),
                                       ),
                                     ),

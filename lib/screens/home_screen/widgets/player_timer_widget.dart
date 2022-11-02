@@ -122,7 +122,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                         width: 15,
                                         height: 15,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context).canvasColor,
+                                          color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
@@ -159,7 +159,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             playerSnapshot.data?.formatDurationString() ?? '-',
                             style:
                                 Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      color: widget.textColor,
+                                      color: Theme.of(context).hintColor,
                                     ),
                           );
                         },
@@ -185,7 +185,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             playerSnapshot.data?.formatDurationString() ?? '-',
                             style:
                                 Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      color: widget.textColor,
+                                      color: Theme.of(context).hintColor,
                                     ),
                           );
                         },

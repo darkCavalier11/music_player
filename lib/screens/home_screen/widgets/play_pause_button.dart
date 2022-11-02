@@ -60,20 +60,19 @@ class PlayPauseButtonSet extends StatelessWidget {
                                     ? Icon(
                                         Iconsax.repeat,
                                         size: 25,
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color:
+                                            Theme.of(context).selectedRowColor,
                                       )
                                     : Icon(
                                         CupertinoIcons.pause,
                                         size: 25,
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color:
+                                            Theme.of(context).selectedRowColor,
                                       )
                                 : Icon(
                                     CupertinoIcons.play_circle,
                                     size: 25,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Theme.of(context).selectedRowColor,
                                   ),
                           ),
                         ),
