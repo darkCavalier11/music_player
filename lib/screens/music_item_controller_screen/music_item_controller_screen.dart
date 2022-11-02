@@ -43,8 +43,26 @@ class MusicListItemControllerScreen extends StatelessWidget {
                   alignment: Alignment(0, 0),
                 ),
               ),
+              const Align(
+                child: Divider(
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                alignment: Alignment(0, -0.2),
+              ),
+              const Align(
+                child: Divider(
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                alignment: Alignment(0, 0.2),
+              ),
+              const Align(
+                child: Text('Queue >>'),
+                alignment: Alignment(-0.8, 0.3),
+              ),
               Align(
-                alignment: const Alignment(0, 3.5),
+                alignment: const Alignment(0, 4),
                 child: CarouselSlider(
                   items: List.generate(snapshot.nexMusicList.length, (index) {
                     return Column(
