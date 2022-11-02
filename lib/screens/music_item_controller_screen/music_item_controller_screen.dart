@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -41,6 +42,18 @@ class MusicListItemControllerScreen extends StatelessWidget {
                 child: Align(
                   child: MusicPlayerWidget(),
                   alignment: Alignment(0, 0),
+                ),
+              ),
+              Align(
+                alignment: const Alignment(-0.9, -0.9),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.back,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               const Align(
