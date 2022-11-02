@@ -100,6 +100,28 @@ class MusicListItemControllerScreen extends StatelessWidget {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
+                              const Divider(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      snapshot.nexMusicList[index].author,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          Theme.of(context).textTheme.caption,
+                                    ),
+                                    flex: 4,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        snapshot.nexMusicList[index].duration),
+                                    flex: 1,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
