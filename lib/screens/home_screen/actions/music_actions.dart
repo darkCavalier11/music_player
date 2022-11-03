@@ -89,7 +89,6 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      log('$clearEarlierPlaylist');
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
@@ -99,7 +98,8 @@ class PlayAudioAction extends ReduxAction<AppState> {
       }
       // * fetching music url
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
-      if (state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
+      if (clearEarlierPlaylist == true ||
+          state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
         // * fetch next list based on suggestions
         await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
       }
@@ -116,7 +116,8 @@ class PlayAudioAction extends ReduxAction<AppState> {
       );
 
       // * add item to local db
-      if (state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
+      if (clearEarlierPlaylist == true ||
+          state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
         dispatch(SetPlaylistAction(playlist: _playlist));
       }
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
