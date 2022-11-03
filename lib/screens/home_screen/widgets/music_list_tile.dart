@@ -20,11 +20,13 @@ class MusicListTile extends StatefulWidget {
   final bool? isPlaylist;
   // if this is a secondary musictile then long tap will be disabled
   final bool? isSecondary;
+  final bool? clearEarlierPlaylist;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isPlaylist,
     this.isSecondary,
+    this.clearEarlierPlaylist,
   }) : super(key: key);
 
   @override
@@ -81,7 +83,10 @@ class _MusicListTileState extends State<MusicListTile> {
                         snapshot.pauseMusic();
                       } else if (widget.selectedMusic.musicId !=
                           snapshot.currentMusic?.musicId) {
-                        snapshot.playMusic(widget.selectedMusic);
+                        snapshot.playMusic(
+                          widget.selectedMusic,
+                          widget.clearEarlierPlaylist,
+                        );
                       } else {
                         snapshot.resumeMusic();
                       }
@@ -201,7 +206,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem) playMusic;
+  final Future<void> Function(MusicItem, bool?) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -262,9 +267,12 @@ class _Factory extends VmFactory<AppState, _MusicListTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (mediaItem) async {
+      playMusic: (mediaItem, clearEarlierPlaylist) async {
         await dispatch(
-          PlayAudioAction(musicItem: mediaItem),
+          PlayAudioAction(
+            musicItem: mediaItem,
+            clearEarlierPlaylist: clearEarlierPlaylist,
+          ),
         );
       },
       currentMusic: state.audioPlayerState.selectedMusic,

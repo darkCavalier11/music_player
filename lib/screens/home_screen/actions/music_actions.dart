@@ -72,13 +72,19 @@ class SetPlaylistAction extends ReduxAction<AppState> {
   }
 }
 
-// It loads the url of the music item and the fetch next music items(not urls) based on this url
-// the next item are saved on the currentPlaylistItems. Only the current music item and first one of the
+// It loads the url of the music item and the fetch next music items(not urls) based on this url if
+// a playlist not present already
+// the next item along with current item
+// are saved on the currentPlaylistItems.
+// Only the current music item and first one of the
 // currentPlaylistItems added to the current playlist.
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
+  // when tapping on a new music item this should be cleared and next set of music items need to be loaded
+  final bool? clearEarlierPlaylist;
   PlayAudioAction({
     required this.musicItem,
+    this.clearEarlierPlaylist,
   });
   @override
   Future<AppState?> reduce() async {
@@ -87,8 +93,9 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
-
-      // await state.audioPlayerState.currentJustAudioPlaylist.clear();
+      if (clearEarlierPlaylist == true) {
+        await state.audioPlayerState.currentJustAudioPlaylist.clear();
+      }
       // * fetching music url
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
       if (state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {

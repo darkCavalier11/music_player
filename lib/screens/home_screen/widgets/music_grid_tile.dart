@@ -246,7 +246,9 @@ class _Factory extends VmFactory<AppState, _MusicGridTileState> {
           state.audioPlayerState.audioPlayer.processingStateStream,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(musicItem: mediaItem),
+          PlayAudioAction(
+            musicItem: mediaItem,
+          ),
         );
       },
       currentMusic: state.audioPlayerState.selectedMusic,
