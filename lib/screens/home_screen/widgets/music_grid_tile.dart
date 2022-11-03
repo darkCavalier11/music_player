@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,9 +17,15 @@ import 'music_item_selected_screen.dart';
 
 class MusicGridTile extends StatefulWidget {
   final MusicItem selectedMusic;
+  // if this is a secondary musictile then long tap will be disabled
+  final bool? isSecondary;
+  // if the current music item is not a part of current playlist, should be cleared
+  final bool? clearEarlierPlaylist;
   const MusicGridTile({
     Key? key,
+    this.isSecondary,
     required this.selectedMusic,
+    this.clearEarlierPlaylist,
   }) : super(key: key);
 
   @override
@@ -54,25 +61,28 @@ class _MusicGridTileState extends State<MusicGridTile> {
                   }
                   return InkWell(
                     borderRadius: BorderRadius.circular(18),
-                    onLongPress: () async {
-                      RenderBox box =
-                          _key.currentContext?.findRenderObject() as RenderBox;
-                      await Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (context, _, __) {
-                            final _offset = box.localToGlobal(Offset.zero);
-                            return MusicItemSelectedScreen(
-                              musicItemTileType: MusicItemTileType.grid,
-                              musicItem: widget.selectedMusic,
-                              offset: _offset.dy < 0
-                                  ? Offset(_offset.dx, 50)
-                                  : _offset,
+                    onLongPress: widget.isSecondary == null
+                        ? null
+                        : () async {
+                            RenderBox box = _key.currentContext
+                                ?.findRenderObject() as RenderBox;
+                            await Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (context, _, __) {
+                                  final _offset =
+                                      box.localToGlobal(Offset.zero);
+                                  return MusicItemSelectedScreen(
+                                    musicItemTileType: MusicItemTileType.grid,
+                                    musicItem: widget.selectedMusic,
+                                    offset: _offset.dy < 0
+                                        ? Offset(_offset.dx, 50)
+                                        : _offset,
+                                  );
+                                },
+                              ),
                             );
                           },
-                        ),
-                      );
-                    },
                     onTap: () async {
                       if (isPlayingSnapshot.data! &&
                           widget.selectedMusic.musicId ==
@@ -80,7 +90,7 @@ class _MusicGridTileState extends State<MusicGridTile> {
                         snapshot.pauseMusic();
                       } else if (widget.selectedMusic.musicId !=
                           snapshot.currentMusic?.musicId) {
-                        snapshot.playMusic(widget.selectedMusic);
+                        snapshot.playMusic(widget.selectedMusic, true);
                       } else {
                         snapshot.resumeMusic();
                       }
@@ -183,7 +193,7 @@ class _MusicGridTileState extends State<MusicGridTile> {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem) playMusic;
+  final Future<void> Function(MusicItem, bool?) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -244,10 +254,11 @@ class _Factory extends VmFactory<AppState, _MusicGridTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (mediaItem) async {
+      playMusic: (mediaItem, clearEarlierPlaylist) async {
         await dispatch(
           PlayAudioAction(
             musicItem: mediaItem,
+            clearEarlierPlaylist: clearEarlierPlaylist,
           ),
         );
       },

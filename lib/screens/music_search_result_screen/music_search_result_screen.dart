@@ -91,6 +91,7 @@ class MusicSearchResultScreen extends StatelessWidget {
                               children: [
                                 MusicListTile(
                                   selectedMusic: e,
+                                  clearEarlierPlaylist: true,
                                 ),
                                 const Divider(),
                               ],

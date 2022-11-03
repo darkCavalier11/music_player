@@ -103,9 +103,13 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                 child: widget.musicItemTileType ==
                                         MusicItemTileType.grid
                                     ? MusicGridTile(
-                                        selectedMusic: widget.musicItem)
+                                        selectedMusic: widget.musicItem,
+                                        isSecondary: true,
+                                      )
                                     : MusicListTile(
-                                        selectedMusic: widget.musicItem),
+                                        selectedMusic: widget.musicItem,
+                                        isSecondary: true,
+                                      ),
                                 builder: (context, value, child) => Container(
                                   margin: EdgeInsets.symmetric(
                                       horizontal: widget.musicItemTileType ==

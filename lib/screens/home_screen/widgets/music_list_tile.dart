@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,13 @@ import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatefulWidget {
   final MusicItem selectedMusic;
-  final bool? isPlaylist;
   // if this is a secondary musictile then long tap will be disabled
   final bool? isSecondary;
+  // if the current music item is not a part of playlist, should be cleared
   final bool? clearEarlierPlaylist;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
-    this.isPlaylist,
     this.isSecondary,
     this.clearEarlierPlaylist,
   }) : super(key: key);
@@ -101,18 +101,7 @@ class _MusicListTileState extends State<MusicListTile> {
                                 imageUrl: widget.selectedMusic.imageUrl,
                               ),
                             ),
-                            if (widget.isPlaylist ?? false)
-                              const Positioned(
-                                top: 15,
-                                left: 15,
-                                child: CircleAvatar(
-                                  maxRadius: 10,
-                                  child: Icon(
-                                    Icons.playlist_play,
-                                    size: 15,
-                                  ),
-                                ),
-                              )
+                            
                           ],
                         ),
                         Expanded(
