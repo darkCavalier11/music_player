@@ -22,21 +22,21 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
       if (index == null) {
         return;
       }
-      // * get the current music item that will be played
+      // // * get the current music item that will be played
 
-      final currentMusicItem = MusicItem.fromMediaItem(state
-          .audioPlayerState
-          .currentJustAudioPlaylist
-          .children[index]
-          .sequence
-          .first
-          .tag as MediaItem);
-      dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: currentMusicItem));
-      if (index ==
-          state.audioPlayerState.currentJustAudioPlaylist.children.length - 1) {
-        dispatch(GetNextMusicUrlAndAddToPlaylistAction());
-      }
+      // final currentMusicItem = MusicItem.fromMediaItem(state
+      //     .audioPlayerState
+      //     .currentJustAudioPlaylist
+      //     .children[index]
+      //     .sequence
+      //     .first
+      //     .tag as MediaItem);
+      // dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
+      // dispatch(AddItemToRecentlyPlayedList(musicItem: currentMusicItem));
+      // if (index ==
+      //     state.audioPlayerState.currentJustAudioPlaylist.children.length - 1) {
+      //   dispatch(GetNextMusicUrlAndAddToPlaylistAction());
+      // }
     });
     return null;
   }
@@ -127,7 +127,14 @@ class PlayAudioAction extends ReduxAction<AppState> {
             tag: musicItem.toMediaItem(),
           ),
         );
-        state.audioPlayerState.audioPlayer.seekToNext();
+        state.audioPlayerState.audioPlayer.seek(const Duration(seconds: 0),
+            index: state.audioPlayerState.currentJustAudioPlaylist.length - 1);
+        dispatch(
+          _SetMusicItemMetaDataLoadingStateAction(
+            loadingState: LoadingState.idle,
+          ),
+        );
+        state.audioPlayerState.audioPlayer.play();
       }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
@@ -165,7 +172,6 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
     try {
       final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
-
       return state.copyWith(
         audioPlayerState: state.audioPlayerState.copyWith(
           currentPlaylistItems: [musicItem, ...currentPlaylistItems],
