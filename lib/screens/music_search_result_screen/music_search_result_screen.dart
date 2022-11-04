@@ -91,6 +91,7 @@ class MusicSearchResultScreen extends StatelessWidget {
                               children: [
                                 MusicListTile(
                                   selectedMusic: e,
+                                  clearEarlierPlaylist: true,
                                 ),
                                 const Divider(),
                               ],
@@ -130,7 +131,10 @@ class _Factory extends VmFactory<AppState, MusicSearchResultScreen> {
       searchResultMusicItems: state.searchState.searchResultMusicItems,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(musicItem: mediaItem),
+          PlayAudioAction(
+            musicItem: mediaItem,
+            clearEarlierPlaylist: true,
+          ),
         );
       },
     );

@@ -70,6 +70,8 @@ class HomeScreen extends StatelessWidget {
                         itemBuilder: (context, idx) {
                           return MusicGridTile(
                             selectedMusic: snapshot.recentlyPlayedList[idx],
+                            isSecondary: false,
+                            clearEarlierPlaylist: true,
                           );
                         },
                         itemCount: snapshot.recentlyPlayedList.take(5).length,
@@ -79,7 +81,6 @@ class HomeScreen extends StatelessWidget {
                       buttonText: 'See More',
                       trailingIcon: CupertinoIcons.arrow_right,
                       onTap: () {
-                        log('message');
                         Navigator.of(context).pushNamed(
                             RecentlyPlayedScreen.recentlyPlayedScreen);
                       },
@@ -98,6 +99,7 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             MusicListTile(
                               selectedMusic: e,
+                              clearEarlierPlaylist: true,
                             ),
                             const Divider(
                               endIndent: 50,
@@ -238,7 +240,10 @@ class _Factory extends VmFactory<AppState, HomeScreen> {
       homeScreenMusicList: state.homePageState.homePageMusicList,
       playMusic: (mediaItem) async {
         await dispatch(
-          PlayAudioAction(musicItem: mediaItem),
+          PlayAudioAction(
+            musicItem: mediaItem,
+            clearEarlierPlaylist: true,
+          ),
         );
       },
     );

@@ -70,9 +70,19 @@ class MusicListItemControllerScreen extends StatelessWidget {
                 ),
                 alignment: Alignment(0, 0.2),
               ),
-              const Align(
-                child: Text('Queue >>'),
-                alignment: Alignment(-0.8, 0.3),
+              Align(
+                child: Container(
+                  child: const Text('Queue >>'),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                alignment: const Alignment(-0.8, 0.3),
               ),
               Align(
                 alignment: const Alignment(0, 4),
@@ -206,7 +216,7 @@ class _Factory extends VmFactory<AppState, MusicListItemControllerScreen> {
       playAudio: (musicItem) async {
         dispatch(PlayAudioAction(musicItem: musicItem));
       },
-      nexMusicList: state.audioPlayerState.nextMusicList,
+      nexMusicList: state.audioPlayerState.currentPlaylistItems,
       selectedMusicItem: state.audioPlayerState.selectedMusic,
     );
   }

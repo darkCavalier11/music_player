@@ -9,24 +9,24 @@ import 'package:music_player/redux/models/search_state.dart';
 class AudioPlayerState {
   final AudioPlayer audioPlayer;
   final MusicItem? selectedMusic;
-  final List<MusicItem> nextMusicList;
-  final ConcatenatingAudioSource currentPlaylist;
+  final List<MusicItem> currentPlaylistItems;
+  final ConcatenatingAudioSource currentJustAudioPlaylist;
   // This loading state is required to keep track when the music item actually fetching the
   // music url. In that time this chages to loading and enhances the feedback for the user.
   final LoadingState musicItemMetaDataLoadingState;
   AudioPlayerState({
     required this.audioPlayer,
     this.selectedMusic,
-    required this.nextMusicList,
-    required this.currentPlaylist,
+    required this.currentPlaylistItems,
+    required this.currentJustAudioPlaylist,
     required this.musicItemMetaDataLoadingState,
   });
 
   factory AudioPlayerState.initial() {
     return AudioPlayerState(
       audioPlayer: AudioPlayer(),
-      nextMusicList: [],
-      currentPlaylist: ConcatenatingAudioSource(children: []),
+      currentPlaylistItems: [],
+      currentJustAudioPlaylist: ConcatenatingAudioSource(children: []),
       musicItemMetaDataLoadingState: LoadingState.idle,
     );
   }
@@ -34,15 +34,15 @@ class AudioPlayerState {
   AudioPlayerState copyWith({
     AudioPlayer? audioPlayer,
     MusicItem? selectedMusic,
-    List<MusicItem>? nextMusicList,
-    ConcatenatingAudioSource? currentPlaylist,
+    List<MusicItem>? currentPlaylistItems,
+    ConcatenatingAudioSource? currentJustAudioPlaylist,
     LoadingState? musicItemMetaDataLoadingState,
   }) {
     return AudioPlayerState(
       audioPlayer: audioPlayer ?? this.audioPlayer,
       selectedMusic: selectedMusic ?? this.selectedMusic,
-      nextMusicList: nextMusicList ?? this.nextMusicList,
-      currentPlaylist: currentPlaylist ?? this.currentPlaylist,
+      currentPlaylistItems: currentPlaylistItems ?? this.currentPlaylistItems,
+      currentJustAudioPlaylist: currentJustAudioPlaylist ?? this.currentJustAudioPlaylist,
       musicItemMetaDataLoadingState:
           musicItemMetaDataLoadingState ?? this.musicItemMetaDataLoadingState,
     );
@@ -54,8 +54,8 @@ class AudioPlayerState {
 
     return other.audioPlayer == audioPlayer &&
         other.selectedMusic == selectedMusic &&
-        listEquals(other.nextMusicList, nextMusicList) &&
-        other.currentPlaylist == currentPlaylist &&
+        listEquals(other.currentPlaylistItems, currentPlaylistItems) &&
+        other.currentJustAudioPlaylist == currentJustAudioPlaylist &&
         other.musicItemMetaDataLoadingState == musicItemMetaDataLoadingState;
   }
 
@@ -63,14 +63,14 @@ class AudioPlayerState {
   int get hashCode {
     return audioPlayer.hashCode ^
         selectedMusic.hashCode ^
-        nextMusicList.hashCode ^
-        currentPlaylist.hashCode ^
+        currentPlaylistItems.hashCode ^
+        currentJustAudioPlaylist.hashCode ^
         musicItemMetaDataLoadingState.hashCode;
   }
 
   @override
   String toString() {
-    return 'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusic: $selectedMusic, nextMusicList: $nextMusicList, currentPlaylist: $currentPlaylist, musicItemMetaDataLoadingState: $musicItemMetaDataLoadingState)';
+    return 'AudioPlayerState(audioPlayer: $audioPlayer, selectedMusic: $selectedMusic, currentPlaylistItems: $currentPlaylistItems, currentJustAudioPlaylist: $currentJustAudioPlaylist, musicItemMetaDataLoadingState: $musicItemMetaDataLoadingState)';
   }
 }
 
