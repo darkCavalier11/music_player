@@ -93,46 +93,42 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
-      if (clearEarlierPlaylist == true) {
-        await state.audioPlayerState.currentJustAudioPlaylist.clear();
-      }
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
+
       // * fetching music url
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
-      if (clearEarlierPlaylist == true ||
-          state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
+
+      // if the tapped music item is not a playlist item
+      if (clearEarlierPlaylist == true) {
         // * fetch next list based on suggestions
         await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
-      }
+        final _playlist = ConcatenatingAudioSource(
+          children: [
+            AudioSource.uri(
+              url,
+              tag: musicItem.toMediaItem(),
+            ),
+          ],
+        );
+        dispatch(SetPlaylistAction(playlist: _playlist));
 
-      dispatch(_SetMusicItemMetaDataLoadingStateAction(
-          loadingState: LoadingState.idle));
-      final _playlist = ConcatenatingAudioSource(
-        children: [
+        await state.audioPlayerState.audioPlayer
+            .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
+        dispatch(
+          _SetMusicItemMetaDataLoadingStateAction(
+            loadingState: LoadingState.idle,
+          ),
+        );
+        state.audioPlayerState.audioPlayer.play();
+      } else {
+        state.audioPlayerState.currentJustAudioPlaylist.add(
           AudioSource.uri(
             url,
             tag: musicItem.toMediaItem(),
           ),
-        ],
-      );
-
-      // * add item to local db
-      if (clearEarlierPlaylist == true ||
-          state.audioPlayerState.currentJustAudioPlaylist.children.isEmpty) {
-        dispatch(SetPlaylistAction(playlist: _playlist));
+        );
+        state.audioPlayerState.audioPlayer.seekToNext();
       }
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
-      await state.audioPlayerState.audioPlayer
-          .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
-      await state.audioPlayerState.audioPlayer.play();
-
-      final nextUrl = await ParserHelper.getMusicItemUrl(
-          state.audioPlayerState.currentPlaylistItems[1].musicId);
-      state.audioPlayerState.currentJustAudioPlaylist.add(
-        AudioSource.uri(
-          nextUrl,
-          tag: state.audioPlayerState.currentPlaylistItems.first.toMediaItem(),
-        ),
-      );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       Fluttertoast.showToast(msg: "Error loading music, try again!");
@@ -169,6 +165,7 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
     try {
       final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
+
       return state.copyWith(
         audioPlayerState: state.audioPlayerState.copyWith(
           currentPlaylistItems: [musicItem, ...currentPlaylistItems],
