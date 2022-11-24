@@ -41,7 +41,9 @@ class ParserHelper {
           if (musicItem['content']['videoRenderer'] != null) {
             homeScreenMusicItems.add(
                 MusicItem.fromApiJson(musicItem['content']['videoRenderer']));
-          } else {}
+          } else {
+            // todo : add playlist rendering
+          }
         }
       }
       return homeScreenMusicItems;
