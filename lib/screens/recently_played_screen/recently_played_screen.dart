@@ -59,6 +59,7 @@ class RecentlyPlayedScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return MusicListTile(
                       selectedMusic: snapshot.recentlyPlayedList[index],
+                      clearEarlierPlaylist: true,
                     );
                   },
                   itemCount: snapshot.recentlyPlayedList.length,

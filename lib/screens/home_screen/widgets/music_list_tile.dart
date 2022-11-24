@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,15 @@ import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatefulWidget {
   final MusicItem selectedMusic;
-  final bool? isPlaylist;
   // if this is a secondary musictile then long tap will be disabled
   final bool? isSecondary;
+  // if the current music item is not a part of playlist, should be cleared
+  final bool? clearEarlierPlaylist;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
-    this.isPlaylist,
     this.isSecondary,
+    this.clearEarlierPlaylist,
   }) : super(key: key);
 
   @override
@@ -81,7 +83,10 @@ class _MusicListTileState extends State<MusicListTile> {
                         snapshot.pauseMusic();
                       } else if (widget.selectedMusic.musicId !=
                           snapshot.currentMusic?.musicId) {
-                        snapshot.playMusic(widget.selectedMusic);
+                        snapshot.playMusic(
+                          widget.selectedMusic,
+                          widget.clearEarlierPlaylist,
+                        );
                       } else {
                         snapshot.resumeMusic();
                       }
@@ -96,18 +101,7 @@ class _MusicListTileState extends State<MusicListTile> {
                                 imageUrl: widget.selectedMusic.imageUrl,
                               ),
                             ),
-                            if (widget.isPlaylist ?? false)
-                              const Positioned(
-                                top: 15,
-                                left: 15,
-                                child: CircleAvatar(
-                                  maxRadius: 10,
-                                  child: Icon(
-                                    Icons.playlist_play,
-                                    size: 15,
-                                  ),
-                                ),
-                              )
+                            
                           ],
                         ),
                         Expanded(
@@ -201,7 +195,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem) playMusic;
+  final Future<void> Function(MusicItem, bool?) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -262,9 +256,12 @@ class _Factory extends VmFactory<AppState, _MusicListTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (mediaItem) async {
+      playMusic: (mediaItem, clearEarlierPlaylist) async {
         await dispatch(
-          PlayAudioAction(musicItem: mediaItem),
+          PlayAudioAction(
+            musicItem: mediaItem,
+            clearEarlierPlaylist: clearEarlierPlaylist,
+          ),
         );
       },
       currentMusic: state.audioPlayerState.selectedMusic,

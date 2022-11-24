@@ -22,15 +22,21 @@ class InitMusicPlayerAction extends ReduxAction<AppState> {
       if (index == null) {
         return;
       }
-      // * get the current music item that will be played
+      // // * get the current music item that will be played
 
-      final currentMusicItem = MusicItem.fromMediaItem(state.audioPlayerState
-          .currentPlaylist.children[index].sequence.first.tag as MediaItem);
-      dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: currentMusicItem));
-      if (index == state.audioPlayerState.currentPlaylist.children.length - 1) {
-        dispatch(GetNextMusicUrlAndAddToPlaylistAction());
-      }
+      // final currentMusicItem = MusicItem.fromMediaItem(state
+      //     .audioPlayerState
+      //     .currentJustAudioPlaylist
+      //     .children[index]
+      //     .sequence
+      //     .first
+      //     .tag as MediaItem);
+      // dispatch(_SetMediaItemStateAction(selectedMusic: currentMusicItem));
+      // dispatch(AddItemToRecentlyPlayedList(musicItem: currentMusicItem));
+      // if (index ==
+      //     state.audioPlayerState.currentJustAudioPlaylist.children.length - 1) {
+      //   dispatch(GetNextMusicUrlAndAddToPlaylistAction());
+      // }
     });
     return null;
   }
@@ -60,19 +66,25 @@ class SetPlaylistAction extends ReduxAction<AppState> {
   AppState reduce() {
     return state.copyWith(
       audioPlayerState: state.audioPlayerState.copyWith(
-        currentPlaylist: playlist,
+        currentJustAudioPlaylist: playlist,
       ),
     );
   }
 }
 
-// It loads the url of the music item and the fetch next music items(not urls) based on this url
-// the next item are saved on the nextMusicList. Only the current music item and first one of the
-// nextMusicList added to the current playlist.
+// It loads the url of the music item and the fetch next music items(not urls) based on this url if
+// a playlist not present already
+// the next item along with current item
+// are saved on the currentPlaylistItems.
+// Only the current music item and first one of the
+// currentPlaylistItems added to the current playlist.
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
+  // when tapping on a new music item this should be cleared and next set of music items need to be loaded
+  final bool? clearEarlierPlaylist;
   PlayAudioAction({
     required this.musicItem,
+    this.clearEarlierPlaylist,
   });
   @override
   Future<AppState?> reduce() async {
@@ -81,41 +93,49 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       dispatch(_SetMediaItemStateAction(selectedMusic: musicItem));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
 
-      await state.audioPlayerState.currentPlaylist.clear();
       // * fetching music url
       final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
 
-      // * fetch next list based on suggestions
-      await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
+      // if the tapped music item is not a playlist item
+      if (clearEarlierPlaylist == true) {
+        // * fetch next list based on suggestions
+        await dispatch(FetchMusicListFromMusicId(musicItem: musicItem));
+        final _playlist = ConcatenatingAudioSource(
+          children: [
+            AudioSource.uri(
+              url,
+              tag: musicItem.toMediaItem(),
+            ),
+          ],
+        );
+        dispatch(SetPlaylistAction(playlist: _playlist));
 
-      dispatch(_SetMusicItemMetaDataLoadingStateAction(
-          loadingState: LoadingState.idle));
-      final _playlist = ConcatenatingAudioSource(
-        children: [
+        await state.audioPlayerState.audioPlayer
+            .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
+        dispatch(
+          _SetMusicItemMetaDataLoadingStateAction(
+            loadingState: LoadingState.idle,
+          ),
+        );
+        state.audioPlayerState.audioPlayer.play();
+      } else {
+        state.audioPlayerState.currentJustAudioPlaylist.add(
           AudioSource.uri(
             url,
             tag: musicItem.toMediaItem(),
           ),
-        ],
-      );
-
-      // * add item to local db
-
-      dispatch(SetPlaylistAction(playlist: _playlist));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
-      await state.audioPlayerState.audioPlayer
-          .setAudioSource(state.audioPlayerState.currentPlaylist);
-      await state.audioPlayerState.audioPlayer.play();
-
-      final nextUrl = await ParserHelper.getMusicItemUrl(
-          state.audioPlayerState.nextMusicList[0].musicId);
-      state.audioPlayerState.currentPlaylist.add(
-        AudioSource.uri(
-          nextUrl,
-          tag: state.audioPlayerState.nextMusicList.first.toMediaItem(),
-        ),
-      );
+        );
+        state.audioPlayerState.audioPlayer.seek(const Duration(seconds: 0),
+            index: state.audioPlayerState.currentJustAudioPlaylist.length - 1);
+        dispatch(
+          _SetMusicItemMetaDataLoadingStateAction(
+            loadingState: LoadingState.idle,
+          ),
+        );
+        state.audioPlayerState.audioPlayer.play();
+      }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       Fluttertoast.showToast(msg: "Error loading music, try again!");
@@ -141,7 +161,7 @@ class _SetMusicItemMetaDataLoadingStateAction extends ReduxAction<AppState> {
   }
 }
 
-// set the nextMusicList based on the current music item.
+// set the currentPlaylistItems based on the current music item.
 class FetchMusicListFromMusicId extends ReduxAction<AppState> {
   final MusicItem musicItem;
   FetchMusicListFromMusicId({
@@ -150,11 +170,11 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final nextMusicList =
+      final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
       return state.copyWith(
         audioPlayerState: state.audioPlayerState.copyWith(
-          nextMusicList: nextMusicList,
+          currentPlaylistItems: [musicItem, ...currentPlaylistItems],
         ),
       );
     } catch (err) {
@@ -173,9 +193,9 @@ class StopAudioAction extends ReduxAction<AppState> {
 }
 
 // When the next button is clicked on UI or on the background this action
-// nextMusicList based on the current music item to be played and load the url
-// for first music item in the nextMusicList. This way new music item will be added
-// to the current playlist and nextMusicList will hold the suggestion for
+// currentPlaylistItems based on the current music item to be played and load the url
+// for first music item in the currentPlaylistItems. This way new music item will be added
+// to the current playlist and currentPlaylistItems will hold the suggestion for
 // currently playing item.
 class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
   @override
@@ -187,9 +207,9 @@ class GetNextMusicUrlAndAddToPlaylistAction extends ReduxAction<AppState> {
       }
       await dispatch(FetchMusicListFromMusicId(musicItem: currentMusicItem));
 
-      final nextMusicItem = state.audioPlayerState.nextMusicList.first;
+      final nextMusicItem = state.audioPlayerState.currentPlaylistItems.first;
       final url = await ParserHelper.getMusicItemUrl(currentMusicItem.musicId);
-      await state.audioPlayerState.currentPlaylist
+      await state.audioPlayerState.currentJustAudioPlaylist
           .add(AudioSource.uri(url, tag: nextMusicItem.toMediaItem()));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
