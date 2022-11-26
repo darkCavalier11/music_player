@@ -12,6 +12,10 @@ import '../../url.dart';
 
 class ParserHelper {
   static late MusicFilterPayloadModel musicFilterPayload;
+
+  /// when getting home screen music items , it will send the continuations
+  /// string key for sending as a payload to get next set of music items
+  String? homeScreenNextContinuationKey;
   static Future<void> init() async {
     final dbRes = await AppDatabse.getQuery(DbKeys.context);
     if (dbRes != null) {
