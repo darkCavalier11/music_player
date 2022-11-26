@@ -27,8 +27,34 @@ class ParserHelper {
         DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
   }
 
-  // load the list of music for home screen at the beginning
   static Future<List<MusicItem>> getHomeScreenMusic() async {
+    try {
+      return _getHomeScreenMusicHelper({
+        'context': musicFilterPayload.context.toJson(),
+        'continuation': musicFilterPayload.continuation
+      });
+    } catch (err) {
+      throw Error.safeToString(err);
+    }
+  }
+
+  static Future<List<MusicItem>> getNextMusicListForHomeScreen() async {
+    try {
+      if (homeScreenNextContinuationKey == null) {
+        return [];
+      }
+      return _getHomeScreenMusicHelper({
+        'context': musicFilterPayload.context.toJson(),
+        'continuation': homeScreenNextContinuationKey,
+      });
+    } catch (err) {
+      throw Error.safeToString(err);
+    }
+  }
+
+  // load the list of music for home screen at the beginning
+  static Future<List<MusicItem>> _getHomeScreenMusicHelper(
+      dynamic payload) async {
     try {
       final res =
           await ApiRequest.post(AppUrl.browseUrl(musicFilterPayload.apiKey), {
