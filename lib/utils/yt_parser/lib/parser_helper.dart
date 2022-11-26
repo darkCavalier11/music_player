@@ -15,7 +15,7 @@ class ParserHelper {
 
   /// when getting home screen music items , it will send the continuations
   /// string key for sending as a payload to get next set of music items
-  String? homeScreenNextContinuationKey;
+  static String? homeScreenNextContinuationKey;
   static Future<void> init() async {
     final dbRes = await AppDatabse.getQuery(DbKeys.context);
     if (dbRes != null) {
@@ -39,6 +39,8 @@ class ParserHelper {
       final items = json['onResponseReceivedActions'][0]
           ['reloadContinuationItemsCommand']['continuationItems'] as List;
       final List<MusicItem> homeScreenMusicItems = [];
+      homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
+          ?["continuationEndpoint"]?["continuationCommand"]?["token"];
       for (var item in items) {
         final musicItem = item['richItemRenderer'];
         if (musicItem != null && musicItem['content'] != null) {
