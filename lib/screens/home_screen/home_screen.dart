@@ -14,6 +14,7 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
+import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -23,8 +24,21 @@ import '../home_screen/widgets/music_list_tile.dart';
 import '../music_search_screen/music_search_screen.dart';
 import 'actions/music_actions.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +52,16 @@ class HomeScreen extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           body: RefreshIndicator(
-            onRefresh: () async {},
+            onRefresh: () async {
+              // todo: add refresh
+            },
             color: Theme.of(context).primaryColor,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
+              controller: _scrollController
+                ..addListener(() {
+                  if (_scrollController.position.atEdge) {}
+                }),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -188,6 +208,7 @@ class _ViewModel extends Vm {
   final List<MusicItem> homeScreenMusicList;
   final List<MusicItem> recentlyPlayedList;
   final void Function(MusicItem) playMusic;
+  final void Function() getNextMusicListForHomeScreen;
   _ViewModel({
     required this.audioPlayer,
     required this.uiState,
@@ -195,6 +216,7 @@ class _ViewModel extends Vm {
     required this.homeScreenMusicList,
     required this.playMusic,
     required this.recentlyPlayedList,
+    required this.getNextMusicListForHomeScreen,
   }) : super(equals: [
           uiState,
           audioPlayer,
@@ -221,7 +243,7 @@ class _ViewModel extends Vm {
   }
 }
 
-class _Factory extends VmFactory<AppState, HomeScreen> {
+class _Factory extends VmFactory<AppState, _HomeScreenState> {
   _Factory(widget) : super(widget);
 
   @override
@@ -230,6 +252,10 @@ class _Factory extends VmFactory<AppState, HomeScreen> {
       recentlyPlayedList: state.homePageState.recentlyPlayedMusicList,
       audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
+      getNextMusicListForHomeScreen: () {
+        final homeScreenNextMusicList = ParserHelper.getNextMusicListForHomeScreen();
+        
+      },
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {
           dispatch(ChangeThemeAction(themeMode: ThemeMode.light));
