@@ -106,6 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ],
+                  TextButton(
+                    onPressed: () {
+                      snapshot.getNextMusicListForHomeScreen();
+                    },
+                    child: Text('hello'),
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     child: AppHeaderText(
@@ -253,8 +259,7 @@ class _Factory extends VmFactory<AppState, _HomeScreenState> {
       audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
       getNextMusicListForHomeScreen: () {
-        final homeScreenNextMusicList = ParserHelper.getNextMusicListForHomeScreen();
-        
+        dispatch(GetNextMusicListForHomeScreenAction());
       },
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {

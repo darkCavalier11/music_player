@@ -39,6 +39,8 @@ class ParserHelper {
   }
 
   static Future<List<MusicItem>> getNextMusicListForHomeScreen() async {
+    log('$homeScreenNextContinuationKey');
+    log('${musicFilterPayload.continuation}');
     try {
       if (homeScreenNextContinuationKey == null) {
         return [];
@@ -67,6 +69,7 @@ class ParserHelper {
       final List<MusicItem> homeScreenMusicItems = [];
       homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
           ?["continuationEndpoint"]?["continuationCommand"]?["token"];
+
       for (var item in items) {
         final musicItem = item['richItemRenderer'];
         if (musicItem != null && musicItem['content'] != null) {

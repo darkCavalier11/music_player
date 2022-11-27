@@ -42,3 +42,21 @@ class _SetHomeScreenLoadingAction extends ReduxAction<AppState> {
     );
   }
 }
+
+class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final homeScreenNextMusicList =
+          await ParserHelper.getNextMusicListForHomeScreen();
+      return state.copyWith(
+        homePageState: state.homePageState.copyWith(
+          homePageMusicList: state.homePageState.homePageMusicList
+            ..addAll(homeScreenNextMusicList),
+        ),
+      );
+    } catch (err) {
+      log('GetNextMusicListForHomeScreenAction -> $err');
+    }
+  }
+}
