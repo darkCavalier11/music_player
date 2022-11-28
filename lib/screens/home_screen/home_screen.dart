@@ -60,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const BouncingScrollPhysics(),
               controller: _scrollController
                 ..addListener(() {
-                  if (_scrollController.position.atEdge) {}
+                  if (_scrollController.position.atEdge) {
+                    snapshot.getNextMusicListForHomeScreen();
+                  }
                 }),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,12 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ],
-                  TextButton(
-                    onPressed: () {
-                      snapshot.getNextMusicListForHomeScreen();
-                    },
-                    child: Text('hello'),
-                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     child: AppHeaderText(

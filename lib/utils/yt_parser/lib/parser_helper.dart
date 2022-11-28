@@ -39,8 +39,6 @@ class ParserHelper {
   }
 
   static Future<List<MusicItem>> getNextMusicListForHomeScreen() async {
-    log('$homeScreenNextContinuationKey');
-    log('${musicFilterPayload.continuation}');
     try {
       if (homeScreenNextContinuationKey == null) {
         return [];
@@ -48,7 +46,7 @@ class ParserHelper {
       return _getHomeScreenMusicHelper({
         'context': musicFilterPayload.context.toJson(),
         'continuation': homeScreenNextContinuationKey,
-      });
+      }, fetchingNextList: true);
     } catch (err) {
       throw Error.safeToString(err);
     }
@@ -56,20 +54,16 @@ class ParserHelper {
 
   // load the list of music for home screen at the beginning
   static Future<List<MusicItem>> _getHomeScreenMusicHelper(
-      dynamic payload) async {
+      dynamic payload, {bool fetchingNextList = false}) async {
     try {
-      final res =
-          await ApiRequest.post(AppUrl.browseUrl(musicFilterPayload.apiKey), {
-        'context': musicFilterPayload.context.toJson(),
-        'continuation': musicFilterPayload.continuation
-      });
+      final res = await ApiRequest.post(
+          AppUrl.browseUrl(musicFilterPayload.apiKey), payload);
       final json = jsonDecode(res.data.toString());
       final items = json['onResponseReceivedActions'][0]
-          ['reloadContinuationItemsCommand']['continuationItems'] as List;
+          [fetchingNextList ? 'appendContinuationItemsAction' : 'reloadContinuationItemsCommand']['continuationItems'] as List;
       final List<MusicItem> homeScreenMusicItems = [];
       homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
           ?["continuationEndpoint"]?["continuationCommand"]?["token"];
-
       for (var item in items) {
         final musicItem = item['richItemRenderer'];
         if (musicItem != null && musicItem['content'] != null) {
