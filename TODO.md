@@ -1,3 +1,4 @@
-* load more music once reach bottom
-* load music in the bottom nav list
+* add loading indicatopr when fetching next music list
+* load music for playing music items
+* Properly play the playlists
 * Playing long audio on ios
