@@ -43,12 +43,28 @@ class _SetHomeScreenLoadingAction extends ReduxAction<AppState> {
   }
 }
 
+class _SetHomeScreenNextListLoadingAction extends ReduxAction<AppState> {
+  final LoadingState loadingState;
+  _SetHomeScreenNextListLoadingAction({
+    required this.loadingState,
+  });
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      homePageState: state.homePageState.copyWith(
+        homepageNextMusicListLoading: loadingState,
+      ),
+    );
+  }
+}
+
 class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
       final homeScreenNextMusicList =
           await ParserHelper.getNextMusicListForHomeScreen();
+      dispatch(_SetHomeScreenNextListLoadingAction(loadingState: LoadingState.idle));
       return state.copyWith(
         homePageState: state.homePageState.copyWith(
           homePageMusicList: state.homePageState.homePageMusicList
@@ -56,7 +72,15 @@ class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
         ),
       );
     } catch (err) {
+      dispatch(
+          _SetHomeScreenNextListLoadingAction(loadingState: LoadingState.failed));
       log('GetNextMusicListForHomeScreenAction -> $err');
     }
+  }
+
+  @override
+  FutureOr<void> before() {
+    dispatch(_SetHomeScreenNextListLoadingAction(loadingState: LoadingState.loading));
+    return super.before();
   }
 }

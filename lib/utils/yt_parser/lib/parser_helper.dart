@@ -53,29 +53,35 @@ class ParserHelper {
   }
 
   // load the list of music for home screen at the beginning
-  static Future<List<MusicItem>> _getHomeScreenMusicHelper(
-      dynamic payload, {bool fetchingNextList = false}) async {
+  static Future<List<MusicItem>> _getHomeScreenMusicHelper(dynamic payload,
+      {bool fetchingNextList = false}) async {
     try {
       final res = await ApiRequest.post(
           AppUrl.browseUrl(musicFilterPayload.apiKey), payload);
-      final json = jsonDecode(res.data.toString());
-      final items = json['onResponseReceivedActions'][0]
-          [fetchingNextList ? 'appendContinuationItemsAction' : 'reloadContinuationItemsCommand']['continuationItems'] as List;
-      final List<MusicItem> homeScreenMusicItems = [];
-      homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
-          ?["continuationEndpoint"]?["continuationCommand"]?["token"];
-      for (var item in items) {
-        final musicItem = item['richItemRenderer'];
-        if (musicItem != null && musicItem['content'] != null) {
-          if (musicItem['content']['videoRenderer'] != null) {
-            homeScreenMusicItems.add(
-                MusicItem.fromApiJson(musicItem['content']['videoRenderer']));
-          } else {
-            // todo : add playlist rendering
+      if (res.statusCode == 200) {
+        final json = jsonDecode(res.data.toString());
+        final items = json['onResponseReceivedActions'][0][fetchingNextList
+            ? 'appendContinuationItemsAction'
+            : 'reloadContinuationItemsCommand']['continuationItems'] as List;
+        final List<MusicItem> homeScreenMusicItems = [];
+        homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
+            ?["continuationEndpoint"]?["continuationCommand"]?["token"];
+        for (var item in items) {
+          final musicItem = item['richItemRenderer'];
+          if (musicItem != null && musicItem['content'] != null) {
+            if (musicItem['content']['videoRenderer'] != null) {
+              homeScreenMusicItems.add(
+                  MusicItem.fromApiJson(musicItem['content']['videoRenderer']));
+            } else {
+              // todo : add playlist rendering
+            }
           }
         }
+        return homeScreenMusicItems;
+      } else {
+        throw Exception(
+            "Error during getting music list, status code ${res.statusCode}, ${res.data}");
       }
-      return homeScreenMusicItems;
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw Error.safeToString(err);
