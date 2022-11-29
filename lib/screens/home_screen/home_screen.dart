@@ -19,6 +19,7 @@ import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
+import '../../redux/models/search_state.dart';
 import '../../widgets/app_primary_button.dart';
 import '../home_screen/widgets/music_list_tile.dart';
 import '../music_search_screen/music_search_screen.dart';
@@ -132,6 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                       .toList(),
+                  if (snapshot.homepageNextMusicListLoading ==
+                      LoadingState.loading)
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CupertinoActivityIndicator(),
+                    ),
                   const SizedBox(
                     height: 250,
                   )
@@ -211,6 +218,8 @@ class _ViewModel extends Vm {
   final List<MusicItem> recentlyPlayedList;
   final void Function(MusicItem) playMusic;
   final void Function() getNextMusicListForHomeScreen;
+  final LoadingState homepageNextMusicListLoading;
+
   _ViewModel({
     required this.audioPlayer,
     required this.uiState,
@@ -219,11 +228,13 @@ class _ViewModel extends Vm {
     required this.playMusic,
     required this.recentlyPlayedList,
     required this.getNextMusicListForHomeScreen,
+    required this.homepageNextMusicListLoading,
   }) : super(equals: [
           uiState,
           audioPlayer,
           recentlyPlayedList,
           homeScreenMusicList,
+          homepageNextMusicListLoading,
         ]);
 
   @override
@@ -233,7 +244,11 @@ class _ViewModel extends Vm {
     return other.uiState == uiState &&
         other.audioPlayer == audioPlayer &&
         other.toggleTheme == toggleTheme &&
-        listEquals(other.homeScreenMusicList, homeScreenMusicList);
+        listEquals(other.homeScreenMusicList, homeScreenMusicList) &&
+        listEquals(other.recentlyPlayedList, recentlyPlayedList) &&
+        other.playMusic == playMusic &&
+        other.getNextMusicListForHomeScreen == getNextMusicListForHomeScreen &&
+        other.homepageNextMusicListLoading == homepageNextMusicListLoading;
   }
 
   @override
@@ -241,7 +256,11 @@ class _ViewModel extends Vm {
     return uiState.hashCode ^
         audioPlayer.hashCode ^
         toggleTheme.hashCode ^
-        homeScreenMusicList.hashCode;
+        homeScreenMusicList.hashCode ^
+        recentlyPlayedList.hashCode ^
+        playMusic.hashCode ^
+        getNextMusicListForHomeScreen.hashCode ^
+        homepageNextMusicListLoading.hashCode;
   }
 }
 
@@ -254,6 +273,8 @@ class _Factory extends VmFactory<AppState, _HomeScreenState> {
       recentlyPlayedList: state.homePageState.recentlyPlayedMusicList,
       audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
+      homepageNextMusicListLoading:
+          state.homePageState.homepageNextMusicListLoading,
       getNextMusicListForHomeScreen: () {
         dispatch(GetNextMusicListForHomeScreenAction());
       },
