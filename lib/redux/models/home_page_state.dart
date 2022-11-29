@@ -8,16 +8,19 @@ class HomePageState {
   final List<MusicItem> homePageMusicList;
   final List<MusicItem> recentlyPlayedMusicList;
   final LoadingState homepageMusicListLoading;
+  final LoadingState homepageNextMusicListLoading;
   HomePageState({
     required this.homePageMusicList,
     required this.recentlyPlayedMusicList,
     required this.homepageMusicListLoading,
+    required this.homepageNextMusicListLoading,
   });
 
   HomePageState copyWith({
     List<MusicItem>? homePageMusicList,
     List<MusicItem>? recentlyPlayedMusicList,
     LoadingState? homepageMusicListLoading,
+    LoadingState? homepageNextMusicListLoading,
   }) {
     return HomePageState(
       homePageMusicList: homePageMusicList ?? this.homePageMusicList,
@@ -25,6 +28,8 @@ class HomePageState {
           recentlyPlayedMusicList ?? this.recentlyPlayedMusicList,
       homepageMusicListLoading:
           homepageMusicListLoading ?? this.homepageMusicListLoading,
+      homepageNextMusicListLoading:
+          homepageNextMusicListLoading ?? this.homepageNextMusicListLoading,
     );
   }
 
@@ -33,12 +38,14 @@ class HomePageState {
       homePageMusicList: [],
       homepageMusicListLoading: LoadingState.idle,
       recentlyPlayedMusicList: [],
+      homepageNextMusicListLoading: LoadingState.idle,
     );
   }
 
   @override
-  String toString() =>
-      'HomePageState(homePageMusicList: $homePageMusicList, recentlyPlayedMusicList: $recentlyPlayedMusicList, homepageMusicListLoading: $homepageMusicListLoading)';
+  String toString() {
+    return 'HomePageState(homePageMusicList: $homePageMusicList, recentlyPlayedMusicList: $recentlyPlayedMusicList, homepageMusicListLoading: $homepageMusicListLoading, homepageNextMusicListLoading: $homepageNextMusicListLoading)';
+  }
 
   @override
   bool operator ==(covariant HomePageState other) {
@@ -46,12 +53,15 @@ class HomePageState {
 
     return listEquals(other.homePageMusicList, homePageMusicList) &&
         listEquals(other.recentlyPlayedMusicList, recentlyPlayedMusicList) &&
-        other.homepageMusicListLoading == homepageMusicListLoading;
+        other.homepageMusicListLoading == homepageMusicListLoading &&
+        other.homepageNextMusicListLoading == homepageNextMusicListLoading;
   }
 
   @override
-  int get hashCode =>
-      homePageMusicList.hashCode ^
-      recentlyPlayedMusicList.hashCode ^
-      homepageMusicListLoading.hashCode;
+  int get hashCode {
+    return homePageMusicList.hashCode ^
+        recentlyPlayedMusicList.hashCode ^
+        homepageMusicListLoading.hashCode ^
+        homepageNextMusicListLoading.hashCode;
+  }
 }
