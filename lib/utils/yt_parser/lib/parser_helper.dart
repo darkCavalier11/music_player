@@ -119,7 +119,7 @@ class ParserHelper {
         }
         return nextMusicList;
       } else {
-        return [];
+        throw Exception("Error getting getNextSuggestionMusicList(), status code: ");
       }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
