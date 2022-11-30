@@ -61,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const BouncingScrollPhysics(),
               controller: _scrollController
                 ..addListener(() {
-                  if (_scrollController.position.atEdge) {
+                  if (_scrollController.position.atEdge &&
+                      _scrollController.offset > 0) {
                     snapshot.getNextMusicListForHomeScreen();
                   }
                 }),
