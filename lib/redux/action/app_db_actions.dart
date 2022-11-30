@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:music_player/redux/action/redux_exception.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
@@ -40,6 +41,10 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
       dispatch(GetRecentlyPlayedMusicList());
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: err.toString(),
+        actionName: 'AddItemToRecentlyPlayedList',
+      );
     }
     return null;
   }
@@ -66,8 +71,11 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
       );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: err.toString(),
+        actionName: 'GetRecentlyPlayedMusicList',
+      );
     }
-    return null;
   }
 }
 
@@ -95,6 +103,10 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
           jsonEncode(previouslySearchedItems.reversed.toList()));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: err.toString(),
+        actionName: 'AddItemToSearchedItemList',
+      );
     }
     return null;
   }
@@ -117,7 +129,10 @@ class GetSearchedItemList extends ReduxAction<AppState> {
       );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: err.toString(),
+        actionName: 'GetSearchedItemList',
+      );
     }
-    return null;
   }
 }
