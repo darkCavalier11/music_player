@@ -8,6 +8,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
+import 'package:music_player/redux/redux_exception.dart';
 import 'package:music_player/utils/app_db.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,6 +30,11 @@ class LoadUserPlaylistAction extends ReduxAction<AppState> {
       );
     } catch (err) {
       log(err.toString(), name: 'ErrorLog', stackTrace: StackTrace.current);
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'LoadUserPlaylistAction',
+        userErrorToastMessage: 'Unable to get your playlist!',
+      );
     }
     return null;
   }
@@ -106,6 +112,11 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
         name: 'ErrorLog',
         stackTrace: StackTrace.current,
       );
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'RemovePlaylistByName',
+        userErrorToastMessage: 'Unable to remove playlist!',
+      );
     }
     return null;
   }
@@ -162,6 +173,11 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
         name: 'ErrorLog',
         stackTrace: StackTrace.current,
       );
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'AddMusicItemtoPlaylist',
+        userErrorToastMessage: 'Unable to add item to playlist!',
+      );
     }
     return null;
   }
@@ -208,6 +224,11 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
         err.toString(),
         name: 'ErrorLog',
         stackTrace: StackTrace.current,
+      );
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'RemoveMusicItemFromPlaylist',
+        userErrorToastMessage: 'Unable to remove item from playlist!',
       );
     }
     return null;
