@@ -81,7 +81,6 @@ class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
 
   @override
   FutureOr<void> before() {
-    log('message');
     dispatch(_SetHomeScreenNextListLoadingAction(
         loadingState: LoadingState.loading));
     return super.before();
