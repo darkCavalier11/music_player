@@ -1,5 +1,4 @@
-* add loading indicatopr when fetching next music list
-* add proper error handling with a class to incorporate needs
+* add UserException dialog properly
 * load music for playing music items
 * Properly play the playlists
 * Playing long audio on ios
