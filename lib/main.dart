@@ -5,6 +5,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/redux_exception_wrapper.dart';
 import 'package:music_player/screens/app_page_view.dart';
 import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
   );
   store = Store<AppState>(
     initialState: AppState.initial(),
+    wrapError: ReduxExceptionWrapper()
   );
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
