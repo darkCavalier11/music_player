@@ -6,6 +6,7 @@ import 'package:async_redux/async_redux.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/redux/redux_exception.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 class LoadHomePageMusicAction extends ReduxAction<AppState> {
@@ -23,8 +24,12 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
     } catch (err) {
       _SetHomeScreenLoadingAction(loadingState: LoadingState.failed);
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'LoadHomePageMusicAction',
+        userErrorToastMessage: 'Error loading music',
+      );
     }
-    return null;
   }
 }
 
@@ -76,6 +81,11 @@ class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
       dispatch(_SetHomeScreenNextListLoadingAction(
           loadingState: LoadingState.failed));
       log('GetNextMusicListForHomeScreenAction -> $err');
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'GetNextMusicListForHomeScreenAction',
+        userErrorToastMessage: 'Error getting next music items',
+      );
     }
   }
 

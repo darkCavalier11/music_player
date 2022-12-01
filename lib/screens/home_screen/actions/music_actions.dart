@@ -10,6 +10,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/redux/redux_exception.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 import '../../../redux/models/music_item.dart';
@@ -138,9 +139,13 @@ class PlayAudioAction extends ReduxAction<AppState> {
       }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
-      Fluttertoast.showToast(msg: "Error loading music, try again!");
       dispatch(_SetMediaItemStateAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'PlayAudioAction',
+        userErrorToastMessage: "Error loading music, try again!",
+      );
     }
     return null;
   }
@@ -179,8 +184,11 @@ class FetchMusicListFromMusicId extends ReduxAction<AppState> {
       );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'FetchMusicListFromMusicId',
+      );
     }
-    return null;
   }
 }
 

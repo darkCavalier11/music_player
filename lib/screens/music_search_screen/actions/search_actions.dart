@@ -13,6 +13,7 @@ import 'package:music_player/redux/models/music_filter_payload.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/music_model.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/redux/redux_exception.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/app_db.dart';
@@ -125,7 +126,6 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
       }
       payload = await AppDatabse.getQuery(DbKeys.context);
       if (payload == null) {
-        Fluttertoast.showToast(msg: 'Internal Server Error');
         return null;
       }
       final musicFilterPayload =
@@ -165,6 +165,11 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
       dispatch(
           _SetSearchResultFetchingAction(loadingState: LoadingState.failed));
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'GetMusicItemFromQueryAction',
+        userErrorToastMessage: 'Unable to get search results!',
+      );
     }
     return null;
   }
