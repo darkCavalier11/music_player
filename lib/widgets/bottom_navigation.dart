@@ -166,7 +166,7 @@ class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
         onTap: () {
           Navigator.of(context).push(
             PageRouteBuilder(
-              pageBuilder: (context, _, __) => MusicListItemControllerScreen(),
+              pageBuilder: (context, _, __) => const MusicListItemControllerScreen(),
               opaque: false,
             ),
           );

@@ -161,11 +161,13 @@ class MusicListItemControllerScreen extends StatelessWidget {
                                         style:
                                             Theme.of(context).textTheme.caption,
                                       ),
-                                      flex: 4,
+                                      flex: 2,
                                     ),
                                     Expanded(
-                                      child: Text(snapshot
-                                          .nexMusicList[index].duration),
+                                      child: Text(
+                                        snapshot.nexMusicList[index].duration,
+                                        maxLines: 1,
+                                      ),
                                       flex: 1,
                                     ),
                                   ],
