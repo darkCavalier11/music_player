@@ -31,7 +31,7 @@ class ParserHelper {
     try {
       return _getHomeScreenMusicHelper({
         'context': musicFilterPayload.context.toJson(),
-        'continuation': musicFilterPayload.continuation
+        'continuation': musicFilterPayload.continuation,
       });
     } catch (err) {
       throw Error.safeToString(err);
@@ -119,7 +119,8 @@ class ParserHelper {
         }
         return nextMusicList;
       } else {
-        throw Exception("Error getting getNextSuggestionMusicList(), status code: ");
+        throw Exception(
+            "Error getting getNextSuggestionMusicList(), status code: ");
       }
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');

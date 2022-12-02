@@ -13,6 +13,6 @@ class ReduxExceptionWrapper extends WrapError<AppState> {
     } else {
         Fluttertoast.showToast(msg: 'Some error occured.');
     }
+    return null;
   }
-
 }
