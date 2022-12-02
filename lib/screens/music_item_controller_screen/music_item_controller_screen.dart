@@ -86,115 +86,129 @@ class MusicListItemControllerScreen extends StatelessWidget {
               ),
               Align(
                 alignment: const Alignment(0, 4),
-                child: CarouselSlider(
-                  items: List.generate(snapshot.nexMusicList.length, (index) {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            snapshot.playAudio(snapshot.nexMusicList[index]);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            width: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Image.network(
-                                        snapshot.nexMusicList[index].imageUrl,
-                                        width: 150,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Container(
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color:
-                                                Theme.of(context).disabledColor,
-                                            width: 3,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 140,
-                                        width: 140,
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color:
-                                                Theme.of(context).disabledColor,
-                                            width: 2,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  snapshot.nexMusicList[index].title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.fade,
-                                  softWrap: false,
-                                ),
-                                const Divider(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        snapshot.nexMusicList[index].author,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            Theme.of(context).textTheme.caption,
-                                      ),
-                                      flex: 2,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        snapshot.nexMusicList[index].duration,
-                                        maxLines: 1,
-                                      ),
-                                      flex: 1,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-                  options: CarouselOptions(
-                    aspectRatio: 0.64,
-                    pageSnapping: false,
-                    viewportFraction: 0.6,
-                    scrollPhysics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: false,
-                    padEnds: true,
-                  ),
+                child: _MusicItemCarouselSlider(
+                  nexMusicList: snapshot.nexMusicList,
+                  onTapMusicItem: snapshot.playAudio,
                 ),
               )
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _MusicItemCarouselSlider extends StatelessWidget {
+  final List<MusicItem> nexMusicList;
+  final Future<void> Function(MusicItem) onTapMusicItem;
+  const _MusicItemCarouselSlider({
+    required this.nexMusicList,
+    required this.onTapMusicItem,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      items: List.generate(nexMusicList.length, (index) {
+        return Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                onTapMusicItem(nexMusicList[index]);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.network(
+                            nexMusicList[index].imageUrl,
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Theme.of(context).disabledColor,
+                                width: 3,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 140,
+                            width: 140,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Theme.of(context).disabledColor,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      nexMusicList[index].title,
+                      maxLines: 2,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            nexMusicList[index].author,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                          flex: 2,
+                        ),
+                        Expanded(
+                          child: Text(
+                            nexMusicList[index].duration,
+                            maxLines: 1,
+                          ),
+                          flex: 1,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      }),
+      options: CarouselOptions(
+        aspectRatio: 0.64,
+        pageSnapping: false,
+        viewportFraction: 0.6,
+        scrollPhysics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: false,
+        padEnds: true,
+      ),
     );
   }
 }
