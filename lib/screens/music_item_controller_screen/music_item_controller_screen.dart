@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
@@ -87,7 +88,7 @@ class MusicListItemControllerScreen extends StatelessWidget {
               Align(
                 alignment: const Alignment(0, 4),
                 child: _MusicItemCarouselSlider(
-                  nexMusicList: snapshot.nexMusicList,
+                  currentPlaylistItems: snapshot.currentPlaylistItems,
                   onTapMusicItem: snapshot.playAudio,
                 ),
               )
@@ -100,10 +101,10 @@ class MusicListItemControllerScreen extends StatelessWidget {
 }
 
 class _MusicItemCarouselSlider extends StatelessWidget {
-  final List<MusicItem> nexMusicList;
+  final List<MusicItem> currentPlaylistItems;
   final Future<void> Function(MusicItem) onTapMusicItem;
   const _MusicItemCarouselSlider({
-    required this.nexMusicList,
+    required this.currentPlaylistItems,
     required this.onTapMusicItem,
     Key? key,
   }) : super(key: key);
@@ -111,12 +112,12 @@ class _MusicItemCarouselSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      items: List.generate(nexMusicList.length, (index) {
+      items: List.generate(currentPlaylistItems.length, (index) {
         return Column(
           children: [
             GestureDetector(
               onTap: () {
-                onTapMusicItem(nexMusicList[index]);
+                onTapMusicItem(currentPlaylistItems[index]);
               },
               child: Container(
                 padding: const EdgeInsets.all(12),
@@ -132,7 +133,7 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                         alignment: Alignment.center,
                         children: [
                           Image.network(
-                            nexMusicList[index].imageUrl,
+                            currentPlaylistItems[index].imageUrl,
                             width: 150,
                             height: 150,
                             fit: BoxFit.cover,
@@ -165,7 +166,7 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      nexMusicList[index].title,
+                      currentPlaylistItems[index].title,
                       maxLines: 2,
                       overflow: TextOverflow.fade,
                       softWrap: false,
@@ -176,7 +177,7 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            nexMusicList[index].author,
+                            currentPlaylistItems[index].author,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.caption,
@@ -185,7 +186,7 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            nexMusicList[index].duration,
+                            currentPlaylistItems[index].duration,
                             maxLines: 1,
                           ),
                           flex: 1,
@@ -214,14 +215,14 @@ class _MusicItemCarouselSlider extends StatelessWidget {
 }
 
 class _ViewModel extends Vm {
-  final List<MusicItem> nexMusicList;
+  final List<MusicItem> currentPlaylistItems;
   final MusicItem? selectedMusicItem;
   final Future<void> Function(MusicItem) playAudio;
   _ViewModel({
-    required this.nexMusicList,
+    required this.currentPlaylistItems,
     required this.selectedMusicItem,
     required this.playAudio,
-  }) : super(equals: [nexMusicList]);
+  }) : super(equals: [currentPlaylistItems]);
 }
 
 class _Factory extends VmFactory<AppState, MusicListItemControllerScreen> {
@@ -232,7 +233,7 @@ class _Factory extends VmFactory<AppState, MusicListItemControllerScreen> {
       playAudio: (musicItem) async {
         dispatch(PlayAudioAction(musicItem: musicItem));
       },
-      nexMusicList: state.audioPlayerState.currentPlaylistItems,
+      currentPlaylistItems: state.audioPlayerState.currentPlaylistItems,
       selectedMusicItem: state.audioPlayerState.selectedMusic,
     );
   }
