@@ -54,7 +54,6 @@ class ApiRequest {
   static Future<Response<String>> post(String url, dynamic data) async {
     _dio.interceptors.add(CookieManager(persistCookieJar));
     _dio.interceptors.add(AppHttpInterceptor());
-
     return _dio.post(
       url,
       data: data,
