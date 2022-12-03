@@ -133,6 +133,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
         /// will be selected by index-1
         state.audioPlayerState.audioPlayer.seek(const Duration(seconds: 0),
             index: state.audioPlayerState.currentJustAudioPlaylist.length - 1);
+        state.audioPlayerState.audioPlayer;
         dispatch(
           _SetMusicItemMetaDataLoadingStateAction(
             loadingState: LoadingState.idle,
