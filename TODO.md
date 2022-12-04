@@ -8,8 +8,8 @@ put at index next to currently playing item.
 
 #### sol: 1(Needs testing)
 * The most clever hack would be load all the `musicItem` to the `just_audio` playlist, even if the exact url is absent. The urls will be fetched on realtime when requested(probable performance issue could be seen). For home screen music item lists will be dynamic.
-* Once a home screen music or playlist music clicked, previous one should be mandatorily cleared.
-* when playing a previous music, parse the cached music url(todo) if there is expiry on url, if the url is expired, then only fetch again.
+* Once a home screen music or playlist music clicked, previous music list should be mandatorily cleared.
+* when playing a previous music (or any music item on the list), parse the cached music url(todo) if there is expiry on url, if the url is expired, then only fetch again.
 
 
 ## Known bugs need fix
