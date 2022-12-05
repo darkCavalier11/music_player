@@ -8,8 +8,17 @@ import 'package:music_player/redux/models/search_state.dart';
 
 class AudioPlayerState {
   final AudioPlayer audioPlayer;
+
+  /// dynamically holds the currently played music, and null if nothing is playing right now.
   final MusicItem? selectedMusic;
+
+  /// This playlist is primarily for UI purposes. `just_audio` has very poor
+  /// api exposure and weird code structure right now to get the currently played
+  /// item serialised and desirialised easily.
   final List<MusicItem> currentPlaylistItems;
+
+  /// The playlist is solely used for interacting with `just_audio` and not for any
+  /// external reading or writing cause of poor api of `just_audio`.
   final ConcatenatingAudioSource currentJustAudioPlaylist;
   // This loading state is required to keep track when the music item actually fetching the
   // music url. In that time this chages to loading and enhances the feedback for the user.
@@ -42,7 +51,8 @@ class AudioPlayerState {
       audioPlayer: audioPlayer ?? this.audioPlayer,
       selectedMusic: selectedMusic ?? this.selectedMusic,
       currentPlaylistItems: currentPlaylistItems ?? this.currentPlaylistItems,
-      currentJustAudioPlaylist: currentJustAudioPlaylist ?? this.currentJustAudioPlaylist,
+      currentJustAudioPlaylist:
+          currentJustAudioPlaylist ?? this.currentJustAudioPlaylist,
       musicItemMetaDataLoadingState:
           musicItemMetaDataLoadingState ?? this.musicItemMetaDataLoadingState,
     );

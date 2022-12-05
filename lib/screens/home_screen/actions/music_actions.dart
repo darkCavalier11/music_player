@@ -65,6 +65,7 @@ class SetPlaylistAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
+    playlist.children[0];
     return state.copyWith(
       audioPlayerState: state.audioPlayerState.copyWith(
         currentJustAudioPlaylist: playlist,
