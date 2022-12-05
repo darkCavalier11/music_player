@@ -18,7 +18,9 @@ class AudioPlayerState {
   final List<MusicItem> currentPlaylistItems;
 
   /// The playlist is solely used for interacting with `just_audio` and not for any
-  /// external reading or writing cause of poor api of `just_audio`.
+  /// external reading or writing cause of poor api of `just_audio`. This will be a private
+  /// variable and every time any change invoked on the `currentPlaylistItems` a operation need
+  /// to perform on this.
   final ConcatenatingAudioSource currentJustAudioPlaylist;
   // This loading state is required to keep track when the music item actually fetching the
   // music url. In that time this chages to loading and enhances the feedback for the user.
