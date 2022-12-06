@@ -10,6 +10,18 @@ put at index next to currently playing item.
 * The most clever hack would be load all the `musicItem` to the `just_audio` playlist, even if the exact url is absent. The urls will be fetched on realtime when requested(probable performance issue could be seen). For home screen music item lists will be dynamic.
 * Once a home screen music or playlist music clicked, previous music list should be mandatorily cleared.
 * when playing a previous music (or any music item on the list), parse the cached music url(todo) if there is expiry on url, if the url is expired, then only fetch again.
+### Issue with sol 1
+Not able to update the url once added to `just_audio` playlist.
+
+### sol: 2
+Complete migration to `audioplayers` library after testing
+Test include
+* Creating and updating playlist item with rich playlist api
+* Playback stream or similar functionality to get update on playing audio state
+* native system support for running audio on background.
+* Proper api to handle loading audio, playing audio or any possible failure as such.
+* Handling of audio images.
+* Basic functionality as next, prev, pause, stop, clear playlist etc.
 
 
 ## Known bugs need fix
