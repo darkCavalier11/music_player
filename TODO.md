@@ -23,6 +23,9 @@ Test include
 * Handling of audio images.
 * Basic functionality as next, prev, pause, stop, clear playlist etc.
 
+### Issue with sol 2
+No support for native mobile functions like showing banner on the music screen or creating playlists.
+
 
 ## Known bugs need fix
 * Music playlist detail screen song count and total duration need fix.
