@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/utils/extensions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -92,14 +93,13 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: -0.7,
-                                          // fontFamily: 'Courgette',
                                           color: paletteSnapshot.data!
                                                   .darkVibrantColor?.color ??
                                               Theme.of(context).canvasColor,
                                         ),
                                   ),
                                   Text(
-                                    '4 Songs',
+                                    '${userPlaylistListItem.musicItems.length} Songs',
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelMedium
@@ -132,6 +132,8 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                                   Theme.of(context).cardColor,
                                             ),
                                       ),
+                                      Text(Duration(seconds: 5560)
+                                          .toFormatedDurationString()),
                                     ],
                                   ),
                                 ],
@@ -200,7 +202,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                       ),
                                 ),
-                                TextSpan(text: '?'),
+                                const TextSpan(text: '?'),
                               ],
                             ),
                           ),

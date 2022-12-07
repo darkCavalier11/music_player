@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:music_player/redux/models/music_item.dart';
+import 'package:music_player/utils/extensions.dart';
 
 class UserPlaylistListItem {
   final String id;
@@ -73,4 +74,12 @@ class UserPlaylistListItem {
 
   @override
   int get hashCode => id.hashCode ^ title.hashCode ^ musicItems.hashCode;
+
+  String get getFormattedDuration {
+    int seconds = 0;
+    for (var musicItem in musicItems) {
+      seconds += musicItem.duration.toDuration().inSeconds;
+    }
+    return Duration(seconds: seconds).toFormatedDurationString();
+  }
 }

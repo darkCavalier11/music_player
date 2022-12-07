@@ -40,6 +40,7 @@ No support for native mobile functions like showing banner on the music screen o
 * Music playing screen UI quality bump.
 
 ## future features
+* Add remove from playlist for individual songs on the playlist
 * Fetch next music items on music playing sceen once reached to end of playing disc table.
 * Shuffle play on playlist screen.
 * Intelligent cache
