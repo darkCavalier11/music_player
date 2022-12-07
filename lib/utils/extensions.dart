@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 extension FormatingUtilityDuration on Duration {
   // 5 seconds -> 00:05
   /// 121seconds -> 02:01
@@ -22,7 +24,7 @@ extension FormatingUtilityString on String {
   Duration toDuration() {
     final hourMinuteSecondList = split(':');
     int seconds = 0, counter = 1;
-    for (int i = hourMinuteSecondList.length; i >= 0; i++) {
+    for (int i = hourMinuteSecondList.length - 1; i >= 0; i--) {
       seconds += int.parse(hourMinuteSecondList[i]) * counter;
       counter *= 60;
     }

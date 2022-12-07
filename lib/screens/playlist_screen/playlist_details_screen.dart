@@ -121,7 +121,10 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '01:26:00',
+                                        '01:26:00'
+                                            .toDuration()
+                                            .inSeconds
+                                            .toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium
