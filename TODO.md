@@ -27,6 +27,10 @@ Test include
 No support for native mobile functions like showing banner on the music screen or creating playlists.
 
 
+### sol 3: part 1 
+* get data on how to read audio byte stream and play them in a more low level way.
+
+
 ## Known bugs need fix
 * Music playlist detail screen song count and total duration need fix.
 * Loading time for long audios on ios(song duration as well) and some time on android.
