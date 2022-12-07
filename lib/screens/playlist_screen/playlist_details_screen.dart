@@ -121,10 +121,8 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '01:26:00'
-                                            .toDuration()
-                                            .inSeconds
-                                            .toString(),
+                                        userPlaylistListItem
+                                            .getFormattedDuration,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium
@@ -135,8 +133,6 @@ class PlaylistDetailsScreen extends StatelessWidget {
                                                   Theme.of(context).cardColor,
                                             ),
                                       ),
-                                      Text(Duration(seconds: 5560)
-                                          .toFormatedDurationString()),
                                     ],
                                   ),
                                 ],
