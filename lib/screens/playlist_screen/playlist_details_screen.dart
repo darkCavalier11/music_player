@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:music_player/utils/extensions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -183,51 +185,9 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     const SizedBox(width: 4),
                     AppPrimaryButton(
                       onTap: () {
-                        AppUiUtils.appGenericDialog<bool>(
-                          context,
-                          title: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Do you want to delete playlist ',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                TextSpan(
-                                  text: userPlaylistListItem.title,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                                const TextSpan(text: '?'),
-                              ],
-                            ),
-                          ),
-                          actions: Row(
-                            children: [
-                              const Spacer(),
-                              AppPrimaryButton(
-                                onTap: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                                buttonText: 'Cancel',
-                              ),
-                              AppPrimaryButton(
-                                onTap: () {
-                                  snapshot.removePlaylist(
-                                      userPlaylistListItem.title);
-                                  Navigator.of(context).pop(true);
-                                  Navigator.of(context).pop();
-                                },
-                                buttonText: 'Remove',
-                              ),
-                            ],
-                          ),
-                        );
+                        log('message');
                       },
-                      trailingIcon: CupertinoIcons.delete,
+                      trailingIcon: Iconsax.edit,
                     )
                   ],
                 ),
