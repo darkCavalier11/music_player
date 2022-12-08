@@ -83,10 +83,10 @@ class _CreateNewPlaylistWithMusicItem extends ReduxAction<AppState> {
   }
 }
 
-class RemovePlaylistByName extends ReduxAction<AppState> {
-  final String playlistName;
-  RemovePlaylistByName({
-    required this.playlistName,
+class RemovePlaylistById extends ReduxAction<AppState> {
+  final String playlistId;
+  RemovePlaylistById({
+    required this.playlistId,
   });
   @override
   Future<AppState?> reduce() async {
@@ -99,7 +99,7 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
                 (e) => UserPlaylistListItem.fromJson(e),
               )
               .toList();
-      playListItems.removeWhere((element) => element.title == playlistName);
+      playListItems.removeWhere((element) => element.id == playlistId);
       await AppDatabse.setQuery(
         DbKeys.playlistItem,
         jsonEncode(
@@ -114,7 +114,7 @@ class RemovePlaylistByName extends ReduxAction<AppState> {
       );
       throw ReduxException(
         errorMessage: '$err',
-        actionName: 'RemovePlaylistByName',
+        actionName: 'RemovePlaylistById',
         userErrorToastMessage: 'Unable to remove playlist!',
       );
     }
@@ -206,7 +206,7 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
           )
           .toList();
       final playlistToRemove =
-          playListItems.firstWhere((element) => element.title == title);
+          playListItems .firstWhere((element) => element.title == title);
       playlistToRemove.musicItems
           .removeWhere((e) => e.musicId == musicItem.musicId);
       // remove if no music left

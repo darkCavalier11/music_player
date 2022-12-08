@@ -226,8 +226,8 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
   _ViewModel fromStore() {
     return _ViewModel(
       userPlaylistItems: state.userPlaylistState.userPlaylistItems,
-      removePlaylist: (playlistName) {
-        dispatch(RemovePlaylistByName(playlistName: playlistName));
+      removePlaylist: (playlistId) {
+        dispatch(RemovePlaylistById(playlistId: playlistId));
       },
     );
   }

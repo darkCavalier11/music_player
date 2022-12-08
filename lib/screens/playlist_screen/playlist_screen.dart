@@ -109,8 +109,7 @@ class PlaylistScreen extends StatelessWidget {
                                       AppPrimaryButton(
                                         onTap: () {
                                           snapshot.removePlaylist(snapshot
-                                              .userPlaylistListItems[idx]
-                                              .title);
+                                              .userPlaylistListItems[idx].id);
                                           Navigator.of(context).pop(true);
                                         },
                                         buttonText: 'Remove',
@@ -171,8 +170,8 @@ class _Factory extends VmFactory<AppState, PlaylistScreen> {
   _ViewModel fromStore() {
     return _ViewModel(
       userPlaylistListItems: state.userPlaylistState.userPlaylistItems,
-      removePlaylist: (playlistName) {
-        dispatch(RemovePlaylistByName(playlistName: playlistName));
+      removePlaylist: (playlistId) {
+        dispatch(RemovePlaylistById(playlistId: playlistId));
       },
     );
   }
