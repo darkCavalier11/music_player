@@ -206,7 +206,7 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
           )
           .toList();
       final playlistToRemove =
-          playListItems .firstWhere((element) => element.title == title);
+          playListItems.firstWhere((element) => element.title == title);
       playlistToRemove.musicItems
           .removeWhere((e) => e.musicId == musicItem.musicId);
       // remove if no music left
@@ -239,5 +239,20 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
     dispatch(LoadUserPlaylistAction());
 
     super.after();
+  }
+}
+
+class SetMusicPlaylistEditState extends ReduxAction<AppState> {
+  final bool onEditState;
+
+  SetMusicPlaylistEditState({required this.onEditState});
+
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      userPlaylistState: state.userPlaylistState.copyWith(
+        onEditState: onEditState,
+      ),
+    );
   }
 }

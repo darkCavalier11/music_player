@@ -202,7 +202,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                   },
                   itemCount: userPlaylistListItem.musicItems.length,
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -214,9 +214,13 @@ class PlaylistDetailsScreen extends StatelessWidget {
 class _ViewModel extends Vm {
   final List<UserPlaylistListItem> userPlaylistItems;
   final void Function(String) removePlaylist;
+  final bool onEditState;
+  final void Function(bool) setMusicPlaylistEditState;
   _ViewModel({
     required this.userPlaylistItems,
     required this.removePlaylist,
+    required this.onEditState,
+    required this.setMusicPlaylistEditState,
   });
 }
 
@@ -228,6 +232,12 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
       userPlaylistItems: state.userPlaylistState.userPlaylistItems,
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));
+      },
+      onEditState: state.userPlaylistState.onEditState,
+      setMusicPlaylistEditState: (onEditState) {
+        dispatch(
+          SetMusicPlaylistEditState(onEditState: onEditState),
+        );
       },
     );
   }
