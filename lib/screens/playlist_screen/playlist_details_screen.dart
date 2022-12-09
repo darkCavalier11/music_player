@@ -196,8 +196,21 @@ class PlaylistDetailsScreen extends StatelessWidget {
                         snapshot
                             .setMusicPlaylistEditState(!snapshot.onEditState);
                       },
-                      // trailingIcon:
-                      //     snapshot.onEditState ? Icons.done : Iconsax.edit,
+                      trailingIcon: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
+                        child: Icon(
+                          snapshot.onEditState ? Icons.done : Iconsax.edit,
+                          key: ValueKey<bool>(snapshot.onEditState),
+                          size: 18,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                     )
                   ],
                 ),
