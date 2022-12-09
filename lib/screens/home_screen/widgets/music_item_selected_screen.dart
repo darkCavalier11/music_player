@@ -168,8 +168,12 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                           ),
                                           AppPrimaryButton(
                                             buttonText: 'Add To Playlist',
-                                            trailingIcon:
-                                                Iconsax.music_playlist,
+                                            trailingIcon: Icon(
+                                              Iconsax.music_playlist,
+                                              size: 18,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               Navigator.of(context).push(

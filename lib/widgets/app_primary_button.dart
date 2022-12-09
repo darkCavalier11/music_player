@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppPrimaryButton extends StatelessWidget {
   final String? buttonText;
-  final IconData? trailingIcon;
+  final Widget? trailingIcon;
   final void Function() onTap;
   const AppPrimaryButton({
     Key? key,
@@ -42,12 +42,7 @@ class AppPrimaryButton extends StatelessWidget {
             ],
             if (trailingIcon != null && buttonText != null)
               const SizedBox(width: 10),
-            if (trailingIcon != null)
-              Icon(
-                trailingIcon,
-                size: 18,
-                color: Theme.of(context).primaryColor,
-              )
+            if (trailingIcon != null) trailingIcon!
           ],
         ),
       ),

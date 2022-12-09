@@ -173,21 +173,31 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     const Spacer(),
                     AppPrimaryButton(
                       buttonText: 'Play all',
-                      trailingIcon: CupertinoIcons.play_circle,
+                      trailingIcon: Icon(
+                        CupertinoIcons.play_circle,
+                        size: 18,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       onTap: () {},
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
                       onTap: () {},
                       buttonText: 'Shuffle Play',
-                      trailingIcon: CupertinoIcons.shuffle,
+                      trailingIcon: Icon(
+                        CupertinoIcons.shuffle,
+                        size: 18,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
                       onTap: () {
-                        log('message');
+                        snapshot
+                            .setMusicPlaylistEditState(!snapshot.onEditState);
                       },
-                      trailingIcon: Iconsax.edit,
+                      // trailingIcon:
+                      //     snapshot.onEditState ? Icons.done : Iconsax.edit,
                     )
                   ],
                 ),

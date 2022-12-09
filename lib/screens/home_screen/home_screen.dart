@@ -102,7 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     AppPrimaryButton(
                       buttonText: 'See More',
-                      trailingIcon: CupertinoIcons.arrow_right,
+                      trailingIcon: Icon(
+                        CupertinoIcons.arrow_right,
+                        size: 18,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       onTap: () {
                         Navigator.of(context).pushNamed(
                             RecentlyPlayedScreen.recentlyPlayedScreen);
