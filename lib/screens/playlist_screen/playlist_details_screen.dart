@@ -198,8 +198,11 @@ class PlaylistDetailsScreen extends StatelessWidget {
                 child: ListView.builder(
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, idx) {
-                    return MusicListTile(
-                      selectedMusic: userPlaylistListItem.musicItems[idx],
+                    return Expanded(
+                      child: MusicListTile(
+                        selectedMusic: userPlaylistListItem.musicItems[idx],
+                        onEditState: snapshot.onEditState,
+                      ),
                     );
                   },
                   itemCount: userPlaylistListItem.musicItems.length,

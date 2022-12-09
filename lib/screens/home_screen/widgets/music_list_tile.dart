@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,14 @@ class MusicListTile extends StatefulWidget {
   final bool? isSecondary;
   // if the current music item is not a part of playlist, should be cleared
   final bool? clearEarlierPlaylist;
+
+  final bool onEditState;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isSecondary,
     this.clearEarlierPlaylist,
+    this.onEditState = false,
   }) : super(key: key);
 
   @override
@@ -76,21 +78,23 @@ class _MusicListTileState extends State<MusicListTile> {
                         ),
                       );
                     },
-                    onTap: () async {
-                      if (isPlayingSnapshot.data! &&
-                          widget.selectedMusic.musicId ==
-                              snapshot.currentMusic?.musicId) {
-                        snapshot.pauseMusic();
-                      } else if (widget.selectedMusic.musicId !=
-                          snapshot.currentMusic?.musicId) {
-                        snapshot.playMusic(
-                          widget.selectedMusic,
-                          widget.clearEarlierPlaylist,
-                        );
-                      } else {
-                        snapshot.resumeMusic();
-                      }
-                    },
+                    onTap: widget.onEditState
+                        ? null
+                        : () async {
+                            if (isPlayingSnapshot.data! &&
+                                widget.selectedMusic.musicId ==
+                                    snapshot.currentMusic?.musicId) {
+                              snapshot.pauseMusic();
+                            } else if (widget.selectedMusic.musicId !=
+                                snapshot.currentMusic?.musicId) {
+                              snapshot.playMusic(
+                                widget.selectedMusic,
+                                widget.clearEarlierPlaylist,
+                              );
+                            } else {
+                              snapshot.resumeMusic();
+                            }
+                          },
                     child: Row(
                       children: [
                         Stack(
@@ -101,7 +105,6 @@ class _MusicListTileState extends State<MusicListTile> {
                                 imageUrl: widget.selectedMusic.imageUrl,
                               ),
                             ),
-                            
                           ],
                         ),
                         Expanded(
@@ -134,22 +137,24 @@ class _MusicListTileState extends State<MusicListTile> {
                             ],
                           ),
                         ),
-                        snapshot.currentMusic?.musicId ==
-                                widget.selectedMusic.musicId
-                            // if current music tile is to be played and the music metadata
-                            // was still being fetched, show loading and after that hand it to the
-                            // audio player stream to handle the rest.
-                            ? snapshot.musicItemMetaDataLoadingState ==
-                                    LoadingState.loading
-                                ? LoadingIndicator.small(context)
-                                : SizedBox(
-                                    child: _MusicTileTrailingWidget(
-                                      processingStateStream:
-                                          snapshot.processingStateStream,
-                                      playingStream: snapshot.playingStream,
-                                    ),
-                                  )
-                            : const _PlayButtonWidget(),
+                        !widget.onEditState
+                            ? snapshot.currentMusic?.musicId ==
+                                    widget.selectedMusic.musicId
+                                // if current music tile is to be played and the music metadata
+                                // was still being fetched, show loading and after that hand it to the
+                                // audio player stream to handle the rest.
+                                ? snapshot.musicItemMetaDataLoadingState ==
+                                        LoadingState.loading
+                                    ? LoadingIndicator.small(context)
+                                    : SizedBox(
+                                        child: _MusicTileTrailingWidget(
+                                          processingStateStream:
+                                              snapshot.processingStateStream,
+                                          playingStream: snapshot.playingStream,
+                                        ),
+                                      )
+                                : const _PlayButtonWidget()
+                            : const SizedBox.shrink(),
                         const SizedBox(width: 20),
                       ],
                     ),
