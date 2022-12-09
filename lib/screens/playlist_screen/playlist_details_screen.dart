@@ -201,7 +201,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     return Expanded(
                       child: MusicListTile(
                         selectedMusic: userPlaylistListItem.musicItems[idx],
-                        onEditState: snapshot.onEditState,
+                        disabled: snapshot.onEditState,
                       ),
                     );
                   },

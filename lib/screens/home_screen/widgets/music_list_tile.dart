@@ -22,13 +22,13 @@ class MusicListTile extends StatefulWidget {
   // if the current music item is not a part of playlist, should be cleared
   final bool? clearEarlierPlaylist;
 
-  final bool onEditState;
+  final bool disabled;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isSecondary,
     this.clearEarlierPlaylist,
-    this.onEditState = false,
+    this.disabled = false,
   }) : super(key: key);
 
   @override
@@ -78,7 +78,7 @@ class _MusicListTileState extends State<MusicListTile> {
                         ),
                       );
                     },
-                    onTap: widget.onEditState
+                    onTap: widget.disabled
                         ? null
                         : () async {
                             if (isPlayingSnapshot.data! &&
@@ -137,7 +137,7 @@ class _MusicListTileState extends State<MusicListTile> {
                             ],
                           ),
                         ),
-                        !widget.onEditState
+                        !widget.disabled
                             ? snapshot.currentMusic?.musicId ==
                                     widget.selectedMusic.musicId
                                 // if current music tile is to be played and the music metadata
