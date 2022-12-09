@@ -173,22 +173,14 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     const Spacer(),
                     AppPrimaryButton(
                       buttonText: 'Play all',
-                      trailingIcon: Icon(
-                        CupertinoIcons.play_circle,
-                        size: 18,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      trailingIcon: CupertinoIcons.play_circle,
                       onTap: () {},
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
                       onTap: () {},
                       buttonText: 'Shuffle Play',
-                      trailingIcon: Icon(
-                        CupertinoIcons.shuffle,
-                        size: 18,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      trailingIcon: CupertinoIcons.shuffle,
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
@@ -196,22 +188,9 @@ class PlaylistDetailsScreen extends StatelessWidget {
                         snapshot
                             .setMusicPlaylistEditState(!snapshot.onEditState);
                       },
-                      trailingIcon: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        transitionBuilder: (child, animation) {
-                          return ScaleTransition(
-                            scale: animation,
-                            child: child,
-                          );
-                        },
-                        child: Icon(
+                      trailingIcon:
                           snapshot.onEditState ? Icons.done : Iconsax.edit,
-                          key: ValueKey<bool>(snapshot.onEditState),
-                          size: 18,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    )
+                    ),
                   ],
                 ),
               ),

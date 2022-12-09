@@ -157,11 +157,7 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                       }
                                       Navigator.of(context).pop();
                                     },
-                                    trailingIcon: Icon(
-                                      Icons.done,
-                                      size: 18,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                    trailingIcon: Icons.done,
                                   ),
                                 ],
                               ),
@@ -221,11 +217,7 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                     widget.musicItem,
                                   );
                                 },
-                                trailingIcon: Icon(
-                                  CupertinoIcons.add,
-                                  size: 18,
-                                  color: Theme.of(context).primaryColor,
-                                ),
+                                trailingIcon: CupertinoIcons.add,
                               )
                             ],
                           ),

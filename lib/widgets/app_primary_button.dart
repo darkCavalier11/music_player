@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppPrimaryButton extends StatelessWidget {
   final String? buttonText;
-  final Widget? trailingIcon;
+  final IconData? trailingIcon;
   final void Function() onTap;
   const AppPrimaryButton({
     Key? key,
@@ -42,7 +44,22 @@ class AppPrimaryButton extends StatelessWidget {
             ],
             if (trailingIcon != null && buttonText != null)
               const SizedBox(width: 10),
-            if (trailingIcon != null) trailingIcon!
+            if (trailingIcon != null)
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  trailingIcon,
+                  key: ValueKey<int>(trailingIcon?.codePoint ?? 0),
+                  size: 18,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
           ],
         ),
       ),
