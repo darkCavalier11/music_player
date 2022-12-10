@@ -199,32 +199,9 @@ class PlaylistDetailsScreen extends StatelessWidget {
                 child: ListView.builder(
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, idx) {
-                    return Row(
-                      children: [
-                        AnimatedSwitcher(
-                          duration: const Duration(seconds: 1),
-                          transitionBuilder: (child, animations) {
-                            return SlideTransition(
-                              // position: ,
-                              child: child,
-                            );
-                          },
-                          child: Icon(
-                            CupertinoIcons.minus_circle_fill,
-                            key: Key(
-                              snapshot.onEditState.toString(),
-                            ),
-                            size: snapshot.onEditState ? 18 : 0,
-                            color: Theme.of(context).errorColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: MusicListTile(
-                            selectedMusic: userPlaylistListItem.musicItems[idx],
-                            disabled: snapshot.onEditState,
-                          ),
-                        ),
-                      ],
+                    return MusicEditListTile(
+                      userPlaylistListItem: userPlaylistListItem,
+                      onEditState: snapshot.onEditState,
                     );
                   },
                   itemCount: userPlaylistListItem.musicItems.length,
@@ -235,6 +212,50 @@ class PlaylistDetailsScreen extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class MusicEditListTile extends StatelessWidget {
+  final bool onEditState;
+  const MusicEditListTile({
+    Key? key,
+    required this.userPlaylistListItem,
+    required this.onEditState,
+  }) : super(key: key);
+
+  final UserPlaylistListItem userPlaylistListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(itemBuilder: (context, idx) {
+      return Row(
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            // transitionBuilder: (child, animations) {
+            //   // return SlideTransition(
+            //   //   // position: ,
+            //   //   child: child,
+            //   // );
+            // },
+            child: Icon(
+              CupertinoIcons.minus_circle_fill,
+              key: Key(
+                onEditState.toString(),
+              ),
+              size: onEditState ? 18 : 0,
+              color: Theme.of(context).errorColor,
+            ),
+          ),
+          Expanded(
+            child: MusicListTile(
+              selectedMusic: userPlaylistListItem.musicItems[idx],
+              disabled: onEditState,
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
 
