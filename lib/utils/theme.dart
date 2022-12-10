@@ -11,6 +11,7 @@ class AppTheme {
         const Color(0xff61c9a8),
       ),
       canvasColor: Colors.black,
+      errorColor: Colors.redAccent,
       colorScheme: const ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
         brightness: Brightness.dark,
