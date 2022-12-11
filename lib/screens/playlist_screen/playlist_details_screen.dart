@@ -206,7 +206,7 @@ class PlaylistDetailsScreen extends StatelessWidget {
   }
 }
 
-class MusicEditListTile extends StatelessWidget {
+class MusicEditListTile extends StatefulWidget {
   final bool onEditState;
   const MusicEditListTile({
     Key? key,
@@ -215,6 +215,24 @@ class MusicEditListTile extends StatelessWidget {
   }) : super(key: key);
 
   final UserPlaylistListItem userPlaylistListItem;
+
+  @override
+  State<MusicEditListTile> createState() => _MusicEditListTileState();
+}
+
+class _MusicEditListTileState extends State<MusicEditListTile>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _animationController.repeat(reverse: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,22 +247,31 @@ class MusicEditListTile extends StatelessWidget {
                 child: Icon(
                   CupertinoIcons.minus_circle_fill,
                   key: Key(
-                    onEditState.toString(),
+                    widget.onEditState.toString(),
                   ),
-                  size: onEditState ? 18 : 0,
+                  size: widget.onEditState ? 18 : 0,
                   color: Theme.of(context).errorColor,
                 ),
               ),
-              Expanded(
-                child: MusicListTile(
-                  selectedMusic: userPlaylistListItem.musicItems[idx],
-                  disabled: onEditState,
-                ),
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Expanded(
+                    child: ScaleTransition(
+                      scale: _animationController,
+                      child: MusicListTile(
+                        selectedMusic:
+                            widget.userPlaylistListItem.musicItems[idx],
+                        disabled: widget.onEditState,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           );
         },
-        itemCount: userPlaylistListItem.musicItems.length,
+        itemCount: widget.userPlaylistListItem.musicItems.length,
       ),
     );
   }
