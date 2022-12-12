@@ -199,6 +199,12 @@ class PlaylistDetailsScreen extends StatelessWidget {
               MusicEditListTile(
                 userPlaylistListItem: userPlaylistListItem,
                 onEditState: snapshot.onEditState,
+                onTapRemove: (
+                    {required String musicId,
+                    required String playlistTitle}) async {
+                  snapshot.removeMusicItemFromPlaylist(
+                      musicId: musicId, playlistTitle: playlistTitle);
+                },
               ),
             ],
           ),
@@ -210,10 +216,13 @@ class PlaylistDetailsScreen extends StatelessWidget {
 
 class MusicEditListTile extends StatefulWidget {
   final bool onEditState;
+  final Future<void> Function(
+      {required String playlistTitle, required String musicId}) onTapRemove;
   const MusicEditListTile({
     Key? key,
     required this.userPlaylistListItem,
     required this.onEditState,
+    required this.onTapRemove,
   }) : super(key: key);
 
   final UserPlaylistListItem userPlaylistListItem;
@@ -237,6 +246,12 @@ class _MusicEditListTileState extends State<MusicEditListTile>
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
@@ -246,13 +261,22 @@ class _MusicEditListTileState extends State<MusicEditListTile>
             children: [
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-                child: Icon(
-                  CupertinoIcons.minus_circle_fill,
-                  key: Key(
-                    widget.onEditState.toString(),
+                child: GestureDetector(
+                  onTap: () {
+                    widget.onTapRemove(
+                      musicId:
+                          widget.userPlaylistListItem.musicItems[idx].musicId,
+                      playlistTitle: widget.userPlaylistListItem.title,
+                    );
+                  },
+                  child: Icon(
+                    CupertinoIcons.minus_circle_fill,
+                    key: Key(
+                      widget.onEditState.toString(),
+                    ),
+                    size: widget.onEditState ? 18 : 0,
+                    color: Theme.of(context).errorColor,
                   ),
-                  size: widget.onEditState ? 18 : 0,
-                  color: Theme.of(context).errorColor,
                 ),
               ),
               AnimatedBuilder(
