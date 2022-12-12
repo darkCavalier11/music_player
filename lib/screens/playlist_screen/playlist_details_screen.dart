@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
@@ -229,7 +230,7 @@ class _MusicEditListTileState extends State<MusicEditListTile>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 100),
     );
     _animationController.repeat(reverse: true);
   }
@@ -257,8 +258,8 @@ class _MusicEditListTileState extends State<MusicEditListTile>
                 animation: _animationController,
                 builder: (context, child) {
                   return Expanded(
-                    child: ScaleTransition(
-                      scale: _animationController,
+                    child: Transform.rotate(
+                      angle: pi * _animationController.value / 150,
                       child: MusicListTile(
                         selectedMusic:
                             widget.userPlaylistListItem.musicItems[idx],
