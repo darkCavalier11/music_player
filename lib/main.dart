@@ -32,9 +32,7 @@ Future<void> main() async {
     androidShowNotificationBadge: true,
   );
   store = Store<AppState>(
-    initialState: AppState.initial(),
-    wrapError: ReduxExceptionWrapper()
-  );
+      initialState: AppState.initial(), wrapError: ReduxExceptionWrapper());
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.black,

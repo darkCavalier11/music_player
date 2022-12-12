@@ -41,10 +41,9 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
       dispatch(GetRecentlyPlayedMusicList());
     } catch (err) {
       throw ReduxException(
-        errorMessage: err.toString(),
-        actionName: 'AddItemToRecentlyPlayedList',
-        userErrorToastMessage: 'Error Adding item to playlist'
-      );
+          errorMessage: err.toString(),
+          actionName: 'AddItemToRecentlyPlayedList',
+          userErrorToastMessage: 'Error Adding item to playlist');
     }
     return null;
   }
@@ -72,10 +71,9 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw ReduxException(
-        errorMessage: err.toString(),
-        actionName: 'GetRecentlyPlayedMusicList',
-        userErrorToastMessage: 'Error getting recently played list'
-      );
+          errorMessage: err.toString(),
+          actionName: 'GetRecentlyPlayedMusicList',
+          userErrorToastMessage: 'Error getting recently played list');
     }
   }
 }

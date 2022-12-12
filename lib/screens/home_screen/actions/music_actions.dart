@@ -100,8 +100,9 @@ class PlayAudioAction extends ReduxAction<AppState> {
             tag: musicItem.toMediaItem(),
           ),
         );
+
         /// playlist is holding the items those were previously played.
-        /// When a new item is tapped on it will be added to the end and 
+        /// When a new item is tapped on it will be added to the end and
         /// will be selected by index-1
         state.audioPlayerState.audioPlayer.seek(const Duration(seconds: 0),
             index: state.audioPlayerState.currentJustAudioPlaylist.length - 1);
@@ -175,4 +176,3 @@ class StopAudioAction extends ReduxAction<AppState> {
     return null;
   }
 }
-

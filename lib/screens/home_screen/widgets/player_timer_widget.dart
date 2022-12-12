@@ -156,7 +156,8 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             );
                           }
                           return Text(
-                            playerSnapshot.data?.toFormatedDurationString() ?? '-',
+                            playerSnapshot.data?.toFormatedDurationString() ??
+                                '-',
                             style:
                                 Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Theme.of(context).hintColor,
@@ -182,7 +183,8 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             );
                           }
                           return Text(
-                            playerSnapshot.data?.toFormatedDurationString() ?? '-',
+                            playerSnapshot.data?.toFormatedDurationString() ??
+                                '-',
                             style:
                                 Theme.of(context).textTheme.bodyText1?.copyWith(
                                       color: Theme.of(context).hintColor,

@@ -1,3 +1,1 @@
-class SharedPref {
-  
-}
+class SharedPref {}

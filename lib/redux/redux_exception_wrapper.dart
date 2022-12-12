@@ -11,7 +11,7 @@ class ReduxExceptionWrapper extends WrapError<AppState> {
         Fluttertoast.showToast(msg: error.userErrorToastMessage!);
       }
     } else {
-        Fluttertoast.showToast(msg: 'Some error occured.');
+      Fluttertoast.showToast(msg: 'Some error occured.');
     }
     return null;
   }
