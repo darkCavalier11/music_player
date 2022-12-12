@@ -32,7 +32,6 @@ No support for native mobile functions like showing banner on the music screen o
 
 
 ## Known bugs need fix
-* Music playlist detail screen song count and total duration need fix.
 * Loading time for long audios on ios(song duration as well) and some time on android.
 * Repeatation of items on the home screen list
 
@@ -40,7 +39,7 @@ No support for native mobile functions like showing banner on the music screen o
 * Music playing screen UI quality bump.
 
 ## future features
-* Add remove from playlist for individual songs on the playlist with state update.
+* Remove state update.
 * Fetch next music items on music playing sceen once reached to end of playing disc table.
 * Shuffle play on playlist screen.
 * Intelligent cache
