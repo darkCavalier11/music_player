@@ -191,10 +191,10 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
 
 class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
   final String playlistTitle;
-  final MusicItem musicItem;
+  final String musicId;
   RemoveMusicItemFromPlaylist({
     required this.playlistTitle,
-    required this.musicItem,
+    required this.musicId,
   });
   @override
   Future<AppState?> reduce() async {
@@ -208,7 +208,7 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
       final playlistToRemove =
           playListItems.firstWhere((element) => element.title == playlistTitle);
       playlistToRemove.musicItems
-          .removeWhere((e) => e.musicId == musicItem.musicId);
+          .removeWhere((e) => e.musicId == musicId);
       // remove if no music left
       if (playlistToRemove.musicItems.isEmpty) {
         playListItems.remove(playlistToRemove);

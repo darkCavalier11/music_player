@@ -16,6 +16,7 @@ import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_dialog.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
+import '../../redux/models/music_item.dart';
 import 'actions/playlist_actions.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
@@ -285,11 +286,15 @@ class _ViewModel extends Vm {
   final void Function(String) removePlaylist;
   final bool onEditState;
   final void Function(bool) setMusicPlaylistEditState;
+  final Future<void> Function(
+      {required String playlistTitle,
+      required String musicId}) removeMusicItemFromPlaylist;
   _ViewModel({
     required this.userPlaylistItems,
     required this.removePlaylist,
     required this.onEditState,
     required this.setMusicPlaylistEditState,
+    required this.removeMusicItemFromPlaylist,
   });
 }
 
@@ -301,13 +306,17 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
       userPlaylistItems: state.userPlaylistState.userPlaylistItems,
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));
-        // dispatch(RemoveMusicItemFromPlaylist(playlistTitle: , musicItem: musicItem))
       },
       onEditState: state.userPlaylistState.onEditState,
       setMusicPlaylistEditState: (onEditState) {
         dispatch(
           SetMusicPlaylistEditState(onEditState: onEditState),
         );
+      },
+      removeMusicItemFromPlaylist: (
+          {required String playlistTitle, required String musicId}) async {
+        dispatch(RemoveMusicItemFromPlaylist(
+            playlistTitle: playlistTitle, musicId: musicId));
       },
     );
   }

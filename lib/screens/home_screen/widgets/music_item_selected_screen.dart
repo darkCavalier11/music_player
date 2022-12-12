@@ -225,8 +225,12 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   _ViewModel fromStore() {
     return _ViewModel(
       removeMusicItemFromPlaylist: (musicitem, playlistName) {
-        dispatch(RemoveMusicItemFromPlaylist(
-            playlistTitle: playlistName, musicItem: musicitem));
+        dispatch(
+          RemoveMusicItemFromPlaylist(
+            playlistTitle: playlistName,
+            musicId: musicitem.musicId,
+          ),
+        );
       },
       isMusicItemInFav: (musicItem) {
         final _index = state.userPlaylistState.userPlaylistItems.indexWhere(
