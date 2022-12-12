@@ -190,10 +190,10 @@ class AddMusicItemtoPlaylist extends ReduxAction<AppState> {
 }
 
 class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
-  final String title;
+  final String playlistTitle;
   final MusicItem musicItem;
   RemoveMusicItemFromPlaylist({
-    required this.title,
+    required this.playlistTitle,
     required this.musicItem,
   });
   @override
@@ -206,7 +206,7 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
           )
           .toList();
       final playlistToRemove =
-          playListItems.firstWhere((element) => element.title == title);
+          playListItems.firstWhere((element) => element.title == playlistTitle);
       playlistToRemove.musicItems
           .removeWhere((e) => e.musicId == musicItem.musicId);
       // remove if no music left

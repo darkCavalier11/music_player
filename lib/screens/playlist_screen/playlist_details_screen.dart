@@ -256,17 +256,17 @@ class _MusicEditListTileState extends State<MusicEditListTile>
               ),
               AnimatedBuilder(
                 animation: _animationController,
+                child: MusicListTile(
+                  selectedMusic: widget.userPlaylistListItem.musicItems[idx],
+                  disabled: widget.onEditState,
+                ),
                 builder: (context, child) {
                   return Expanded(
                     child: Transform.rotate(
                       angle: widget.onEditState
                           ? pi * _animationController.value / 150
                           : 0,
-                      child: MusicListTile(
-                        selectedMusic:
-                            widget.userPlaylistListItem.musicItems[idx],
-                        disabled: widget.onEditState,
-                      ),
+                      child: child,
                     ),
                   );
                 },
@@ -301,6 +301,7 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
       userPlaylistItems: state.userPlaylistState.userPlaylistItems,
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));
+        // dispatch(RemoveMusicItemFromPlaylist(playlistTitle: , musicItem: musicItem))
       },
       onEditState: state.userPlaylistState.onEditState,
       setMusicPlaylistEditState: (onEditState) {
