@@ -230,7 +230,7 @@ class _MusicEditListTileState extends State<MusicEditListTile>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 200),
     );
     _animationController.repeat(reverse: true);
   }
@@ -244,7 +244,7 @@ class _MusicEditListTileState extends State<MusicEditListTile>
           return Row(
             children: [
               AnimatedSwitcher(
-                duration: const Duration(seconds: 1),
+                duration: const Duration(milliseconds: 250),
                 child: Icon(
                   CupertinoIcons.minus_circle_fill,
                   key: Key(
@@ -259,7 +259,9 @@ class _MusicEditListTileState extends State<MusicEditListTile>
                 builder: (context, child) {
                   return Expanded(
                     child: Transform.rotate(
-                      angle: pi * _animationController.value / 150,
+                      angle: widget.onEditState
+                          ? pi * _animationController.value / 150
+                          : 0,
                       child: MusicListTile(
                         selectedMusic:
                             widget.userPlaylistListItem.musicItems[idx],
