@@ -20,8 +20,8 @@ import '../../redux/models/music_item.dart';
 import 'actions/playlist_actions.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
-  final UserPlaylistListItem userPlaylistListItem;
-  const PlaylistDetailsScreen({Key? key, required this.userPlaylistListItem})
+  final String userPlaylistListId;
+  const PlaylistDetailsScreen({Key? key, required this.userPlaylistListId})
       : super(key: key);
 
   @override
@@ -34,6 +34,8 @@ class PlaylistDetailsScreen extends StatelessWidget {
         );
       },
       builder: (context, snapshot) {
+        final userPlaylistListItem =
+            snapshot.getUserPlaylistItemFromId(userPlaylistListId);
         return Scaffold(
           body: Column(
             children: [
@@ -311,19 +313,21 @@ class _MusicEditListTileState extends State<MusicEditListTile>
 }
 
 class _ViewModel extends Vm {
-  final List<UserPlaylistListItem> userPlaylistItems;
+  // final List<UserPlaylistListItem> userPlaylistItems;
   final void Function(String) removePlaylist;
   final bool onEditState;
   final void Function(bool) setMusicPlaylistEditState;
+  final UserPlaylistListItem Function(String) getUserPlaylistItemFromId;
   final Future<void> Function(
       {required String playlistTitle,
       required String musicId}) removeMusicItemFromPlaylist;
   _ViewModel({
-    required this.userPlaylistItems,
+    // required this.userPlaylistItems,
     required this.removePlaylist,
     required this.onEditState,
     required this.setMusicPlaylistEditState,
     required this.removeMusicItemFromPlaylist,
+    required this.getUserPlaylistItemFromId,
   });
 }
 
@@ -332,7 +336,10 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      userPlaylistItems: state.userPlaylistState.userPlaylistItems,
+      getUserPlaylistItemFromId: (id) {
+        return state.userPlaylistState.userPlaylistItems
+            .firstWhere((element) => element.id == id);
+      },
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));
       },

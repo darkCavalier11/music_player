@@ -23,7 +23,7 @@ class PlaylistItemTile extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaylistDetailsScreen(
-              userPlaylistListItem: userPlaylist,
+              userPlaylistListId: userPlaylist.id,
             ),
           ),
         );
