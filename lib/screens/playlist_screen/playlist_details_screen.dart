@@ -209,6 +209,9 @@ class PlaylistDetailsScreen extends StatelessWidget {
                 onTapRemove: (
                     {required String musicId,
                     required String playlistTitle}) async {
+                  if (userPlaylistListItem.musicItems.length == 1) {
+                    Navigator.of(context).pop();
+                  }
                   snapshot.removeMusicItemFromPlaylist(
                       musicId: musicId, playlistTitle: playlistTitle);
                 },
@@ -313,7 +316,6 @@ class _MusicEditListTileState extends State<MusicEditListTile>
 }
 
 class _ViewModel extends Vm {
-  // final List<UserPlaylistListItem> userPlaylistItems;
   final void Function(String) removePlaylist;
   final bool onEditState;
   final void Function(bool) setMusicPlaylistEditState;
@@ -322,7 +324,6 @@ class _ViewModel extends Vm {
       {required String playlistTitle,
       required String musicId}) removeMusicItemFromPlaylist;
   _ViewModel({
-    // required this.userPlaylistItems,
     required this.removePlaylist,
     required this.onEditState,
     required this.setMusicPlaylistEditState,
@@ -337,8 +338,14 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
   _ViewModel fromStore() {
     return _ViewModel(
       getUserPlaylistItemFromId: (id) {
-        return state.userPlaylistState.userPlaylistItems
-            .firstWhere((element) => element.id == id);
+        return state.userPlaylistState.userPlaylistItems.firstWhere(
+          (element) => element.id == id,
+          orElse: () => UserPlaylistListItem(
+            id: '',
+            title: '',
+            musicItems: [],
+          ),
+        );
       },
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));
