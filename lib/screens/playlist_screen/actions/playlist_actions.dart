@@ -218,7 +218,7 @@ class RemoveMusicItemFromPlaylist extends ReduxAction<AppState> {
           playListItems.map((e) => e.toJson()).toList(),
         ),
       );
-      dispatch(LoadUserPlaylistAction());
+      await dispatch(LoadUserPlaylistAction());
     } catch (err) {
       log(
         err.toString(),

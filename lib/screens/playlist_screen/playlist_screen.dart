@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -162,6 +163,17 @@ class _ViewModel extends Vm {
     required this.userPlaylistListItems,
     required this.removePlaylist,
   }) : super(equals: [userPlaylistListItems]);
+
+  @override
+  bool operator ==(covariant _ViewModel other) {
+    if (identical(this, other)) return true;
+
+    return listEquals(other.userPlaylistListItems, userPlaylistListItems) &&
+        other.removePlaylist == removePlaylist;
+  }
+
+  @override
+  int get hashCode => userPlaylistListItems.hashCode ^ removePlaylist.hashCode;
 }
 
 class _Factory extends VmFactory<AppState, PlaylistScreen> {

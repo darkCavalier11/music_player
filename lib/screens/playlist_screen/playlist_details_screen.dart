@@ -28,6 +28,11 @@ class PlaylistDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onDispose: (store) {
+        store.dispatch(
+          SetMusicPlaylistEditState(onEditState: false),
+        );
+      },
       builder: (context, snapshot) {
         return Scaffold(
           body: Column(
