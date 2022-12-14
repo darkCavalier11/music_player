@@ -36,6 +36,9 @@ class PlaylistDetailsScreen extends StatelessWidget {
       builder: (context, snapshot) {
         final userPlaylistListItem =
             snapshot.getUserPlaylistItemFromId(userPlaylistListId);
+        if (userPlaylistListItem.musicItems.isEmpty) {
+          return const SizedBox.shrink();
+        }
         return Scaffold(
           body: Column(
             children: [
@@ -340,11 +343,13 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
       getUserPlaylistItemFromId: (id) {
         return state.userPlaylistState.userPlaylistItems.firstWhere(
           (element) => element.id == id,
-          orElse: () => UserPlaylistListItem(
-            id: '',
-            title: '',
-            musicItems: [],
-          ),
+          orElse: () {
+            return UserPlaylistListItem(
+              id: '',
+              title: '',
+              musicItems: [],
+            );
+          },
         );
       },
       removePlaylist: (playlistId) {
