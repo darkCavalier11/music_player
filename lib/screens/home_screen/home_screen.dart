@@ -13,6 +13,7 @@ import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
+import 'package:music_player/screens/onboarding/onboarding.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
@@ -76,6 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const OnboardingScreen()),
+                      );
+                    },
+                    child: Text('Hello'),
+                  ),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),
                     const Padding(

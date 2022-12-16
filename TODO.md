@@ -32,17 +32,17 @@ No support for native mobile functions like showing banner on the music screen o
 
 
 ## Known bugs need fix
-* Repeatation of items on the home screen list
+* Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
 
 ## UI enhancements
 * Music playing screen UI quality bump.
 
 ## future features
-* Fetch next music items on music playing sceen once reached to end of playing disc table.
 * Shuffle play on playlist screen.
 * Intelligent cache
 * Onboarding screen for dp and name.
 * More setting features 
 * Offline downloads
 * Possible bytes stream based music playing to support more low level playing to eliminate the ios playing issue.
+* Fetch next music items on music playing sceen once reached to end of playing disc table.(low priority)
