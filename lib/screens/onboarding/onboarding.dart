@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_player/widgets/app_back_button.dart';
+import 'package:music_player/widgets/app_primary_button.dart';
 import 'package:music_player/widgets/app_text_field.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
@@ -42,8 +43,11 @@ class OnboardingScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Stack(
+                    clipBehavior: Clip.hardEdge,
                     children: [
-                      MusicPlayingWaveWidget(),
+                      MusicPlayingWaveWidget(
+                        playingStream: Stream.value(true),
+                      ),
                       Text(
                         'Listen everything adfree!',
                         style: Theme.of(context).textTheme.headline2?.copyWith(
@@ -54,10 +58,25 @@ class OnboardingScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 40),
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).dividerColor,
+                    radius: 80,
+                  ),
+                  const SizedBox(height: 40),
                   AppTextField(
                     hintText: 'Enter Your Name',
                   ),
                   const Spacer(),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      AppPrimaryButton(
+                        onTap: () {},
+                        buttonText: 'Let\'s Go',
+                        trailingIcon: Icons.arrow_circle_right,
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
