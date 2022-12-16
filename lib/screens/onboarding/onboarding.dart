@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -58,12 +59,24 @@ class OnboardingScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 40),
-                  CircleAvatar(
-                    backgroundColor: Theme.of(context).dividerColor,
-                    radius: 80,
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Theme.of(context).dividerColor,
+                        radius: 80,
+                      ),
+                      const Positioned(
+                        child: Icon(
+                          CupertinoIcons.camera_circle,
+                          size: 35,
+                        ),
+                        right: 12,
+                        bottom: 12,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 40),
-                  AppTextField(
+                  const AppTextField(
                     hintText: 'Enter Your Name',
                   ),
                   const Spacer(),
