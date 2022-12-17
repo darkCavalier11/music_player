@@ -5,14 +5,17 @@ import 'package:music_player/redux/models/audio_player_state.dart';
 import 'package:music_player/redux/models/home_page_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/redux/models/user_playlist_state.dart';
+import 'package:music_player/redux/models/user_profile_state.dart';
 
 class AppState {
+  final UserProfileState userProfileState;
   final UiState uiState;
   final AudioPlayerState audioPlayerState;
   final SearchState searchState;
   final HomePageState homePageState;
   final UserPlaylistState userPlaylistState;
   AppState({
+    required this.userProfileState,
     required this.uiState,
     required this.audioPlayerState,
     required this.searchState,
@@ -21,6 +24,7 @@ class AppState {
   });
 
   AppState copyWith({
+    UserProfileState? userProfileState,
     UiState? uiState,
     AudioPlayerState? audioPlayerState,
     SearchState? searchState,
@@ -28,6 +32,7 @@ class AppState {
     UserPlaylistState? userPlaylistState,
   }) {
     return AppState(
+      userProfileState: userProfileState ?? this.userProfileState,
       uiState: uiState ?? this.uiState,
       audioPlayerState: audioPlayerState ?? this.audioPlayerState,
       searchState: searchState ?? this.searchState,
@@ -38,6 +43,7 @@ class AppState {
 
   factory AppState.initial() {
     return AppState(
+      userProfileState: UserProfileState.initial(),
       uiState: UiState.initial(),
       audioPlayerState: AudioPlayerState.initial(),
       searchState: SearchState.initial(),
@@ -48,14 +54,15 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState(uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, homePageState: $homePageState, userPlaylistState: $userPlaylistState)';
+    return 'AppState(userProfileState: $userProfileState, uiState: $uiState, audioPlayerState: $audioPlayerState, searchState: $searchState, homePageState: $homePageState, userPlaylistState: $userPlaylistState)';
   }
 
   @override
   bool operator ==(covariant AppState other) {
     if (identical(this, other)) return true;
 
-    return other.uiState == uiState &&
+    return other.userProfileState == userProfileState &&
+        other.uiState == uiState &&
         other.audioPlayerState == audioPlayerState &&
         other.searchState == searchState &&
         other.homePageState == homePageState &&
@@ -64,7 +71,8 @@ class AppState {
 
   @override
   int get hashCode {
-    return uiState.hashCode ^
+    return userProfileState.hashCode ^
+        uiState.hashCode ^
         audioPlayerState.hashCode ^
         searchState.hashCode ^
         homePageState.hashCode ^

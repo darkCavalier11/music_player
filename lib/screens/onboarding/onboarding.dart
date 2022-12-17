@@ -77,8 +77,9 @@ class OnboardingScreen extends StatelessWidget {
                             size: 35,
                           ),
                           onTap: () async {
-                            FilePickerResult? result =
-                                await FilePicker.platform.pickFiles();
+                            FilePickerResult? result = await FilePicker.platform
+                                .pickFiles(
+                                    allowedExtensions: ['jpg', 'png', 'jpeg']);
 
                             if (result?.files.single.path != null) {
                               File file = File(result!.files.single.path!);
