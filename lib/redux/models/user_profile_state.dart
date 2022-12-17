@@ -21,18 +21,6 @@ class UserProfileState {
     );
   }
 
-  Future<UserProfileState> fromSharedPref() async {
-    final pref = await SharedPreferences.getInstance();
-    return UserProfileState(
-      userName: pref.getString(SharedPrefKeys.userProfileUsername) ?? '',
-      profilePicPlatformPath:
-          pref.getString(SharedPrefKeys.userProfileprofilePicPlatformPath) ??
-              '',
-      isOnBoardingDone:
-          pref.getBool(SharedPrefKeys.userProfileisOnBoardingDone) ?? false,
-    );
-  }
-
   UserProfileState copyWith({
     String? userName,
     String? profilePicPlatformPath,

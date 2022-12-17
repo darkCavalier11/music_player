@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
+import 'package:music_player/redux/action/user_profile_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/redux_exception_wrapper.dart';
 import 'package:music_player/screens/app_page_view.dart';
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
+      onInit: (store) async {
+        store.dispatch(LoadUserProfileFromSharedPref());
+      },
       builder: (context, snapshot) {
         return MaterialApp(
           // todo : light theme
