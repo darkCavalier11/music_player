@@ -55,6 +55,7 @@ dependencies:
   uuid: ^3.0.6
   package_info_plus: ^3.0.1
   carousel_slider: ^4.1.1
+  file_picker: ^5.2.4
 
 dev_dependencies:
   flutter_test:

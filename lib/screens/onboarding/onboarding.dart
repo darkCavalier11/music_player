@@ -1,3 +1,7 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -8,6 +12,7 @@ import 'package:music_player/widgets/app_back_button.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 import 'package:music_player/widgets/app_text_field.dart';
 import 'package:music_player/widgets/music_playing_wave_widget.dart';
+import 'package:path_provider/path_provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -65,10 +70,21 @@ class OnboardingScreen extends StatelessWidget {
                         backgroundColor: Theme.of(context).dividerColor,
                         radius: 80,
                       ),
-                      const Positioned(
-                        child: Icon(
-                          CupertinoIcons.camera_circle,
-                          size: 35,
+                      Positioned(
+                        child: GestureDetector(
+                          child: const Icon(
+                            CupertinoIcons.camera_circle,
+                            size: 35,
+                          ),
+                          onTap: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles();
+
+                            if (result?.files.single.path != null) {
+                              File file = File(result!.files.single.path!);
+                              log('${file.absolute}');
+                            } else {}
+                          },
                         ),
                         right: 12,
                         bottom: 12,
