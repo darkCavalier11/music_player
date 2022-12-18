@@ -77,14 +77,20 @@ class OnboardingScreen extends StatelessWidget {
                             size: 35,
                           ),
                           onTap: () async {
-                            FilePickerResult? result = await FilePicker.platform
-                                .pickFiles(
-                                    allowedExtensions: ['jpg', 'png', 'jpeg']);
+                            try {
+                              FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                                type: FileType.image,
+                              );
 
-                            if (result?.files.single.path != null) {
-                              File file = File(result!.files.single.path!);
-                              log('${file.absolute}');
-                            } else {}
+                              if (result?.files.single.path != null) {
+                                File file = File(result!.files.single.path!);
+                                log('${file.absolute}');
+                              } else {}
+                            } catch (err) {
+                              log('$err');
+                            }
                           },
                         ),
                         right: 12,
