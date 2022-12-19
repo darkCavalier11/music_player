@@ -6,17 +6,19 @@ class AppPrimaryButton extends StatelessWidget {
   final String? buttonText;
   final IconData? trailingIcon;
   final void Function() onTap;
+  final bool disabled;
   const AppPrimaryButton({
     Key? key,
     this.buttonText,
     required this.onTap,
     this.trailingIcon,
+    this.disabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: disabled ? null : onTap,
       child: Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.symmetric(
@@ -25,7 +27,9 @@ class AppPrimaryButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).primaryColor.withOpacity(0.2),
+          color: disabled
+              ? Theme.of(context).disabledColor.withOpacity(0.1)
+              : Theme.of(context).primaryColor.withOpacity(0.1),
           border: Border.all(
             color: Theme.of(context).disabledColor,
           ),
@@ -36,10 +40,11 @@ class AppPrimaryButton extends StatelessWidget {
             if (buttonText != null) ...[
               Text(
                 buttonText!,
-                style: Theme.of(context)
-                    .textTheme
-                    .button
-                    ?.copyWith(color: Theme.of(context).primaryColor),
+                style: Theme.of(context).textTheme.button?.copyWith(
+                      color: disabled
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).primaryColor,
+                    ),
               ),
             ],
             if (trailingIcon != null && buttonText != null)
@@ -57,7 +62,9 @@ class AppPrimaryButton extends StatelessWidget {
                   trailingIcon,
                   key: ValueKey<int>(trailingIcon?.codePoint ?? 0),
                   size: 18,
-                  color: Theme.of(context).primaryColor,
+                  color: disabled
+                      ? Theme.of(context).disabledColor
+                      : Theme.of(context).primaryColor,
                 ),
               ),
           ],
