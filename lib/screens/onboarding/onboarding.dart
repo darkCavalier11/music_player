@@ -78,8 +78,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Stack(
                       clipBehavior: Clip.hardEdge,
                       children: [
-                        MusicPlayingWaveWidget(
-                          playingStream: Stream.value(true),
+                        Positioned(
+                          left: 20,
+                          top: 20,
+                          child: MusicPlayingWaveWidget(
+                            playingStream: Stream.value(true),
+                          ),
                         ),
                         Text(
                           'Listen everything adfree!',
@@ -136,10 +140,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         const Spacer(),
                         AppPrimaryButton(
-                          onTap: () {},
+                          onTap: () {
+                            snapshot.setProfilePicPlatformPath(
+                                profilePicPlatformPath: '');
+                            snapshot.setUsername(
+                                userName: _textEditingController.text);
+                            snapshot.setOnboardingDone();
+                          },
                           buttonText: 'Let\'s Go',
                           trailingIcon: Icons.arrow_circle_right,
-                          disabled: true,
+                          disabled: !snapshot.isOnBoardingDone,
                         )
                       ],
                     ),
