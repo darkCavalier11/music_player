@@ -17,33 +17,47 @@ class AccountScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
         child: Column(
           children: [
-            AppHeaderText(
+            const AppHeaderText(
               icon: Iconsax.timer_1,
               text: 'My Account',
             ),
             const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Theme.of(context).disabledColor.withOpacity(0.1),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
+            Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: CircleAvatar(
                     radius: 35,
-                    child: Text('S'),
+                    child: Text(
+                      'S',
+                      style: Theme.of(context).textTheme.headline4?.copyWith(
+                            color: Theme.of(context).cardColor,
+                          ),
+                    ),
                   ),
-                  const SizedBox(width: 16),
-                  Text(
-                    'Sumit Kumar Pradhan',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).disabledColor,
-                        ),
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 6,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      CupertinoIcons.pencil_circle_fill,
+                      color: Theme.of(context).backgroundColor,
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            Text(
+              'Sumit Kumar Pradhan',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).disabledColor,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             AccountTileSwitch(
               description:
@@ -51,7 +65,7 @@ class AccountScreen extends StatelessWidget {
               title: 'Intelligent Cache',
               onChanged: (v) {},
             ),
-            const SizedBox(height: 100),
+            const Spacer(),
             Text('v' + appVersion),
             Text(
               'Made with ❤️ in 🇮🇳',
@@ -62,7 +76,8 @@ class AccountScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.caption?.copyWith(
                     decoration: TextDecoration.underline,
                   ),
-            )
+            ),
+            const SizedBox(height: 100),
           ],
         ),
       ),
