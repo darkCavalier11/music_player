@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/account_screen/account_screen.dart';
-import 'package:music_player/screens/home_screen/widgets/music_player_widget.dart';
 import 'package:music_player/widgets/bottom_navigation.dart';
 import 'package:music_player/screens/home_screen/home_screen.dart';
 import 'package:music_player/screens/playlist_screen/playlist_screen.dart';

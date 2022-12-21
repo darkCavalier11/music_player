@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +14,6 @@ import 'package:music_player/screens/home_screen/actions/home_screen_actions.dar
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/onboarding/onboarding.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
-import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -84,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const OnboardingScreen()),
                       );
                     },
-                    child: Text('Hello'),
+                    child: const Text('Hello'),
                   ),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';

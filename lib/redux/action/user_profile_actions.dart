@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:async_redux/async_redux.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/redux_exception.dart';
-import 'package:music_player/screens/app_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/shared_pref.dart';

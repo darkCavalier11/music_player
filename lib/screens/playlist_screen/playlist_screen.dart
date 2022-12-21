@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +11,6 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/playlist_screen/actions/playlist_actions.dart';
 import 'package:music_player/screens/playlist_screen/widgets/playlist_item_tile.dart';
-import 'package:music_player/utils/constants.dart';
 import 'package:music_player/widgets/app_dialog.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
@@ -94,7 +92,7 @@ class PlaylistScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                         ),
-                                        TextSpan(text: '?'),
+                                        const TextSpan(text: '?'),
                                       ],
                                     ),
                                   ),

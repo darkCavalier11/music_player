@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:music_player/main.dart';
 import 'package:music_player/screens/onboarding/onboarding.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../widgets/text_themes/app_header_text.dart';
 
