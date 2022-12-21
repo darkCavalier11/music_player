@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:music_player/main.dart';
+import 'package:music_player/screens/onboarding/onboarding.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../widgets/text_themes/app_header_text.dart';
@@ -43,7 +44,10 @@ class AccountScreen extends StatelessWidget {
                   right: 0,
                   bottom: 6,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const OnboardingScreen()));
+                    },
                     icon: Icon(
                       CupertinoIcons.pencil_circle_fill,
                       color: Theme.of(context).backgroundColor,
