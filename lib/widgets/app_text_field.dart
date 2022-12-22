@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-
 class AppTextField extends StatelessWidget {
   final TextEditingController? textEditingController;
   final void Function(String)? onSubmitted;

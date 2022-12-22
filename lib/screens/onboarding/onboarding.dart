@@ -125,8 +125,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     const SizedBox(height: 40),
                     AppTextField(
+                      enabled: true,
                       hintText: 'Enter Your Name',
                       textEditingController: _textEditingController,
+                      // todo: handle this more gracefully
+                      onChanged: (c) {
+                        setState(() {});
+                      },
                     ),
                     const Spacer(),
                     Row(
@@ -142,7 +147,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           buttonText: 'Let\'s Go',
                           trailingIcon: Icons.arrow_circle_right,
-                          disabled: !snapshot.isOnBoardingDone,
+                          disabled: (!snapshot.isOnBoardingDone &&
+                              _textEditingController.text == ''),
                         )
                       ],
                     ),
@@ -173,7 +179,7 @@ class _ViewModel extends Vm {
     required this.isOnBoardingDone,
     required this.setProfilePicPlatformPath,
     required this.setUsername,
-  });
+  }) : super(equals: [userName, profilePicPlatformPath, isOnBoardingDone]);
 }
 
 class _Factory extends VmFactory<AppState, _OnboardingScreenState> {
