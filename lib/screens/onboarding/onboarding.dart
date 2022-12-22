@@ -144,6 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             snapshot.setUsername(
                                 userName: _textEditingController.text);
                             snapshot.setOnboardingDone();
+                            Navigator.of(context).pop();
                           },
                           buttonText: 'Let\'s Go',
                           trailingIcon: Icons.arrow_circle_right,
