@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -75,15 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const OnboardingScreen()),
-                      );
-                    },
-                    child: const Text('Hello'),
-                  ),
                   if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                     const Divider(),
                     const Padding(
