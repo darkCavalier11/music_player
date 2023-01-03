@@ -45,7 +45,8 @@ class ToggleIntelligentCacheAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     final pref = await SharedPreferences.getInstance();
-    pref.setBool(SharedPrefKeys.userProfileIntelligentCache, intelligentCache);
+    await pref.setBool(
+        SharedPrefKeys.userProfileIntelligentCache, intelligentCache);
     return state.copyWith(
       userProfileState: state.userProfileState.copyWith(
         intelligentCache: intelligentCache,

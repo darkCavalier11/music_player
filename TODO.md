@@ -31,6 +31,10 @@ No support for native mobile functions like showing banner on the music screen o
 * get data on how to read audio byte stream and play them in a more low level way.
 
 
+### sol 4
+Use video player to play video
+
+
 ## Known bugs need fix
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/main.dart';
+import 'package:music_player/redux/action/user_profile_actions.dart';
 import 'package:music_player/screens/onboarding/onboarding.dart';
 
 import '../../redux/models/app_state.dart';
@@ -70,10 +71,13 @@ class AccountScreen extends StatelessWidget {
                       ),
                 ),
                 AccountTileSwitch(
+                  value: snapshot.intelligentCache,
                   description:
                       'Based on your music playing item, it will cache most played items',
                   title: 'Intelligent Cache',
-                  onChanged: (v) {},
+                  onChanged: (v) {
+                    snapshot.toggleIntelligentCache(v);
+                  },
                 ),
                 const Spacer(),
                 Text('v' + appVersion),
@@ -99,9 +103,13 @@ class AccountScreen extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final String userName;
+  final bool intelligentCache;
+  final Future<void> Function(bool) toggleIntelligentCache;
   _ViewModel({
     required this.userName,
-  }) : super(equals: [userName]);
+    required this.intelligentCache,
+    required this.toggleIntelligentCache,
+  }) : super(equals: [userName, intelligentCache]);
 }
 
 class _Factory extends VmFactory<AppState, AccountScreen> {
@@ -109,8 +117,12 @@ class _Factory extends VmFactory<AppState, AccountScreen> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-      userName: state.userProfileState.userName,
-    );
+        userName: state.userProfileState.userName,
+        intelligentCache: state.userProfileState.intelligentCache,
+        toggleIntelligentCache: (intelligentCache) async {
+          dispatch(
+              ToggleIntelligentCacheAction(intelligentCache: intelligentCache));
+        });
   }
 }
 
@@ -118,11 +130,13 @@ class AccountTileSwitch extends StatelessWidget {
   final String title;
   final void Function(bool) onChanged;
   final String description;
+  final bool value;
   const AccountTileSwitch({
     Key? key,
     required this.title,
     required this.onChanged,
     required this.description,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -142,7 +156,7 @@ class AccountTileSwitch extends StatelessWidget {
                 Text(title),
                 const Spacer(),
                 CupertinoSwitch(
-                  value: true,
+                  value: value,
                   onChanged: onChanged,
                 )
               ],
