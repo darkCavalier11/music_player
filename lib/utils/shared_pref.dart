@@ -4,4 +4,6 @@ class SharedPrefKeys {
       'userProfileProfilePicPlatformPath';
   static const String userProfileisOnBoardingDone =
       'userProfileisOnBoardingDone';
+  static const String userProfileIntelligentCache =
+      'userProfileIntelligentCache';
 }

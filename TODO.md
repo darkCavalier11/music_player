@@ -41,7 +41,6 @@ No support for native mobile functions like showing banner on the music screen o
 ## future features
 * Shuffle play on playlist screen.
 * Intelligent cache
-* Onboarding screen for dp and name.
 * More setting features 
 * Offline downloads
 * Possible bytes stream based music playing to support more low level playing to eliminate the ios playing issue.

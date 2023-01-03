@@ -4,10 +4,12 @@ class UserProfileState {
   final String userName;
   final String profilePicPlatformPath;
   final bool isOnBoardingDone;
+  final bool intelligentCache;
   UserProfileState({
     required this.userName,
     required this.profilePicPlatformPath,
     required this.isOnBoardingDone,
+    required this.intelligentCache,
   });
 
   factory UserProfileState.initial() {
@@ -15,6 +17,7 @@ class UserProfileState {
       userName: '',
       profilePicPlatformPath: '',
       isOnBoardingDone: false,
+      intelligentCache: true,
     );
   }
 
@@ -22,31 +25,37 @@ class UserProfileState {
     String? userName,
     String? profilePicPlatformPath,
     bool? isOnBoardingDone,
+    bool? intelligentCache,
   }) {
     return UserProfileState(
       userName: userName ?? this.userName,
-      profilePicPlatformPath:
-          profilePicPlatformPath ?? this.profilePicPlatformPath,
+      profilePicPlatformPath: profilePicPlatformPath ?? this.profilePicPlatformPath,
       isOnBoardingDone: isOnBoardingDone ?? this.isOnBoardingDone,
+      intelligentCache: intelligentCache ?? this.intelligentCache,
     );
   }
 
   @override
-  String toString() =>
-      'UserProfileState(userName: $userName, profilePicPlatformPath: $profilePicPlatformPath, isOnBoardingDone: $isOnBoardingDone)';
+  String toString() {
+    return 'UserProfileState(userName: $userName, profilePicPlatformPath: $profilePicPlatformPath, isOnBoardingDone: $isOnBoardingDone, intelligentCache: $intelligentCache)';
+  }
 
   @override
   bool operator ==(covariant UserProfileState other) {
     if (identical(this, other)) return true;
-
-    return other.userName == userName &&
-        other.profilePicPlatformPath == profilePicPlatformPath &&
-        other.isOnBoardingDone == isOnBoardingDone;
+  
+    return 
+      other.userName == userName &&
+      other.profilePicPlatformPath == profilePicPlatformPath &&
+      other.isOnBoardingDone == isOnBoardingDone &&
+      other.intelligentCache == intelligentCache;
   }
 
   @override
-  int get hashCode =>
-      userName.hashCode ^
+  int get hashCode {
+    return userName.hashCode ^
       profilePicPlatformPath.hashCode ^
-      isOnBoardingDone.hashCode;
+      isOnBoardingDone.hashCode ^
+      intelligentCache.hashCode;
+  }
 }
