@@ -38,7 +38,7 @@ class AccountScreen extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 35,
                         child: Text(
-                          'S',
+                          snapshot.userName[0],
                           style:
                               Theme.of(context).textTheme.headline4?.copyWith(
                                     color: Theme.of(context).cardColor,
@@ -101,7 +101,7 @@ class _ViewModel extends Vm {
   final String userName;
   _ViewModel({
     required this.userName,
-  });
+  }) : super(equals: [userName]);
 }
 
 class _Factory extends VmFactory<AppState, AccountScreen> {
