@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' hide log;
 
 import 'package:async_redux/async_redux.dart';
 import 'package:file_picker/file_picker.dart';
@@ -73,11 +74,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Column(
                     children: [
                       Stack(
-                        clipBehavior: Clip.hardEdge,
+                        clipBehavior: Clip.none,
                         children: [
                           Positioned(
-                            left: 20,
-                            top: 20,
+                            left: 10,
+                            top: 160,
                             child: MusicPlayingWaveWidget(
                               playingStream: Stream.value(true),
                             ),
@@ -144,12 +145,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           const Spacer(),
                           AppPrimaryButton(
                             onTap: () {
+                              if (snapshot.isOnBoardingDone) {
+                                Navigator.of(context).pop();
+                              }
                               snapshot.setProfilePicPlatformPath(
                                   profilePicPlatformPath: '');
                               snapshot.setUsername(
                                   userName: _textEditingController.text);
                               snapshot.setOnboardingDone();
-                              Navigator.of(context).pop();
                             },
                             buttonText: 'Let\'s Go',
                             trailingIcon: Icons.arrow_circle_right,

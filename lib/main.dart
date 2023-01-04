@@ -1,7 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_player/screens/onboarding/onboarding.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/action/user_profile_actions.dart';
@@ -13,7 +16,6 @@ import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/router.dart';
 import 'package:music_player/utils/theme.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 late Store<AppState> store;
 
@@ -33,7 +35,9 @@ Future<void> main() async {
     androidShowNotificationBadge: true,
   );
   store = Store<AppState>(
-      initialState: AppState.initial(), wrapError: ReduxExceptionWrapper());
+    initialState: AppState.initial(),
+    wrapError: ReduxExceptionWrapper(),
+  );
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.black,
@@ -62,7 +66,9 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
-          home: const AppScreens(),
+          home: !snapshot.isOnboardingDone
+              ? const OnboardingScreen()
+              : const AppScreens(),
           onGenerateRoute: AppRouter.router.generator,
         );
       },
@@ -73,22 +79,41 @@ class MyApp extends StatelessWidget {
 class _ViewModel extends Vm {
   final UiState uiState;
   final Function() toggleTheme;
+  final bool isOnboardingDone;
   _ViewModel({
     required this.uiState,
     required this.toggleTheme,
-  }) : super(equals: [uiState]);
+    required this.isOnboardingDone,
+  }) : super(equals: [uiState, isOnboardingDone]);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(covariant _ViewModel other) {
     if (identical(this, other)) return true;
 
-    return other is _ViewModel &&
-        other.uiState == uiState &&
-        other.toggleTheme == toggleTheme;
+    return other.uiState == uiState &&
+        other.toggleTheme == toggleTheme &&
+        other.isOnboardingDone == isOnboardingDone;
   }
 
   @override
-  int get hashCode => uiState.hashCode ^ toggleTheme.hashCode;
+  int get hashCode =>
+      uiState.hashCode ^ toggleTheme.hashCode ^ isOnboardingDone.hashCode;
+
+  _ViewModel copyWith({
+    UiState? uiState,
+    Function()? toggleTheme,
+    bool? isOnboardingDone,
+  }) {
+    return _ViewModel(
+      uiState: uiState ?? this.uiState,
+      toggleTheme: toggleTheme ?? this.toggleTheme,
+      isOnboardingDone: isOnboardingDone ?? this.isOnboardingDone,
+    );
+  }
+
+  @override
+  String toString() =>
+      '_ViewModel(uiState: $uiState, toggleTheme: $toggleTheme, isOnboardingDone: $isOnboardingDone)';
 }
 
 class _Factory extends VmFactory<AppState, MyApp> {
@@ -97,6 +122,7 @@ class _Factory extends VmFactory<AppState, MyApp> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      isOnboardingDone: store.state.userProfileState.isOnBoardingDone,
       uiState: state.uiState,
       toggleTheme: () {
         if (state.uiState.themeMode == ThemeMode.dark) {
