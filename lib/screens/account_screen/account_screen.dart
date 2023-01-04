@@ -80,7 +80,7 @@ class AccountScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                Text('v' + appVersion),
+                Text('v' + appVersion + ' (Beta)'),
                 Text(
                   'Made with ❤️ in 🇮🇳',
                   style: Theme.of(context).textTheme.caption,
