@@ -46,6 +46,7 @@ Use video player to play video
 * Shuffle play on playlist screen.
 * Intelligent cache
 * More setting features 
+* Drag and move playlist items
 * Offline downloads
 * Possible bytes stream based music playing to support more low level playing to eliminate the ios playing issue.
 * Fetch next music items on music playing sceen once reached to end of playing disc table.(low priority)
