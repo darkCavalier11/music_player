@@ -33,6 +33,8 @@ No support for native mobile functions like showing banner on the music screen o
 
 ### sol 4
 Use video player to play video
+## issue
+still issue long playing audios but better that audio player
 
 
 ## Known bugs need fix
