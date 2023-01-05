@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' hide log;
 
 import 'package:async_redux/async_redux.dart';
 import 'package:file_picker/file_picker.dart';
