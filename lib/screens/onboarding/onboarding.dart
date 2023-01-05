@@ -155,8 +155,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               if (snapshot.isOnBoardingDone) {
                                 Navigator.of(context).pop();
                               }
-                              snapshot.setProfilePicPlatformPath(
-                                  profilePicPlatformPath: '');
                               snapshot.setUsername(
                                   userName: _textEditingController.text);
                               snapshot.setOnboardingDone();

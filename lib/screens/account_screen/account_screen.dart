@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:async_redux/async_redux.dart';
@@ -115,7 +116,7 @@ class _ViewModel extends Vm {
     required this.intelligentCache,
     required this.profilePicPlatformPath,
     required this.toggleIntelligentCache,
-  }) : super(equals: [userName, intelligentCache]);
+  }) : super(equals: [userName, intelligentCache, profilePicPlatformPath]);
 }
 
 class _Factory extends VmFactory<AppState, AccountScreen> {
