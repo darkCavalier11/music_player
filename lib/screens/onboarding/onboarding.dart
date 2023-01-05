@@ -7,6 +7,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/main.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/onboarding/actions/onboarding_actions.dart';
@@ -93,10 +94,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ],
                       ),
+                      // Text('${snapshot.profilePicPlatformPath + "dd"}'),
                       const SizedBox(height: 40),
                       Stack(
                         children: [
                           CircleAvatar(
+                            backgroundImage: FileImage(
+                              File(
+                                snapshot.profilePicPlatformPath,
+                              ),
+                            ),
                             backgroundColor: Theme.of(context).dividerColor,
                             radius: 80,
                           ),
@@ -111,14 +118,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   FilePickerResult? result =
                                       await FilePicker.platform.pickFiles(
                                     allowMultiple: false,
-                                    type: FileType.image,
+                                    type: FileType.any,
                                   );
 
                                   if (result?.files.single.path != null) {
-                                    File file =
-                                        File(result!.files.single.path!);
-                                    log('${file.absolute}');
-                                  } else {}
+                                    snapshot.setProfilePicPlatformPath(
+                                        profilePicPlatformPath:
+                                            result!.files.single.path!);
+                                  }
                                 } catch (err) {
                                   log('$err');
                                 }
@@ -208,7 +215,8 @@ class _Factory extends VmFactory<AppState, _OnboardingScreenState> {
         dispatch(SetOnboardingDoneAction());
       },
       userName: state.userProfileState.userName,
-      profilePicPlatformPath: state.userProfileState.profilePicPlatformPath,
+      profilePicPlatformPath:
+          store.state.userProfileState.profilePicPlatformPath,
       isOnBoardingDone: state.userProfileState.isOnBoardingDone,
     );
   }

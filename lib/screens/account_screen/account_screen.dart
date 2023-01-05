@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +39,8 @@ class AccountScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: CircleAvatar(
+                        backgroundImage:
+                            FileImage(File(snapshot.profilePicPlatformPath)),
                         radius: 35,
                         child: Text(
                           snapshot.userName[0],
@@ -103,11 +107,13 @@ class AccountScreen extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final String userName;
+  final String profilePicPlatformPath;
   final bool intelligentCache;
   final Future<void> Function(bool) toggleIntelligentCache;
   _ViewModel({
     required this.userName,
     required this.intelligentCache,
+    required this.profilePicPlatformPath,
     required this.toggleIntelligentCache,
   }) : super(equals: [userName, intelligentCache]);
 }
@@ -117,12 +123,14 @@ class _Factory extends VmFactory<AppState, AccountScreen> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
-        userName: state.userProfileState.userName,
-        intelligentCache: state.userProfileState.intelligentCache,
-        toggleIntelligentCache: (intelligentCache) async {
-          dispatch(
-              ToggleIntelligentCacheAction(intelligentCache: intelligentCache));
-        });
+      userName: state.userProfileState.userName,
+      profilePicPlatformPath: state.userProfileState.profilePicPlatformPath,
+      intelligentCache: state.userProfileState.intelligentCache,
+      toggleIntelligentCache: (intelligentCache) async {
+        dispatch(
+            ToggleIntelligentCacheAction(intelligentCache: intelligentCache));
+      },
+    );
   }
 }
 
