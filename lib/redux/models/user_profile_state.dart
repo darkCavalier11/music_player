@@ -29,7 +29,8 @@ class UserProfileState {
   }) {
     return UserProfileState(
       userName: userName ?? this.userName,
-      profilePicPlatformPath: profilePicPlatformPath ?? this.profilePicPlatformPath,
+      profilePicPlatformPath:
+          profilePicPlatformPath ?? this.profilePicPlatformPath,
       isOnBoardingDone: isOnBoardingDone ?? this.isOnBoardingDone,
       intelligentCache: intelligentCache ?? this.intelligentCache,
     );
@@ -43,19 +44,18 @@ class UserProfileState {
   @override
   bool operator ==(covariant UserProfileState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.userName == userName &&
-      other.profilePicPlatformPath == profilePicPlatformPath &&
-      other.isOnBoardingDone == isOnBoardingDone &&
-      other.intelligentCache == intelligentCache;
+
+    return other.userName == userName &&
+        other.profilePicPlatformPath == profilePicPlatformPath &&
+        other.isOnBoardingDone == isOnBoardingDone &&
+        other.intelligentCache == intelligentCache;
   }
 
   @override
   int get hashCode {
     return userName.hashCode ^
-      profilePicPlatformPath.hashCode ^
-      isOnBoardingDone.hashCode ^
-      intelligentCache.hashCode;
+        profilePicPlatformPath.hashCode ^
+        isOnBoardingDone.hashCode ^
+        intelligentCache.hashCode;
   }
 }

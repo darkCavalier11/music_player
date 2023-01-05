@@ -1,4 +1,3 @@
-
 extension FormatingUtilityDuration on Duration {
   // 5 seconds -> 00:05
   /// 121seconds -> 02:01
