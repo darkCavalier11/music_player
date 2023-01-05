@@ -24,9 +24,6 @@ class MusicSearchResultScreen extends StatelessWidget {
       vm: () => _Factory(this),
       builder: (context, snapshot) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(onPressed: () {
-            Navigator.of(context).pop();
-          }),
           body: snapshot.searchResultFetchingState == LoadingState.loading
               ? Center(
                   child: LoadingIndicator.small(context),
