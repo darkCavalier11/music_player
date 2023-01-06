@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:async_redux/async_redux.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -66,10 +68,31 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
-          home: !snapshot.isOnboardingDone
-              ? const OnboardingScreen()
-              : const AppScreens(),
           onGenerateRoute: AppRouter.router.generator,
+          home: StreamBuilder<ConnectivityResult>(
+            stream: Connectivity().onConnectivityChanged,
+            builder: (context, connectivitySnapshot) {
+              if (connectivitySnapshot.hasData &&
+                  !connectivitySnapshot.hasError) {
+                if (connectivitySnapshot.data! == ConnectivityResult.none) {
+                  return Scaffold(
+                    body: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(CupertinoIcons.wifi_slash),
+                          Text('No Internet connection'),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+              return !snapshot.isOnboardingDone
+                  ? const OnboardingScreen()
+                  : const AppScreens();
+            },
+          ),
         );
       },
     );
