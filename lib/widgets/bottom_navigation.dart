@@ -14,6 +14,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/music_item_controller_screen/music_item_controller_screen.dart';
 
 import '../redux/models/music_item.dart';
+import 'music_playing_small_indicator.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
@@ -91,10 +92,7 @@ class BottomNavigationWidget extends StatelessWidget {
                               onTap: () {
                                 log('message');
                               },
-                              child: MusicPlayingSmallIndicator(
-                                imageUrl: snapshot.musicItem?.imageUrl ?? '',
-                                playingStream: snapshot.playingStream,
-                              ),
+                              child: MusicPlayingSmallIndicator(),
                             ),
                           ]
                         ],
@@ -104,107 +102,6 @@ class BottomNavigationWidget extends StatelessWidget {
                 ],
               );
             });
-      },
-    );
-  }
-}
-
-class MusicPlayingSmallIndicator extends StatefulWidget {
-  final String imageUrl;
-  final Stream<bool> playingStream;
-  const MusicPlayingSmallIndicator({
-    Key? key,
-    required this.imageUrl,
-    required this.playingStream,
-  }) : super(key: key);
-
-  @override
-  State<MusicPlayingSmallIndicator> createState() =>
-      _MusicPlayingSmallIndicatorState();
-}
-
-class _MusicPlayingSmallIndicatorState extends State<MusicPlayingSmallIndicator>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 8),
-    );
-    _animationController.forward();
-    _animationController.repeat(reverse: false);
-
-    widget.playingStream.listen((event) {
-      if (!mounted) {
-        return;
-      }
-      if (!event) {
-        if (_animationController.isAnimating) {
-          _animationController.stop();
-        }
-      } else {
-        _animationController.forward();
-        _animationController.repeat(reverse: false);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder: (context, _, __) =>
-                  const MusicListItemControllerScreen(),
-              opaque: false,
-            ),
-          );
-        },
-        child: Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                widget.imageUrl,
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Center(
-            child: Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 1,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: _animationController.value * 2 * pi,
-          child: child,
-        );
       },
     );
   }
