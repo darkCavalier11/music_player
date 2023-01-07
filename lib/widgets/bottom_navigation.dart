@@ -92,7 +92,7 @@ class BottomNavigationWidget extends StatelessWidget {
                               onTap: () {
                                 log('message');
                               },
-                              child: MusicPlayingSmallIndicator(),
+                              child: const MusicPlayingSmallIndicator(),
                             ),
                           ]
                         ],
