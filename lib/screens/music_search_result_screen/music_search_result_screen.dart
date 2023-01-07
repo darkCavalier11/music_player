@@ -34,9 +34,9 @@ class MusicSearchResultScreen extends StatelessWidget {
                 }
                 if (snapshot.data != ProcessingState.idle) {
                   return Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).focusColor,
+                      color: Theme.of(context).canvasColor,
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: Theme.of(context).splashColor,
