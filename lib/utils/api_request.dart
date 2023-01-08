@@ -60,6 +60,10 @@ class ApiRequest {
       queryParameters: _defaultHeaders,
     );
   }
+
+  static Future<Response<dynamic>> download(String url, String savePath) async {
+    return _dio.download(url, savePath);
+  }
 }
 
 class AppHttpInterceptor extends Interceptor {

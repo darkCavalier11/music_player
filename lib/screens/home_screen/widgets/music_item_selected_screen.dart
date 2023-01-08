@@ -13,6 +13,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
+import 'package:music_player/utils/api_request.dart';
 import 'package:music_player/utils/constants.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
@@ -207,7 +208,12 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                 final savePath =
                                                     await FilePicker.platform
                                                         .getDirectoryPath();
-                                                
+                                                if (savePath != null) {
+                                                  ApiRequest.download(
+                                                    musicUrl.toString(),
+                                                    savePath,
+                                                  );
+                                                }
                                               } else {
                                                 Fluttertoast.showToast(
                                                     msg:
