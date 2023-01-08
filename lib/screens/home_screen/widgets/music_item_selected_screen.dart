@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
@@ -12,6 +13,7 @@ import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
 import 'package:music_player/utils/constants.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../redux/models/music_item.dart';
 import '../../playlist_screen/actions/playlist_actions.dart';
@@ -189,10 +191,14 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                             padding: const EdgeInsets.all(0),
                                             visualDensity:
                                                 VisualDensity.compact,
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              final f = await Permission.storage
+                                                  .request();
+                                              log('$f');
+                                            },
                                             icon: const Icon(
                                               CupertinoIcons.down_arrow,
-                                              size: 16,
+                                              size: 20,
                                             ),
                                           )
                                         ],
