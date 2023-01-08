@@ -185,6 +185,16 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                               // Navigator.of(context).pop;
                                             },
                                           ),
+                                          IconButton(
+                                            padding: const EdgeInsets.all(0),
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              CupertinoIcons.down_arrow,
+                                              size: 16,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
