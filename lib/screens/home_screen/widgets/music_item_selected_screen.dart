@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -12,8 +14,10 @@ import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
 import 'package:music_player/utils/constants.dart';
+import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../../redux/models/music_item.dart';
 import '../../playlist_screen/actions/playlist_actions.dart';
@@ -192,9 +196,23 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                             visualDensity:
                                                 VisualDensity.compact,
                                             onPressed: () async {
-                                              final f = await Permission.storage
+                                              final per = await Permission
+                                                  .storage
                                                   .request();
-                                              log('$f');
+                                              if (per.isGranted) {
+                                                final musicUrl =
+                                                    await ParserHelper
+                                                        .getMusicItemUrl(widget
+                                                            .musicItem.musicId);
+                                                final savePath =
+                                                    await FilePicker.platform
+                                                        .getDirectoryPath();
+                                                
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        'Please enable storage access');
+                                              }
                                             },
                                             icon: const Icon(
                                               CupertinoIcons.down_arrow,
