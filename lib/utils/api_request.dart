@@ -26,7 +26,6 @@ class ApiRequest {
   static final _dio = Dio(
     BaseOptions(
       connectTimeout: 5000,
-      receiveTimeout: 3000,
       headers: _defaultHeaders,
     ),
   );

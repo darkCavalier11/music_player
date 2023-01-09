@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
@@ -200,6 +201,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                               final per = await Permission
                                                   .storage
                                                   .request();
+                                              log('$per');
                                               if (per.isGranted) {
                                                 final musicUrl =
                                                     await ParserHelper
@@ -208,10 +210,14 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                 final savePath =
                                                     await FilePicker.platform
                                                         .getDirectoryPath();
+
                                                 if (savePath != null) {
+                                                  final file = File(
+                                                      savePath + '/music.m4a');
+                                                  file.createSync();
                                                   ApiRequest.download(
                                                     musicUrl.toString(),
-                                                    savePath,
+                                                    savePath + '/music.m4a',
                                                   );
                                                 }
                                               } else {
