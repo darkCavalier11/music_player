@@ -3,46 +3,77 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class DownloadState {
-  final Map<String, double> musicIdToDownloadProgressMap;
-  final Map<String, CancelToken> musciIdToCancelTokenMap;
+  final List<MusicItemForDownload> musicItemDownloadList;
   DownloadState({
-    required this.musicIdToDownloadProgressMap,
-    required this.musciIdToCancelTokenMap,
+    required this.musicItemDownloadList,
   });
-
-  DownloadState copyWith({
-    Map<String, double>? musicIdToDownloadProgressMap,
-    Map<String, CancelToken>? musciIdToCancelTokenMap,
-  }) {
-    return DownloadState(
-      musicIdToDownloadProgressMap:
-          musicIdToDownloadProgressMap ?? this.musicIdToDownloadProgressMap,
-      musciIdToCancelTokenMap:
-          musciIdToCancelTokenMap ?? this.musciIdToCancelTokenMap,
-    );
-  }
 
   factory DownloadState.initial() {
     return DownloadState(
-      musicIdToDownloadProgressMap: {},
-      musciIdToCancelTokenMap: {},
+      musicItemDownloadList: [],
+    );
+  }
+
+  DownloadState copyWith({
+    List<MusicItemForDownload>? musicItemDownloadList,
+  }) {
+    return DownloadState(
+      musicItemDownloadList:
+          musicItemDownloadList ?? this.musicItemDownloadList,
     );
   }
 
   @override
   String toString() =>
-      'DownloadState(musicIdToDownloadProgressMap: $musicIdToDownloadProgressMap, musciIdToCancelTokenMap: $musciIdToCancelTokenMap)';
+      'DownloadState(musicItemDownloadList: $musicItemDownloadList)';
 
   @override
   bool operator ==(covariant DownloadState other) {
     if (identical(this, other)) return true;
 
-    return mapEquals(
-            other.musicIdToDownloadProgressMap, musicIdToDownloadProgressMap) &&
-        mapEquals(other.musciIdToCancelTokenMap, musciIdToCancelTokenMap);
+    return listEquals(other.musicItemDownloadList, musicItemDownloadList);
+  }
+
+  @override
+  int get hashCode => musicItemDownloadList.hashCode;
+}
+
+class MusicItemForDownload {
+  final String musicId;
+  final double progress;
+  final CancelToken cancelToken;
+  MusicItemForDownload({
+    required this.musicId,
+    required this.progress,
+    required this.cancelToken,
+  });
+
+  MusicItemForDownload copyWith({
+    String? musicId,
+    double? progress,
+    CancelToken? cancelToken,
+  }) {
+    return MusicItemForDownload(
+      musicId: musicId ?? this.musicId,
+      progress: progress ?? this.progress,
+      cancelToken: cancelToken ?? this.cancelToken,
+    );
+  }
+
+  @override
+  String toString() =>
+      'MusicItemForDownload(musicId: $musicId, progress: $progress, cancelToken: $cancelToken)';
+
+  @override
+  bool operator ==(covariant MusicItemForDownload other) {
+    if (identical(this, other)) return true;
+
+    return other.musicId == musicId &&
+        other.progress == progress &&
+        other.cancelToken == cancelToken;
   }
 
   @override
   int get hashCode =>
-      musicIdToDownloadProgressMap.hashCode ^ musciIdToCancelTokenMap.hashCode;
+      musicId.hashCode ^ progress.hashCode ^ cancelToken.hashCode;
 }

@@ -5,6 +5,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:dio/dio.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/download_state.dart';
 
 class AddMusicItemToDownload extends ReduxAction<AppState> {
   final String musicId;
@@ -16,10 +17,14 @@ class AddMusicItemToDownload extends ReduxAction<AppState> {
   AppState reduce() {
     return state.copyWith(
       downloadState: state.downloadState.copyWith(
-        musicIdToDownloadProgressMap:
-            state.downloadState.musicIdToDownloadProgressMap..[musicId] = 0.0,
-        musciIdToCancelTokenMap: state.downloadState.musciIdToCancelTokenMap
-          ..[musicId] = CancelToken(),
+        musicItemDownloadList: state.downloadState.musicItemDownloadList
+          ..add(
+            MusicItemForDownload(
+              musicId: musicId,
+              progress: 0.0,
+              cancelToken: CancelToken(),
+            ),
+          ),
       ),
     );
   }
@@ -34,14 +39,22 @@ class UpdateMusicItemProgress extends ReduxAction<AppState> {
   });
 
   @override
-  AppState reduce() {
-    return state.copyWith(
-      downloadState: state.downloadState.copyWith(
-        musicIdToDownloadProgressMap:
-            state.downloadState.musicIdToDownloadProgressMap
-              ..[musicId] = progress,
-      ),
-    );
+  AppState? reduce() {
+    final idx = state.downloadState.musicItemDownloadList
+        .indexWhere((element) => element.musicId == musicId);
+
+    if (idx != -1) {
+      final musicItemForDownload =
+          state.downloadState.musicItemDownloadList[idx];
+      return state.copyWith(
+        downloadState: state.downloadState.copyWith(
+          musicItemDownloadList: state.downloadState.musicItemDownloadList
+            ..[idx] = musicItemForDownload.copyWith(
+              progress: progress,
+            ),
+        ),
+      );
+    }
   }
 }
 
