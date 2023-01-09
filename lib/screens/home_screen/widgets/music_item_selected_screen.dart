@@ -216,8 +216,11 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                       savePath + '/music.m4a');
                                                   file.createSync();
                                                   ApiRequest.download(
-                                                    musicUrl.toString(),
-                                                    savePath + '/music.m4a',
+                                                    url: musicUrl.toString(),
+                                                    savePath:
+                                                        savePath + '/music.m4a',
+                                                    onReceiveProgress:
+                                                        (count, total) {},
                                                   );
                                                 }
                                               } else {

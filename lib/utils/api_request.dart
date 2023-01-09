@@ -60,8 +60,11 @@ class ApiRequest {
     );
   }
 
-  static Future<Response<dynamic>> download(String url, String savePath) async {
-    return _dio.download(url, savePath);
+  static Future<Response<dynamic>> download(
+      {required String url,
+      required String savePath,
+      Function(int count, int total)? onReceiveProgress}) async {
+    return _dio.download(url, savePath, onReceiveProgress: onReceiveProgress);
   }
 }
 
