@@ -61,13 +61,13 @@ class ApiRequest {
   }
 
   static Future<Response<dynamic>> download({
-    required String url,
+    required Uri uri,
     required String savePath,
     Function(int count, int total)? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    return _dio.download(
-      url,
+    return _dio.downloadUri(
+      uri,
       savePath,
       onReceiveProgress: onReceiveProgress,
       deleteOnError: true,

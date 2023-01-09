@@ -216,7 +216,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                       savePath + '/music.m4a');
                                                   file.createSync();
                                                   ApiRequest.download(
-                                                    url: musicUrl.toString(),
+                                                    uri: musicUrl,
                                                     savePath:
                                                         savePath + '/music.m4a',
                                                     onReceiveProgress:
