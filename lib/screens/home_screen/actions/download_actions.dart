@@ -30,10 +30,10 @@ class AddMusicItemToDownload extends ReduxAction<AppState> {
   }
 }
 
-class UpdateMusicItemProgress extends ReduxAction<AppState> {
+class UpdateMusicItemDownloadProgress extends ReduxAction<AppState> {
   final String musicId;
   final double progress;
-  UpdateMusicItemProgress({
+  UpdateMusicItemDownloadProgress({
     required this.musicId,
     required this.progress,
   });

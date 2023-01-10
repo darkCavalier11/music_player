@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/screens/home_screen/actions/download_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/select_playlist_add_music_screen.dart';
@@ -216,12 +217,22 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                     final file = File(savePath +
                                                         '/music.m4a');
                                                     file.createSync();
+                                                    snapshot
+                                                        .addMusicItemToDownloadList(
+                                                            widget.musicItem
+                                                                .musicId);
                                                     ApiRequest.download(
                                                       uri: musicUrl,
                                                       savePath: savePath +
                                                           '/music.m4a',
                                                       onReceiveProgress:
-                                                          (count, total) {},
+                                                          (count, total) {
+                                                        snapshot
+                                                            .updateDownloadProgressForMusicItem(
+                                                                widget.musicItem
+                                                                    .musicId,
+                                                                count / total);
+                                                      },
                                                     );
                                                   }
                                                 } else {
@@ -268,10 +279,16 @@ class _ViewModel extends Vm {
   final void Function(MusicItem, String playlistName)
       removeMusicItemFromPlaylist;
   final bool Function(MusicItem) isMusicItemInFav;
+  final void Function(String) addMusicItemToDownloadList;
+  final void Function(String, double) updateDownloadProgressForMusicItem;
+  final void Function(String) cancelDownloadForMusicItem;
   _ViewModel({
     required this.addMusicItemToPlaylist,
     required this.removeMusicItemFromPlaylist,
     required this.isMusicItemInFav,
+    required this.addMusicItemToDownloadList,
+    required this.updateDownloadProgressForMusicItem,
+    required this.cancelDownloadForMusicItem,
   });
 }
 
@@ -280,6 +297,16 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      cancelDownloadForMusicItem: (musicId) {
+        dispatch(CancelDownloadForMusicItem(musicId: musicId));
+      },
+      updateDownloadProgressForMusicItem: (musicId, progress) {
+        dispatch(UpdateMusicItemDownloadProgress(
+            musicId: musicId, progress: progress));
+      },
+      addMusicItemToDownloadList: (musicId) {
+        dispatch(AddMusicItemToDownload(musicId: musicId));
+      },
       removeMusicItemFromPlaylist: (musicitem, playlistName) {
         dispatch(
           RemoveMusicItemFromPlaylist(
