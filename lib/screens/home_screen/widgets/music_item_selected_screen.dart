@@ -198,35 +198,42 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                             visualDensity:
                                                 VisualDensity.compact,
                                             onPressed: () async {
-                                              final per = await Permission
-                                                  .storage
-                                                  .request();
-                                              log('$per');
-                                              if (per.isGranted) {
-                                                final musicUrl =
-                                                    await ParserHelper
-                                                        .getMusicItemUrl(widget
-                                                            .musicItem.musicId);
-                                                final savePath =
-                                                    await FilePicker.platform
-                                                        .getDirectoryPath();
+                                              try {
+                                                final per = await Permission
+                                                    .storage
+                                                    .request();
+                                                if (per.isGranted) {
+                                                  final musicUrl =
+                                                      await ParserHelper
+                                                          .getMusicItemUrl(
+                                                              widget.musicItem
+                                                                  .musicId);
+                                                  final savePath =
+                                                      await FilePicker.platform
+                                                          .getDirectoryPath();
 
-                                                if (savePath != null) {
-                                                  final file = File(
-                                                      savePath + '/music.m4a');
-                                                  file.createSync();
-                                                  ApiRequest.download(
-                                                    uri: musicUrl,
-                                                    savePath:
-                                                        savePath + '/music.m4a',
-                                                    onReceiveProgress:
-                                                        (count, total) {},
-                                                  );
+                                                  if (savePath != null) {
+                                                    final file = File(savePath +
+                                                        '/music.m4a');
+                                                    file.createSync();
+                                                    ApiRequest.download(
+                                                      uri: musicUrl,
+                                                      savePath: savePath +
+                                                          '/music.m4a',
+                                                      onReceiveProgress:
+                                                          (count, total) {},
+                                                    );
+                                                  }
+                                                } else {
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          'Please enable storage access');
                                                 }
-                                              } else {
+                                              } catch (err) {
+                                                log('$err');
                                                 Fluttertoast.showToast(
                                                     msg:
-                                                        'Please enable storage access');
+                                                        'Unable to download music item');
                                               }
                                             },
                                             icon: const Icon(
