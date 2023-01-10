@@ -66,13 +66,19 @@ class CancelDownloadForMusicItem extends ReduxAction<AppState> {
 
   @override
   AppState? reduce() {
-    final cancelToken = state.downloadState.musciIdToCancelTokenMap[musicId];
-    cancelToken?.cancel();
+    final idx = state.downloadState.musicItemDownloadList.indexWhere(
+      (element) => element.musicId == musicId,
+    );
+    if (idx == -1) {
+      return null;
+    }
+    final cancelToken =
+        state.downloadState.musicItemDownloadList[idx].cancelToken;
+    cancelToken.cancel();
     return state.copyWith(
       downloadState: state.downloadState.copyWith(
-        musicIdToDownloadProgressMap:
-            state.downloadState.musicIdToDownloadProgressMap
-              ..removeWhere((key, value) => key == musicId),
+        musicItemDownloadList: state.downloadState.musicItemDownloadList
+          ..removeAt(idx),
       ),
     );
   }
