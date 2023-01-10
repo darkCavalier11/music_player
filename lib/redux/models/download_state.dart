@@ -42,38 +42,56 @@ class MusicItemForDownload {
   final String musicId;
   final double progress;
   final CancelToken cancelToken;
+  final DownloadStatus downloadStatus;
   MusicItemForDownload({
     required this.musicId,
     required this.progress,
     required this.cancelToken,
+    required this.downloadStatus,
   });
 
   MusicItemForDownload copyWith({
     String? musicId,
     double? progress,
     CancelToken? cancelToken,
+    DownloadStatus? downloadStatus,
   }) {
     return MusicItemForDownload(
       musicId: musicId ?? this.musicId,
       progress: progress ?? this.progress,
       cancelToken: cancelToken ?? this.cancelToken,
+      downloadStatus: downloadStatus ?? this.downloadStatus,
     );
   }
 
   @override
-  String toString() =>
-      'MusicItemForDownload(musicId: $musicId, progress: $progress, cancelToken: $cancelToken)';
+  String toString() {
+    return 'MusicItemForDownload(musicId: $musicId, progress: $progress, cancelToken: $cancelToken, downloadStatus: $downloadStatus)';
+  }
 
   @override
   bool operator ==(covariant MusicItemForDownload other) {
     if (identical(this, other)) return true;
-
-    return other.musicId == musicId &&
-        other.progress == progress &&
-        other.cancelToken == cancelToken;
+  
+    return 
+      other.musicId == musicId &&
+      other.progress == progress &&
+      other.cancelToken == cancelToken &&
+      other.downloadStatus == downloadStatus;
   }
 
   @override
-  int get hashCode =>
-      musicId.hashCode ^ progress.hashCode ^ cancelToken.hashCode;
+  int get hashCode {
+    return musicId.hashCode ^
+      progress.hashCode ^
+      cancelToken.hashCode ^
+      downloadStatus.hashCode;
+  }
+}
+
+enum DownloadStatus {
+  loading,
+  progress,
+  completed,
+  error,
 }

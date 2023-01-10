@@ -23,6 +23,7 @@ class AddMusicItemToDownload extends ReduxAction<AppState> {
               musicId: musicId,
               progress: 0.0,
               cancelToken: CancelToken(),
+              downloadStatus: DownloadStatus.progress,
             ),
           ),
       ),
