@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/download_state.dart';
 import 'package:music_player/screens/home_screen/actions/download_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
@@ -224,7 +225,7 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                     ApiRequest.download(
                                                       uri: musicUrl,
                                                       savePath: savePath +
-                                                          '/music.m4a',
+                                                          '/${widget.musicItem.title}.m4a',
                                                       onReceiveProgress:
                                                           (count, total) {
                                                         snapshot
@@ -282,6 +283,7 @@ class _ViewModel extends Vm {
   final void Function(String) addMusicItemToDownloadList;
   final void Function(String, double) updateDownloadProgressForMusicItem;
   final void Function(String) cancelDownloadForMusicItem;
+  final MusicItemForDownload? Function(String) getMusicItemDownloadState;
   _ViewModel({
     required this.addMusicItemToPlaylist,
     required this.removeMusicItemFromPlaylist,
@@ -289,6 +291,7 @@ class _ViewModel extends Vm {
     required this.addMusicItemToDownloadList,
     required this.updateDownloadProgressForMusicItem,
     required this.cancelDownloadForMusicItem,
+    required this.getMusicItemDownloadState,
   });
 }
 
@@ -297,6 +300,10 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      getMusicItemDownloadState: (musicId) {
+        return state.downloadState.musicItemDownloadList
+            .firstWhere((element) => element.musicId == musicId);
+      },
       cancelDownloadForMusicItem: (musicId) {
         dispatch(CancelDownloadForMusicItem(musicId: musicId));
       },
