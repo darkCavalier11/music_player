@@ -235,6 +235,9 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                                 count / total);
                                                       },
                                                     );
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            'Downloading music item...');
                                                   }
                                                 } else {
                                                   Fluttertoast.showToast(
@@ -258,6 +261,9 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                     scale: 0.8,
                                                     child:
                                                         CircularProgressIndicator(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .dividerColor,
                                                       value: snapshot
                                                           .getMusicItemDownloadState(
                                                               widget.musicItem
