@@ -248,11 +248,30 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                                         'Unable to download music item');
                                               }
                                             },
-                                            icon: const Icon(
-                                              CupertinoIcons.down_arrow,
-                                              size: 20,
-                                            ),
-                                          )
+                                            icon: snapshot
+                                                        .getMusicItemDownloadState(
+                                                            widget.musicItem
+                                                                .musicId)
+                                                        ?.downloadStatus ==
+                                                    DownloadStatus.progress
+                                                ? Transform.scale(
+                                                    scale: 0.8,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: snapshot
+                                                          .getMusicItemDownloadState(
+                                                              widget.musicItem
+                                                                  .musicId)
+                                                          ?.progress,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      strokeWidth: 2,
+                                                    ),
+                                                  )
+                                                : const Icon(
+                                                    CupertinoIcons.arrow_down,
+                                                  ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -301,8 +320,12 @@ class _Factory extends VmFactory<AppState, _MusicItemSelectedScreenState> {
   _ViewModel fromStore() {
     return _ViewModel(
       getMusicItemDownloadState: (musicId) {
-        return state.downloadState.musicItemDownloadList
-            .firstWhere((element) => element.musicId == musicId);
+        final idx = state.downloadState.musicItemDownloadList
+            .indexWhere((element) => element.musicId == musicId);
+        if (idx != -1) {
+          return state.downloadState.musicItemDownloadList
+              .firstWhere((element) => element.musicId == musicId);
+        }
       },
       cancelDownloadForMusicItem: (musicId) {
         dispatch(CancelDownloadForMusicItem(musicId: musicId));

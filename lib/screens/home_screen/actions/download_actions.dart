@@ -52,6 +52,9 @@ class UpdateMusicItemDownloadProgress extends ReduxAction<AppState> {
           musicItemDownloadList: state.downloadState.musicItemDownloadList
             ..[idx] = musicItemForDownload.copyWith(
               progress: progress,
+              downloadStatus: progress == 1
+                  ? DownloadStatus.completed
+                  : DownloadStatus.progress,
             ),
         ),
       );
