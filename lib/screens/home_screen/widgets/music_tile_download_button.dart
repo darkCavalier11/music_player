@@ -73,8 +73,9 @@ class MusicTileDownloadButton extends StatelessWidget {
                     strokeWidth: 2,
                   ),
                 )
-              : const Icon(
+              : Icon(
                   CupertinoIcons.arrow_down,
+                  color: Theme.of(context).hintColor,
                 ),
         );
       },
