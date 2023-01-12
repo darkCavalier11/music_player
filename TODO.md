@@ -39,6 +39,7 @@ might check flick video player
 
 
 ## Known bugs need fix
+* download bug for android
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
 
