@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:file_picker/file_picker.dart';
@@ -37,12 +38,13 @@ class MusicTileDownloadButton extends StatelessWidget {
                 final musicUrl =
                     await ParserHelper.getMusicItemUrl(musicItem.musicId);
                 final savePath = await FilePicker.platform.getDirectoryPath();
-
                 if (savePath != null) {
+                  final file = File(savePath + '/${musicItem.title}.m4a');
+                  file.createSync();
                   snapshot.addMusicItemToDownloadList(musicItem.musicId);
                   ApiRequest.download(
                     uri: musicUrl,
-                    savePath: savePath + '/${musicItem.title}.m4a',
+                    savePath: file.path,
                     onReceiveProgress: (count, total) {
                       snapshot.updateDownloadProgressForMusicItem(
                           musicItem.musicId, count / total);

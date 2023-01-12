@@ -9,6 +9,7 @@
    <application
         android:label="music_player"
         android:name="${applicationName}"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <service android:name="com.ryanheise.audioservice.AudioService"
                 android:foregroundServiceType="mediaPlayback"
