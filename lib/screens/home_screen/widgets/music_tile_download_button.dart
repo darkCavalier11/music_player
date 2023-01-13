@@ -33,13 +33,14 @@ class MusicTileDownloadButton extends StatelessWidget {
           visualDensity: VisualDensity.compact,
           onPressed: () async {
             try {
-              final per = await Permission.manageExternalStorage.request();
+              final per = await Permission.storage.request();
               if (per.isGranted) {
                 final musicUrl =
                     await ParserHelper.getMusicItemUrl(musicItem.musicId);
                 final savePath = await FilePicker.platform.getDirectoryPath();
                 if (savePath != null) {
-                  final file = File(savePath + '/xyz.m4a');
+                  final file = File(savePath +
+                      '/${musicItem.title.replaceAll('|', '_').replaceAll(',', '')}.m4a');
                   file.createSync();
                   snapshot.addMusicItemToDownloadList(musicItem.musicId);
                   ApiRequest.download(
