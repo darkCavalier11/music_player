@@ -80,7 +80,6 @@ class CancelDownloadForMusicItem extends ReduxAction<AppState> {
     final cancelToken =
         state.downloadState.musicItemDownloadList[idx].cancelToken;
     cancelToken.cancel();
-    log('${cancelToken.isCancelled}');
     return state.copyWith(
       downloadState: state.downloadState.copyWith(
         musicItemDownloadList: state.downloadState.musicItemDownloadList
