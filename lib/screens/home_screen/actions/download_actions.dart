@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:dio/dio.dart';
@@ -79,6 +80,7 @@ class CancelDownloadForMusicItem extends ReduxAction<AppState> {
     final cancelToken =
         state.downloadState.musicItemDownloadList[idx].cancelToken;
     cancelToken.cancel();
+    log('${cancelToken.isCancelled}');
     return state.copyWith(
       downloadState: state.downloadState.copyWith(
         musicItemDownloadList: state.downloadState.musicItemDownloadList
