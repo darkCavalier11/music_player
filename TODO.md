@@ -44,6 +44,7 @@ might check flick video player
 * Loading time for long audios on ios(song duration as well) and some time on android.
 
 ## UI enhancements
+* Download screen/sheet
 * Music playing screen UI quality bump.
 
 ## future features

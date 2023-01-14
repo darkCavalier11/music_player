@@ -34,7 +34,12 @@ class MusicTileDownloadButton extends StatelessWidget {
           visualDensity: VisualDensity.compact,
           onPressed: () async {
             try {
-              final per = await Permission.manageExternalStorage.request();
+              PermissionStatus per = PermissionStatus.denied;
+              if (Platform.isIOS) {
+                per = await Permission.storage.request();
+              } else if (Platform.isAndroid) {
+                per = await Permission.manageExternalStorage.request();
+              }
               if (per.isGranted) {
                 final musicUrl =
                     await ParserHelper.getMusicItemUrl(musicItem.musicId);
