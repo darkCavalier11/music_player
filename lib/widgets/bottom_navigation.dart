@@ -5,12 +5,14 @@ import 'dart:math' hide log;
 import 'package:async_redux/async_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/action/ui_action.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/download_state.dart';
 import 'package:music_player/screens/music_item_controller_screen/music_item_controller_screen.dart';
 
 import '../redux/models/music_item.dart';
@@ -88,12 +90,7 @@ class BottomNavigationWidget extends StatelessWidget {
                               height: 30,
                               color: Theme.of(context).disabledColor,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                log('message');
-                              },
-                              child: const MusicPlayingSmallIndicator(),
-                            ),
+                            const MusicPlayingSmallIndicator(),
                           ]
                         ],
                       ),
@@ -173,13 +170,21 @@ class _ViewModel extends Vm {
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final MusicItem? musicItem;
+  final List<MusicItemForDownload> musicItemDownloadList;
   _ViewModel({
     required this.currentBottomNavIndex,
     required this.onChange,
     required this.processingStateStream,
     required this.playingStream,
     required this.musicItem,
-  });
+    required this.musicItemDownloadList,
+  }) : super(equals: [
+          currentBottomNavIndex,
+          processingStateStream,
+          playingStream,
+          musicItem,
+          musicItemDownloadList,
+        ]);
 
   @override
   bool operator ==(covariant _ViewModel other) {
@@ -189,7 +194,8 @@ class _ViewModel extends Vm {
         other.onChange == onChange &&
         other.processingStateStream == processingStateStream &&
         other.playingStream == playingStream &&
-        other.musicItem == musicItem;
+        other.musicItem == musicItem &&
+        listEquals(other.musicItemDownloadList, musicItemDownloadList);
   }
 
   @override
@@ -198,7 +204,8 @@ class _ViewModel extends Vm {
         onChange.hashCode ^
         processingStateStream.hashCode ^
         playingStream.hashCode ^
-        musicItem.hashCode;
+        musicItem.hashCode ^
+        musicItemDownloadList.hashCode;
   }
 }
 
@@ -215,6 +222,7 @@ class _Factory extends VmFactory<AppState, BottomNavigationWidget> {
       },
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
+      musicItemDownloadList: state.downloadState.musicItemDownloadList,
     );
   }
 }

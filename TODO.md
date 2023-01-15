@@ -39,7 +39,7 @@ might check flick video player
 
 
 ## Known bugs need fix
-* Exception happens when download cancelled
+* Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
 
