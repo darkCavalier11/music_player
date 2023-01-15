@@ -38,9 +38,10 @@ class BottomNavigationWidget extends StatelessWidget {
                     curve: Curves.elasticInOut,
                     duration: const Duration(seconds: 1),
                     width: MediaQuery.of(context).size.width *
-                        (musicSnapshot.data != ProcessingState.idle
-                            ? 0.65
-                            : 0.6),
+                        ((musicSnapshot.data != ProcessingState.idle
+                                ? 0.65
+                                : 0.6) +
+                            (snapshot.isAnyDownloadInProgress ? 0.08 : 0.0)),
                     decoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(50),
@@ -91,7 +92,12 @@ class BottomNavigationWidget extends StatelessWidget {
                               color: Theme.of(context).disabledColor,
                             ),
                             const MusicPlayingSmallIndicator(),
-                          ]
+                          ],
+                          if (snapshot.isAnyDownloadInProgress)
+                            const Icon(
+                              CupertinoIcons.arrow_down_circle,
+                              size: 30,
+                            )
                         ],
                       ),
                     ),
@@ -185,6 +191,11 @@ class _ViewModel extends Vm {
           musicItem,
           musicItemDownloadList,
         ]);
+
+  bool get isAnyDownloadInProgress {
+    return musicItemDownloadList
+        .any((element) => element.downloadStatus == DownloadStatus.progress);
+  }
 
   @override
   bool operator ==(covariant _ViewModel other) {
