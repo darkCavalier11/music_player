@@ -38,10 +38,9 @@ class BottomNavigationWidget extends StatelessWidget {
                     curve: Curves.elasticInOut,
                     duration: const Duration(seconds: 1),
                     width: MediaQuery.of(context).size.width *
-                        ((musicSnapshot.data != ProcessingState.idle
-                                ? 0.65
-                                : 0.6) +
-                            (snapshot.isAnyDownloadInProgress ? 0.08 : 0.0)),
+                        (musicSnapshot.data != ProcessingState.idle
+                            ? 0.65
+                            : 0.6),
                     decoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(50),
@@ -93,11 +92,6 @@ class BottomNavigationWidget extends StatelessWidget {
                             ),
                             const MusicPlayingSmallIndicator(),
                           ],
-                          if (snapshot.isAnyDownloadInProgress)
-                            const Icon(
-                              CupertinoIcons.arrow_down_circle,
-                              size: 30,
-                            )
                         ],
                       ),
                     ),
