@@ -2,6 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:music_player/redux/models/music_item.dart';
+
 class DownloadState {
   final List<MusicItemForDownload> musicItemDownloadList;
   DownloadState({
@@ -39,25 +41,25 @@ class DownloadState {
 }
 
 class MusicItemForDownload {
-  final String musicId;
+  final MusicItem musicItem;
   final double progress;
   final CancelToken cancelToken;
   final DownloadStatus downloadStatus;
   MusicItemForDownload({
-    required this.musicId,
+    required this.musicItem,
     required this.progress,
     required this.cancelToken,
     required this.downloadStatus,
   });
 
   MusicItemForDownload copyWith({
-    String? musicId,
+    MusicItem? musicItem,
     double? progress,
     CancelToken? cancelToken,
     DownloadStatus? downloadStatus,
   }) {
     return MusicItemForDownload(
-      musicId: musicId ?? this.musicId,
+      musicItem: musicItem ?? this.musicItem,
       progress: progress ?? this.progress,
       cancelToken: cancelToken ?? this.cancelToken,
       downloadStatus: downloadStatus ?? this.downloadStatus,
@@ -66,7 +68,7 @@ class MusicItemForDownload {
 
   @override
   String toString() {
-    return 'MusicItemForDownload(musicId: $musicId, progress: $progress, cancelToken: $cancelToken, downloadStatus: $downloadStatus)';
+    return 'MusicItemForDownload(musicItem: $musicItem, progress: $progress, cancelToken: $cancelToken, downloadStatus: $downloadStatus)';
   }
 
   @override
@@ -74,7 +76,7 @@ class MusicItemForDownload {
     if (identical(this, other)) return true;
   
     return 
-      other.musicId == musicId &&
+      other.musicItem == musicItem &&
       other.progress == progress &&
       other.cancelToken == cancelToken &&
       other.downloadStatus == downloadStatus;
@@ -82,7 +84,7 @@ class MusicItemForDownload {
 
   @override
   int get hashCode {
-    return musicId.hashCode ^
+    return musicItem.hashCode ^
       progress.hashCode ^
       cancelToken.hashCode ^
       downloadStatus.hashCode;

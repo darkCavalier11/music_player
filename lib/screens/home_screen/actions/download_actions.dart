@@ -7,11 +7,12 @@ import 'package:dio/dio.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/download_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 
 class AddMusicItemToDownload extends ReduxAction<AppState> {
-  final String musicId;
+  final MusicItem musicItem;
   AddMusicItemToDownload({
-    required this.musicId,
+    required this.musicItem,
   });
 
   @override
@@ -21,7 +22,7 @@ class AddMusicItemToDownload extends ReduxAction<AppState> {
         musicItemDownloadList: state.downloadState.musicItemDownloadList
           ..add(
             MusicItemForDownload(
-              musicId: musicId,
+              musicItem: musicItem,
               progress: 0.0,
               cancelToken: CancelToken(),
               downloadStatus: DownloadStatus.progress,
@@ -43,7 +44,7 @@ class UpdateMusicItemDownloadProgress extends ReduxAction<AppState> {
   @override
   AppState? reduce() {
     final idx = state.downloadState.musicItemDownloadList
-        .indexWhere((element) => element.musicId == musicId);
+        .indexWhere((element) => element.musicItem.musicId == musicId);
 
     if (idx != -1) {
       final musicItemForDownload =
@@ -72,7 +73,7 @@ class CancelDownloadForMusicItem extends ReduxAction<AppState> {
   @override
   AppState? reduce() {
     final idx = state.downloadState.musicItemDownloadList.indexWhere(
-      (element) => element.musicId == musicId,
+      (element) => element.musicItem.musicId == musicId,
     );
     if (idx == -1) {
       return null;

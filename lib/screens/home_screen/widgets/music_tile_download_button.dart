@@ -48,7 +48,7 @@ class MusicTileDownloadButton extends StatelessWidget {
                   final file = File(savePath +
                       '/${musicItem.title.replaceAll('|', '_').replaceAll(',', '')}.m4a');
                   file.createSync();
-                  snapshot.addMusicItemToDownloadList(musicItem.musicId);
+                  snapshot.addMusicItemToDownloadList(musicItem);
                   ApiRequest.download(
                     uri: musicUrl,
                     savePath: file.path,
@@ -110,7 +110,7 @@ class MusicTileDownloadButton extends StatelessWidget {
 }
 
 class _ViewModel extends Vm {
-  final void Function(String) addMusicItemToDownloadList;
+  final void Function(MusicItem) addMusicItemToDownloadList;
   final void Function(String, double) updateDownloadProgressForMusicItem;
   final void Function(String) cancelDownloadForMusicItem;
   final MusicItemForDownload? Function(String) getMusicItemDownloadState;
@@ -130,21 +130,21 @@ class _Factory extends VmFactory<AppState, MusicTileDownloadButton> {
   _ViewModel fromStore() {
     return _ViewModel(getMusicItemDownloadState: (musicId) {
       final idx = state.downloadState.musicItemDownloadList
-          .indexWhere((element) => element.musicId == musicId);
+          .indexWhere((element) => element.musicItem.musicId == musicId);
       if (idx != -1) {
         return state.downloadState.musicItemDownloadList
-            .firstWhere((element) => element.musicId == musicId);
+            .firstWhere((element) => element.musicItem.musicId == musicId);
       }
     }, cancelDownloadForMusicItem: (musicId) {
       dispatch(CancelDownloadForMusicItem(musicId: musicId));
     }, updateDownloadProgressForMusicItem: (musicId, progress) {
       dispatch(UpdateMusicItemDownloadProgress(
           musicId: musicId, progress: progress));
-    }, addMusicItemToDownloadList: (musicId) {
-      dispatch(AddMusicItemToDownload(musicId: musicId));
+    }, addMusicItemToDownloadList: (musicItem) {
+      dispatch(AddMusicItemToDownload(musicItem: musicItem));
     }, getCancelToken: (musicId) {
       return state.downloadState.musicItemDownloadList
-          .firstWhere((element) => element.musicId == musicId)
+          .firstWhere((element) => element.musicItem.musicId == musicId)
           .cancelToken;
     });
   }
