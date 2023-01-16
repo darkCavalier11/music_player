@@ -43,19 +43,30 @@ class DownloadInProgressScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Text('${snapshot.musicItemDownloadList.length}'),
               Expanded(
-                  child: ListView.builder(
-                itemBuilder: (context, index) {
-                  final musicItemForDownload =
-                      snapshot.musicItemDownloadList[index];
-                  return Row(
-                    children: [
-                      CircleAvatar(),
-                    ],
-                  );
-                },
-                itemCount: snapshot.musicItemDownloadList.length,
-              ))
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    final musicItemForDownload =
+                        snapshot.musicItemDownloadList[index];
+                    return Row(
+                      children: [
+                        CircleAvatar(
+                          foregroundImage: CachedNetworkImageProvider(
+                              musicItemForDownload.musicItem.imageUrl),
+                        ),
+                        // Column(
+                        //   children: [
+                        //     Text(musicItemForDownload.musicItem.title),
+                        //     LinearProgressIndicator(),
+                        //   ],
+                        // ),
+                      ],
+                    );
+                  },
+                  itemCount: snapshot.musicItemDownloadList.length,
+                ),
+              )
             ],
           ),
         ),
