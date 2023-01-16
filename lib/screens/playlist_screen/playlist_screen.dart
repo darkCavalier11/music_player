@@ -10,6 +10,7 @@ import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/download_state.dart';
 import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/playlist_screen/actions/playlist_actions.dart';
+import 'package:music_player/screens/playlist_screen/download_in_progress_screen.dart';
 import 'package:music_player/screens/playlist_screen/widgets/playlist_item_tile.dart';
 import 'package:music_player/widgets/app_dialog.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
@@ -50,27 +51,36 @@ class PlaylistScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(CupertinoIcons.arrow_down_circle),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Downloads (${snapshot.musicItemDownloadList.length} in progress)',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const DownloadInProgressScreen(),
                       ),
-                      const Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ],
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.arrow_down_circle),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Downloads (${snapshot.musicItemDownloadList.length} in progress)',
+                        ),
+                        const Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
