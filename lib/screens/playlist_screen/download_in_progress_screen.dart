@@ -66,9 +66,22 @@ class DownloadInProgressScreen extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                                const SizedBox(height: 4),
                                 LinearProgressIndicator(
                                   value: musicItemForDownload.progress,
                                   color: Theme.of(context).primaryColor,
+                                  backgroundColor:
+                                      Theme.of(context).dividerColor,
+                                ),
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    Text(
+                                      (musicItemForDownload.progress * 100)
+                                              .toStringAsFixed(1) +
+                                          '%',
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -93,7 +106,9 @@ class _Factory extends VmFactory<AppState, DownloadInProgressScreen> {
   @override
   _ViewModel? fromStore() {
     return _ViewModel(
-      musicItemDownloadList: state.downloadState.musicItemDownloadList,
+      musicItemDownloadList: state.downloadState.musicItemDownloadList
+          .where((element) => element.downloadStatus == DownloadStatus.progress)
+          .toList(),
     );
   }
 }
