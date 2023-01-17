@@ -45,53 +45,59 @@ class DownloadInProgressScreen extends StatelessWidget {
                 ],
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    final musicItemForDownload =
-                        snapshot.musicItemDownloadList[index];
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          foregroundImage: CachedNetworkImageProvider(
-                              musicItemForDownload.musicItem.imageUrl),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Column(
-                              children: [
-                                Text(
-                                  musicItemForDownload.musicItem.title,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                child: snapshot.musicItemDownloadList.isEmpty
+                    ? const Center(
+                        child: Text('No downloads in progress'),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (context, index) {
+                          final musicItemForDownload =
+                              snapshot.musicItemDownloadList[index];
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                foregroundImage: CachedNetworkImageProvider(
+                                    musicItemForDownload.musicItem.imageUrl),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        musicItemForDownload.musicItem.title,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      LinearProgressIndicator(
+                                        value: musicItemForDownload.progress,
+                                        color: Theme.of(context).primaryColor,
+                                        backgroundColor:
+                                            Theme.of(context).dividerColor,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Spacer(),
+                                          Text(
+                                            (musicItemForDownload.progress *
+                                                        100)
+                                                    .toStringAsFixed(1) +
+                                                '%',
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(height: 4),
-                                LinearProgressIndicator(
-                                  value: musicItemForDownload.progress,
-                                  color: Theme.of(context).primaryColor,
-                                  backgroundColor:
-                                      Theme.of(context).dividerColor,
-                                ),
-                                Row(
-                                  children: [
-                                    const Spacer(),
-                                    Text(
-                                      (musicItemForDownload.progress * 100)
-                                              .toStringAsFixed(1) +
-                                          '%',
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: snapshot.musicItemDownloadList.length,
-                ),
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: snapshot.musicItemDownloadList.length,
+                      ),
               )
             ],
           ),

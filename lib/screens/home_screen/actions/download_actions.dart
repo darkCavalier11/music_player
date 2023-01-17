@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/download_state.dart';
@@ -49,6 +50,9 @@ class UpdateMusicItemDownloadProgress extends ReduxAction<AppState> {
     if (idx != -1) {
       final musicItemForDownload =
           state.downloadState.musicItemDownloadList[idx];
+      if (progress == 1) {
+        Fluttertoast.showToast(msg: 'Download complete.');
+      }
       return state.copyWith(
         downloadState: state.downloadState.copyWith(
           musicItemDownloadList: state.downloadState.musicItemDownloadList
