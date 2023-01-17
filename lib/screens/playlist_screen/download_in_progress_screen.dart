@@ -11,6 +11,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/download_state.dart';
+import 'package:music_player/utils/constants.dart';
 
 class DownloadInProgressScreen extends StatelessWidget {
   const DownloadInProgressScreen({Key? key}) : super(key: key);
@@ -43,24 +44,36 @@ class DownloadInProgressScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Text('${snapshot.musicItemDownloadList.length}'),
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     final musicItemForDownload =
                         snapshot.musicItemDownloadList[index];
                     return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
                           foregroundImage: CachedNetworkImageProvider(
                               musicItemForDownload.musicItem.imageUrl),
                         ),
-                        // Column(
-                        //   children: [
-                        //     Text(musicItemForDownload.musicItem.title),
-                        //     LinearProgressIndicator(),
-                        //   ],
-                        // ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Column(
+                              children: [
+                                Text(
+                                  musicItemForDownload.musicItem.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                LinearProgressIndicator(
+                                  value: musicItemForDownload.progress,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     );
                   },
