@@ -13,16 +13,16 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      _SetHomeScreenLoadingAction(loadingState: LoadingState.loading);
+      dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.loading));
       final homeScreenMusicItems = await ParserHelper.getHomeScreenMusic();
-      _SetHomeScreenLoadingAction(loadingState: LoadingState.idle);
+      dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.idle));
       return state.copyWith(
         homePageState: state.homePageState.copyWith(
           homePageMusicList: homeScreenMusicItems,
         ),
       );
     } catch (err) {
-      _SetHomeScreenLoadingAction(loadingState: LoadingState.failed);
+      dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.failed));
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw ReduxException(
         errorMessage: '$err',

@@ -49,7 +49,6 @@ might check flick video player
 
 ## future features
 * Add app update website
-* add app icon
 * Load more on search screen
 * Shuffle play on playlist screen.
 * Intelligent cache

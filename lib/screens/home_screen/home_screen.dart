@@ -12,6 +12,7 @@ import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
+import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
 import '../../redux/action/ui_action.dart';
@@ -48,101 +49,108 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       builder: (context, snapshot) {
         return Scaffold(
-          body: RefreshIndicator(
-            onRefresh: () async {
-              // todo: add refresh
-            },
-            color: Theme.of(context).primaryColor,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: _scrollController
-                ..addListener(() {
-                  if (_scrollController.position.atEdge &&
-                      _scrollController.offset > 0) {
-                    snapshot.getNextMusicListForHomeScreen();
-                  }
-                }),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24, top: 64),
-                    child: DummySearchTextField(
-                      tag: 'search',
-                      navigatingRouteName: MusicSearchScreen.routeScreen,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  if (snapshot.recentlyPlayedList.isNotEmpty) ...[
-                    const Divider(),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 24),
-                      child: AppHeaderText(
-                        icon: Iconsax.timer_1,
-                        text: 'Recently played',
-                      ),
-                    ),
-                    SizedBox(
-                      height: 220,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.only(left: 24),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, idx) {
-                          return MusicGridTile(
-                            selectedMusic: snapshot.recentlyPlayedList[idx],
-                            isSecondary: false,
-                            clearEarlierPlaylist: true,
-                          );
-                        },
-                        itemCount: snapshot.recentlyPlayedList.take(5).length,
-                      ),
-                    ),
-                    AppPrimaryButton(
-                      buttonText: 'See More',
-                      trailingIcon: CupertinoIcons.arrow_right,
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            RecentlyPlayedScreen.recentlyPlayedScreen);
-                      },
-                    ),
-                  ],
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: AppHeaderText(
-                      icon: Iconsax.music_dashboard,
-                      text: 'For you',
-                    ),
-                  ),
-                  ...snapshot.homeScreenMusicList
-                      .map(
-                        (e) => Column(
-                          children: [
-                            MusicListTile(
-                              selectedMusic: e,
-                              clearEarlierPlaylist: true,
-                            ),
-                            const Divider(
-                              endIndent: 50,
-                              indent: 50,
-                              height: 5,
-                            ),
-                          ],
+          body: snapshot.homeScreenLoadingState == LoadingState.loading
+              ? const Center(
+                  child: LoadingIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    snapshot.loadHomePageMusic();
+                  },
+                  color: Theme.of(context).primaryColor,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: _scrollController
+                      ..addListener(() {
+                        if (_scrollController.position.atEdge &&
+                            _scrollController.offset > 0) {
+                          snapshot.getNextMusicListForHomeScreen();
+                        }
+                      }),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding:
+                              EdgeInsets.only(left: 24, right: 24, top: 64),
+                          child: DummySearchTextField(
+                            tag: 'search',
+                            navigatingRouteName: MusicSearchScreen.routeScreen,
+                          ),
                         ),
-                      )
-                      .toList(),
-                  if (snapshot.homepageNextMusicListLoading ==
-                      LoadingState.loading)
-                    const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: CupertinoActivityIndicator(),
+                        const SizedBox(height: 16),
+                        if (snapshot.recentlyPlayedList.isNotEmpty) ...[
+                          const Divider(),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 24),
+                            child: AppHeaderText(
+                              icon: Iconsax.timer_1,
+                              text: 'Recently played',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 220,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.only(left: 24),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, idx) {
+                                return MusicGridTile(
+                                  selectedMusic:
+                                      snapshot.recentlyPlayedList[idx],
+                                  isSecondary: false,
+                                  clearEarlierPlaylist: true,
+                                );
+                              },
+                              itemCount:
+                                  snapshot.recentlyPlayedList.take(5).length,
+                            ),
+                          ),
+                          AppPrimaryButton(
+                            buttonText: 'See More',
+                            trailingIcon: CupertinoIcons.arrow_right,
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  RecentlyPlayedScreen.recentlyPlayedScreen);
+                            },
+                          ),
+                        ],
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          child: AppHeaderText(
+                            icon: Iconsax.music_dashboard,
+                            text: 'For you',
+                          ),
+                        ),
+                        ...snapshot.homeScreenMusicList
+                            .map(
+                              (e) => Column(
+                                children: [
+                                  MusicListTile(
+                                    selectedMusic: e,
+                                    clearEarlierPlaylist: true,
+                                  ),
+                                  const Divider(
+                                    endIndent: 50,
+                                    indent: 50,
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                        if (snapshot.homepageNextMusicListLoading ==
+                            LoadingState.loading)
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        const SizedBox(
+                          height: 250,
+                        )
+                      ],
                     ),
-                  const SizedBox(
-                    height: 250,
-                  )
-                ],
-              ),
-            ),
-          ),
+                  ),
+                ),
         );
       },
     );
@@ -216,8 +224,11 @@ class _ViewModel extends Vm {
   final void Function(MusicItem) playMusic;
   final void Function() getNextMusicListForHomeScreen;
   final LoadingState homepageNextMusicListLoading;
+  final void Function() loadHomePageMusic;
 
+  final LoadingState homeScreenLoadingState;
   _ViewModel({
+    required this.loadHomePageMusic,
     required this.audioPlayer,
     required this.uiState,
     required this.toggleTheme,
@@ -226,12 +237,14 @@ class _ViewModel extends Vm {
     required this.recentlyPlayedList,
     required this.getNextMusicListForHomeScreen,
     required this.homepageNextMusicListLoading,
+    required this.homeScreenLoadingState,
   }) : super(equals: [
           uiState,
           audioPlayer,
           recentlyPlayedList,
           homeScreenMusicList,
           homepageNextMusicListLoading,
+          homeScreenLoadingState,
         ]);
 
   @override
@@ -245,7 +258,9 @@ class _ViewModel extends Vm {
         listEquals(other.recentlyPlayedList, recentlyPlayedList) &&
         other.playMusic == playMusic &&
         other.getNextMusicListForHomeScreen == getNextMusicListForHomeScreen &&
-        other.homepageNextMusicListLoading == homepageNextMusicListLoading;
+        other.homepageNextMusicListLoading == homepageNextMusicListLoading &&
+        other.loadHomePageMusic == loadHomePageMusic &&
+        other.homeScreenLoadingState == homeScreenLoadingState;
   }
 
   @override
@@ -257,7 +272,43 @@ class _ViewModel extends Vm {
         recentlyPlayedList.hashCode ^
         playMusic.hashCode ^
         getNextMusicListForHomeScreen.hashCode ^
-        homepageNextMusicListLoading.hashCode;
+        homepageNextMusicListLoading.hashCode ^
+        loadHomePageMusic.hashCode ^
+        homeScreenLoadingState.hashCode;
+  }
+
+  _ViewModel copyWith({
+    UiState? uiState,
+    AudioPlayer? audioPlayer,
+    Function()? toggleTheme,
+    List<MusicItem>? homeScreenMusicList,
+    List<MusicItem>? recentlyPlayedList,
+    void Function(MusicItem)? playMusic,
+    void Function()? getNextMusicListForHomeScreen,
+    LoadingState? homepageNextMusicListLoading,
+    void Function()? loadHomePageMusic,
+    LoadingState? homeScreenLoadingState,
+  }) {
+    return _ViewModel(
+      uiState: uiState ?? this.uiState,
+      audioPlayer: audioPlayer ?? this.audioPlayer,
+      toggleTheme: toggleTheme ?? this.toggleTheme,
+      homeScreenMusicList: homeScreenMusicList ?? this.homeScreenMusicList,
+      recentlyPlayedList: recentlyPlayedList ?? this.recentlyPlayedList,
+      playMusic: playMusic ?? this.playMusic,
+      getNextMusicListForHomeScreen:
+          getNextMusicListForHomeScreen ?? this.getNextMusicListForHomeScreen,
+      homepageNextMusicListLoading:
+          homepageNextMusicListLoading ?? this.homepageNextMusicListLoading,
+      loadHomePageMusic: loadHomePageMusic ?? this.loadHomePageMusic,
+      homeScreenLoadingState:
+          homeScreenLoadingState ?? this.homeScreenLoadingState,
+    );
+  }
+
+  @override
+  String toString() {
+    return '_ViewModel(uiState: $uiState, audioPlayer: $audioPlayer, toggleTheme: $toggleTheme, homeScreenMusicList: $homeScreenMusicList, recentlyPlayedList: $recentlyPlayedList, playMusic: $playMusic, getNextMusicListForHomeScreen: $getNextMusicListForHomeScreen, homepageNextMusicListLoading: $homepageNextMusicListLoading, loadHomePageMusic: $loadHomePageMusic, homeScreenLoadingState: $homeScreenLoadingState)';
   }
 }
 
@@ -267,7 +318,11 @@ class _Factory extends VmFactory<AppState, _HomeScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      loadHomePageMusic: () {
+        dispatch(LoadHomePageMusicAction());
+      },
       recentlyPlayedList: state.homePageState.recentlyPlayedMusicList,
+      homeScreenLoadingState: state.homePageState.homepageMusicListLoading,
       audioPlayer: state.audioPlayerState.audioPlayer,
       uiState: state.uiState,
       homepageNextMusicListLoading:
