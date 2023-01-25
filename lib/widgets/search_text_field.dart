@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 
+import '../utils/constants.dart';
+
 class SearchTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final LoadingState loadingState;

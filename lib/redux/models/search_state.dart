@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/music_model.dart';
 
+import '../../utils/constants.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class SearchState {
@@ -79,10 +81,4 @@ class SearchState {
         searchResultFetchingState.hashCode ^
         searchResultMusicItems.hashCode;
   }
-}
-
-enum LoadingState {
-  idle,
-  loading,
-  failed,
 }

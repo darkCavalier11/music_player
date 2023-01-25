@@ -6,6 +6,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
 
+import '../../utils/constants.dart';
+
 class AudioPlayerState {
   final AudioPlayer audioPlayer;
 

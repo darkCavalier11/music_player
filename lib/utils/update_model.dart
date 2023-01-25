@@ -65,7 +65,7 @@ class UpdateModel {
       appUrl: json['app_url'],
       appSize: json['appsize'],
       description: json['description'],
-      updateLog: (json['update_log'] as List<String>),
+      updateLog: (json['update_log'] as List).map((e) => e.toString()).toList(),
     );
   }
 
@@ -101,10 +101,4 @@ class UpdateModel {
         description.hashCode ^
         updateLog.hashCode;
   }
-}
-
-enum LoadingState {
-  idle,
-  loading,
-  failed,
 }

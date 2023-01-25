@@ -3,11 +3,15 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:dio/dio.dart';
+import 'package:music_player/env.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
-import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/redux/redux_exception.dart';
+import 'package:music_player/utils/update_model.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
+
+import '../../../utils/constants.dart';
 
 class LoadHomePageMusicAction extends ReduxAction<AppState> {
   @override
@@ -94,5 +98,38 @@ class GetNextMusicListForHomeScreenAction extends ReduxAction<AppState> {
     dispatch(_SetHomeScreenNextListLoadingAction(
         loadingState: LoadingState.loading));
     return super.before();
+  }
+}
+
+class GetUpdateModelAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.loading));
+    try {
+      final dio = Dio(
+        BaseOptions(
+          headers: {
+            'X-Master-Key': EnvConfig.jsonBinMasterKey,
+          },
+        ),
+      );
+      final res = await dio.get(
+        'https://api.jsonbin.io/v3/b/63cd5d8eace6f33a22c57b72',
+      );
+      if (res.statusCode == 200) {
+        final updateModel = UpdateModel.fromJson(res.data['record']);
+        dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.idle));
+        return state.copyWith(
+          homePageState: state.homePageState.copyWith(
+            updateModel: updateModel,
+          ),
+        );
+      } else {
+        throw Exception("error getting update info ${res.statusCode}");
+      }
+    } catch (err) {
+      dispatch(_SetHomeScreenLoadingAction(loadingState: LoadingState.failed));
+      log('$err');
+    }
   }
 }

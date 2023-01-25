@@ -11,6 +11,7 @@ import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/music_playing_small_indicator.dart';
 
+import '../../utils/constants.dart';
 import '../home_screen/actions/music_actions.dart';
 import '../home_screen/home_screen.dart';
 import '../home_screen/widgets/music_list_tile.dart';
