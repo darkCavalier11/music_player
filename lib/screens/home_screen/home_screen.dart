@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             int.parse(currentBuildNumber))
                           GestureDetector(
                             onTap: () {
-                              
+                              // todo : launch in browser
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
