@@ -48,7 +48,7 @@ might check flick video player
 * Music playing screen UI quality bump.
 
 ## future features
-* Add app update website
+* add analytics on weba and app
 * Load more on search screen
 * Shuffle play on playlist screen.
 * Intelligent cache
