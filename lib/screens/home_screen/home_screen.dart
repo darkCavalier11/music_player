@@ -6,12 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:music_player/main.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/screens/home_screen/actions/home_screen_actions.dart';
 import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/recently_played_screen/recently_played_screen.dart';
+import 'package:music_player/utils/update_model.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
 
@@ -47,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onInit: (store) {
         store.dispatch(GetRecentlyPlayedMusicList());
         store.dispatch(LoadHomePageMusicAction());
+        store.dispatch(GetUpdateModelAction());
       },
       builder: (context, snapshot) {
         return Scaffold(
@@ -80,6 +83,31 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
+                        if (snapshot.updateModel.latestBuildNumber <=
+                            int.parse(currentBuildNumber))
+                          GestureDetector(
+                            onTap: () {
+                              
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              margin: const EdgeInsets.symmetric(horizontal: 16),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
+                              ),
+                              child: Row(
+                                children: const [
+                                  Text('Hey, a new app update available, 🎉'),
+                                  Spacer(),
+                                  Icon(Icons.arrow_circle_right_outlined),
+                                ],
+                              ),
+                            ),
+                          ),
                         if (snapshot.recentlyPlayedList.isNotEmpty) ...[
                           const Divider(),
                           const Padding(
@@ -226,6 +254,7 @@ class _ViewModel extends Vm {
   final void Function() getNextMusicListForHomeScreen;
   final LoadingState homepageNextMusicListLoading;
   final void Function() loadHomePageMusic;
+  final UpdateModel updateModel;
 
   final LoadingState homeScreenLoadingState;
   _ViewModel({
@@ -239,6 +268,7 @@ class _ViewModel extends Vm {
     required this.getNextMusicListForHomeScreen,
     required this.homepageNextMusicListLoading,
     required this.homeScreenLoadingState,
+    required this.updateModel,
   }) : super(equals: [
           uiState,
           audioPlayer,
@@ -246,6 +276,7 @@ class _ViewModel extends Vm {
           homeScreenMusicList,
           homepageNextMusicListLoading,
           homeScreenLoadingState,
+          updateModel,
         ]);
 
   @override
@@ -261,6 +292,7 @@ class _ViewModel extends Vm {
         other.getNextMusicListForHomeScreen == getNextMusicListForHomeScreen &&
         other.homepageNextMusicListLoading == homepageNextMusicListLoading &&
         other.loadHomePageMusic == loadHomePageMusic &&
+        other.updateModel == updateModel &&
         other.homeScreenLoadingState == homeScreenLoadingState;
   }
 
@@ -275,6 +307,7 @@ class _ViewModel extends Vm {
         getNextMusicListForHomeScreen.hashCode ^
         homepageNextMusicListLoading.hashCode ^
         loadHomePageMusic.hashCode ^
+        updateModel.hashCode ^
         homeScreenLoadingState.hashCode;
   }
 
@@ -288,6 +321,7 @@ class _ViewModel extends Vm {
     void Function()? getNextMusicListForHomeScreen,
     LoadingState? homepageNextMusicListLoading,
     void Function()? loadHomePageMusic,
+    UpdateModel? updateModel,
     LoadingState? homeScreenLoadingState,
   }) {
     return _ViewModel(
@@ -302,6 +336,7 @@ class _ViewModel extends Vm {
       homepageNextMusicListLoading:
           homepageNextMusicListLoading ?? this.homepageNextMusicListLoading,
       loadHomePageMusic: loadHomePageMusic ?? this.loadHomePageMusic,
+      updateModel: updateModel ?? this.updateModel,
       homeScreenLoadingState:
           homeScreenLoadingState ?? this.homeScreenLoadingState,
     );
@@ -319,6 +354,7 @@ class _Factory extends VmFactory<AppState, _HomeScreenState> {
   @override
   _ViewModel fromStore() {
     return _ViewModel(
+      updateModel: state.homePageState.updateModel,
       loadHomePageMusic: () {
         dispatch(LoadHomePageMusicAction());
       },

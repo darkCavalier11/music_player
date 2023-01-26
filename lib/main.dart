@@ -22,6 +22,7 @@ import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 late Store<AppState> store;
 
 late String appVersion;
+late String currentBuildNumber;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ Future<void> main() async {
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   appVersion = packageInfo.version;
+  currentBuildNumber = packageInfo.buildNumber;
   runApp(StoreProvider<AppState>(store: store, child: const MyApp()));
 }
 
