@@ -66,11 +66,11 @@ class MyApp extends StatelessWidget {
       vm: () => _Factory(this),
       onInit: (store) async {
         store.dispatch(LoadUserProfileFromSharedPref());
-      }, 
+      },
       builder: (context, snapshot) {
         return MaterialApp(
           // todo : light theme
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouter.router.generator,

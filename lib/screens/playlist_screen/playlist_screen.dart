@@ -72,6 +72,10 @@ class PlaylistScreen extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           'Downloads (${snapshot.musicItemDownloadList.length} in progress)',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).disabledColor,
+                                  ),
                         ),
                         const Spacer(),
                         Icon(

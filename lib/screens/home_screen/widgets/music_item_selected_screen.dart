@@ -132,7 +132,9 @@ class _MusicItemSelectedScreenState extends State<MusicItemSelectedScreen>
                                           ? value
                                           : 0),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withOpacity(0.4),
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                   child: child,

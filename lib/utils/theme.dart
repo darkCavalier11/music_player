@@ -10,6 +10,11 @@ class AppTheme {
       primarySwatch: SwatchGenerator.generateMaterialColor(
         const Color(0xff61c9a8),
       ),
+      textTheme: const TextTheme().apply(
+        displayColor: Colors.grey,
+        bodyColor: Colors.white.withOpacity(0.8),
+      ),
+      scaffoldBackgroundColor: Colors.black,
       canvasColor: Colors.black,
       errorColor: Colors.redAccent,
       colorScheme: const ColorScheme.light(

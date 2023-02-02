@@ -91,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
-                              margin: const EdgeInsets.symmetric(horizontal: 16),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -100,10 +101,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .withOpacity(0.1),
                               ),
                               child: Row(
-                                children: const [
-                                  Text('Hey, a new app update available, 🎉'),
-                                  Spacer(),
-                                  Icon(Icons.arrow_circle_right_outlined),
+                                children: [
+                                  Text(
+                                    'Hey, a new app update available, 🎉',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .disabledColor),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_circle_right_outlined),
                                 ],
                               ),
                             ),
@@ -215,7 +224,10 @@ class DummySearchTextField extends StatelessWidget {
             enabled: false,
             decoration: InputDecoration(
               isDense: true,
-              prefixIcon: const Icon(CupertinoIcons.search),
+              prefixIcon: Icon(
+                CupertinoIcons.search,
+                color: Theme.of(context).primaryColor,
+              ),
               filled: true,
               hintText: 'Search songs, artist & genres...',
               focusedBorder: OutlineInputBorder(

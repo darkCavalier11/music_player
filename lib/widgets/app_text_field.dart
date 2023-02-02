@@ -30,9 +30,13 @@ class AppTextField extends StatelessWidget {
         keyboardType: TextInputType.name,
         enabled: enabled,
         onSubmitted: onSubmitted,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Colors.white,
+            ),
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,
         decoration: InputDecoration(
+          fillColor: Theme.of(context).cardColor.withOpacity(0.1),
           suffixIconConstraints: const BoxConstraints(
             maxHeight: 20,
             maxWidth: 50,
