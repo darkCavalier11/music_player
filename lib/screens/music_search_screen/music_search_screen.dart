@@ -129,6 +129,12 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                             ),
                             title: Text(
                               snapshot.previouslySearchedItems[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: Theme.of(context).disabledColor,
+                                  ),
                             ),
                           );
                         },

@@ -27,6 +27,9 @@ class SearchTextField extends StatelessWidget {
         autofocus: true,
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).cardColor,
+            ),
         decoration: InputDecoration(
           suffixIcon: loadingState == LoadingState.loading
               ? Padding(
@@ -46,6 +49,7 @@ class SearchTextField extends StatelessWidget {
             color: Theme.of(context).primaryColor,
           ),
           filled: true,
+          fillColor: Theme.of(context).cardColor.withOpacity(0.1),
           hintText: 'Search songs, artist & genres...',
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),

@@ -84,18 +84,18 @@ class AccountScreen extends StatelessWidget {
                   },
                 ),
                 const Spacer(),
-                Text('v' + appVersion + ' (Beta)'),
-                Text(
-                  'Made with ❤️ in 🇮🇳',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                Text(
-                  'About',
-                  style: Theme.of(context).textTheme.caption?.copyWith(
-                        decoration: TextDecoration.underline,
-                      ),
-                ),
-                const SizedBox(height: 100),
+                // Text('v' + appVersion + ' (Beta)'),
+                // Text(
+                //   'Made with ❤️ in 🇮🇳',
+                //   style: Theme.of(context).textTheme.caption,
+                // ),
+                // Text(
+                //   'About',
+                //   style: Theme.of(context).textTheme.caption?.copyWith(
+                //         decoration: TextDecoration.underline,
+                //       ),
+                // ),
+                // const SizedBox(height: 100),
               ],
             ),
           ),
@@ -161,7 +161,12 @@ class AccountTileSwitch extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Text(title),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).cardColor,
+                      ),
+                ),
                 const Spacer(),
                 CupertinoSwitch(
                   value: value,
@@ -172,7 +177,9 @@ class AccountTileSwitch extends StatelessWidget {
           ),
           Text(
             description,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).disabledColor,
+                ),
           ),
         ],
       ),
