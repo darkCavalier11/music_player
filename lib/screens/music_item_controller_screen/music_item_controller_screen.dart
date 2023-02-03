@@ -60,7 +60,7 @@ class MusicListItemControllerScreen extends StatelessWidget {
                 child: Divider(
                   indent: 20,
                   endIndent: 20,
-                  color: Theme.of(context).dividerColor,
+                  color: Theme.of(context).disabledColor.withOpacity(0.2),
                 ),
                 alignment: const Alignment(0, -0.2),
               ),
@@ -68,7 +68,7 @@ class MusicListItemControllerScreen extends StatelessWidget {
                 child: Divider(
                   indent: 20,
                   endIndent: 20,
-                  color: Theme.of(context).dividerColor,
+                  color: Theme.of(context).disabledColor.withOpacity(0.2),
                 ),
                 alignment: const Alignment(0, 0.2),
               ),
