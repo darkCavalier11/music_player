@@ -16,6 +16,8 @@ import 'package:music_player/screens/recently_played_screen/recently_played_scre
 import 'package:music_player/utils/update_model.dart';
 import 'package:music_player/widgets/loading_indicator.dart';
 import 'package:music_player/widgets/text_themes/app_header_text.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../redux/action/ui_action.dart';
 import '../../redux/models/app_state.dart';
@@ -86,8 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (snapshot.updateModel.latestBuildNumber <=
                             int.parse(currentBuildNumber))
                           GestureDetector(
-                            onTap: () {
-                              // todo : launch in browser
+                            onTap: () async {
+                              if (await canLaunchUrlString(
+                                  'https://iridescent-trifle-5d3757.netlify.app/#/')) {
+                                launchUrlString(
+                                  "https://iridescent-trifle-5d3757.netlify.app/#/",
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
