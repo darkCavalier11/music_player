@@ -153,6 +153,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).disabledColor,
                                   ),
                         ),
                       ),
@@ -186,8 +187,14 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                     resultString.indexOf(searchString) +
                                         searchString.length);
                             displayText.add(TextSpan(
-                                text: nonHighlightPartLeft,
-                                style: Theme.of(context).textTheme.bodyLarge));
+                              text: nonHighlightPartLeft,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: Theme.of(context).disabledColor,
+                                  ),
+                            ));
                             displayText.add(TextSpan(
                                 text: highlightPart,
                                 style: Theme.of(context)
@@ -195,10 +202,19 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                     .bodyLarge
                                     ?.copyWith(
                                       fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).disabledColor,
                                     )));
-                            displayText.add(TextSpan(
+                            displayText.add(
+                              TextSpan(
                                 text: nonHighlightPartRight,
-                                style: Theme.of(context).textTheme.bodyLarge));
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context).disabledColor,
+                                    ),
+                              ),
+                            );
                           } else {
                             for (var w1 in currentSearchResult) {
                               if (searchWords.contains(w1)) {
@@ -210,14 +226,24 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                         .bodyLarge
                                         ?.copyWith(
                                           fontWeight: FontWeight.bold,
+                                          color:
+                                              Theme.of(context).disabledColor,
                                         ),
                                   ),
                                 );
                               } else {
-                                displayText.add(TextSpan(
+                                displayText.add(
+                                  TextSpan(
                                     text: w1,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1));
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color:
+                                              Theme.of(context).disabledColor,
+                                        ),
+                                  ),
+                                );
                               }
                               displayText.add(const TextSpan(text: ' '));
                             }
