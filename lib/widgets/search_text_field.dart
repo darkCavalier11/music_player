@@ -49,7 +49,7 @@ class SearchTextField extends StatelessWidget {
             color: Theme.of(context).primaryColor,
           ),
           filled: true,
-          fillColor: Theme.of(context).cardColor.withOpacity(0.1),
+          fillColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1),
           hintText: 'Search songs, artist & genres...',
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),

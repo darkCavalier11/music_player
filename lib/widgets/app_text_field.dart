@@ -36,7 +36,7 @@ class AppTextField extends StatelessWidget {
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,
         decoration: InputDecoration(
-          fillColor: Theme.of(context).cardColor.withOpacity(0.1),
+          fillColor: Theme.of(context).disabledColor.withOpacity(0.1),
           suffixIconConstraints: const BoxConstraints(
             maxHeight: 20,
             maxWidth: 50,
