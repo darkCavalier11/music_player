@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         return MaterialApp(
           // todo : light theme
-          themeMode: ThemeMode.light,
+
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouter.router.generator,

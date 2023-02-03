@@ -56,23 +56,30 @@ class MusicListItemControllerScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Align(
+              Align(
                 child: Divider(
                   indent: 20,
                   endIndent: 20,
+                  color: Theme.of(context).dividerColor,
                 ),
-                alignment: Alignment(0, -0.2),
+                alignment: const Alignment(0, -0.2),
               ),
-              const Align(
+              Align(
                 child: Divider(
                   indent: 20,
                   endIndent: 20,
+                  color: Theme.of(context).dividerColor,
                 ),
-                alignment: Alignment(0, 0.2),
+                alignment: const Alignment(0, 0.2),
               ),
               Align(
                 child: Container(
-                  child: const Text('Queue >>'),
+                  child: Text(
+                    'Queue >>',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).cardColor,
+                        ),
+                  ),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor.withOpacity(0.1),
@@ -166,11 +173,16 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                     ),
                     Text(
                       currentPlaylistItems[index].title,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).cardColor,
+                          ),
                       maxLines: 2,
                       overflow: TextOverflow.fade,
                       softWrap: false,
                     ),
-                    const Divider(),
+                    const Divider(
+                      color: Colors.grey,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -179,13 +191,22 @@ class _MusicItemCarouselSlider extends StatelessWidget {
                             currentPlaylistItems[index].author,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.caption,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).disabledColor,
+                                    ),
                           ),
                           flex: 2,
                         ),
                         Expanded(
                           child: Text(
                             currentPlaylistItems[index].duration,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).cardColor,
+                                ),
                             maxLines: 1,
                           ),
                           flex: 1,
