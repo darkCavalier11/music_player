@@ -98,11 +98,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Stack(
                         children: [
                           CircleAvatar(
-                            backgroundImage: FileImage(
-                              File(
-                                snapshot.profilePicPlatformPath,
-                              ),
-                            ),
+                            backgroundImage:
+                                snapshot.profilePicPlatformPath.isNotEmpty
+                                    ? FileImage(
+                                        File(
+                                          snapshot.profilePicPlatformPath,
+                                        ),
+                                      )
+                                    : null,
                             backgroundColor: Theme.of(context).dividerColor,
                             radius: 80,
                           ),

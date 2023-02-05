@@ -39,8 +39,10 @@ class AccountScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: CircleAvatar(
-                        backgroundImage:
-                            FileImage(File(snapshot.profilePicPlatformPath)),
+                        backgroundImage: snapshot
+                                .profilePicPlatformPath.isNotEmpty
+                            ? FileImage(File(snapshot.profilePicPlatformPath))
+                            : null,
                         radius: 35,
                         child: Text(
                           snapshot.userName[0],
@@ -61,7 +63,7 @@ class AccountScreen extends StatelessWidget {
                         },
                         icon: Icon(
                           CupertinoIcons.pencil_circle_fill,
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).colorScheme.background,
                         ),
                       ),
                     ),
