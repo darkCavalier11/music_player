@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        if (snapshot.updateModel.latestBuildNumber <=
+                        if (snapshot.updateModel.latestBuildNumber >
                             int.parse(currentBuildNumber))
                           GestureDetector(
                             onTap: () async {
