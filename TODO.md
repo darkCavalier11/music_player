@@ -37,6 +37,9 @@ Use video player to play video
 still issue long playing audios but better that audio player
 might check flick video player
 
+## Major issue to handle
+streaming music
+
 
 ## Known bugs need fix
 * Exception happens when download cancelled(Uncatchabe for now)
