@@ -33,6 +33,10 @@ No support for native mobile functions like showing banner on the music screen o
 
 ### sol 4
 Use video player to play video
+
+### sol 5
+Use a go streaming service with grpc and handle the stream on dart side
+
 ## issue
 still issue long playing audios but better that audio player
 might check flick video player
