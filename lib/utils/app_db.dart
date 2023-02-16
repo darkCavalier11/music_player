@@ -57,6 +57,7 @@ enum DbKeys {
   searchedItemList,
   playlistItem,
   favouriteItems,
+  recentlyTappedMusicItemFromSearchResults,
 }
 
 extension on DbKeys {
@@ -67,6 +68,8 @@ extension on DbKeys {
       return 'recentlyPlayedList';
     } else if (this == DbKeys.searchedItemList) {
       return 'searchItemList';
+    } else if (this == DbKeys.recentlyTappedMusicItemFromSearchResults) {
+      return 'recentlyTappedMusicItemFromSearchResults';
     } else {
       return '#';
     }
