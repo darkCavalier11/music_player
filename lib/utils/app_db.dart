@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-class AppDatabse {
+class AppDatabase {
   static late Database _mainDb;
 
   /// Need to call the intialise the static [Database] variable.
@@ -57,7 +57,7 @@ enum DbKeys {
   searchedItemList,
   playlistItem,
   favouriteItems,
-  recentlyTappedMusicItemFromSearchResults,
+  recentlyTappedMusicItem,
 }
 
 extension on DbKeys {
@@ -68,8 +68,8 @@ extension on DbKeys {
       return 'recentlyPlayedList';
     } else if (this == DbKeys.searchedItemList) {
       return 'searchItemList';
-    } else if (this == DbKeys.recentlyTappedMusicItemFromSearchResults) {
-      return 'recentlyTappedMusicItemFromSearchResults';
+    } else if (this == DbKeys.recentlyTappedMusicItem) {
+      return 'recentlyTappedMusicItem';
     } else {
       return '#';
     }

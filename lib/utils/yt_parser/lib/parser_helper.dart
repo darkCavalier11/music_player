@@ -17,13 +17,13 @@ class ParserHelper {
   /// string key for sending as a payload to get next set of music items
   static String? homeScreenNextContinuationKey;
   static Future<void> init() async {
-    final dbRes = await AppDatabse.getQuery(DbKeys.context);
+    final dbRes = await AppDatabase.getQuery(DbKeys.context);
     if (dbRes != null) {
       musicFilterPayload = MusicFilterPayloadModel.fromJson(jsonDecode(dbRes));
     }
     final tempRes = await ApiRequest.get(AppUrl.loadPayloadForFilterUrl);
     musicFilterPayload = MusicFilterPayloadModel.fromApiResponse(tempRes);
-    await AppDatabse.setQuery(
+    await AppDatabase.setQuery(
         DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
   }
 

@@ -9,6 +9,7 @@ import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/search_state.dart';
 import 'package:music_player/redux/redux_exception.dart';
+import 'package:music_player/utils/app_db.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
 import '../../../redux/models/music_item.dart';
@@ -177,3 +178,14 @@ class StopAudioAction extends ReduxAction<AppState> {
 }
 
 
+class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final recentlyTappedString = AppDatabase.getQuery(DbKeys.recentlyTappedMusicItem);
+      
+    } catch(err) {
+      log('$err', stackTrace: StackTrace.current);
+    }
+  }
+}

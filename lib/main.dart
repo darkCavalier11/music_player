@@ -29,7 +29,7 @@ late String currentBuildNumber;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await AppDatabse.init();
+  await AppDatabase.init();
   await ApiRequest.init();
   await ParserHelper.init();
   AppRouter.setupRoutes();

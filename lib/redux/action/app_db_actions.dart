@@ -19,9 +19,9 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       final serialisedList =
-          await AppDatabse.getQuery(DbKeys.recentlyPlayedList);
+          await AppDatabase.getQuery(DbKeys.recentlyPlayedList);
       if (serialisedList == null) {
-        AppDatabse.setQuery(
+        AppDatabase.setQuery(
             DbKeys.recentlyPlayedList, jsonEncode([musicItem.toJson()]));
         return null;
       }
@@ -36,7 +36,7 @@ class AddItemToRecentlyPlayedList extends ReduxAction<AppState> {
         oldmusicList.removeWhere((item) => item.musicId == musicItem.musicId);
       }
       oldmusicList.add(musicItem);
-      await AppDatabse.setQuery(DbKeys.recentlyPlayedList,
+      await AppDatabase.setQuery(DbKeys.recentlyPlayedList,
           jsonEncode(oldmusicList.map((e) => e.toJson()).toList()));
       dispatch(GetRecentlyPlayedMusicList());
     } catch (err) {
@@ -54,7 +54,7 @@ class GetRecentlyPlayedMusicList extends ReduxAction<AppState> {
   Future<AppState?> reduce() async {
     try {
       final serialisedList =
-          await AppDatabse.getQuery(DbKeys.recentlyPlayedList);
+          await AppDatabase.getQuery(DbKeys.recentlyPlayedList);
       if (serialisedList == null) {
         return null;
       }
@@ -86,9 +86,10 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final serialisedList = await AppDatabse.getQuery(DbKeys.searchedItemList);
+      final serialisedList =
+          await AppDatabase.getQuery(DbKeys.searchedItemList);
       if (serialisedList == null) {
-        await AppDatabse.setQuery(
+        await AppDatabase.setQuery(
             DbKeys.searchedItemList, jsonEncode([searchQuery]));
         return null;
       }
@@ -98,7 +99,7 @@ class AddItemToSearchedItemList extends ReduxAction<AppState> {
       }
       previouslySearchedItems.remove(searchQuery);
       previouslySearchedItems.add(searchQuery);
-      AppDatabse.setQuery(DbKeys.searchedItemList,
+      AppDatabase.setQuery(DbKeys.searchedItemList,
           jsonEncode(previouslySearchedItems.reversed.toList()));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
@@ -115,7 +116,8 @@ class GetSearchedItemList extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      final serialisedList = await AppDatabse.getQuery(DbKeys.searchedItemList);
+      final serialisedList =
+          await AppDatabase.getQuery(DbKeys.searchedItemList);
       if (serialisedList == null) {
         return null;
       }
