@@ -194,9 +194,14 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
       if (recentlyTappedMusicItems.length > 5) {
         recentlyTappedMusicItems.removeLast();
       }
-      await AppDatabase.setQuery(DbKeys.recentlyTappedMusicItem,
-          jsonEncode(recentlyTappedMusicItems));
-      
+      await AppDatabase.setQuery(
+          DbKeys.recentlyTappedMusicItem, jsonEncode(recentlyTappedMusicItems));
+
+      return state.copyWith(
+        searchState: state.searchState.copyWith(
+          recentlyTappedMusicItems: recentlyTappedMusicItems,
+        ),
+      );
     } catch (err) {
       log('$err', stackTrace: StackTrace.current);
     }

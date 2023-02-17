@@ -17,7 +17,9 @@ import 'package:music_player/widgets/music_playing_wave_widget.dart';
 
 class MusicListTile extends StatefulWidget {
   final MusicItem selectedMusic;
-  // if this is a secondary musictile then long tap will be disabled
+
+  /// if this is a secondary musictile then long tap will be disabled and
+  /// [AddMusicItemToRecentlyTapMusicItem] will be called on tapped.
   final bool? isSecondary;
   // if the current music item is not a part of playlist, should be cleared
   final bool? clearEarlierPlaylist;
@@ -261,10 +263,11 @@ class _Factory extends VmFactory<AppState, _MusicListTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (mediaItem, clearEarlierPlaylist) async {
+      playMusic: (musicItem, clearEarlierPlaylist) async {
+        dispatch(AddMusicItemToRecentlyTapMusicItem(musicItem: musicItem));
         await dispatch(
           PlayAudioAction(
-            musicItem: mediaItem,
+            musicItem: musicItem,
             clearEarlierPlaylist: clearEarlierPlaylist,
           ),
         );
