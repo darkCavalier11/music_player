@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -177,14 +178,26 @@ class StopAudioAction extends ReduxAction<AppState> {
   }
 }
 
-
 class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
+  final MusicItem musicItem;
+  AddMusicItemToRecentlyTapMusicItem({required this.musicItem});
   @override
   Future<AppState?> reduce() async {
     try {
-      final recentlyTappedString = AppDatabase.getQuery(DbKeys.recentlyTappedMusicItem);
+      final recentlyTappedString =
+          await AppDatabase.getQuery(DbKeys.recentlyTappedMusicItem);
+      var recentlyTappedMusicItems =
+          (jsonDecode(recentlyTappedString ?? '[]') as List)
+              .map((e) => MusicItem.fromJson(e))
+              .toList();
+      recentlyTappedMusicItems.insert(0, musicItem);
+      if (recentlyTappedMusicItems.length > 5) {
+        recentlyTappedMusicItems.removeLast();
+      }
+      await AppDatabase.setQuery(DbKeys.recentlyTappedMusicItem,
+          jsonEncode(recentlyTappedMusicItems));
       
-    } catch(err) {
+    } catch (err) {
       log('$err', stackTrace: StackTrace.current);
     }
   }
