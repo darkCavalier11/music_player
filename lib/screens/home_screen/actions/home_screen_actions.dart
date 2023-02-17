@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
@@ -11,6 +12,8 @@ import 'package:music_player/redux/redux_exception.dart';
 import 'package:music_player/utils/update_model.dart';
 import 'package:music_player/utils/yt_parser/lib/parser_helper.dart';
 
+import '../../../redux/models/music_item.dart';
+import '../../../utils/app_db.dart';
 import '../../../utils/constants.dart';
 
 class LoadHomePageMusicAction extends ReduxAction<AppState> {
@@ -33,6 +36,28 @@ class LoadHomePageMusicAction extends ReduxAction<AppState> {
         actionName: 'LoadHomePageMusicAction',
         userErrorToastMessage: 'Error loading music',
       );
+    }
+  }
+}
+
+class LoadRecentlyTappedMusicItemFromAppDbAction extends ReduxAction<AppState> {
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      final recentlyTappedString =
+          await AppDatabase.getQuery(DbKeys.recentlyTappedMusicItem);
+      final recentlyTappedMusicItems =
+          (jsonDecode(recentlyTappedString ?? '[]') as List)
+              .map((e) => MusicItem.fromJson(e))
+              .toList();
+      log('$recentlyTappedMusicItems');
+      return state.copyWith(
+        searchState: state.searchState.copyWith(
+          recentlyTappedMusicItems: recentlyTappedMusicItems,
+        ),
+      );
+    } catch (err) {
+      log('$err');
     }
   }
 }

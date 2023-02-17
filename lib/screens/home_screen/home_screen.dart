@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         store.dispatch(GetRecentlyPlayedMusicList());
         store.dispatch(LoadHomePageMusicAction());
         store.dispatch(GetUpdateModelAction());
+        store.dispatch(LoadRecentlyTappedMusicItemFromAppDbAction());
       },
       builder: (context, snapshot) {
         return Scaffold(
