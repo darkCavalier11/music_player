@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
+import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
-import 'package:music_player/widgets/app_back_button.dart';
-import 'package:music_player/widgets/search_text_field.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
+import 'package:music_player/widgets/app_back_button.dart';
+import 'package:music_player/widgets/search_text_field.dart';
 
 import '../../utils/constants.dart';
 
@@ -102,6 +103,21 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                     Expanded(
                       child: ListView.builder(
                         padding: const EdgeInsets.all(0),
+                        itemBuilder: (context, index) => ListTile(
+                          title: Text(
+                            'data',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Colors.grey),
+                          ),
+                        ),
+                        itemCount: 4,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(0),
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () {
@@ -141,7 +157,7 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                         itemCount: snapshot.previouslySearchedItems.length,
                       ),
                       flex: 4,
-                    )
+                    ),
                   ],
                   if (_textEditingController.text.isNotEmpty) ...[
                     // exact search query
@@ -195,7 +211,8 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                     color: Theme.of(context).disabledColor,
                                   ),
                             ));
-                            displayText.add(TextSpan(
+                            displayText.add(
+                              TextSpan(
                                 text: highlightPart,
                                 style: Theme.of(context)
                                     .textTheme
@@ -203,7 +220,9 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                                     ?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).disabledColor,
-                                    )));
+                                    ),
+                              ),
+                            );
                             displayText.add(
                               TextSpan(
                                 text: nonHighlightPartRight,
@@ -286,6 +305,7 @@ class _ViewModel extends Vm {
   final List<String> searchResults;
   final List<String> previouslySearchedItems;
   final void Function(String) onTapSearchResult;
+  final List<MusicItem> recentlyTappedMusicItems;
   _ViewModel({
     required this.query,
     required this.changeSearchQuery,
@@ -293,7 +313,13 @@ class _ViewModel extends Vm {
     required this.searchResults,
     required this.previouslySearchedItems,
     required this.onTapSearchResult,
-  }) : super(equals: [query, currentSeacrhState, searchResults]);
+    required this.recentlyTappedMusicItems,
+  }) : super(equals: [
+          query,
+          currentSeacrhState,
+          searchResults,
+          recentlyTappedMusicItems,
+        ]);
 
   @override
   bool operator ==(covariant _ViewModel other) {
@@ -303,7 +329,9 @@ class _ViewModel extends Vm {
         other.changeSearchQuery == changeSearchQuery &&
         other.currentSeacrhState == currentSeacrhState &&
         listEquals(other.searchResults, searchResults) &&
-        other.onTapSearchResult == onTapSearchResult;
+        listEquals(other.previouslySearchedItems, previouslySearchedItems) &&
+        other.onTapSearchResult == onTapSearchResult &&
+        listEquals(other.recentlyTappedMusicItems, recentlyTappedMusicItems);
   }
 
   @override
@@ -312,7 +340,14 @@ class _ViewModel extends Vm {
         changeSearchQuery.hashCode ^
         currentSeacrhState.hashCode ^
         searchResults.hashCode ^
-        onTapSearchResult.hashCode;
+        previouslySearchedItems.hashCode ^
+        onTapSearchResult.hashCode ^
+        recentlyTappedMusicItems.hashCode;
+  }
+
+  @override
+  String toString() {
+    return '_ViewModel(query: $query, changeSearchQuery: $changeSearchQuery, currentSeacrhState: $currentSeacrhState, searchResults: $searchResults, previouslySearchedItems: $previouslySearchedItems, onTapSearchResult: $onTapSearchResult, recentlyTappedMusicItems: $recentlyTappedMusicItems)';
   }
 }
 
@@ -332,6 +367,7 @@ class _Factory extends VmFactory<AppState, _MusicSearchScreenState> {
         dispatch(OnChangeSearchQueryAction(query: query));
       },
       currentSeacrhState: state.searchState.currentSeacrhState,
+      recentlyTappedMusicItems: state.searchState.recentlyTappedMusicItems,
     );
   }
 }
