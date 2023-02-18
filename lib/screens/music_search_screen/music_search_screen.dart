@@ -10,6 +10,7 @@ import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/models/music_item.dart';
 import 'package:music_player/redux/models/search_state.dart';
+import 'package:music_player/screens/home_screen/widgets/music_grid_tile.dart';
 import 'package:music_player/screens/music_search_result_screen/music_search_result_screen.dart';
 import 'package:music_player/screens/music_search_screen/actions/search_actions.dart';
 import 'package:music_player/widgets/app_back_button.dart';
@@ -100,21 +101,17 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                   ),
                   const Divider(),
                   if (_textEditingController.text.isEmpty) ...[
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(0),
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                            'data',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(color: Colors.grey),
+                    if (snapshot.recentlyTappedMusicItems.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0),
+                          itemBuilder: (context, index) => MusicGridTile(
+                            selectedMusic: snapshot.recentlyTappedMusicItems[index],
+                            isSecondary: true,
                           ),
+                          itemCount: snapshot.recentlyTappedMusicItems.length,
                         ),
-                        itemCount: 4,
                       ),
-                    ),
                     Expanded(
                       child: ListView.builder(
                         padding: const EdgeInsets.all(0),

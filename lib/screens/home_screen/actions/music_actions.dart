@@ -190,6 +190,11 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
           (jsonDecode(recentlyTappedString ?? '[]') as List)
               .map((e) => MusicItem.fromJson(e))
               .toList();
+      if (recentlyTappedMusicItems
+              .indexWhere((element) => element.musicId == musicItem.musicId) !=
+          -1) {
+        return null;
+      }
       recentlyTappedMusicItems.insert(0, musicItem);
       if (recentlyTappedMusicItems.length > 5) {
         recentlyTappedMusicItems.removeLast();
