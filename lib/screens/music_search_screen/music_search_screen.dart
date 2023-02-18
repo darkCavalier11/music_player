@@ -103,20 +103,27 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                   if (_textEditingController.text.isEmpty) ...[
                     if (snapshot.recentlyTappedMusicItems.isNotEmpty)
                       Expanded(
+                        flex: 3,
                         child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
                           padding: const EdgeInsets.all(0),
                           itemBuilder: (context, index) => MusicGridTile(
-                            selectedMusic: snapshot.recentlyTappedMusicItems[index],
+                            selectedMusic:
+                                snapshot.recentlyTappedMusicItems[index],
                             isSecondary: true,
                           ),
                           itemCount: snapshot.recentlyTappedMusicItems.length,
                         ),
                       ),
                     Expanded(
+                      flex: 7,
                       child: ListView.builder(
                         padding: const EdgeInsets.all(0),
                         itemBuilder: (context, index) {
                           return ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             onTap: () {
                               snapshot.onTapSearchResult(
                                   snapshot.previouslySearchedItems[index]);
@@ -125,15 +132,17 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                             },
                             leading: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Icon(
                                   CupertinoIcons.search,
+                                  color: Theme.of(context).disabledColor,
                                 ),
                               ],
                             ),
                             trailing: GestureDetector(
-                              child: const Icon(
+                              child: Icon(
                                 CupertinoIcons.arrow_up_left,
+                                color: Theme.of(context).disabledColor,
                               ),
                               onTap: () {
                                 _textEditingController.text =
@@ -153,7 +162,6 @@ class _MusicSearchScreenState extends State<MusicSearchScreen> {
                         },
                         itemCount: snapshot.previouslySearchedItems.length,
                       ),
-                      flex: 4,
                     ),
                   ],
                   if (_textEditingController.text.isNotEmpty) ...[
