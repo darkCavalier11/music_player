@@ -55,7 +55,6 @@ streaming music
 * Music playing screen UI quality bump.
 
 ## future features
-* search screen should show last tapped music along with other
 * cache last placed music item when app dismissed and load the music
 * add analytics on weba and app
 * Load more on search screen

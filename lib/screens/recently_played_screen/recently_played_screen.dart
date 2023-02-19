@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -25,29 +26,30 @@ class RecentlyPlayedScreen extends StatelessWidget {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-                child: Row(
-                  children: const [
-                    AppBackButton(),
-                    Expanded(
-                      child: Hero(
-                        tag: 'search',
-                        child: AppTextField(
-                          hintText: 'Search Recently played Items...',
-                          leadingIcon: Icons.search,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              const Padding(
+                padding: EdgeInsets.only(left: 24, right: 24, top: 64),
               ),
               const SizedBox(height: 16),
               const Divider(),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: AppHeaderText(
-                    icon: Iconsax.timer_1, text: 'Recently played'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    IconButton(
+                      padding: const EdgeInsets.all(8),
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(
+                        CupertinoIcons.back,
+                        color: Theme.of(context).disabledColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    const AppHeaderText(
+                        icon: Iconsax.timer_1, text: 'Recently played'),
+                  ],
+                ),
               ),
               Expanded(
                 child: ListView.builder(
