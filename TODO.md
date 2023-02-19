@@ -55,7 +55,7 @@ streaming music
 * Music playing screen UI quality bump.
 
 ## future features
-* cache last placed music item when app dismissed and load the music
+* Do the Go app server
 * add analytics on weba and app
 * Load more on search screen
 * Shuffle play on playlist screen.
