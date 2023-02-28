@@ -55,6 +55,7 @@ streaming music
 * Music playing screen UI quality bump.
 
 ## future features
+* add play all and shuffle play feature for playlist
 * Do the Go app server
 * add analytics on weba and app
 * Load more on search screen
