@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -103,8 +104,8 @@ class _MusicGridTileState extends State<MusicGridTile> {
                             child: Stack(
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               children: [
-                                Image.network(
-                                  widget.selectedMusic.imageUrl,
+                                CachedNetworkImage(
+                                  imageUrl: widget.selectedMusic.imageUrl,
                                   height: 120,
                                   width: 120,
                                   fit: BoxFit.cover,
