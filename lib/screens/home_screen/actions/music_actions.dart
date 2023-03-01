@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
@@ -209,6 +210,20 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
       );
     } catch (err) {
       log('$err', stackTrace: StackTrace.current);
+    }
+  }
+}
+class PlayLocalPlaylistAction extends ReduxAction<AppState> {
+  final List<MusicItem> musicItemPlaylist;
+  PlayLocalPlaylistAction({
+    required this.musicItemPlaylist,
+  });
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      // todo: fetch all music urls using dart isolate to see if that has an performance improvement.
+    } catch (err) {
+      log('$err');
     }
   }
 }
