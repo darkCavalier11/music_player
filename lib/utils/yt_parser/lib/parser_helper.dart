@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../../redux/models/music_filter_payload.dart';
@@ -135,6 +136,13 @@ class ParserHelper {
 
   static Future<Uri> getMusicItemUrl(String musicId) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final isCached = prefs.containsKey(musicId);
+      if (isCached) {
+        // todo: check expiry
+        final uri = Uri.parse(prefs.getString(musicId)!);
+        uri.queryParameters;
+      }
       ApiRequest.post(
         AppUrl.playMusicUrl(musicFilterPayload.apiKey),
         {
