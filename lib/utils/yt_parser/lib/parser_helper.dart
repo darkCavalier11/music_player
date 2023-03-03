@@ -137,12 +137,12 @@ class ParserHelper {
   static Future<Uri> getMusicItemUrl(String musicId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final isCached = prefs.containsKey(musicId);
-      if (isCached) {
-        // todo: check expiry
-        final uri = Uri.parse(prefs.getString(musicId)!);
-        uri.queryParameters;
-      }
+      // final isCached = prefs.containsKey(musicId);
+      // if (true) {
+      //   // todo: check expiry
+      //   final uri = Uri.parse(prefs.getString(musicId)!);
+      //   log('${uri.queryParameters}');
+      // }
       ApiRequest.post(
         AppUrl.playMusicUrl(musicFilterPayload.apiKey),
         {
