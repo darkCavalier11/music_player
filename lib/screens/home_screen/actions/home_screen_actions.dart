@@ -50,7 +50,6 @@ class LoadRecentlyTappedMusicItemFromAppDbAction extends ReduxAction<AppState> {
           (jsonDecode(recentlyTappedString ?? '[]') as List)
               .map((e) => MusicItem.fromJson(e))
               .toList();
-      log('$recentlyTappedMusicItems');
       return state.copyWith(
         searchState: state.searchState.copyWith(
           recentlyTappedMusicItems: recentlyTappedMusicItems,

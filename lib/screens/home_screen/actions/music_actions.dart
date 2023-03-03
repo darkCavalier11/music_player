@@ -213,9 +213,15 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
     }
   }
 }
-class PlayLocalPlaylistAction extends ReduxAction<AppState> {
+
+/// All music item are now a part of playlist, This action handles list of music item
+/// playing them using `just_audio`
+/// - Tapping on home screen music -> the entire music item list is the playlist
+/// - Tapping on search screen music -> the entire search screen music
+/// - Tapping on user playlist etc.
+class PlayPlaylistAction extends ReduxAction<AppState> {
   final List<MusicItem> musicItemPlaylist;
-  PlayLocalPlaylistAction({
+  PlayPlaylistAction({
     required this.musicItemPlaylist,
   });
   @override
