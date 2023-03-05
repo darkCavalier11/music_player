@@ -240,6 +240,24 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
       // * fetching music url
       final url =
           await ParserHelper.getMusicItemUrl(musicItemPlaylist.first.musicId);
+      final _playlist = ConcatenatingAudioSource(
+        children: [
+          AudioSource.uri(
+            url,
+            tag: musicItemPlaylist.first.toMediaItem(),
+          ),
+        ],
+      );
+      dispatch(SetPlaylistAction(playlist: _playlist));
+
+      await state.audioPlayerState.audioPlayer
+          .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
+      dispatch(
+        _SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.idle,
+        ),
+      );
+      state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
