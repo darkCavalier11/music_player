@@ -228,9 +228,27 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      
+      if (musicItemPlaylist.isEmpty) {
+        return null;
+      }
+      dispatch(StopAudioAction());
+      dispatch(_SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.loading));
+      dispatch(_SetSelectedMusicAction(selectedMusic: musicItemPlaylist.first));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemPlaylist.first));
+
+      // * fetching music url
+      final url =
+          await ParserHelper.getMusicItemUrl(musicItemPlaylist.first.musicId);
     } catch (err) {
-      log('$err');
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      dispatch(_SetSelectedMusicAction(selectedMusic: null));
+      state.audioPlayerState.audioPlayer.stop();
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'PlayPlaylistAction',
+        userErrorToastMessage: "Error loading music, try again!",
+      );
     }
   }
 }
