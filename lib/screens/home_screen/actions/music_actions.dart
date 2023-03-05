@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:isolate';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
@@ -227,7 +228,7 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      // todo: fetch all music urls using dart isolate to see if that has an performance improvement.
+      
     } catch (err) {
       log('$err');
     }
