@@ -129,11 +129,6 @@ class ParserHelper {
     }
   }
 
-  /// todo: handle intelligent music url fetching. First it should
-  /// cache any last played music item url using <id: url>
-  /// and if a music item gets clicked and the url is
-  /// available within the expiry date return the url.
-
   static Future<Uri> getMusicItemUrl(String musicId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
