@@ -157,6 +157,7 @@ class FetchNextMusicListFromMusicId extends ReduxAction<AppState> {
     try {
       final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
+      state.audioPlayerState.currentJustAudioPlaylist;
       return state.copyWith(
         audioPlayerState: state.audioPlayerState.copyWith(
           currentPlaylistItems: [musicItem, ...currentPlaylistItems],
@@ -215,36 +216,29 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
   }
 }
 
-/// All music item are now a part of playlist, This action handles list of music item
-/// playing them using `just_audio`
-/// - Tapping on home screen music -> the entire music item list is the playlist
-/// - Tapping on search screen music -> the entire search screen music
-/// - Tapping on user playlist etc.
-class PlayPlaylistAction extends ReduxAction<AppState> {
-  final List<MusicItem> musicItemPlaylist;
-  PlayPlaylistAction({
-    required this.musicItemPlaylist,
+/// Just audio now only handles one job, that is to play a single song.
+class PlayMusicItemAction extends ReduxAction<AppState> {
+  final MusicItem musicItem;
+  PlayMusicItemAction({
+    required this.musicItem,
   });
   @override
   Future<AppState?> reduce() async {
     try {
-      if (musicItemPlaylist.isEmpty) {
-        return null;
-      }
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
-      dispatch(_SetSelectedMusicAction(selectedMusic: musicItemPlaylist.first));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemPlaylist.first));
+      dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
 
       // * fetching music url
       final url =
-          await ParserHelper.getMusicItemUrl(musicItemPlaylist.first.musicId);
+          await ParserHelper.getMusicItemUrl(musicItem.musicId);
       final _playlist = ConcatenatingAudioSource(
         children: [
           AudioSource.uri(
             url,
-            tag: musicItemPlaylist.first.toMediaItem(),
+            tag: musicItem.toMediaItem(),
           ),
         ],
       );
@@ -264,7 +258,7 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
       state.audioPlayerState.audioPlayer.stop();
       throw ReduxException(
         errorMessage: '$err',
-        actionName: 'PlayPlaylistAction',
+        actionName: 'PlayMusicItemAction',
         userErrorToastMessage: "Error loading music, try again!",
       );
     }
