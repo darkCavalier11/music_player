@@ -216,32 +216,37 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
   }
 }
 
-/// Just audio now only handles one job, that is to play a single song.
-class PlayMusicItemAction extends ReduxAction<AppState> {
-  final MusicItem musicItem;
-  PlayMusicItemAction({
-    required this.musicItem,
-  });
+/// Handles playing a playlist.
+class PlayMusicItemPlaylistAction extends ReduxAction<AppState> {
+  final List<MusicItem> musicItemList;
+
+  /// the index of the musicItemList that requested to be played. [default=0]
+  final int index;
+  PlayMusicItemPlaylistAction({
+    required this.musicItemList,
+    this.index = 0,
+  }) : assert(index >= 0 && index < musicItemList.length);
   @override
   Future<AppState?> reduce() async {
     try {
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
-      dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
+      dispatch(_SetSelectedMusicAction(selectedMusic: musicItemList[index]));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList[index]));
 
       // * fetching music url
       final url =
-          await ParserHelper.getMusicItemUrl(musicItem.musicId);
+          await ParserHelper.getMusicItemUrl(musicItemList[index].musicId);
       final _playlist = ConcatenatingAudioSource(
         children: [
           AudioSource.uri(
             url,
-            tag: musicItem.toMediaItem(),
+            tag: musicItemList[index].toMediaItem(),
           ),
         ],
       );
+
       dispatch(SetPlaylistAction(playlist: _playlist));
 
       await state.audioPlayerState.audioPlayer
@@ -258,7 +263,7 @@ class PlayMusicItemAction extends ReduxAction<AppState> {
       state.audioPlayerState.audioPlayer.stop();
       throw ReduxException(
         errorMessage: '$err',
-        actionName: 'PlayMusicItemAction',
+        actionName: 'PlayMusicItemPlaylistAction',
         userErrorToastMessage: "Error loading music, try again!",
       );
     }
