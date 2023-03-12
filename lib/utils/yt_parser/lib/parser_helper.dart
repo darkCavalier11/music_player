@@ -137,7 +137,8 @@ class ParserHelper {
         final uri = Uri.parse(prefs.getString(musicId)!);
         final expire = DateTime.fromMillisecondsSinceEpoch(
             (int.parse(uri.queryParameters['expire'] ?? '0')) * 1000);
-        if (expire.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch) {
+        if (expire.millisecondsSinceEpoch >
+            DateTime.now().millisecondsSinceEpoch) {
           return uri;
         }
       }
@@ -155,6 +156,7 @@ class ParserHelper {
           .url
           .toString();
       await prefs.setString(musicId, musicUrl);
+      log('Here');
       return Uri.parse(musicUrl);
     } catch (err) {
       rethrow;

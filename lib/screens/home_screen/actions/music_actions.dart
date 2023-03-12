@@ -269,3 +269,20 @@ class PlayMusicItemPlaylistAction extends ReduxAction<AppState> {
     }
   }
 }
+
+class FetchAndCacheMusicListItems extends ReduxAction<AppState> {
+  final List<MusicItem> musicItemList;
+  FetchAndCacheMusicListItems({
+    required this.musicItemList,
+  });
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      musicItemList.forEach((musicItem) { 
+        ParserHelper.getMusicItemUrl(musicItem.musicId);
+      });
+    } catch(err) {
+      log('$err');
+    }
+  }
+}
