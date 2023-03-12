@@ -156,7 +156,6 @@ class ParserHelper {
           .url
           .toString();
       await prefs.setString(musicId, musicUrl);
-      log('Here');
       return Uri.parse(musicUrl);
     } catch (err) {
       rethrow;
