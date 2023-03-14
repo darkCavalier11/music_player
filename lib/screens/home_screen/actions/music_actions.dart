@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:isolate';
 
+import 'package:async/async.dart';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -278,10 +279,18 @@ class FetchAndCacheMusicListItems extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      musicItemList.forEach((musicItem) { 
-        ParserHelper.getMusicItemUrl(musicItem.musicId);
-      });
-    } catch(err) {
+      final controller = StreamController<bool>();
+      int cnt = 0;
+      for (var musicItem in musicItemList) {
+        ParserHelper.getMusicItemUrl(musicItem.musicId).then((uri) {
+          cnt++;
+          if (cnt == musicItemList.length) {
+            controller.add(true);
+          }
+        });
+      }
+      await controller.stream.first;
+    } catch (err) {
       log('$err');
     }
   }

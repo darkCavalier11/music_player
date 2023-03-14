@@ -133,15 +133,15 @@ class ParserHelper {
     try {
       final prefs = await SharedPreferences.getInstance();
       final isCached = prefs.containsKey(musicId);
-      if (isCached) {
-        final uri = Uri.parse(prefs.getString(musicId)!);
-        final expire = DateTime.fromMillisecondsSinceEpoch(
-            (int.parse(uri.queryParameters['expire'] ?? '0')) * 1000);
-        if (expire.millisecondsSinceEpoch >
-            DateTime.now().millisecondsSinceEpoch) {
-          return uri;
-        }
-      }
+      // if (isCached) {
+      //   final uri = Uri.parse(prefs.getString(musicId)!);
+      //   final expire = DateTime.fromMillisecondsSinceEpoch(
+      //       (int.parse(uri.queryParameters['expire'] ?? '0')) * 1000);
+      //   if (expire.millisecondsSinceEpoch >
+      //       DateTime.now().millisecondsSinceEpoch) {
+      //     return uri;
+      //   }
+      // }
       ApiRequest.post(
         AppUrl.playMusicUrl(musicFilterPayload.apiKey),
         {
