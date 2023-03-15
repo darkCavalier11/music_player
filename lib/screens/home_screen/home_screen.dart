@@ -86,13 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        TextButton(
-                          onPressed: () {
-                            store.dispatch(FetchAndCacheMusicListItems(
-                                musicItemList: snapshot.homeScreenMusicList));
-                          },
-                          child: Text('Gety'),
-                        ),
                         if (snapshot.updateModel.latestBuildNumber >
                             int.parse(currentBuildNumber))
                           GestureDetector(

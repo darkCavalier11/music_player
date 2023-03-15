@@ -235,20 +235,8 @@ class PlayMusicItemPlaylistAction extends ReduxAction<AppState> {
           loadingState: LoadingState.loading));
       dispatch(_SetSelectedMusicAction(selectedMusic: musicItemList[index]));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList[index]));
-
-      // * fetching music url
-      final url =
-          await ParserHelper.getMusicItemUrl(musicItemList[index].musicId);
-      final _playlist = ConcatenatingAudioSource(
-        children: [
-          AudioSource.uri(
-            url,
-            tag: musicItemList[index].toMediaItem(),
-          ),
-        ],
-      );
-
-      dispatch(SetPlaylistAction(playlist: _playlist));
+      dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
+          musicItemList: musicItemList));
 
       await state.audioPlayerState.audioPlayer
           .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
@@ -271,9 +259,10 @@ class PlayMusicItemPlaylistAction extends ReduxAction<AppState> {
   }
 }
 
-class FetchAndCacheMusicListItems extends ReduxAction<AppState> {
+class FetchAndBuildConcatenatingAudioSourceFromMusicItemList
+    extends ReduxAction<AppState> {
   final List<MusicItem> musicItemList;
-  FetchAndCacheMusicListItems({
+  FetchAndBuildConcatenatingAudioSourceFromMusicItemList({
     required this.musicItemList,
   });
   @override
@@ -281,15 +270,24 @@ class FetchAndCacheMusicListItems extends ReduxAction<AppState> {
     try {
       final controller = StreamController<bool>();
       int cnt = 0;
-      for (var musicItem in musicItemList) {
-        ParserHelper.getMusicItemUrl(musicItem.musicId).then((uri) {
+      List<Uri> musicListUris = List.generate(
+        musicItemList.length,
+        (index) => Uri(),
+      );
+      for (int i = 0; i < musicItemList.length; i++) {
+        ParserHelper.getMusicItemUrl(musicItemList[i].musicId).then((uri) {
           cnt++;
+          musicListUris[i] = uri;
           if (cnt == musicItemList.length) {
             controller.add(true);
           }
         });
       }
       await controller.stream.first;
+      final audioPlaylist = ConcatenatingAudioSource(
+        children: musicListUris.map((e) => AudioSource.uri(e)).toList(),
+      );
+      dispatch(SetPlaylistAction(playlist: audioPlaylist));
     } catch (err) {
       log('$err');
     }
