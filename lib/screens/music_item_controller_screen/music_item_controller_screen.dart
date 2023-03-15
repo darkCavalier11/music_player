@@ -253,7 +253,7 @@ class _Factory extends VmFactory<AppState, MusicListItemControllerScreen> {
       playAudio: (musicItem) async {
         dispatch(PlayAudioAction(musicItem: musicItem));
       },
-      currentPlaylistItems: state.audioPlayerState.currentPlaylistItems,
+      currentPlaylistItems: state.audioPlayerState.currentMusicItemPlaylist,
       selectedMusicItem: state.audioPlayerState.selectedMusic,
     );
   }

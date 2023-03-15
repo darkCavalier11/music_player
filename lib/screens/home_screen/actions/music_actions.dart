@@ -33,9 +33,9 @@ class _SetSelectedMusicAction extends ReduxAction<AppState> {
   }
 }
 
-class SetPlaylistAction extends ReduxAction<AppState> {
+class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
   final ConcatenatingAudioSource playlist;
-  SetPlaylistAction({
+  _SetConcatenatingAudioSource({
     required this.playlist,
   });
 
@@ -87,7 +87,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
             ),
           ],
         );
-        dispatch(SetPlaylistAction(playlist: _playlist));
+        dispatch(_SetConcatenatingAudioSource(playlist: _playlist));
 
         await state.audioPlayerState.audioPlayer
             .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
@@ -158,10 +158,9 @@ class FetchNextMusicListFromMusicId extends ReduxAction<AppState> {
     try {
       final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
-      state.audioPlayerState.currentJustAudioPlaylist;
       return state.copyWith(
         audioPlayerState: state.audioPlayerState.copyWith(
-          currentPlaylistItems: [musicItem, ...currentPlaylistItems],
+          currentMusicItemPlaylist: [musicItem, ...currentPlaylistItems],
         ),
       );
     } catch (err) {
@@ -287,7 +286,7 @@ class FetchAndBuildConcatenatingAudioSourceFromMusicItemList
       final audioPlaylist = ConcatenatingAudioSource(
         children: musicListUris.map((e) => AudioSource.uri(e)).toList(),
       );
-      dispatch(SetPlaylistAction(playlist: audioPlaylist));
+      dispatch(_SetConcatenatingAudioSource(playlist: audioPlaylist));
     } catch (err) {
       log('$err');
     }
