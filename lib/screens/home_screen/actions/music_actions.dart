@@ -80,12 +80,12 @@ class PlayAudioAction extends ReduxAction<AppState> {
       /// set audio source and play
       await state.audioPlayerState.audioPlayer
           .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
-      await state.audioPlayerState.audioPlayer.play();
       dispatch(
         _SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.idle,
         ),
       );
+      await state.audioPlayerState.audioPlayer.play();
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
