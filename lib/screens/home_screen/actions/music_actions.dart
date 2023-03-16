@@ -49,12 +49,10 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
   }
 }
 
-/// It loads the url of the music item and the fetch next music items(not urls for each music item) based on this url if
-/// a playlist not present already
-/// the next item along with current item
-/// are saved on the currentPlaylistItems.
-/// Only the current music item and first one of the
-/// currentPlaylistItems added to the current playlist.
+/// 1 - fetch next music items from the currently requested music id
+/// and make a list of [musicItem, ...fetchedMusicItem]
+/// 2 - Fetch and cache the urls
+/// 3 - set the concatenating audio source
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   // when tapping on a new music item this should be cleared and next set of music items need to be loaded
@@ -66,58 +64,27 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
+      /// clean up and ui works
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
 
-      // * fetching music url
-      final url = await ParserHelper.getMusicItemUrl(musicItem.musicId);
+      /// Fetch next music
+      await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
+      FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
+          musicItemList: state.audioPlayerState.currentMusicItemPlaylist);
 
-      // if the tapped music item is not a playlist item
-      if (clearEarlierPlaylist == true) {
-        // * fetch next list based on suggestions
-        await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
-        final _playlist = ConcatenatingAudioSource(
-          children: [
-            AudioSource.uri(
-              url,
-              tag: musicItem.toMediaItem(),
-            ),
-          ],
-        );
-        dispatch(_SetConcatenatingAudioSource(playlist: _playlist));
-
-        await state.audioPlayerState.audioPlayer
-            .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
-        dispatch(
-          _SetMusicItemMetaDataLoadingStateAction(
-            loadingState: LoadingState.idle,
-          ),
-        );
-        state.audioPlayerState.audioPlayer.play();
-      } else {
-        state.audioPlayerState.currentJustAudioPlaylist.add(
-          AudioSource.uri(
-            url,
-            tag: musicItem.toMediaItem(),
-          ),
-        );
-
-        /// playlist is holding the items those were previously played.
-        /// When a new item is tapped on it will be added to the end and
-        /// will be selected by index-1
-        state.audioPlayerState.audioPlayer.seek(const Duration(seconds: 0),
-            index: state.audioPlayerState.currentJustAudioPlaylist.length - 1);
-        state.audioPlayerState.audioPlayer;
-        dispatch(
-          _SetMusicItemMetaDataLoadingStateAction(
-            loadingState: LoadingState.idle,
-          ),
-        );
-        state.audioPlayerState.audioPlayer.play();
-      }
+      /// set audio source and play
+      await state.audioPlayerState.audioPlayer
+          .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
+      await state.audioPlayerState.audioPlayer.play();
+      dispatch(
+        _SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.idle,
+        ),
+      );
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
