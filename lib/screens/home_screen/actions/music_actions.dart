@@ -8,6 +8,7 @@ import 'package:async/async.dart';
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 import 'package:music_player/redux/action/app_db_actions.dart';
 import 'package:music_player/redux/models/app_state.dart';
@@ -73,8 +74,8 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       /// Fetch next music
       await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
-      FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
-          musicItemList: state.audioPlayerState.currentMusicItemPlaylist);
+      await dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
+          musicItemList: state.audioPlayerState.currentMusicItemPlaylist));
 
       /// set audio source and play
       await state.audioPlayerState.audioPlayer
@@ -236,14 +237,11 @@ class FetchAndBuildConcatenatingAudioSourceFromMusicItemList
     try {
       final controller = StreamController<bool>();
       int cnt = 0;
-      List<Uri> musicListUris = List.generate(
-        musicItemList.length,
-        (index) => Uri(),
-      );
+      Map<String, Uri> musicIdToUriMap = {};
       for (int i = 0; i < musicItemList.length; i++) {
         ParserHelper.getMusicItemUrl(musicItemList[i].musicId).then((uri) {
           cnt++;
-          musicListUris[i] = uri;
+          musicIdToUriMap[musicItemList[i].musicId] = uri;
           if (cnt == musicItemList.length) {
             controller.add(true);
           }
@@ -251,7 +249,14 @@ class FetchAndBuildConcatenatingAudioSourceFromMusicItemList
       }
       await controller.stream.first;
       final audioPlaylist = ConcatenatingAudioSource(
-        children: musicListUris.map((e) => AudioSource.uri(e)).toList(),
+        children: musicItemList
+            .map(
+              (e) => AudioSource.uri(
+                musicIdToUriMap[e.musicId]!,
+                tag: e.toMediaItem(),
+              ),
+            )
+            .toList(),
       );
       dispatch(_SetConcatenatingAudioSource(playlist: audioPlaylist));
     } catch (err) {
