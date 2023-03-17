@@ -54,6 +54,7 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
 /// and make a list of [musicItem, ...fetchedMusicItem]
 /// 2 - Fetch and cache the urls
 /// 3 - set the concatenating audio source
+/// todo: play the requested music item first and do the fetch and build later
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   // when tapping on a new music item this should be cleared and next set of music items need to be loaded
@@ -180,48 +181,6 @@ class AddMusicItemToRecentlyTapMusicItem extends ReduxAction<AppState> {
       );
     } catch (err) {
       log('$err', stackTrace: StackTrace.current);
-    }
-  }
-}
-
-/// Handles playing a playlist.
-class PlayMusicItemPlaylistAction extends ReduxAction<AppState> {
-  final List<MusicItem> musicItemList;
-
-  /// the index of the musicItemList that requested to be played. [default=0]
-  final int index;
-  PlayMusicItemPlaylistAction({
-    required this.musicItemList,
-    this.index = 0,
-  }) : assert(index >= 0 && index < musicItemList.length);
-  @override
-  Future<AppState?> reduce() async {
-    try {
-      dispatch(StopAudioAction());
-      dispatch(_SetMusicItemMetaDataLoadingStateAction(
-          loadingState: LoadingState.loading));
-      dispatch(_SetSelectedMusicAction(selectedMusic: musicItemList[index]));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList[index]));
-      dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
-          musicItemList: musicItemList));
-
-      await state.audioPlayerState.audioPlayer
-          .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
-      dispatch(
-        _SetMusicItemMetaDataLoadingStateAction(
-          loadingState: LoadingState.idle,
-        ),
-      );
-      state.audioPlayerState.audioPlayer.play();
-    } catch (err) {
-      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
-      dispatch(_SetSelectedMusicAction(selectedMusic: null));
-      state.audioPlayerState.audioPlayer.stop();
-      throw ReduxException(
-        errorMessage: '$err',
-        actionName: 'PlayMusicItemPlaylistAction',
-        userErrorToastMessage: "Error loading music, try again!",
-      );
     }
   }
 }
