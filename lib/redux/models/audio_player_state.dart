@@ -44,6 +44,14 @@ class AudioPlayerState {
     );
   }
 
+  /// -1 if the musicItem is [Null] or not a part of [currentMusicItemPlaylist]
+  int get currentPlaylistIndex {
+    if (selectedMusic == null) {
+      return -1;
+    }
+    return currentMusicItemPlaylist.indexOf(selectedMusic!);
+  }
+
   AudioPlayerState copyWith({
     AudioPlayer? audioPlayer,
     MusicItem? selectedMusic,
@@ -54,7 +62,8 @@ class AudioPlayerState {
     return AudioPlayerState(
       audioPlayer: audioPlayer ?? this.audioPlayer,
       selectedMusic: selectedMusic ?? this.selectedMusic,
-      currentMusicItemPlaylist: currentMusicItemPlaylist ?? this.currentMusicItemPlaylist,
+      currentMusicItemPlaylist:
+          currentMusicItemPlaylist ?? this.currentMusicItemPlaylist,
       currentJustAudioPlaylist:
           currentJustAudioPlaylist ?? this.currentJustAudioPlaylist,
       musicItemMetaDataLoadingState:
