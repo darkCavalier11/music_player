@@ -52,8 +52,9 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
 
 /// 1 - fetch next music items from the currently requested music id
 /// and make a list of [musicItem, ...fetchedMusicItem]
-/// 2 - Fetch and cache the urls
-/// 3 - set the concatenating audio source
+/// 2 - Fetch the current music item and play
+/// 3 - Fetch and cache the urls
+/// 4 - set the concatenating audio source
 /// todo: play the requested music item first and do the fetch and build later
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
@@ -73,20 +74,32 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
 
-      /// Fetch next music
-      await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
-      await dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
-          musicItemList: state.audioPlayerState.currentMusicItemPlaylist));
-
-      /// set audio source and play
+      /// Fetch and play the current music
+      final uri = await ParserHelper.getMusicItemUrl(musicItem.musicId);
       await state.audioPlayerState.audioPlayer
-          .setAudioSource(state.audioPlayerState.currentJustAudioPlaylist);
+          .setAudioSource(ConcatenatingAudioSource(
+        children: [
+          AudioSource.uri(
+            uri,
+            tag: musicItem.toMediaItem(),
+          )
+        ],
+      ));
       dispatch(
         _SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.idle,
         ),
       );
       await state.audioPlayerState.audioPlayer.play();
+
+      /// Fetch next music
+      await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
+      await dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
+          musicItemList: state.audioPlayerState.currentMusicItemPlaylist));
+
+      /// inserting from pos 1 as the 1st item already fetched and playing.
+      state.audioPlayerState.currentJustAudioPlaylist.addAll(
+          state.audioPlayerState.currentJustAudioPlaylist.children.sublist(1));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
