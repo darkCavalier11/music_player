@@ -55,7 +55,6 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
 /// 2 - Fetch the current music item and play
 /// 3 - Fetch and cache the urls
 /// 4 - set the concatenating audio source
-/// todo: play the requested music item first and do the fetch and build later
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   // when tapping on a new music item this should be cleared and next set of music items need to be loaded
@@ -90,7 +89,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
           loadingState: LoadingState.idle,
         ),
       );
-      await state.audioPlayerState.audioPlayer.play();
+      state.audioPlayerState.audioPlayer.play();
 
       /// Fetch next music
       await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
