@@ -129,7 +129,7 @@ class _MusicListTileState extends State<MusicListTile> {
                                 widget.selectedMusic.author,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .overline
+                                    .labelSmall
                                     ?.copyWith(
                                       color: Theme.of(context).hintColor,
                                     ),

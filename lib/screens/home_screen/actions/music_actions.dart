@@ -24,9 +24,16 @@ import '../../../utils/constants.dart';
 /// this stream will update the [MusicItem] for ui purposes.
 class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
   @override
-  FutureOr<AppState?> reduce() {
-    // TODO: implement reduce
-    throw UnimplementedError();
+  Future<AppState?> reduce() async {
+    try {
+      state.audioPlayerState.audioPlayer.processingStateStream.listen((event) {
+        if (event == ProcessingState.completed) {
+          log('${state.audioPlayerState.audioPlayer.nextIndex}');
+        }
+      });
+    } catch (err) {
+      log('$err');
+    }
   }
 }
 
@@ -60,6 +67,7 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
     );
   }
 }
+
 /// 0 - if the clicked music item is a part of the playlist, play that
 /// instead of fetching.
 /// 1 - fetch next music items from the currently requested music id
@@ -84,6 +92,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
           loadingState: LoadingState.loading));
       dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
+      dispatch(HandleAutomaticSeekAndPlay());
 
       /// Fetch and play the current music
       final uri = await ParserHelper.getMusicItemUrl(musicItem.musicId);
@@ -107,6 +116,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       await dispatch(FetchNextMusicListFromMusicId(musicItem: musicItem));
       await dispatch(FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
           musicItemList: state.audioPlayerState.currentMusicItemPlaylist));
+
       /// inserting from pos 1 as the 1st item already fetched and playing.
       state.audioPlayerState.currentJustAudioPlaylist.addAll(
           state.audioPlayerState.currentJustAudioPlaylist.children.sublist(1));

@@ -141,7 +141,10 @@ class _MusicGridTileState extends State<MusicGridTile> {
                                     ),
                                     child: Center(
                                       child: snapshot.currentMusic?.musicId ==
-                                              widget.selectedMusic.musicId
+                                                  widget
+                                                      .selectedMusic.musicId &&
+                                              processingSnapshot.data! !=
+                                                  ProcessingState.completed
                                           ? snapshot.musicItemMetaDataLoadingState ==
                                                   LoadingState.loading
                                               ? LoadingIndicator.small(context)

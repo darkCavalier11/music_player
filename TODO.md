@@ -46,6 +46,7 @@ streaming music
 
 
 ## Known bugs need fix
+* UI bug on the grid tile and better stream handling.
 * Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
@@ -55,14 +56,10 @@ streaming music
 * Music playing screen UI quality bump.
 
 ## future features
-* add musicId: url cache 
 * add play all and shuffle play feature for playlist
-* Do the Go app server
 * add analytics on weba and app
 * Load more on search screen
-* Shuffle play on playlist screen.
 * Intelligent cache
 * More setting features 
 * Drag and move playlist items
-* Possible bytes stream based music playing to support more low level playing to eliminate the ios playing issue.
 * Fetch next music items on music playing sceen once reached to end of playing disc table.(low priority)
