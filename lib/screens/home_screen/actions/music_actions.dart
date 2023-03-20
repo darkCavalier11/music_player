@@ -28,7 +28,7 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
     try {
       state.audioPlayerState.audioPlayer.processingStateStream.listen((event) {
         if (event == ProcessingState.completed) {
-          log('${state.audioPlayerState.audioPlayer.nextIndex}');
+          // log('${state.audioPlayerState.audioPlayer.nextIndex}');
         }
       });
     } catch (err) {

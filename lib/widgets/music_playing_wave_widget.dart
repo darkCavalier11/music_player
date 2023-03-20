@@ -31,7 +31,6 @@ class _AnimatedMusicWaveState extends State<MusicPlayingWaveWidget>
     _sizeAnimation =
         Tween<double>(begin: 0, end: 10).animate(_animationController);
     widget.playingStream.listen((event) {
-      log('$event');
       if (!mounted) {
         return;
       }

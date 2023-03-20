@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,14 +84,16 @@ class _MusicGridTileState extends State<MusicGridTile> {
                             );
                           },
                     onTap: () async {
-                      if (isPlayingSnapshot.data! &&
-                          widget.selectedMusic.musicId ==
-                              snapshot.currentMusic?.musicId) {
-                        snapshot.pauseMusic();
-                      } else if (widget.selectedMusic.musicId !=
-                          snapshot.currentMusic?.musicId) {
+                      log('${isPlayingSnapshot.data}');
+                      if (processingSnapshot.data ==
+                              ProcessingState.completed || 
+                          snapshot.currentMusic?.musicId !=
+                              widget.selectedMusic.musicId) {
                         snapshot.playMusic(widget.selectedMusic, true);
-                      } else {
+                      } else if (widget.selectedMusic.musicId ==
+                          snapshot.currentMusic?.musicId) {
+                        snapshot.pauseMusic();
+                      } else  {
                         snapshot.resumeMusic();
                       }
                     },
@@ -113,11 +117,15 @@ class _MusicGridTileState extends State<MusicGridTile> {
                                 AnimatedPositioned(
                                   duration: const Duration(milliseconds: 400),
                                   right: isPlayingSnapshot.data! &&
+                                          processingSnapshot.data ==
+                                              ProcessingState.ready &&
                                           snapshot.currentMusic?.musicId ==
                                               widget.selectedMusic.musicId
                                       ? 35
                                       : 10,
                                   bottom: isPlayingSnapshot.data! &&
+                                          processingSnapshot.data ==
+                                              ProcessingState.ready &&
                                           snapshot.currentMusic?.musicId ==
                                               widget.selectedMusic.musicId
                                       ? 35
@@ -126,11 +134,15 @@ class _MusicGridTileState extends State<MusicGridTile> {
                                     curve: Curves.fastOutSlowIn,
                                     duration: const Duration(milliseconds: 800),
                                     height: isPlayingSnapshot.data! &&
+                                            processingSnapshot.data ==
+                                                ProcessingState.ready &&
                                             snapshot.currentMusic?.musicId ==
                                                 widget.selectedMusic.musicId
                                         ? 50
                                         : 30,
                                     width: isPlayingSnapshot.data! &&
+                                            processingSnapshot.data ==
+                                                ProcessingState.ready &&
                                             snapshot.currentMusic?.musicId ==
                                                 widget.selectedMusic.musicId
                                         ? 50
