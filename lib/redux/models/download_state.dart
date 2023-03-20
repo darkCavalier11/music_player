@@ -74,20 +74,19 @@ class MusicItemForDownload {
   @override
   bool operator ==(covariant MusicItemForDownload other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.musicItem == musicItem &&
-      other.progress == progress &&
-      other.cancelToken == cancelToken &&
-      other.downloadStatus == downloadStatus;
+
+    return other.musicItem == musicItem &&
+        other.progress == progress &&
+        other.cancelToken == cancelToken &&
+        other.downloadStatus == downloadStatus;
   }
 
   @override
   int get hashCode {
     return musicItem.hashCode ^
-      progress.hashCode ^
-      cancelToken.hashCode ^
-      downloadStatus.hashCode;
+        progress.hashCode ^
+        cancelToken.hashCode ^
+        downloadStatus.hashCode;
   }
 }
 

@@ -86,14 +86,14 @@ class _MusicGridTileState extends State<MusicGridTile> {
                     onTap: () async {
                       log('${isPlayingSnapshot.data}');
                       if (processingSnapshot.data ==
-                              ProcessingState.completed || 
+                              ProcessingState.completed ||
                           snapshot.currentMusic?.musicId !=
                               widget.selectedMusic.musicId) {
                         snapshot.playMusic(widget.selectedMusic, true);
                       } else if (widget.selectedMusic.musicId ==
                           snapshot.currentMusic?.musicId) {
                         snapshot.pauseMusic();
-                      } else  {
+                      } else {
                         snapshot.resumeMusic();
                       }
                     },

@@ -37,12 +37,16 @@ class SearchState {
   }) {
     return SearchState(
       query: query ?? this.query,
-      previouslySearchedItems: previouslySearchedItems ?? this.previouslySearchedItems,
+      previouslySearchedItems:
+          previouslySearchedItems ?? this.previouslySearchedItems,
       musicSearchResults: musicSearchResults ?? this.musicSearchResults,
       currentSeacrhState: currentSeacrhState ?? this.currentSeacrhState,
-      searchResultFetchingState: searchResultFetchingState ?? this.searchResultFetchingState,
-      searchResultMusicItems: searchResultMusicItems ?? this.searchResultMusicItems,
-      recentlyTappedMusicItems: recentlyTappedMusicItems ?? this.recentlyTappedMusicItems,
+      searchResultFetchingState:
+          searchResultFetchingState ?? this.searchResultFetchingState,
+      searchResultMusicItems:
+          searchResultMusicItems ?? this.searchResultMusicItems,
+      recentlyTappedMusicItems:
+          recentlyTappedMusicItems ?? this.recentlyTappedMusicItems,
     );
   }
 
@@ -66,25 +70,24 @@ class SearchState {
   @override
   bool operator ==(covariant SearchState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.query == query &&
-      listEquals(other.previouslySearchedItems, previouslySearchedItems) &&
-      other.musicSearchResults == musicSearchResults &&
-      other.currentSeacrhState == currentSeacrhState &&
-      other.searchResultFetchingState == searchResultFetchingState &&
-      listEquals(other.searchResultMusicItems, searchResultMusicItems) &&
-      listEquals(other.recentlyTappedMusicItems, recentlyTappedMusicItems);
+
+    return other.query == query &&
+        listEquals(other.previouslySearchedItems, previouslySearchedItems) &&
+        other.musicSearchResults == musicSearchResults &&
+        other.currentSeacrhState == currentSeacrhState &&
+        other.searchResultFetchingState == searchResultFetchingState &&
+        listEquals(other.searchResultMusicItems, searchResultMusicItems) &&
+        listEquals(other.recentlyTappedMusicItems, recentlyTappedMusicItems);
   }
 
   @override
   int get hashCode {
     return query.hashCode ^
-      previouslySearchedItems.hashCode ^
-      musicSearchResults.hashCode ^
-      currentSeacrhState.hashCode ^
-      searchResultFetchingState.hashCode ^
-      searchResultMusicItems.hashCode ^
-      recentlyTappedMusicItems.hashCode;
+        previouslySearchedItems.hashCode ^
+        musicSearchResults.hashCode ^
+        currentSeacrhState.hashCode ^
+        searchResultFetchingState.hashCode ^
+        searchResultMusicItems.hashCode ^
+        recentlyTappedMusicItems.hashCode;
   }
 }

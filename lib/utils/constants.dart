@@ -10,10 +10,8 @@ enum MusicItemTileType {
   grid,
 }
 
-
 enum LoadingState {
   idle,
   loading,
   failed,
 }
-
