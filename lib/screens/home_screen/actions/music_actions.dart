@@ -28,7 +28,7 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
     try {
       state.audioPlayerState.audioPlayer.processingStateStream.listen((event) {
         if (event == ProcessingState.completed) {
-          // log('${state.audioPlayerState.audioPlayer.nextIndex}');
+          log('${(state.audioPlayerState.audioPlayer.audioSource as ConcatenatingAudioSource).length}');
         }
       });
     } catch (err) {
@@ -118,8 +118,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
           musicItemList: state.audioPlayerState.currentMusicItemPlaylist));
 
       /// inserting from pos 1 as the 1st item already fetched and playing.
-      state.audioPlayerState.currentJustAudioPlaylist.addAll(
-          state.audioPlayerState.currentJustAudioPlaylist.children.sublist(1));
+      (state.audioPlayerState.audioPlayer.audioSource
+              as ConcatenatingAudioSource)
+          .addAll(state.audioPlayerState.currentJustAudioPlaylist.children
+              .sublist(1));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
