@@ -46,7 +46,7 @@ streaming music
 
 
 ## Known bugs need fix
-* UI bug on the grid tile and better stream handling.
+* fix the playlist bug if present on android
 * Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
