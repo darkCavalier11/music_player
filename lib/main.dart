@@ -28,7 +28,7 @@ late String currentBuildNumber;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   await AppDatabase.init();
   await ApiRequest.init();
   await ParserHelper.init();

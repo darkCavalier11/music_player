@@ -22,13 +22,30 @@ import '../../../utils/constants.dart';
 
 /// when an music is over or [.seekNext(), .seekPrevious()] is fired
 /// this stream will update the [MusicItem] for ui purposes.
+///
+StreamSubscription<int?>? _currentIndexStream;
+
 class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
-      state.audioPlayerState.audioPlayer.processingStateStream.listen((event) {
-        log('${(state.audioPlayerState.audioPlayer.nextIndex)}');
-        if (event == ProcessingState.completed) {}
+      _currentIndexStream =
+          state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
+        if (index != null) {
+          // log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
+          log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
+          dispatch(
+            _SetSelectedMusicAction(
+              selectedMusic:
+                  state.audioPlayerState.currentMusicItemPlaylist[index],
+            ),
+          );
+          dispatch(
+            AddItemToRecentlyPlayedList(
+              musicItem: state.audioPlayerState.currentMusicItemPlaylist[index],
+            ),
+          );
+        }
       });
     } catch (err) {
       log('$err');
@@ -45,9 +62,10 @@ class _SetSelectedMusicAction extends ReduxAction<AppState> {
   AppState reduce() {
     state.audioPlayerState.audioPlayer.playerState.processingState;
     return state.copyWith(
-        audioPlayerState: state.audioPlayerState.copyWith(
-      selectedMusic: selectedMusic,
-    ));
+      audioPlayerState: state.audioPlayerState.copyWith(
+        selectedMusic: selectedMusic,
+      ),
+    );
   }
 }
 
@@ -89,9 +107,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
+      // state.audioPlayerState.audioPlayer.dispose();
       dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
-      dispatch(HandleAutomaticSeekAndPlay());
+      _currentIndexStream?.cancel();
 
       /// Fetch and play the current music
       final uri = await ParserHelper.getMusicItemUrl(musicItem.musicId);
@@ -121,6 +140,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
               as ConcatenatingAudioSource)
           .addAll(state.audioPlayerState.currentJustAudioPlaylist.children
               .sublist(1));
+      dispatch(HandleAutomaticSeekAndPlay());
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       dispatch(_SetSelectedMusicAction(selectedMusic: null));
