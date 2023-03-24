@@ -31,9 +31,8 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
     try {
       _currentIndexStream =
           state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
-        if (index != null) {
+        if (index != null && index != 0) {
           // log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
-          log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
           dispatch(
             _SetSelectedMusicAction(
               selectedMusic:
