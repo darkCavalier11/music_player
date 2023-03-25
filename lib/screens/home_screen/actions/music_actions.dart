@@ -102,6 +102,25 @@ class PlayAudioAction extends ReduxAction<AppState> {
   @override
   Future<AppState?> reduce() async {
     try {
+      /// check if the [musicItem] already in the playlist, then switch to that index
+      final index = state.audioPlayerState.currentMusicItemPlaylist
+          .indexWhere((element) => element.musicId == musicItem.musicId);
+      if (index != -1) {
+        state.audioPlayerState.audioPlayer.seek(Duration.zero, index: index);
+        dispatch(
+          _SetSelectedMusicAction(
+            selectedMusic:
+                state.audioPlayerState.currentMusicItemPlaylist[index],
+          ),
+        );
+        dispatch(
+          AddItemToRecentlyPlayedList(
+            musicItem: state.audioPlayerState.currentMusicItemPlaylist[index],
+          ),
+        );
+        return null;
+      }
+
       /// clean up and ui works
       dispatch(StopAudioAction());
       dispatch(_SetMusicItemMetaDataLoadingStateAction(
