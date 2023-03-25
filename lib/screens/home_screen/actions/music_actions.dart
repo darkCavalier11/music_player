@@ -34,7 +34,7 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
         if (index != null && index != 0) {
           // log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
           dispatch(
-            _SetSelectedMusicAction(
+            SetSelectedMusicAction(
               selectedMusic:
                   state.audioPlayerState.currentMusicItemPlaylist[index],
             ),
@@ -52,9 +52,9 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
   }
 }
 
-class _SetSelectedMusicAction extends ReduxAction<AppState> {
+class SetSelectedMusicAction extends ReduxAction<AppState> {
   final MusicItem? selectedMusic;
-  _SetSelectedMusicAction({
+  SetSelectedMusicAction({
     this.selectedMusic,
   });
   @override
@@ -93,7 +93,6 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
 /// 4 - set the concatenating audio source
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
-  // when tapping on a new music item this should be cleared and next set of music items need to be loaded
   PlayAudioAction({
     required this.musicItem,
   });
@@ -110,7 +109,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       if (index != -1) {
         state.audioPlayerState.audioPlayer.seek(Duration.zero, index: index);
         dispatch(
-          _SetSelectedMusicAction(
+          SetSelectedMusicAction(
             selectedMusic:
                 state.audioPlayerState.currentMusicItemPlaylist[index],
           ),
@@ -125,10 +124,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
       /// clean up and ui works
       dispatch(StopAudioAction());
-      dispatch(_SetMusicItemMetaDataLoadingStateAction(
+      dispatch(SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       // state.audioPlayerState.audioPlayer.dispose();
-      dispatch(_SetSelectedMusicAction(selectedMusic: musicItem));
+      dispatch(SetSelectedMusicAction(selectedMusic: musicItem));
       dispatch(AddItemToRecentlyPlayedList(musicItem: musicItem));
       _currentIndexStream?.cancel();
 
@@ -144,7 +143,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
         ],
       ));
       dispatch(
-        _SetMusicItemMetaDataLoadingStateAction(
+        SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.idle,
         ),
       );
@@ -163,7 +162,7 @@ class PlayAudioAction extends ReduxAction<AppState> {
       dispatch(HandleAutomaticSeekAndPlay());
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
-      dispatch(_SetSelectedMusicAction(selectedMusic: null));
+      dispatch(SetSelectedMusicAction(selectedMusic: null));
       state.audioPlayerState.audioPlayer.stop();
       throw ReduxException(
         errorMessage: '$err',
@@ -175,9 +174,70 @@ class PlayAudioAction extends ReduxAction<AppState> {
   }
 }
 
-class _SetMusicItemMetaDataLoadingStateAction extends ReduxAction<AppState> {
+class PlayPlaylistAction extends ReduxAction<AppState> {
+  final List<MusicItem> musicItemList;
+  PlayPlaylistAction({
+    required this.musicItemList,
+  }) : assert(musicItemList.isNotEmpty);
+  @override
+  Future<AppState?> reduce() async {
+    try {
+      /// clean up and ui works
+      dispatch(StopAudioAction());
+      dispatch(SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.loading));
+      // state.audioPlayerState.audioPlayer.dispose();
+      dispatch(SetSelectedMusicAction(selectedMusic: musicItemList.first));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList.first));
+      _currentIndexStream?.cancel();
+
+      /// Fetch and play the current music
+      final uri =
+          await ParserHelper.getMusicItemUrl(musicItemList.first.musicId);
+      await state.audioPlayerState.audioPlayer
+          .setAudioSource(ConcatenatingAudioSource(
+        children: [
+          AudioSource.uri(
+            uri,
+            tag: musicItemList.first.toMediaItem(),
+          )
+        ],
+      ));
+      dispatch(
+        SetMusicItemMetaDataLoadingStateAction(
+          loadingState: LoadingState.idle,
+        ),
+      );
+      state.audioPlayerState.audioPlayer.play();
+      await dispatch(
+        FetchAndBuildConcatenatingAudioSourceFromMusicItemList(
+          musicItemList: musicItemList,
+        ),
+      );
+
+      /// inserting from pos 1 as the 1st item already fetched and playing.
+      (state.audioPlayerState.audioPlayer.audioSource
+              as ConcatenatingAudioSource)
+          .addAll(state.audioPlayerState.currentJustAudioPlaylist.children
+              .sublist(1));
+      dispatch(HandleAutomaticSeekAndPlay());
+    } catch (err) {
+      log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
+      dispatch(SetSelectedMusicAction(selectedMusic: null));
+      state.audioPlayerState.audioPlayer.stop();
+      throw ReduxException(
+        errorMessage: '$err',
+        actionName: 'PlayPlaylistAction',
+        userErrorToastMessage: "Error loading music, try again!",
+      );
+    }
+    return null;
+  }
+}
+
+class SetMusicItemMetaDataLoadingStateAction extends ReduxAction<AppState> {
   final LoadingState loadingState;
-  _SetMusicItemMetaDataLoadingStateAction({
+  SetMusicItemMetaDataLoadingStateAction({
     required this.loadingState,
   });
   @override
