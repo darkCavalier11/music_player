@@ -94,14 +94,16 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
 class PlayAudioAction extends ReduxAction<AppState> {
   final MusicItem musicItem;
   // when tapping on a new music item this should be cleared and next set of music items need to be loaded
-  final bool? clearEarlierPlaylist;
   PlayAudioAction({
     required this.musicItem,
-    this.clearEarlierPlaylist,
   });
   @override
   Future<AppState?> reduce() async {
     try {
+      if (state.audioPlayerState.selectedMusic?.musicId == musicItem.musicId) {
+        return null;
+      }
+
       /// check if the [musicItem] already in the playlist, then switch to that index
       final index = state.audioPlayerState.currentMusicItemPlaylist
           .indexWhere((element) => element.musicId == musicItem.musicId);

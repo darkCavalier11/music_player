@@ -22,14 +22,12 @@ class MusicListTile extends StatefulWidget {
   /// [AddMusicItemToRecentlyTapMusicItem] will be called on tapped.
   final bool? isSecondary;
   // if the current music item is not a part of playlist, should be cleared
-  final bool? clearEarlierPlaylist;
 
   final bool disabled;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isSecondary,
-    this.clearEarlierPlaylist,
     this.disabled = false,
   }) : super(key: key);
 
@@ -91,7 +89,6 @@ class _MusicListTileState extends State<MusicListTile> {
                                 snapshot.currentMusic?.musicId) {
                               snapshot.playMusic(
                                 widget.selectedMusic,
-                                widget.clearEarlierPlaylist,
                               );
                             } else {
                               snapshot.resumeMusic();
@@ -202,7 +199,7 @@ class _MusicTileTrailingWidget extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem, bool?) playMusic;
+  final Future<void> Function(MusicItem) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -263,12 +260,11 @@ class _Factory extends VmFactory<AppState, _MusicListTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (musicItem, clearEarlierPlaylist) async {
+      playMusic: (musicItem) async {
         dispatch(AddMusicItemToRecentlyTapMusicItem(musicItem: musicItem));
         await dispatch(
           PlayAudioAction(
             musicItem: musicItem,
-            clearEarlierPlaylist: clearEarlierPlaylist,
           ),
         );
       },

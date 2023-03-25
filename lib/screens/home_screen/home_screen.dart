@@ -174,7 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   MusicListTile(
                                     selectedMusic: e,
-                                    clearEarlierPlaylist: true,
                                   ),
                                   const Divider(
                                     endIndent: 50,
@@ -400,7 +399,6 @@ class _Factory extends VmFactory<AppState, _HomeScreenState> {
         await dispatch(
           PlayAudioAction(
             musicItem: mediaItem,
-            clearEarlierPlaylist: true,
           ),
         );
       },

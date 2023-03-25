@@ -84,12 +84,11 @@ class _MusicGridTileState extends State<MusicGridTile> {
                             );
                           },
                     onTap: () async {
-                      log('${isPlayingSnapshot.data}');
                       if (processingSnapshot.data ==
                               ProcessingState.completed ||
                           snapshot.currentMusic?.musicId !=
                               widget.selectedMusic.musicId) {
-                        snapshot.playMusic(widget.selectedMusic, true);
+                        snapshot.playMusic(widget.selectedMusic);
                       } else if (widget.selectedMusic.musicId ==
                           snapshot.currentMusic?.musicId) {
                         snapshot.pauseMusic();
@@ -206,7 +205,7 @@ class _MusicGridTileState extends State<MusicGridTile> {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem, bool?) playMusic;
+  final Future<void> Function(MusicItem) playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -267,11 +266,10 @@ class _Factory extends VmFactory<AppState, _MusicGridTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (mediaItem, clearEarlierPlaylist) async {
+      playMusic: (mediaItem) async {
         await dispatch(
           PlayAudioAction(
             musicItem: mediaItem,
-            clearEarlierPlaylist: clearEarlierPlaylist,
           ),
         );
       },
