@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -116,8 +117,22 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                     child: ListView.builder(
                                       padding: const EdgeInsets.all(0),
                                       itemBuilder: (context, index) => ListTile(
-                                        title: Text(snapshot
-                                            .userPlaylistItems[index].title),
+                                        title: Text(
+                                          snapshot
+                                              .userPlaylistItems[index].title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                color:
+                                                    Theme.of(context).hintColor,
+                                              ),
+                                        ),
+                                        subtitle: Divider(
+                                          color: Theme.of(context)
+                                              .hintColor
+                                              .withOpacity(0.1),
+                                        ),
                                         onTap: () {
                                           if (_selectedTileIndexes
                                               .contains(index)) {
@@ -241,7 +256,20 @@ class _ViewModel extends Vm {
   _ViewModel({
     required this.userPlaylistItems,
     required this.addToPlaylist,
-  });
+  }) : super(equals: [
+          userPlaylistItems,
+        ]);
+
+  @override
+  bool operator ==(covariant _ViewModel other) {
+    if (identical(this, other)) return true;
+
+    return listEquals(other.userPlaylistItems, userPlaylistItems) &&
+        other.addToPlaylist == addToPlaylist;
+  }
+
+  @override
+  int get hashCode => userPlaylistItems.hashCode ^ addToPlaylist.hashCode;
 }
 
 class _Factory extends VmFactory<AppState, _SelectMusicAddMusicScreenState> {
