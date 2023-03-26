@@ -194,15 +194,16 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
       /// Fetch and play the current music
       final uri =
           await ParserHelper.getMusicItemUrl(musicItemList.first.musicId);
-      await state.audioPlayerState.audioPlayer
-          .setAudioSource(ConcatenatingAudioSource(
-        children: [
-          AudioSource.uri(
-            uri,
-            tag: musicItemList.first.toMediaItem(),
-          )
-        ],
-      ));
+      await state.audioPlayerState.audioPlayer.setAudioSource(
+        ConcatenatingAudioSource(
+          children: [
+            AudioSource.uri(
+              uri,
+              tag: musicItemList.first.toMediaItem(),
+            )
+          ],
+        ),
+      );
       dispatch(
         SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.idle,

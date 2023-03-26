@@ -132,7 +132,15 @@ class _MusicListTileState extends State<MusicListTile> {
                                     ),
                                 maxLines: 1,
                               ),
-                              Text(widget.selectedMusic.duration),
+                              Text(
+                                widget.selectedMusic.duration,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                              ),
                             ],
                           ),
                         ),

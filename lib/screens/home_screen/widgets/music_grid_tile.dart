@@ -183,14 +183,23 @@ class _MusicGridTileState extends State<MusicGridTile> {
                           ),
                           Text(
                             widget.selectedMusic.author,
-                            style:
-                                Theme.of(context).textTheme.caption?.copyWith(
-                                      color: Theme.of(context).backgroundColor,
-                                      fontSize: 10,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                  fontSize: 10,
+                                ),
                             maxLines: 1,
                           ),
-                          Text(widget.selectedMusic.duration),
+                          Text(
+                            widget.selectedMusic.duration,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                          ),
                         ],
                       ),
                     ),
