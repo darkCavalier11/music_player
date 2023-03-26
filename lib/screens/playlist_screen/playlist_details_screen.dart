@@ -6,6 +6,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
@@ -13,6 +14,7 @@ import 'package:music_player/redux/models/user_playlist_list_item.dart';
 import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
+import '../../redux/models/music_item.dart';
 import 'actions/playlist_actions.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
@@ -182,7 +184,11 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     AppPrimaryButton(
                       buttonText: 'Play all',
                       trailingIcon: CupertinoIcons.play_circle,
-                      onTap: () {},
+                      onTap: () {
+                        snapshot.playPlaylist(snapshot
+                            .getUserPlaylistItemFromId(userPlaylistListId)
+                            .musicItems);
+                      },
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
@@ -322,12 +328,14 @@ class _ViewModel extends Vm {
   final Future<void> Function(
       {required String playlistTitle,
       required String musicId}) removeMusicItemFromPlaylist;
+  final Function(List<MusicItem> playlist) playPlaylist;
   _ViewModel({
     required this.removePlaylist,
     required this.onEditState,
     required this.setMusicPlaylistEditState,
     required this.removeMusicItemFromPlaylist,
     required this.getUserPlaylistItemFromId,
+    required this.playPlaylist,
   });
 }
 
@@ -347,6 +355,9 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
             );
           },
         );
+      },
+      playPlaylist: (musicItemList) {
+        dispatch(PlayPlaylistAction(musicItemList: musicItemList));
       },
       removePlaylist: (playlistId) {
         dispatch(RemovePlaylistById(playlistId: playlistId));

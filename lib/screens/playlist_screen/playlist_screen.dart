@@ -42,7 +42,7 @@ class PlaylistScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Text(
                       'My Playlist',
-                      style: Theme.of(context).textTheme.button?.copyWith(
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).primaryColor,
@@ -102,14 +102,14 @@ class PlaylistScreen extends StatelessWidget {
                                   TextSpan(
                                     text: 'Do you want to remove playlist ',
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   TextSpan(
                                     text: snapshot
                                         .userPlaylistListItems[idx].title,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1
+                                        .bodyLarge
                                         ?.copyWith(
                                           fontWeight: FontWeight.bold,
                                         ),
