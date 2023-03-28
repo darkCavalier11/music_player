@@ -28,26 +28,27 @@ class MusicSearchResultScreen extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           floatingActionButton: StreamBuilder<ProcessingState>(
-              stream: snapshot.processingStateStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.hasError) {
-                  return const SizedBox.shrink();
-                }
-                if (snapshot.data != ProcessingState.idle) {
-                  return Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).splashColor,
-                      ),
-                    ),
-                    child: const MusicPlayingSmallIndicator(),
-                  );
-                }
+            stream: snapshot.processingStateStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData || snapshot.hasError) {
                 return const SizedBox.shrink();
-              }),
+              }
+              if (snapshot.data != ProcessingState.idle) {
+                return Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).splashColor,
+                    ),
+                  ),
+                  child: const MusicPlayingSmallIndicator(),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           body: snapshot.searchResultFetchingState == LoadingState.loading
@@ -98,12 +99,14 @@ class MusicSearchResultScreen extends StatelessWidget {
                             const SizedBox(width: 10),
                             Text(
                               'Search Results',
-                              style:
-                                  Theme.of(context).textTheme.button?.copyWith(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                             ),
                           ],
                         ),

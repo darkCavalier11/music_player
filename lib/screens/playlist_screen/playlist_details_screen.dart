@@ -6,6 +6,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player/screens/home_screen/actions/music_actions.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -15,6 +16,7 @@ import 'package:music_player/screens/home_screen/widgets/music_list_tile.dart';
 import 'package:music_player/widgets/app_primary_button.dart';
 
 import '../../redux/models/music_item.dart';
+import '../../widgets/music_playing_small_indicator.dart';
 import 'actions/playlist_actions.dart';
 
 class PlaylistDetailsScreen extends StatelessWidget {
@@ -38,6 +40,30 @@ class PlaylistDetailsScreen extends StatelessWidget {
           return const SizedBox.shrink();
         }
         return Scaffold(
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: StreamBuilder<ProcessingState>(
+            stream: snapshot.processingStateStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData || snapshot.hasError) {
+                return const SizedBox.shrink();
+              }
+              if (snapshot.data != ProcessingState.idle) {
+                return Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).splashColor,
+                    ),
+                  ),
+                  child: const MusicPlayingSmallIndicator(),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           body: Column(
             children: [
               Padding(
@@ -192,12 +218,6 @@ class PlaylistDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     AppPrimaryButton(
-                      onTap: () {},
-                      buttonText: 'Shuffle Play',
-                      trailingIcon: CupertinoIcons.shuffle,
-                    ),
-                    const SizedBox(width: 4),
-                    AppPrimaryButton(
                       onTap: () {
                         snapshot
                             .setMusicPlaylistEditState(!snapshot.onEditState);
@@ -329,6 +349,7 @@ class _ViewModel extends Vm {
       {required String playlistTitle,
       required String musicId}) removeMusicItemFromPlaylist;
   final Function(List<MusicItem> playlist) playPlaylist;
+  final Stream<ProcessingState> processingStateStream;
   _ViewModel({
     required this.removePlaylist,
     required this.onEditState,
@@ -336,6 +357,7 @@ class _ViewModel extends Vm {
     required this.removeMusicItemFromPlaylist,
     required this.getUserPlaylistItemFromId,
     required this.playPlaylist,
+    required this.processingStateStream,
   });
 }
 
@@ -373,6 +395,8 @@ class _Factory extends VmFactory<AppState, PlaylistDetailsScreen> {
         dispatch(RemoveMusicItemFromPlaylist(
             playlistTitle: playlistTitle, musicId: musicId));
       },
+      processingStateStream:
+          state.audioPlayerState.audioPlayer.processingStateStream,
     );
   }
 }

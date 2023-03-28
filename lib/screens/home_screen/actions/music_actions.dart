@@ -31,8 +31,7 @@ class HandleAutomaticSeekAndPlay extends ReduxAction<AppState> {
     try {
       _currentIndexStream =
           state.audioPlayerState.audioPlayer.currentIndexStream.listen((index) {
-        if (index != null && index != 0) {
-          // log('${state.audioPlayerState.currentMusicItemPlaylist[index].title}');
+        if (index != null) {
           dispatch(
             SetSelectedMusicAction(
               selectedMusic:
@@ -79,6 +78,22 @@ class _SetConcatenatingAudioSource extends ReduxAction<AppState> {
     return state.copyWith(
       audioPlayerState: state.audioPlayerState.copyWith(
         currentJustAudioPlaylist: playlist,
+      ),
+    );
+  }
+}
+
+class _SetCurrentMusicItemPlaylist extends ReduxAction<AppState> {
+  final List<MusicItem> musicItemList;
+  _SetCurrentMusicItemPlaylist({
+    required this.musicItemList,
+  });
+
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      audioPlayerState: state.audioPlayerState.copyWith(
+        currentMusicItemPlaylist: musicItemList,
       ),
     );
   }
@@ -216,6 +231,13 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
         ),
       );
 
+      dispatch(_SetCurrentMusicItemPlaylist(musicItemList: musicItemList));
+      state.audioPlayerState.currentMusicItemPlaylist.forEach(
+        (element) {
+          log('${element.title}');
+        },
+      );
+
       /// inserting from pos 1 as the 1st item already fetched and playing.
       (state.audioPlayerState.audioPlayer.audioSource
               as ConcatenatingAudioSource)
@@ -262,11 +284,8 @@ class FetchNextMusicListFromMusicId extends ReduxAction<AppState> {
     try {
       final currentPlaylistItems =
           await ParserHelper.getNextSuggestionMusicList(musicItem.musicId);
-      return state.copyWith(
-        audioPlayerState: state.audioPlayerState.copyWith(
-          currentMusicItemPlaylist: [musicItem, ...currentPlaylistItems],
-        ),
-      );
+      dispatch(_SetCurrentMusicItemPlaylist(
+          musicItemList: [musicItem, ...currentPlaylistItems]));
     } catch (err) {
       log(err.toString(), stackTrace: StackTrace.current, name: 'ErrorLog');
       throw ReduxException(
