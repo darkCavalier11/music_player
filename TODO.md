@@ -46,8 +46,7 @@ streaming music
 
 
 ## Known bugs need fix
-* fix the stream listening bug on android and if a music item tapped on the current playlist
-do not fetch next music for this, instead playit, will helpful for managing local playlist.
+* user playlist bug. on tap a playlist item, the music list should play as a part of audio player
 * Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
