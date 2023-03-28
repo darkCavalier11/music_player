@@ -191,8 +191,10 @@ class PlayAudioAction extends ReduxAction<AppState> {
 
 class PlayPlaylistAction extends ReduxAction<AppState> {
   final List<MusicItem> musicItemList;
+  final int index;
   PlayPlaylistAction({
     required this.musicItemList,
+    this.index = 0,
   }) : assert(musicItemList.isNotEmpty);
   @override
   Future<AppState?> reduce() async {
@@ -202,19 +204,19 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
       dispatch(SetMusicItemMetaDataLoadingStateAction(
           loadingState: LoadingState.loading));
       // state.audioPlayerState.audioPlayer.dispose();
-      dispatch(SetSelectedMusicAction(selectedMusic: musicItemList.first));
-      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList.first));
+      dispatch(SetSelectedMusicAction(selectedMusic: musicItemList[index]));
+      dispatch(AddItemToRecentlyPlayedList(musicItem: musicItemList[index]));
       _currentIndexStream?.cancel();
 
       /// Fetch and play the current music
       final uri =
-          await ParserHelper.getMusicItemUrl(musicItemList.first.musicId);
+          await ParserHelper.getMusicItemUrl(musicItemList[index].musicId);
       await state.audioPlayerState.audioPlayer.setAudioSource(
         ConcatenatingAudioSource(
           children: [
             AudioSource.uri(
               uri,
-              tag: musicItemList.first.toMediaItem(),
+              tag: musicItemList[index].toMediaItem(),
             )
           ],
         ),
@@ -232,11 +234,6 @@ class PlayPlaylistAction extends ReduxAction<AppState> {
       );
 
       dispatch(_SetCurrentMusicItemPlaylist(musicItemList: musicItemList));
-      state.audioPlayerState.currentMusicItemPlaylist.forEach(
-        (element) {
-          log('${element.title}');
-        },
-      );
 
       /// inserting from pos 1 as the 1st item already fetched and playing.
       (state.audioPlayerState.audioPlayer.audioSource
