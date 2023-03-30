@@ -46,18 +46,12 @@ streaming music
 
 
 ## Known bugs need fix
-* user playlist bug. on tap a playlist item, the music list should play as a part of audio player
 * Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)
 * Loading time for long audios on ios(song duration as well) and some time on android.
 
-## UI enhancements
-* Download screen/sheet
-* Music playing screen UI quality bump.
-
 ## future features
-* add play all and shuffle play feature for playlist
-* add analytics on weba and app
+* add analytics
 * Load more on search screen
 * Intelligent cache
 * More setting features 
