@@ -319,6 +319,7 @@ class _MusicEditListTileState extends State<MusicEditListTile>
                 child: MusicListTile(
                   selectedMusic: widget.userPlaylistListItem.musicItems[idx],
                   disabled: widget.onEditState,
+                  musicItemPlaylist: widget.userPlaylistListItem.musicItems,
                 ),
                 builder: (context, child) {
                   return Expanded(

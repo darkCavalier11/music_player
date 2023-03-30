@@ -1,5 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+// import 'dart:math';
+
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +28,16 @@ class MusicListTile extends StatefulWidget {
   // if the current music item is not a part of playlist, should be cleared
 
   final bool disabled;
+
+  /// if [musicItemPlaylist] is provided, on tapping won't fetch the recommended songs, instead
+  /// play fetch the [musicItemPlaylist] songs and play them
+  final List<MusicItem> musicItemPlaylist;
   const MusicListTile({
     Key? key,
     required this.selectedMusic,
     this.isSecondary,
     this.disabled = false,
+    this.musicItemPlaylist = const [],
   }) : super(key: key);
 
   @override
@@ -89,6 +98,7 @@ class _MusicListTileState extends State<MusicListTile> {
                                 snapshot.currentMusic?.musicId) {
                               snapshot.playMusic(
                                 widget.selectedMusic,
+                                musicItemList: widget.musicItemPlaylist,
                               );
                             } else {
                               snapshot.resumeMusic();
@@ -207,7 +217,8 @@ class _MusicTileTrailingWidget extends StatelessWidget {
 
 class _ViewModel extends Vm {
   final MusicItem? currentMusic;
-  final Future<void> Function(MusicItem) playMusic;
+  final Future<void> Function(MusicItem, {List<MusicItem>? musicItemList})
+      playMusic;
   final Stream<ProcessingState> processingStateStream;
   final Stream<bool> playingStream;
   final LoadingState musicItemMetaDataLoadingState;
@@ -268,13 +279,25 @@ class _Factory extends VmFactory<AppState, _MusicListTileState> {
       playingStream: state.audioPlayerState.audioPlayer.playingStream,
       processingStateStream:
           state.audioPlayerState.audioPlayer.processingStateStream,
-      playMusic: (musicItem) async {
-        dispatch(AddMusicItemToRecentlyTapMusicItem(musicItem: musicItem));
-        await dispatch(
-          PlayAudioAction(
-            musicItem: musicItem,
-          ),
+      playMusic: (musicItem, {musicItemList}) async {
+        dispatch(
+          AddMusicItemToRecentlyTapMusicItem(musicItem: musicItem),
         );
+        if (musicItemList != null && musicItemList.isNotEmpty) {
+          await dispatch(
+            PlayPlaylistAction(
+              musicItemList: musicItemList,
+              index: musicItemList.indexWhere(
+                  (element) => element.musicId == musicItem.musicId),
+            ),
+          );
+        } else {
+          await dispatch(
+            PlayAudioAction(
+              musicItem: musicItem,
+            ),
+          );
+        }
       },
       currentMusic: state.audioPlayerState.selectedMusic,
     );
