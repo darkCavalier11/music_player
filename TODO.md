@@ -45,6 +45,9 @@ might check flick video player
 streaming music
 
 
+Add readme
+Add testcases
+
 ## Known bugs need fix
 * Exception happens when download cancelled(Uncatchabe for now)
 * Repeatation of items on the home screen list(hard reproduction)

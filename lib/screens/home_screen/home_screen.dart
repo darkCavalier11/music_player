@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -220,7 +222,7 @@ class DummySearchTextField extends StatelessWidget {
     return Hero(
       tag: tag,
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           if (shouldPopCurrentRoute == true) {
             Navigator.of(context).pop();
           }

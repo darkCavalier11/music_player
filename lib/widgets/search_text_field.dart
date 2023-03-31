@@ -24,7 +24,7 @@ class SearchTextField extends StatelessWidget {
     return Material(
       child: TextField(
         onSubmitted: onSubmitted,
-        autofocus: true,
+        autofocus: false,
         cursorColor: Theme.of(context).primaryColor,
         controller: textEditingController,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
