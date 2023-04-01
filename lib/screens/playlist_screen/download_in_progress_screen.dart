@@ -46,10 +46,17 @@ class DownloadInProgressScreen extends StatelessWidget {
               ),
               Expanded(
                 child: snapshot.musicItemDownloadList.isEmpty
-                    ? const Center(
-                        child: Text('No downloads in progress'),
+                    ? Center(
+                        child: Text(
+                          'No downloads in progress',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context).disabledColor,
+                                  ),
+                        ),
                       )
-                    : ListView.builder(
+                    : ListView.separated(
+                        separatorBuilder: (_, __) => const Divider(),
                         itemBuilder: (context, index) {
                           final musicItemForDownload =
                               snapshot.musicItemDownloadList[index];
@@ -65,18 +72,42 @@ class DownloadInProgressScreen extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12),
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         musicItemForDownload.musicItem.title,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                            ),
+                                      ),
+                                      Text(
+                                        musicItemForDownload.musicItem.author,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color:
+                                                  Theme.of(context).cardColor,
+                                            ),
                                       ),
                                       const SizedBox(height: 4),
-                                      LinearProgressIndicator(
-                                        value: musicItemForDownload.progress,
-                                        color: Theme.of(context).primaryColor,
-                                        backgroundColor:
-                                            Theme.of(context).dividerColor,
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: LinearProgressIndicator(
+                                          value: musicItemForDownload.progress,
+                                          color: Theme.of(context).primaryColor,
+                                          backgroundColor:
+                                              Theme.of(context).focusColor,
+                                        ),
                                       ),
                                       Row(
                                         children: [
@@ -86,6 +117,13 @@ class DownloadInProgressScreen extends StatelessWidget {
                                                         100)
                                                     .toStringAsFixed(1) +
                                                 '%',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .disabledColor,
+                                                ),
                                           ),
                                         ],
                                       ),

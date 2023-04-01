@@ -52,6 +52,11 @@ class UpdateMusicItemDownloadProgress extends ReduxAction<AppState> {
           state.downloadState.musicItemDownloadList[idx];
       if (progress == 1) {
         Fluttertoast.showToast(msg: 'Download complete.');
+        return state.copyWith(
+          downloadState: state.downloadState.copyWith(
+              musicItemDownloadList: state.downloadState.musicItemDownloadList
+                ..removeAt(idx)),
+        );
       }
       return state.copyWith(
         downloadState: state.downloadState.copyWith(

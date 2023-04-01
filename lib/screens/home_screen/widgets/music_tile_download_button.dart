@@ -128,24 +128,30 @@ class _Factory extends VmFactory<AppState, MusicTileDownloadButton> {
   _Factory(widget) : super(widget);
   @override
   _ViewModel fromStore() {
-    return _ViewModel(getMusicItemDownloadState: (musicId) {
-      final idx = state.downloadState.musicItemDownloadList
-          .indexWhere((element) => element.musicItem.musicId == musicId);
-      if (idx != -1) {
+    return _ViewModel(
+      getMusicItemDownloadState: (musicId) {
+        final idx = state.downloadState.musicItemDownloadList
+            .indexWhere((element) => element.musicItem.musicId == musicId);
+        if (idx != -1) {
+          return state.downloadState.musicItemDownloadList
+              .firstWhere((element) => element.musicItem.musicId == musicId);
+        }
+      },
+      cancelDownloadForMusicItem: (musicId) {
+        dispatch(CancelDownloadForMusicItem(musicId: musicId));
+      },
+      updateDownloadProgressForMusicItem: (musicId, progress) {
+        dispatch(UpdateMusicItemDownloadProgress(
+            musicId: musicId, progress: progress));
+      },
+      addMusicItemToDownloadList: (musicItem) {
+        dispatch(AddMusicItemToDownload(musicItem: musicItem));
+      },
+      getCancelToken: (musicId) {
         return state.downloadState.musicItemDownloadList
-            .firstWhere((element) => element.musicItem.musicId == musicId);
-      }
-    }, cancelDownloadForMusicItem: (musicId) {
-      dispatch(CancelDownloadForMusicItem(musicId: musicId));
-    }, updateDownloadProgressForMusicItem: (musicId, progress) {
-      dispatch(UpdateMusicItemDownloadProgress(
-          musicId: musicId, progress: progress));
-    }, addMusicItemToDownloadList: (musicItem) {
-      dispatch(AddMusicItemToDownload(musicItem: musicItem));
-    }, getCancelToken: (musicId) {
-      return state.downloadState.musicItemDownloadList
-          .firstWhere((element) => element.musicItem.musicId == musicId)
-          .cancelToken;
-    });
+            .firstWhere((element) => element.musicItem.musicId == musicId)
+            .cancelToken;
+      },
+    );
   }
 }
