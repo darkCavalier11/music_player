@@ -45,8 +45,27 @@ class MusicTileDownloadButton extends StatelessWidget {
                     await ParserHelper.getMusicItemUrl(musicItem.musicId);
                 final savePath = await FilePicker.platform.getDirectoryPath();
                 if (savePath != null) {
-                  final file = File(savePath +
-                      '/${musicItem.title.replaceAll('|', '_').replaceAll(',', '')}.m4a');
+                  final _reservedChars = [
+                    "|",
+                    "\\",
+                    "?",
+                    "*",
+                    "<",
+                    "\"",
+                    ":",
+                    ">"
+                  ];
+                  final saveTitle = musicItem.title
+                      .replaceAll('|', '')
+                      .replaceAll('\\', '')
+                      .replaceAll('?', '')
+                      .replaceAll('*', '')
+                      .replaceAll('<', '')
+                      .replaceAll(':', '')
+                      .replaceAll('>', '')
+                      .replaceAll('"', '');
+                  final file = File(savePath + saveTitle + '.m4a');
+
                   file.createSync();
                   snapshot.addMusicItemToDownloadList(musicItem);
                   ApiRequest.download(
@@ -60,7 +79,7 @@ class MusicTileDownloadButton extends StatelessWidget {
                     },
                     cancelToken: snapshot.getCancelToken(musicItem.musicId),
                   );
-                  Fluttertoast.showToast(msg: 'Downloading music item...');
+                  Fluttertoast.showToast(msg: 'Downloading song...');
                 }
               } else {
                 Fluttertoast.showToast(msg: 'Please enable storage access');
