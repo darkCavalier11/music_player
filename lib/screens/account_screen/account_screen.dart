@@ -44,13 +44,17 @@ class AccountScreen extends StatelessWidget {
                             ? FileImage(File(snapshot.profilePicPlatformPath))
                             : null,
                         radius: 35,
-                        child: Text(
-                          snapshot.userName[0],
-                          style:
-                              Theme.of(context).textTheme.headline4?.copyWith(
-                                    color: Theme.of(context).cardColor,
-                                  ),
-                        ),
+                        child: snapshot.profilePicPlatformPath.isNotEmpty
+                            ? null
+                            : Text(
+                                snapshot.userName[0],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context).cardColor,
+                                    ),
+                              ),
                       ),
                     ),
                     Positioned(
