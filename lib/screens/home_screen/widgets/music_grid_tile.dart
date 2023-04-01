@@ -84,14 +84,15 @@ class _MusicGridTileState extends State<MusicGridTile> {
                             );
                           },
                     onTap: () async {
-                      if (processingSnapshot.data ==
-                              ProcessingState.completed ||
-                          snapshot.currentMusic?.musicId !=
-                              widget.selectedMusic.musicId) {
-                        snapshot.playMusic(widget.selectedMusic);
-                      } else if (widget.selectedMusic.musicId ==
-                          snapshot.currentMusic?.musicId) {
+                      if (isPlayingSnapshot.data! &&
+                          widget.selectedMusic.musicId ==
+                              snapshot.currentMusic?.musicId) {
                         snapshot.pauseMusic();
+                      } else if (widget.selectedMusic.musicId !=
+                          snapshot.currentMusic?.musicId) {
+                        snapshot.playMusic(
+                          widget.selectedMusic,
+                        );
                       } else {
                         snapshot.resumeMusic();
                       }
