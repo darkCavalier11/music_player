@@ -45,16 +45,6 @@ class MusicTileDownloadButton extends StatelessWidget {
                     await ParserHelper.getMusicItemUrl(musicItem.musicId);
                 final savePath = await FilePicker.platform.getDirectoryPath();
                 if (savePath != null) {
-                  final _reservedChars = [
-                    "|",
-                    "\\",
-                    "?",
-                    "*",
-                    "<",
-                    "\"",
-                    ":",
-                    ">"
-                  ];
                   final saveTitle = musicItem.title
                       .replaceAll('|', '')
                       .replaceAll('\\', '')
@@ -64,8 +54,7 @@ class MusicTileDownloadButton extends StatelessWidget {
                       .replaceAll(':', '')
                       .replaceAll('>', '')
                       .replaceAll('"', '');
-                  final file = File(savePath + saveTitle + '.m4a');
-
+                  final file = File(savePath + '/' + saveTitle + '.m4a');
                   file.createSync();
                   snapshot.addMusicItemToDownloadList(musicItem);
                   ApiRequest.download(
