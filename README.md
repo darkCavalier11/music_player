@@ -2,7 +2,7 @@
 # Music Box
 [Download](https://iridescent-trifle-5d3757.netlify.app/#/)
 <br/>
-A simple music player for use.
+## A simple music player for use.
 - Play your favourite music from YouTube
 - Create playlist and add to favourite
 - Save songs offline
