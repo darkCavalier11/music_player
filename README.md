@@ -9,3 +9,5 @@
 
 ## PRs and contributions
 All PRs, issues and tests are welcome. Code is pretty straight forward, it should be self-explanatory
+
+Strictly for educational purposes.
