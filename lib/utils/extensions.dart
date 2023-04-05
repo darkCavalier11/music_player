@@ -1,6 +1,6 @@
 extension FormatingUtilityDuration on Duration {
-  // 5 seconds -> 00:05
-  /// 121seconds -> 02:01
+  /// 5 seconds -> 00:05 
+  /// 121seconds -> 02:01 
   /// 5560 seconds -> 01:32:40
   String toFormatedDurationString() {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
