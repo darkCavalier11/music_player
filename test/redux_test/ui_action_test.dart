@@ -15,5 +15,11 @@ void main() {
       final info = await storeTester.wait(ChangeBottomNavIndex);
       expect(info.state.uiState.currentBottomNavIndex, 1);
     });
+
+    test('Test theme change', () async {
+      storeTester.dispatch(ChangeThemeAction(themeMode: ThemeMode.dark));
+      final info = await storeTester.wait(ChangeThemeAction);
+      expect(info.state.uiState.themeMode, ThemeMode.dark);
+    });
   });
 }
