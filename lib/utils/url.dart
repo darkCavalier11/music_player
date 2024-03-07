@@ -13,15 +13,15 @@ class AppUrl {
       'https://www.youtube.com/?themeRefresh=1';
 
   // This url used for browsing music
-  static String browseUrl(String apiKey) {
-    return Uri.encodeFull(
-        'https://www.youtube.com/youtubei/v1/browse?key=$apiKey&prettyPrint=false');
+  static String browseUrl() {
+    return Uri.encodeFull('https://www.youtube.com/');
   }
 
   // This url used for searching music
-  static String searchUrl(String apiKey) {
+  static String searchUrl() {
     return Uri.encodeFull(
-        'https://www.youtube.com/youtubei/v1/search?key=$apiKey&prettyPrint=false');
+      'https://www.youtube.com/youtubei/v1/search?prettyPrint=false',
+    );
   }
 
   // url used to fetch paricular music details
@@ -30,7 +30,7 @@ class AppUrl {
   }
 
   // url to fetch next set of music
-  static String nextMusicListUrl(String apiKey) {
-    return 'https://www.youtube.com/youtubei/v1/next?key=$apiKey&prettyPrint=false';
+  static String nextMusicListUrl() {
+    return 'https://www.youtube.com/youtubei/v1/next?prettyPrint=false';
   }
 }

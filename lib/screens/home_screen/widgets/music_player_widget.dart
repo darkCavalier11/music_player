@@ -122,8 +122,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                         onPressed: () {},
                                         icon: Icon(
                                           Iconsax.next,
-                                          color: Theme.of(context)
-                                              .selectedRowColor,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ),

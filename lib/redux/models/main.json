@@ -1,0 +1,1073 @@
+{
+    "responseContext": {
+        "serviceTrackingParams": [
+            {
+                "service": "GUIDED_HELP",
+                "params": [
+                    {
+                        "key": "context",
+                        "value": "yt_web_unknown_form_factor_kevlar_w2w"
+                    },
+                    {
+                        "key": "logged_in",
+                        "value": "0"
+                    }
+                ]
+            },
+            {
+                "service": "GFEEDBACK",
+                "params": [
+                    {
+                        "key": "context",
+                        "value": "yt_web_unknown_form_factor_kevlar_w2w"
+                    },
+                    {
+                        "key": "browse_id",
+                        "value": "FEwhat_to_watch"
+                    },
+                    {
+                        "key": "browse_id_prefix",
+                        "value": ""
+                    },
+                    {
+                        "key": "logged_in",
+                        "value": "0"
+                    },
+                    {
+                        "key": "country-type",
+                        "value": "B"
+                    },
+                    {
+                        "key": "e",
+                        "value": "23804281,23946420,23966208,23983296,23986033,23998056,24004644,24007246,24036947,24077241,24080738,24108448,24120819,24135310,24140247,24166867,24181174,24187377,24208765,24241378,24255543,24255545,24288664,24290971,24362593,24377598,24378826,24382818,24385728,24390675,24407446,24439361,24451319,24453989,24468724,24490203,24506515,24515423,24524098,24524562,24537200,24539025,24542367,24542392,24542452,24546059,24548627,24548629,24550458,24552800,24560416,24566687,24690004,24699899,51003636,51006181,51009781,51010235,51012659,51014091,51016856,51017346,51019626,51020570,51025415,51026715,51027870,51030101,51033399,51037344,51037351,51037540,51038805,51039200,51040540,51041282,51048489,51048915,51050361,51052758,51053689,51057004,51057501,51057746,51057844,51057853,51057865,51060353,51061001,51063643,51064834,51069269,51072462,51072748,51074183,51074739,51079307,51080397,51080511,51083238,51083798,51084269,51084277,51084290,51085359,51087987,51089177,51089441,51089956,51091331,51091990,51092660,51092929,51094166,51094175,51094202,51094207,51095479,51096389,51096646,51096961,51096988,51098297,51098299,51099406,51100077,51101169,51101454,51103048,51103088,51103518,51104190,51104989,51105764,51105795,51105868,51106995,51107336,51107658,51108006,51108584,51108626,51108977,51109418,51110160,51111738,51112355,51112970,51112972,51112974,51113658,51113661,51116277,51117182,51118058,51118293,51118588,51118932,51119296,51119506,51119512,51119514,51119935,51121894,51122047,51123075,51124104,51124220,51125646,51127712,51128585,51130390,51133796"
+                    }
+                ]
+            },
+            {
+                "service": "CSI",
+                "params": [
+                    {
+                        "key": "yt_fn",
+                        "value": "what_to_watch"
+                    },
+                    {
+                        "key": "c",
+                        "value": "WEB"
+                    },
+                    {
+                        "key": "cver",
+                        "value": "2.20240304.00.00"
+                    },
+                    {
+                        "key": "yt_li",
+                        "value": "0"
+                    },
+                    {
+                        "key": "GetHome_rid",
+                        "value": "0xf189eb7a24753e9d"
+                    }
+                ]
+            },
+            {
+                "service": "GOOGLE_HELP",
+                "params": [
+                    {
+                        "key": "browse_id",
+                        "value": "FEwhat_to_watch"
+                    },
+                    {
+                        "key": "browse_id_prefix",
+                        "value": ""
+                    }
+                ]
+            },
+            {
+                "service": "ECATCHER",
+                "params": [
+                    {
+                        "key": "client.version",
+                        "value": "2.20240304"
+                    },
+                    {
+                        "key": "client.name",
+                        "value": "WEB"
+                    },
+                    {
+                        "key": "client.fexp",
+                        "value": "24208765,24546059,24524562,51101454,51048489,51098297,51016856,51050361,24108448,51119296,24080738,51096988,51083238,23966208,24377598,51037344,51105764,24515423,51057746,51074739,51108626,51095479,51072748,51037351,51092660,51085359,51117182,24181174,51057853,51108006,51057501,51108977,24539025,24288664,51089956,23983296,51030101,51103518,51113658,51119512,24490203,51026715,51111738,51041282,51103088,51063643,23804281,24077241,51099406,24004644,24550458,51089441,51080511,51096961,24560416,51124104,24290971,24385728,24140247,51006181,51019626,51133796,51098299,51003636,24390675,51127712,51112974,51112355,24537200,51119935,51083798,51101169,51091331,51087987,51025415,51107336,24255545,51074183,51118058,51017346,51094207,24120819,23946420,24542392,51080397,51096646,24453989,24506515,51104190,24135310,51107658,51014091,51084277,24382818,51124220,51057865,24468724,51128585,51130390,23998056,51112972,51009781,51100077,51089177,51118293,24524098,51020570,51105868,51104989,24378826,51105795,51052758,51094166,51118588,24036947,51094202,24552800,51110160,51033399,51012659,51060353,51040540,51092929,24690004,24548629,51123075,51122047,24566687,24166867,24007246,51096389,24187377,51010235,51069269,23986033,51108584,51109418,24699899,51084290,51113661,51116277,51057004,24255543,51027870,51106995,51091990,51048915,51037540,51119506,51061001,24542452,51072462,51103048,51125646,51053689,24451319,24241378,24542367,51038805,51057844,24407446,51094175,51084269,24362593,51079307,51112970,51039200,51119514,24439361,24548627,51064834,51118932,51121894"
+                    }
+                ]
+            }
+        ],
+        "maxAgeSeconds": 0,
+        "mainAppWebResponseContext": {
+            "loggedOut": true,
+            "trackingParam": "kx_fmPxhoPZRyP44P7q4FvOCcZmHWUQMfkmP8yjW7ilz8mwRgkuswmIBwOcCE59TDtslLKPQ-SS"
+        },
+        "webResponseContextExtensionData": {
+            "ytConfigData": {
+                "visitorData": "CgtESldTUTBrT1ZhZyjm9qSvBjIKCgJJThIEGgAgGA%3D%3D",
+                "rootVisualElementType": 3854
+            },
+            "hasDecorated": true
+        }
+    },
+    "contents": {
+        "twoColumnBrowseResultsRenderer": {
+            "tabs": [
+                {
+                    "tabRenderer": {
+                        "selected": true,
+                        "content": {
+                            "richGridRenderer": {
+                                "contents": [
+                                    {
+                                        "richSectionRenderer": {
+                                            "content": {
+                                                "feedNudgeRenderer": {
+                                                    "title": {
+                                                        "runs": [
+                                                            {
+                                                                "text": "Try searching to get started"
+                                                            }
+                                                        ],
+                                                        "accessibility": {
+                                                            "accessibilityData": {
+                                                                "label": "Try searching to get started"
+                                                            }
+                                                        }
+                                                    },
+                                                    "subtitle": {
+                                                        "runs": [
+                                                            {
+                                                                "text": "Start watching videos to help us build a feed of videos you'll love."
+                                                            }
+                                                        ],
+                                                        "accessibility": {
+                                                            "accessibilityData": {
+                                                                "label": "Start watching videos to help us build a feed of videos you'll love."
+                                                            }
+                                                        }
+                                                    },
+                                                    "impressionEndpoint": {
+                                                        "clickTrackingParams": "CBMQoogMIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                                        "commandMetadata": {
+                                                            "webCommandMetadata": {
+                                                                "sendPost": true,
+                                                                "apiUrl": "/youtubei/v1/feedback"
+                                                            }
+                                                        },
+                                                        "feedbackEndpoint": {
+                                                            "feedbackToken": "AB9zfpKeZpV-d32rbek0p9oxRPgDPJtqdgPLD1Mj9OgYE2n-TlB-yTUxB9oDUZNbqOFcqwNf4j-ZNIt7LtvA891ucVmebIAiGk_zXPQAlTfr1LAUZQr2VpxfTdqNZgkU-SyzvIjq_0QyE5hf1gXfccDeYZ4F14jh4Q"
+                                                        }
+                                                    },
+                                                    "trackingParams": "CBMQoogMIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                                    "applyModernizedStyle": true,
+                                                    "trimStyle": "FEED_NUDGE_TRIM_STYLE_NO_TRIM",
+                                                    "backgroundStyle": "FEED_NUDGE_BACKGROUND_STYLE_UNKNOWN",
+                                                    "disableDropShadow": false
+                                                }
+                                            },
+                                            "trackingParams": "CBIQ45cFGAAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                                            "fullBleed": false
+                                        }
+                                    }
+                                ],
+                                "trackingParams": "CBEQ8eIEIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                "targetId": "browse-feedFEwhat_to_watch",
+                                "reflowOptions": {
+                                    "minimumRowsOfVideosAtStart": 2,
+                                    "minimumRowsOfVideosBetweenSections": 1
+                                }
+                            }
+                        },
+                        "tabIdentifier": "FEwhat_to_watch",
+                        "trackingParams": "CBAQ8JMBGAIiEwjDl5C1oeGEAxXf40wCHX75CVw="
+                    }
+                }
+            ]
+        }
+    },
+    "header": {
+        "feedTabbedHeaderRenderer": {
+            "title": {
+                "runs": [
+                    {
+                        "text": "Home"
+                    }
+                ]
+            }
+        }
+    },
+    "trackingParams": "CAAQhGciEwjDl5C1oeGEAxXf40wCHX75CVw=",
+    "topbar": {
+        "desktopTopbarRenderer": {
+            "logo": {
+                "topbarLogoRenderer": {
+                    "iconImage": {
+                        "iconType": "YOUTUBE_LOGO"
+                    },
+                    "tooltipText": {
+                        "runs": [
+                            {
+                                "text": "YouTube Home"
+                            }
+                        ]
+                    },
+                    "endpoint": {
+                        "clickTrackingParams": "CA8QsV4iEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "url": "/",
+                                "webPageType": "WEB_PAGE_TYPE_BROWSE",
+                                "rootVe": 3854,
+                                "apiUrl": "/youtubei/v1/browse"
+                            }
+                        },
+                        "browseEndpoint": {
+                            "browseId": "FEwhat_to_watch"
+                        }
+                    },
+                    "trackingParams": "CA8QsV4iEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                    "overrideEntityKey": "EgZ0b3BiYXIg9QEoAQ%3D%3D"
+                }
+            },
+            "searchbox": {
+                "fusionSearchboxRenderer": {
+                    "icon": {
+                        "iconType": "SEARCH"
+                    },
+                    "placeholderText": {
+                        "runs": [
+                            {
+                                "text": "Search"
+                            }
+                        ]
+                    },
+                    "config": {
+                        "webSearchboxConfig": {
+                            "requestLanguage": "en",
+                            "requestDomain": "in",
+                            "hasOnscreenKeyboard": false,
+                            "focusSearchbox": true
+                        }
+                    },
+                    "trackingParams": "CA0Q7VAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                    "searchEndpoint": {
+                        "clickTrackingParams": "CA0Q7VAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "url": "/results?search_query=",
+                                "webPageType": "WEB_PAGE_TYPE_SEARCH",
+                                "rootVe": 4724
+                            }
+                        },
+                        "searchEndpoint": {
+                            "query": ""
+                        }
+                    },
+                    "clearButton": {
+                        "buttonRenderer": {
+                            "style": "STYLE_DEFAULT",
+                            "size": "SIZE_DEFAULT",
+                            "isDisabled": false,
+                            "icon": {
+                                "iconType": "CLOSE"
+                            },
+                            "trackingParams": "CA4Q8FsiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                            "accessibilityData": {
+                                "accessibilityData": {
+                                    "label": "Clear search query"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "trackingParams": "CAEQq6wBIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+            "countryCode": "IN",
+            "topbarButtons": [
+                {
+                    "topbarMenuButtonRenderer": {
+                        "icon": {
+                            "iconType": "MORE_VERT"
+                        },
+                        "menuRequest": {
+                            "clickTrackingParams": "CAsQ_qsBGAAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                            "commandMetadata": {
+                                "webCommandMetadata": {
+                                    "sendPost": true,
+                                    "apiUrl": "/youtubei/v1/account/account_menu"
+                                }
+                            },
+                            "signalServiceEndpoint": {
+                                "signal": "GET_ACCOUNT_MENU",
+                                "actions": [
+                                    {
+                                        "clickTrackingParams": "CAsQ_qsBGAAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                                        "openPopupAction": {
+                                            "popup": {
+                                                "multiPageMenuRenderer": {
+                                                    "trackingParams": "CAwQ_6sBIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                                    "style": "MULTI_PAGE_MENU_STYLE_TYPE_SYSTEM",
+                                                    "showLoadingSpinner": true
+                                                }
+                                            },
+                                            "popupType": "DROPDOWN",
+                                            "beReused": true
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "trackingParams": "CAsQ_qsBGAAiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                        "accessibility": {
+                            "accessibilityData": {
+                                "label": "Settings"
+                            }
+                        },
+                        "tooltip": "Settings",
+                        "style": "STYLE_DEFAULT"
+                    }
+                },
+                {
+                    "buttonRenderer": {
+                        "style": "STYLE_SUGGESTIVE",
+                        "size": "SIZE_SMALL",
+                        "text": {
+                            "runs": [
+                                {
+                                    "text": "Sign in"
+                                }
+                            ]
+                        },
+                        "icon": {
+                            "iconType": "AVATAR_LOGGED_OUT"
+                        },
+                        "navigationEndpoint": {
+                            "clickTrackingParams": "CAoQ1IAEGAEiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                            "commandMetadata": {
+                                "webCommandMetadata": {
+                                    "url": "https://accounts.google.com/ServiceLogin?service=youtube\u0026uilel=3\u0026passive=true\u0026continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Den%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252F%253Fuser-agent%253DMozilla%25252F5.0%252B%252528Windows%252BNT%252B10.0%25253B%252BWin64%25253B%252Bx64%252529%252BAppleWebKit%25252F537.36%252B%252528KHTML%25252C%252Blike%252BGecko%252529%252BChrome%25252F86.0.4240.111%252BSafari%25252F537.36%2526cookie%253DGPS%25253D1%25253B%252BYSC%25253DbXVo3YqTEUU%25253B%252BVISITOR_INFO1_LIVE%25253D9w0N54foqw8%25253B%252BVISITOR_PRIVACY_METADATA%25253DCgJJThIEGgAgGA%2525253D%2525253D%25253B%252BSOCS%25253DCAISNQgDEitib3FfaWRlbnRpdHlmcm9udGVuZHVpc2VydmVyXzIwMjMwODI5LjA3X3AxGgJlbiADGgYIgJnPpwY%25253B%252BPREF%25253Df6%25253D40000000%2526accept%253Dtext%25252Fhtml%25252Capplication%25252Fxhtml%25252Bxml%25252Capplication%25252Fxml%25253Bq%25253D0.9%25252Cimage%25252Favif%25252Cimage%25252Fwebp%25252Cimage%25252Fapng%25252C%252A%25252F%252A%25253Bq%25253D0.8%25252Capplication%25252Fsigned-exchange%25253Bv%25253Db3%25253Bq%25253D0.9%2526accept-language%253Daccept-language%25253A%252Ben-US%25252Cen%25253Bq%25253D0.9%2526sec-fetch-dest%253Ddocument%2526sec-fetch-mode%253Dnavigate%2526sec-fetch-site%253Dnone%2526sec-fetch-user%253D%25253F1%2526sec-gpc%253D1%2526upgrade-insecure-requests%253D1\u0026hl=en\u0026ec=65620",
+                                    "webPageType": "WEB_PAGE_TYPE_UNKNOWN",
+                                    "rootVe": 83769
+                                }
+                            },
+                            "signInEndpoint": {
+                                "idamTag": "65620"
+                            }
+                        },
+                        "trackingParams": "CAoQ1IAEGAEiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                        "targetId": "topbar-signin"
+                    }
+                }
+            ],
+            "hotkeyDialog": {
+                "hotkeyDialogRenderer": {
+                    "title": {
+                        "runs": [
+                            {
+                                "text": "Keyboard shortcuts"
+                            }
+                        ]
+                    },
+                    "sections": [
+                        {
+                            "hotkeyDialogSectionRenderer": {
+                                "title": {
+                                    "runs": [
+                                        {
+                                            "text": "Playback"
+                                        }
+                                    ]
+                                },
+                                "options": [
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Toggle play/pause"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "k"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Rewind 10 seconds"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "j"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Fast forward 10 seconds"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "l"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Previous video"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "P (SHIFT+p)"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Next video"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "N (SHIFT+n)"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Previous frame (while paused)"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": ",",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Comma"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Next frame (while paused)"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": ".",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Period"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Decrease playback rate"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "\u003c (SHIFT+,)",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Less than or SHIFT + comma"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Increase playback rate"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "\u003e (SHIFT+.)",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Greater than or SHIFT + period"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Seek to specific point in the video (7 advances to 70% of duration)"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "0..9"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Seek to previous chapter"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "CONTROL + ←"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Seek to next chapter"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "CONTROL + →"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "hotkeyDialogSectionRenderer": {
+                                "title": {
+                                    "runs": [
+                                        {
+                                            "text": "General"
+                                        }
+                                    ]
+                                },
+                                "options": [
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Toggle full screen"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "f"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Toggle theater mode"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "t"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Toggle miniplayer"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "i"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Close miniplayer or current dialog"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "ESCAPE"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Toggle mute"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "m"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "hotkeyDialogSectionRenderer": {
+                                "title": {
+                                    "runs": [
+                                        {
+                                            "text": "Subtitles and closed captions"
+                                        }
+                                    ]
+                                },
+                                "options": [
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "If the video supports captions, toggle captions ON/OFF"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "c"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Rotate through different text opacity levels"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "o"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Rotate through different window opacity levels"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "w"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Rotate through font sizes (increasing)"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "+"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Rotate through font sizes (decreasing)"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "-",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Minus"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "hotkeyDialogSectionRenderer": {
+                                "title": {
+                                    "runs": [
+                                        {
+                                            "text": "Spherical Videos"
+                                        }
+                                    ]
+                                },
+                                "options": [
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Pan up"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "w"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Pan left"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "a"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Pan down"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "s"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Pan right"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "d"
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Zoom in"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "+ on numpad or ]",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Plus on number pad or right bracket"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "hotkeyDialogSectionOptionRenderer": {
+                                            "label": {
+                                                "runs": [
+                                                    {
+                                                        "text": "Zoom out"
+                                                    }
+                                                ]
+                                            },
+                                            "hotkey": "- on numpad or [",
+                                            "hotkeyAccessibilityLabel": {
+                                                "accessibilityData": {
+                                                    "label": "Minus on number pad or left bracket"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "dismissButton": {
+                        "buttonRenderer": {
+                            "style": "STYLE_BLUE_TEXT",
+                            "size": "SIZE_DEFAULT",
+                            "isDisabled": false,
+                            "text": {
+                                "runs": [
+                                    {
+                                        "text": "Dismiss"
+                                    }
+                                ]
+                            },
+                            "trackingParams": "CAkQ8FsiEwjDl5C1oeGEAxXf40wCHX75CVw="
+                        }
+                    },
+                    "trackingParams": "CAgQteYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc"
+                }
+            },
+            "backButton": {
+                "buttonRenderer": {
+                    "trackingParams": "CAcQvIYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                    "command": {
+                        "clickTrackingParams": "CAcQvIYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "sendPost": true
+                            }
+                        },
+                        "signalServiceEndpoint": {
+                            "signal": "CLIENT_SIGNAL",
+                            "actions": [
+                                {
+                                    "clickTrackingParams": "CAcQvIYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                    "signalAction": {
+                                        "signal": "HISTORY_BACK"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "forwardButton": {
+                "buttonRenderer": {
+                    "trackingParams": "CAYQvYYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                    "command": {
+                        "clickTrackingParams": "CAYQvYYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "sendPost": true
+                            }
+                        },
+                        "signalServiceEndpoint": {
+                            "signal": "CLIENT_SIGNAL",
+                            "actions": [
+                                {
+                                    "clickTrackingParams": "CAYQvYYDIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                    "signalAction": {
+                                        "signal": "HISTORY_FORWARD"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "a11ySkipNavigationButton": {
+                "buttonRenderer": {
+                    "style": "STYLE_DEFAULT",
+                    "size": "SIZE_DEFAULT",
+                    "isDisabled": false,
+                    "text": {
+                        "runs": [
+                            {
+                                "text": "Skip navigation"
+                            }
+                        ]
+                    },
+                    "trackingParams": "CAUQ8FsiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                    "command": {
+                        "clickTrackingParams": "CAUQ8FsiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "sendPost": true
+                            }
+                        },
+                        "signalServiceEndpoint": {
+                            "signal": "CLIENT_SIGNAL",
+                            "actions": [
+                                {
+                                    "clickTrackingParams": "CAUQ8FsiEwjDl5C1oeGEAxXf40wCHX75CVw=",
+                                    "signalAction": {
+                                        "signal": "SKIP_NAVIGATION"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "voiceSearchButton": {
+                "buttonRenderer": {
+                    "style": "STYLE_DEFAULT",
+                    "size": "SIZE_DEFAULT",
+                    "isDisabled": false,
+                    "serviceEndpoint": {
+                        "clickTrackingParams": "CAIQ7a8FIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "sendPost": true
+                            }
+                        },
+                        "signalServiceEndpoint": {
+                            "signal": "CLIENT_SIGNAL",
+                            "actions": [
+                                {
+                                    "clickTrackingParams": "CAIQ7a8FIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                    "openPopupAction": {
+                                        "popup": {
+                                            "voiceSearchDialogRenderer": {
+                                                "placeholderHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Listening..."
+                                                        }
+                                                    ]
+                                                },
+                                                "promptHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Didn't hear that. Try again."
+                                                        }
+                                                    ]
+                                                },
+                                                "exampleQuery1": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "\"Play Dua Lipa\""
+                                                        }
+                                                    ]
+                                                },
+                                                "exampleQuery2": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "\"Show me my subscriptions\""
+                                                        }
+                                                    ]
+                                                },
+                                                "promptMicrophoneLabel": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Tap microphone to try again"
+                                                        }
+                                                    ]
+                                                },
+                                                "loadingHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Working..."
+                                                        }
+                                                    ]
+                                                },
+                                                "connectionErrorHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "No connection"
+                                                        }
+                                                    ]
+                                                },
+                                                "connectionErrorMicrophoneLabel": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Check your connection and try again"
+                                                        }
+                                                    ]
+                                                },
+                                                "permissionsHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Waiting for permission"
+                                                        }
+                                                    ]
+                                                },
+                                                "permissionsSubtext": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Allow microphone access to search with voice"
+                                                        }
+                                                    ]
+                                                },
+                                                "disabledHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Search with your voice"
+                                                        }
+                                                    ]
+                                                },
+                                                "disabledSubtext": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "To search by voice, go to your browser settings and allow access to microphone"
+                                                        }
+                                                    ]
+                                                },
+                                                "microphoneButtonAriaLabel": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Cancel"
+                                                        }
+                                                    ]
+                                                },
+                                                "exitButton": {
+                                                    "buttonRenderer": {
+                                                        "style": "STYLE_DEFAULT",
+                                                        "size": "SIZE_DEFAULT",
+                                                        "isDisabled": false,
+                                                        "icon": {
+                                                            "iconType": "CLOSE"
+                                                        },
+                                                        "trackingParams": "CAQQ0LEFIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                                        "accessibilityData": {
+                                                            "accessibilityData": {
+                                                                "label": "Cancel"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "trackingParams": "CAMQ7q8FIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                                                "microphoneOffPromptHeader": {
+                                                    "runs": [
+                                                        {
+                                                            "text": "Microphone off. Try again."
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "popupType": "TOP_ALIGNED_DIALOG"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "icon": {
+                        "iconType": "MICROPHONE_ON"
+                    },
+                    "tooltip": "Search with your voice",
+                    "trackingParams": "CAIQ7a8FIhMIw5eQtaHhhAMV3-NMAh1--Qlc",
+                    "accessibilityData": {
+                        "accessibilityData": {
+                            "label": "Search with your voice"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "frameworkUpdates": {
+        "entityBatchUpdate": {
+            "mutations": [
+                {
+                    "entityKey": "EgZ0b3BiYXIg9QEoAQ%3D%3D",
+                    "type": "ENTITY_MUTATION_TYPE_DELETE",
+                    "options": {
+                        "persistenceOption": "ENTITY_PERSISTENCE_OPTION_INMEMORY_AND_PERSIST"
+                    }
+                }
+            ],
+            "timestamp": {
+                "seconds": "1709783910",
+                "nanos": 760017787
+            }
+        }
+    }
+}

@@ -121,22 +121,10 @@ class GetMusicItemFromQueryAction extends ReduxAction<AppState> {
       dispatch(
           _SetSearchResultFetchingAction(loadingState: LoadingState.loading));
       dispatch(AddItemToSearchedItemList(searchQuery: searchQuery));
-      String? payload = await AppDatabase.getQuery(DbKeys.context);
-      if (payload == null) {
-        await dispatch(LoadHomePageMusicAction());
-      }
-      payload = await AppDatabase.getQuery(DbKeys.context);
-      if (payload == null) {
-        return null;
-      }
-      final musicFilterPayload =
-          MusicFilterPayloadModel.fromJson(jsonDecode(payload));
+
       final res = await ApiRequest.post(
-        AppUrl.searchUrl(musicFilterPayload.apiKey),
-        {
-          'context': musicFilterPayload.context.toJson(),
-          'query': searchQuery,
-        },
+        AppUrl.searchUrl(),
+        ApiRequest.getSearchPayload(searchQuery),
       );
       if (res.statusCode == 200) {
         dispatch(
