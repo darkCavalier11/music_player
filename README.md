@@ -4,7 +4,7 @@
 ![ss3](https://github.com/darkCavalier11/music_player/assets/57953014/2e43c73d-dab2-4b89-9f0b-de73b3257cd2)
 ![ss2](https://github.com/darkCavalier11/music_player/assets/57953014/c3bc9a39-aa55-4bf7-8e93-a91f0225e763)
 
-[Download](https://iridescent-trifle-5d3757.netlify.app/#/)
+Wait, the app doesn't need any user permission to access any of your data. [Try once](https://iridescent-trifle-5d3757.netlify.app/#/)
 <br/>
 ## A simple music player for use.
 - Play your favourite music from YouTube with efficient recommendation.
