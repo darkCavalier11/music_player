@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 
+@Deprecated('No longer neededd with recent changes.')
 class MusicFilterPayloadModel {
   final FilterContext context;
   final String continuation;

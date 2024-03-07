@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -12,28 +13,14 @@ import '../../app_db.dart';
 import '../../url.dart';
 
 class ParserHelper {
-  static late MusicFilterPayloadModel musicFilterPayload;
-
   /// when getting home screen music items , it will send the continuations
   /// string key for sending as a payload to get next set of music items
   static String? homeScreenNextContinuationKey;
-  static Future<void> init() async {
-    final dbRes = await AppDatabase.getQuery(DbKeys.context);
-    if (dbRes != null) {
-      musicFilterPayload = MusicFilterPayloadModel.fromJson(jsonDecode(dbRes));
-    }
-    final tempRes = await ApiRequest.get(AppUrl.loadPayloadForFilterUrl);
-    musicFilterPayload = MusicFilterPayloadModel.fromApiResponse(tempRes);
-    await AppDatabase.setQuery(
-        DbKeys.context, jsonEncode(musicFilterPayload.toJson()));
-  }
+  static Future<void> init() async {}
 
   static Future<List<MusicItem>> getHomeScreenMusic() async {
     try {
-      return _getHomeScreenMusicHelper({
-        'context': musicFilterPayload.context.toJson(),
-        'continuation': musicFilterPayload.continuation,
-      });
+      return _getHomeScreenMusicHelper();
     } catch (err) {
       throw Error.safeToString(err);
     }
@@ -44,26 +31,32 @@ class ParserHelper {
       if (homeScreenNextContinuationKey == null) {
         return [];
       }
-      return _getHomeScreenMusicHelper({
-        'context': musicFilterPayload.context.toJson(),
-        'continuation': homeScreenNextContinuationKey,
-      }, fetchingNextList: true);
+      return _getHomeScreenMusicHelper(fetchingNextList: true);
     } catch (err) {
       throw Error.safeToString(err);
     }
   }
 
   // load the list of music for home screen at the beginning
-  static Future<List<MusicItem>> _getHomeScreenMusicHelper(dynamic payload,
+  static Future<List<MusicItem>> _getHomeScreenMusicHelper(
       {bool fetchingNextList = false}) async {
     try {
-      final res = await ApiRequest.post(
-          AppUrl.browseUrl(musicFilterPayload.apiKey), payload);
+      final res = await ApiRequest.get(AppUrl.browseUrl());
+      final doc = parse(res.data);
+      final mainElement = doc
+          .getElementsByTagName('script')
+          .firstWhere((element) =>
+              element.innerHtml.startsWith('var ytInitialData = {'))
+          .innerHtml;
+      final mainHtmlString = mainElement
+          .replaceAll('var ytInitialData = ', '')
+          .replaceFirst(';', '', mainElement.length - 40);
       if (res.statusCode == 200) {
-        final json = jsonDecode(res.data.toString());
-        final items = json['onResponseReceivedActions'][0][fetchingNextList
-            ? 'appendContinuationItemsAction'
-            : 'reloadContinuationItemsCommand']['continuationItems'] as List;
+        final json = jsonDecode(mainHtmlString);
+        final items = (json['contents']['twoColumnBrowseResultsRenderer']
+                ['tabs'] as List)[0]['tabRenderer']['content']
+            ['richGridRenderer']['contents'];
+        log('$items');
         final List<MusicItem> homeScreenMusicItems = [];
         homeScreenNextContinuationKey = items.last?["continuationItemRenderer"]
             ?["continuationEndpoint"]?["continuationCommand"]?["token"];
@@ -95,11 +88,8 @@ class ParserHelper {
       String musicId) async {
     try {
       final res = await ApiRequest.post(
-        AppUrl.nextMusicListUrl(musicFilterPayload.apiKey),
-        {
-          'context': musicFilterPayload.context.toJson(),
-          'videoId': musicId,
-        },
+        AppUrl.nextMusicListUrl(),
+        ApiRequest.getNextListOfMusicPayload(musicId),
       );
       if (res.statusCode == 200) {
         final nextMusicList = <MusicItem>[];
@@ -132,23 +122,17 @@ class ParserHelper {
   static Future<Uri> getMusicItemUrl(String musicId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final isCached = prefs.containsKey(musicId);
-      if (isCached) {
-        final uri = Uri.parse(prefs.getString(musicId)!);
-        final expire = DateTime.fromMillisecondsSinceEpoch(
-            (int.parse(uri.queryParameters['expire'] ?? '0')) * 1000);
-        if (expire.millisecondsSinceEpoch >
-            DateTime.now().millisecondsSinceEpoch) {
-          return uri;
-        }
-      }
-      ApiRequest.post(
-        AppUrl.playMusicUrl(musicFilterPayload.apiKey),
-        {
-          'context': musicFilterPayload.context.toJson(),
-          'videoId': musicId,
-        },
-      );
+      // final isCached = prefs.containsKey(musicId);
+      // if (isCached) {
+      //   final uri = Uri.parse(prefs.getString(musicId)!);
+      //   final expire = DateTime.fromMillisecondsSinceEpoch(
+      //       (int.parse(uri.queryParameters['expire'] ?? '0')) * 1000);
+      //   if (expire.millisecondsSinceEpoch >
+      //       DateTime.now().millisecondsSinceEpoch) {
+      //     return uri;
+      //   }
+      // }
+
       final yt = YoutubeExplode().videos.streamsClient;
       final m = await yt.getManifest(musicId);
       final musicUrl = m.audioOnly
