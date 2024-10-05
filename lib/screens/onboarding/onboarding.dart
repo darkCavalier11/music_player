@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Text(
                             'Listen everything adfree!',
                             style:
-                                Theme.of(context).textTheme.headline2?.copyWith(
+                                Theme.of(context).textTheme.titleLarge?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).disabledColor,
                                     ),

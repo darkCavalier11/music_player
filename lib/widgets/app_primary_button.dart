@@ -38,7 +38,7 @@ class AppPrimaryButton extends StatelessWidget {
             if (buttonText != null) ...[
               Text(
                 buttonText!,
-                style: Theme.of(context).textTheme.button?.copyWith(
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: disabled
                           ? Theme.of(context).disabledColor
                           : Theme.of(context).primaryColor,

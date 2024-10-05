@@ -5,7 +5,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import 'package:music_player/env.dart';
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/screens/app_page_view.dart';
 

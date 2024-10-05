@@ -72,12 +72,12 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.getTheme,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouter.router.generator,
-          home: StreamBuilder<ConnectivityResult>(
+          home: StreamBuilder<List<ConnectivityResult>>(
             stream: Connectivity().onConnectivityChanged,
             builder: (context, connectivitySnapshot) {
               if (connectivitySnapshot.hasData &&
                   !connectivitySnapshot.hasError) {
-                if (connectivitySnapshot.data! == ConnectivityResult.none) {
+                if (connectivitySnapshot.data?.first == ConnectivityResult.none) {
                   return Scaffold(
                     body: Center(
                       child: Column(

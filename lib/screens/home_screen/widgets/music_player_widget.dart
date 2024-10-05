@@ -98,7 +98,7 @@ class MusicPlayerWidget extends StatelessWidget {
                                           maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .overline
+                                              .labelSmall
                                               ?.copyWith(
                                                 color: Theme.of(context)
                                                     .disabledColor,

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:music_player/env.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -16,7 +15,7 @@ class ApiRequest {
 
   static final _dio = Dio(
     BaseOptions(
-      connectTimeout: 5000,
+      connectTimeout: Duration(seconds: 5),
       headers: _defaultHeaders,
     ),
   );
@@ -79,18 +78,18 @@ class AppHttpInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     log(options.path, name: 'Url');
-    if (options.data != null && EnvConfig.logLevel == 1) {
-      log(options.data.toString());
-    }
+    // if (options.data != null && EnvConfig.logLevel == 1) {
+    //   log(options.data.toString());
+    // }
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     log('${response.statusCode}', name: 'StatusCode');
-    if (EnvConfig.logLevel == 1) {
-      log(response.data);
-    }
+    // if (EnvConfig.logLevel == 1) {
+    //   log(response.data);
+    // }
     super.onResponse(response, handler);
   }
 }

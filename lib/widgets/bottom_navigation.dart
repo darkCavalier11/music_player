@@ -152,7 +152,7 @@ class _BottomNavigationButtonState extends State<_BottomNavigationButton>
               if (widget.enabled)
                 Text(
                   widget.enabledText,
-                  style: Theme.of(context).textTheme.button?.copyWith(
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context).primaryColor,
                       ),
                 )

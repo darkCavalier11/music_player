@@ -16,7 +16,6 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: Colors.black,
       canvasColor: Colors.black,
-      errorColor: Colors.redAccent,
       colorScheme: const ColorScheme.light(
         secondary: Colors.deepOrangeAccent,
         brightness: Brightness.dark,

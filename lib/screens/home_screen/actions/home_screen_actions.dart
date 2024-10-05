@@ -5,7 +5,6 @@ import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:dio/dio.dart';
-import 'package:music_player/env.dart';
 
 import 'package:music_player/redux/models/app_state.dart';
 import 'package:music_player/redux/redux_exception.dart';
@@ -133,7 +132,7 @@ class GetUpdateModelAction extends ReduxAction<AppState> {
       final dio = Dio(
         BaseOptions(
           headers: {
-            'X-Master-Key': EnvConfig.jsonBinMasterKey,
+            // 'X-Master-Key': EnvConfig.jsonBinMasterKey,
           },
         ),
       );

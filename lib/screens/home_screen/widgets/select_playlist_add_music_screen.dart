@@ -105,7 +105,7 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                                         'No Playlist found!, Add one below.',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .button
+                                            .labelMedium
                                             ?.copyWith(
                                               color: Theme.of(context)
                                                   .disabledColor,
@@ -194,7 +194,7 @@ class _SelectMusicAddMusicScreenState extends State<SelectMusicAddMusicScreen> {
                             ),
                             Text(
                               'OR',
-                              style: Theme.of(context).textTheme.caption,
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 10),

@@ -24,7 +24,7 @@ class AppHeaderText extends StatelessWidget {
           const SizedBox(width: 10),
           Text(
             text,
-            style: Theme.of(context).textTheme.button?.copyWith(
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryColor,

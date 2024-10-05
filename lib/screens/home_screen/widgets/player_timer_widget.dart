@@ -95,7 +95,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                                           height: 3,
                                           decoration: BoxDecoration(
                                             color: Theme.of(context)
-                                                .backgroundColor,
+                                                .colorScheme.surface,
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
@@ -148,7 +148,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                               '-',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1
+                                  .bodyMedium
                                   ?.copyWith(
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
@@ -159,7 +159,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             playerSnapshot.data?.toFormatedDurationString() ??
                                 '-',
                             style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Theme.of(context).hintColor,
                                     ),
                           );
@@ -175,7 +175,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                               '-',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1
+                                  .bodyMedium
                                   ?.copyWith(
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
@@ -186,7 +186,7 @@ class _PlayTimerWidgetState extends State<PlayTimerWidget> {
                             playerSnapshot.data?.toFormatedDurationString() ??
                                 '-',
                             style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Theme.of(context).hintColor,
                                     ),
                           );

@@ -310,7 +310,7 @@ class _MusicEditListTileState extends State<MusicEditListTile>
                       widget.onEditState.toString(),
                     ),
                     size: widget.onEditState ? 18 : 0,
-                    color: Theme.of(context).errorColor,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 ),
               ),
